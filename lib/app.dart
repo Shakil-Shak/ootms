@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ootms/presentation/screens/splash/splash_screen.dart';
+import 'package:ootms/presentation/screens/role/user/user_bottom_navigation.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromRGBO(42, 64, 148, 1)),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: const UserRootPage(),
     );
   }
 }
