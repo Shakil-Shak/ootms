@@ -60,3 +60,45 @@ Widget commonBorderButton(String title,
     ),
   );
 }
+
+Widget commonIconButton(String title, Widget icon,
+    {Color color = AppColor.primaryColor,
+    Color textColor = Colors.white,
+    double textSize = 18,
+    double width = double.infinity,
+    double height = 50,
+    VoidCallback? onTap,
+    bool isLoading = false}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      height: height,
+      width: width,
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        color: color,
+      ),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: isLoading
+              ? const CircularProgressIndicator(
+                  color: Colors.white,
+                )
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    icon,
+                    SizedBox(
+                      width: 5,
+                    ),
+                    commonText(title,
+                        size: textSize, color: textColor, isBold: true),
+                  ],
+                ),
+        ),
+      ),
+    ),
+  );
+}
