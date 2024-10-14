@@ -5,7 +5,7 @@ import 'package:ootms/core/constants/color/app_color.dart';
 Widget commonText(
   String text, {
   double size = 12.0,
-  Color color = AppColor.primaryColor,
+  Color color = AppColor.black,
   bool isBold = false,
   bool? softWrap,
   TextAlign textAlign = TextAlign.left,

@@ -1,11 +1,17 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/screens/auth/sign_in_sign_up_chosser.dart';
+
 import 'package:provider/provider.dart';
 
 class OnboardingScreen extends StatelessWidget {
   final PageController _pageController = PageController();
+  String role;
+  OnboardingScreen({super.key, required this.role});
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +75,11 @@ class OnboardingScreen extends StatelessWidget {
                 child: onboardingProvider.currentPage == 2
                     ? commonButton(
                         "Get Started",
-                        onTap: () {
-                          // Handle Get Started action
-                        },
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SignInSignUpChosserPage(role: role))),
                       )
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

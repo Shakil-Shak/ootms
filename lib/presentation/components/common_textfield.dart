@@ -49,10 +49,12 @@ Widget commonTextfield(TextEditingController controller,
 Widget commonTextfieldWithTitle(String title, TextEditingController controller,
     {FocusNode? focusNode,
     String hintText = "",
-    bool isBold = true,
+    bool isBold = false,
     bool issuffixIconVisible = false,
     bool isPasswordVisible = false,
     enable,
+    prifixIconWidget,
+    titleColor = AppColor.black,
     textSize = 14.0,
     borderWidth = 2.0,
     changePasswordVisibility,
@@ -66,18 +68,13 @@ Widget commonTextfieldWithTitle(String title, TextEditingController controller,
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      commonText(title, size: textSize, isBold: isBold),
+      commonText(title, size: textSize, isBold: isBold, color: titleColor),
       const SizedBox(
         height: 5,
       ),
-      Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(
-            color: borderColor,
-            width: borderWidth,
-          ),
-        ),
+      Card(
+        elevation: 3,
+        shadowColor: Colors.black,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
           child: TextFormField(
@@ -92,11 +89,11 @@ Widget commonTextfieldWithTitle(String title, TextEditingController controller,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.all(12.0),
               hintText: hintText,
-              fillColor: AppColor.primaryColor,
+              fillColor: AppColor.white,
               filled: true,
               hintStyle: const TextStyle(
                 fontSize: 12,
-                color: AppColor.primaryColor,
+                color: AppColor.black,
               ),
               border: InputBorder.none,
               prefix: prefix.isEmpty ? null : commonText(prefix, size: 14),
@@ -117,7 +114,9 @@ Widget commonTextfieldWithTitle(String title, TextEditingController controller,
                         size: 24.0,
                       ),
                     )
-                  : null,
+                  : (prifixIconWidget != null)
+                      ? prifixIconWidget
+                      : null,
             ),
           ),
         ),

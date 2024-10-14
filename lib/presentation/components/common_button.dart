@@ -90,7 +90,7 @@ Widget commonIconButton(String title, Widget icon,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     icon,
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     commonText(title,
