@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 class OtpPage extends StatelessWidget {
   final bool user;
-  OtpPage({Key? key, required this.user}) : super(key: key);
+  const OtpPage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class OtpPage extends StatelessWidget {
                     isBold: true,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Center(
@@ -68,7 +68,7 @@ class OtpPage extends StatelessWidget {
                         commonText(
                           "Did not get the OTP?",
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 16,
                         ),
                         commonText("Resend",
@@ -79,7 +79,7 @@ class OtpPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 commonButton("Verify", onTap: () {
                   if (user) {
                     animetedNavigationPush(const UserRootPage(), context);

@@ -15,57 +15,59 @@ class SelectRole extends StatefulWidget {
 class _SelectRoleState extends State<SelectRole> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        commonText("Select Your Role", size: 21, isBold: true),
-        SizedBox(
-          height: 50,
-        ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            commonIconButton(
-                "User",
-                color: AppColor.primaryColorLight,
-                Icon(
-                  Icons.person_2_outlined,
-                ),
-                onTap: () => MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider(
-                        create: (_) => OnboardingProvider(),
-                        child: OnboardingScreen(
-                          role: "User",
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          commonText("Select Your Role", size: 21, isBold: true),
+          const SizedBox(
+            height: 50,
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              commonIconButton(
+                  "User",
+                  color: AppColor.primaryColorLight,
+                  const Icon(
+                    Icons.person_2_outlined,
+                  ),
+                  onTap: () => MaterialPageRoute(
+                        builder: (context) => ChangeNotifierProvider(
+                          create: (_) => OnboardingProvider(),
+                          child: OnboardingScreen(
+                            role: "User",
+                          ),
                         ),
                       ),
-                    ),
-                textColor: AppColor.black),
-            SizedBox(
-              height: 20,
-            ),
-            commonIconButton(
-              "Driver",
-              Image.asset(
-                "assets/icons/driverIcon.png",
-                width: 30,
-                height: 30,
+                  textColor: AppColor.black),
+              const SizedBox(
+                height: 20,
               ),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ChangeNotifierProvider(
-                    create: (_) => OnboardingProvider(),
-                    child: OnboardingScreen(
-                      role: "Driver",
+              commonIconButton(
+                "Driver",
+                Image.asset(
+                  "assets/icons/driverIcon.png",
+                  width: 30,
+                  height: 30,
+                ),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChangeNotifierProvider(
+                      create: (_) => OnboardingProvider(),
+                      child: OnboardingScreen(
+                        role: "Driver",
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
-        )
-      ],
+            ],
+          )
+        ],
+      ),
     );
   }
 }

@@ -7,7 +7,7 @@ import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/auth/signin/signin_view.dart';
 
 class CompleateProfilePage extends StatefulWidget {
-  CompleateProfilePage({super.key});
+  const CompleateProfilePage({super.key});
 
   @override
   State<CompleateProfilePage> createState() => _CompleateProfilePageState();
@@ -45,7 +45,7 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
                   size: 21,
                   color: AppColor.black,
                   isBold: true),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               commonText(
@@ -61,7 +61,7 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
                     Container(
                       width: 80,
                       height: 80,
-                      margin: EdgeInsets.all(2),
+                      margin: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
                           color: AppColor.primaryColor,
                           borderRadius: BorderRadius.circular(40),

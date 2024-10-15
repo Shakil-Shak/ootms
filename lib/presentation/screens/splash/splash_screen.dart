@@ -7,14 +7,13 @@ class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Add a delay of 3 seconds before navigating to the next page
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,

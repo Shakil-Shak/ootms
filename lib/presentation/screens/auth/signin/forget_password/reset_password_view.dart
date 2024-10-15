@@ -36,7 +36,7 @@ class ResetPasswordPage extends StatelessWidget {
                         size: 21, color: AppColor.black, isBold: true),
                     commonText("Password.",
                         size: 21, color: AppColor.primaryColor, isBold: true),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     commonText(

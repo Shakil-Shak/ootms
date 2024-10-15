@@ -28,7 +28,7 @@ class ForgetPasswordPage extends StatelessWidget {
                   size: 21, isBold: true, color: AppColor.black),
               commonText("Password?.",
                   size: 21, isBold: true, color: AppColor.primaryColor),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               commonText("Enter your email address to reset your password.",
@@ -40,10 +40,10 @@ class ForgetPasswordPage extends StatelessWidget {
                   hintText: "Email",
                   assetIconPath: "assets/icons/emailicon.png",
                   keyboardType: TextInputType.emailAddress),
-              Spacer(),
+              const Spacer(),
               commonButton("Get Verification Code", onTap: () {
                 animetedNavigationPush(
-                    OtpPage(
+                    const OtpPage(
                       user: false,
                     ),
                     context);

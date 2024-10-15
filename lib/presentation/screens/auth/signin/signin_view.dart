@@ -117,7 +117,7 @@ class SignInPage extends StatelessWidget {
                           });
                         },
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
