@@ -4,12 +4,14 @@ import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_otp_field.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/auth/signup/compleate_profile.dart';
 import 'package:ootms/presentation/screens/role/user/user_bottom_navigation.dart';
 import 'package:provider/provider.dart';
 
 class OtpPage extends StatelessWidget {
-  final bool user;
-  OtpPage({Key? key, required this.user}) : super(key: key);
+  final bool user, fromSignUp;
+  OtpPage({Key? key, required this.user, this.fromSignUp = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +84,18 @@ class OtpPage extends StatelessWidget {
                 Spacer(),
                 commonButton("Verify", onTap: () {
                   if (user) {
-                    animetedNavigationPush(const UserRootPage(), context);
-                  } else {}
+                    if (fromSignUp) {
+                      animetedNavigationPush(
+                          CompleateProfilePage(
+                            user: true,
+                          ),
+                          context);
+                    } else {
+                      animetedNavigationPush(const UserRootPage(), context);
+                    }
+                  } else {
+                    //////////////////////
+                  }
                 }),
                 const SizedBox(height: 40),
               ],

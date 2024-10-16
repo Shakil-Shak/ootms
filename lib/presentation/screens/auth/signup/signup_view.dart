@@ -127,12 +127,12 @@ class _SignupPageState extends State<SignupPage> {
                           return commonButton("Sign Up", onTap: () {
                             if (controller.selectedRole == "User") {
                               animetedNavigationPush(
-                                OtpPage(user: true),
+                                OtpPage(user: true, fromSignUp: true),
                                 context,
                               );
                             } else if (controller.selectedRole == "Driver") {
                               animetedNavigationPush(
-                                OtpPage(user: false),
+                                OtpPage(user: false, fromSignUp: true),
                                 context,
                               );
                             }

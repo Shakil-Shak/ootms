@@ -4,10 +4,11 @@ import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
-import 'package:ootms/presentation/screens/auth/signin/signin_view.dart';
+import 'package:ootms/presentation/screens/role/user/user_bottom_navigation.dart';
 
 class CompleateProfilePage extends StatefulWidget {
-  CompleateProfilePage({super.key});
+  final bool user;
+  CompleateProfilePage({super.key, required this.user});
 
   @override
   State<CompleateProfilePage> createState() => _CompleateProfilePageState();
@@ -123,7 +124,9 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
               const SizedBox(height: 50),
               InkWell(
                 onTap: () {
-                  animetedNavigationPush(SignInPage(), context);
+                  if (widget.user) {
+                    animetedNavigationPush(UserRootPage(), context);
+                  }
                 },
                 child: commonButton("Continue"),
               ),
