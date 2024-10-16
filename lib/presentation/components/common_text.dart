@@ -8,6 +8,7 @@ Widget commonText(
   Color color = AppColor.black,
   bool isBold = false,
   bool? softWrap,
+  FontWeight? fontWeight,
   TextAlign textAlign = TextAlign.left,
   TextDecoration decoration = TextDecoration.none,
   int maxLines = 1000,
@@ -22,7 +23,9 @@ Widget commonText(
     maxLines: maxLines,
     style: GoogleFonts.openSans(
       fontSize: size,
-      fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+      fontWeight: (fontWeight != null)
+          ? fontWeight
+          : (isBold ? FontWeight.bold : FontWeight.normal),
       color: color,
       decoration: decoration,
       fontStyle: fontStyle,

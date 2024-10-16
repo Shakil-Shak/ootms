@@ -14,7 +14,7 @@ class UserHomePage extends StatelessWidget {
           children: [
             // Header Section
             ClipRRect(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(16),
                   bottomRight: Radius.circular(16)),
               child: Stack(
@@ -22,7 +22,7 @@ class UserHomePage extends StatelessWidget {
                   // Background image
                   Container(
                     height: 250,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(
                               'assets/images/userHomePagebg.png'), // Replace with your image asset
@@ -34,10 +34,10 @@ class UserHomePage extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(),
+                      const SizedBox(),
                       Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -47,20 +47,20 @@ class UserHomePage extends StatelessWidget {
                                   color: AppColor.white,
                                   borderRadius: BorderRadius.circular(8)),
                               child: IconButton(
-                                icon: Icon(Icons.menu,
+                                icon: const Icon(Icons.menu,
                                     size: 28, color: Colors.black),
                                 onPressed: () {
                                   // Handle menu action
                                 },
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             // Notification bell
                             Image.asset(
                                 "assets/icons/user home page/notify.png"),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             // Profile avatar
-                            CircleAvatar(
+                            const CircleAvatar(
                               backgroundColor: AppColor.black,
                               backgroundImage: AssetImage(
                                   'assets/icons/profile_icon_2.png'), // Replace with your image asset
@@ -74,11 +74,11 @@ class UserHomePage extends StatelessWidget {
                             horizontal: 16.0, vertical: 10.0),
                         child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.location_on,
                               color: AppColor.white,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 8,
                             ),
                             commonText(
@@ -94,9 +94,9 @@ class UserHomePage extends StatelessWidget {
                       ),
                       Container(
                         height: 50,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                        padding: EdgeInsets.only(left: 8),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
+                        padding: const EdgeInsets.only(left: 8),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
@@ -111,11 +111,12 @@ class UserHomePage extends StatelessWidget {
                         child: Row(
                           children: [
                             // Truck icon
-                            Icon(Icons.local_shipping, color: Colors.blue),
-                            SizedBox(width: 10),
+                            const Icon(Icons.local_shipping,
+                                color: Colors.blue),
+                            const SizedBox(width: 10),
 
                             // Input field
-                            Expanded(
+                            const Expanded(
                               child: TextField(
                                 decoration: InputDecoration(
                                   hintText: 'Enter bill of lading number',
@@ -125,7 +126,7 @@ class UserHomePage extends StatelessWidget {
                             ),
 
                             Container(
-                              padding: EdgeInsets.symmetric(vertical: 8),
+                              padding: const EdgeInsets.symmetric(vertical: 8),
                               child: FittedBox(
                                 child: commonButton(
                                   "Track",
@@ -136,14 +137,14 @@ class UserHomePage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(),
+                      const SizedBox(),
                     ],
                   )
                 ],
               ),
             ),
 
-            SizedBox(height: 40), // For spacing after the header
+            const SizedBox(height: 40), // For spacing after the header
 
             // Action Cards Section
             Padding(
@@ -154,7 +155,7 @@ class UserHomePage extends StatelessWidget {
                 childAspectRatio: 1.5,
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 children: [
                   buildActionCard(
                     imagePath: "assets/icons/user home page/picup2.png",
@@ -183,60 +184,11 @@ class UserHomePage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Recently Tracking Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Recently Tracking',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.all(12),
-                      leading: Icon(Icons.local_shipping,
-                          color: Colors.blue, size: 30),
-                      title: Text('Your load is being shipped'),
-                      subtitle: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('BOL Number'),
-                              Text('123-456-789',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Address'),
-                              Text('Banasree, Dhaka',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
+            trakingDesign(number: "123-456-789", address: "Banasree, Dhaka"),
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -270,7 +222,7 @@ class UserHomePage extends StatelessWidget {
                       child: Image.asset(
                         imagePath,
                       )),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: commonText(
                       label,
@@ -279,12 +231,87 @@ class UserHomePage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               commonText(
                 description,
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget trakingDesign({required String number, required String address}) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColor.primaryColor, // Dark background color
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Image.asset("assets/icons/user home page/pickup.png"),
+                const SizedBox(width: 10),
+                commonText(
+                  'Your load is being shipped',
+                  size: 16,
+                  color: Colors.white,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                  color: AppColor
+                      .primaryColorLight, // Light background color for details section
+                  borderRadius: BorderRadius.circular(16)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      commonText(
+                        'BOL Number',
+                        isBold: true,
+                        size: 14,
+                        color: Colors.black,
+                      ),
+                      commonText(
+                        number,
+                        size: 14,
+                        color: Colors.black,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      commonText(
+                        'Address',
+                        isBold: true,
+                        size: 14,
+                        color: Colors.black,
+                      ),
+                      commonText(
+                        address,
+                        size: 14,
+                        color: Colors.black,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

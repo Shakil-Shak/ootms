@@ -51,6 +51,7 @@ Widget commonTextfieldWithTitle(String title, TextEditingController controller,
     String hintText = "",
     bool isBold = false,
     bool issuffixIconVisible = false,
+    Widget? suffinxIcon,
     bool isPasswordVisible = false,
     enable,
     prifixIconWidget,
@@ -91,21 +92,23 @@ Widget commonTextfieldWithTitle(String title, TextEditingController controller,
               hintText: hintText,
               fillColor: AppColor.white,
               filled: true,
-              hintStyle: const TextStyle(
+              hintStyle: TextStyle(
                 fontSize: 12,
-                color: AppColor.black,
+                color: Colors.grey,
               ),
               border: InputBorder.none,
               prefix: prefix.isEmpty ? null : commonText(prefix, size: 14),
-              suffixIcon: (issuffixIconVisible)
-                  ? (!isPasswordVisible)
-                      ? InkWell(
-                          onTap: changePasswordVisibility,
-                          child: const Icon(Icons.visibility))
-                      : InkWell(
-                          onTap: changePasswordVisibility,
-                          child: const Icon(Icons.visibility_off_outlined))
-                  : null,
+              suffixIcon: (suffinxIcon != null)
+                  ? suffinxIcon
+                  : (issuffixIconVisible)
+                      ? (!isPasswordVisible)
+                          ? InkWell(
+                              onTap: changePasswordVisibility,
+                              child: const Icon(Icons.visibility))
+                          : InkWell(
+                              onTap: changePasswordVisibility,
+                              child: const Icon(Icons.visibility_off_outlined))
+                      : null,
               prefixIcon: assetIconPath != null
                   ? Padding(
                       padding: const EdgeInsets.all(10.0),

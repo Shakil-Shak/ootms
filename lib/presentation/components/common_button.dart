@@ -7,6 +7,7 @@ Widget commonButton(String title,
     Color textColor = Colors.white,
     double textSize = 18,
     double width = double.infinity,
+    double borderRadious = 20.0,
     double height = 50,
     VoidCallback? onTap,
     bool isLoading = false}) {
@@ -17,7 +18,7 @@ Widget commonButton(String title,
       width: width,
       margin: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        borderRadius: BorderRadius.all(Radius.circular(borderRadious)),
         color: color,
       ),
       child: Center(
@@ -63,6 +64,7 @@ Widget commonBorderButton(String title,
 
 Widget commonIconButton(String title, Widget icon,
     {Color color = AppColor.primaryColor,
+    bool isRight = false,
     Color textColor = Colors.white,
     double textSize = 18,
     double width = double.infinity,
@@ -89,12 +91,18 @@ Widget commonIconButton(String title, Widget icon,
               : Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    icon,
-                    const SizedBox(
-                      width: 5,
-                    ),
+                    if (!isRight) icon,
+                    if (!isRight)
+                      const SizedBox(
+                        width: 5,
+                      ),
                     commonText(title,
                         size: textSize, color: textColor, isBold: true),
+                    if (isRight)
+                      const SizedBox(
+                        width: 5,
+                      ),
+                    if (isRight) icon
                   ],
                 ),
         ),

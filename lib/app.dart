@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ootms/presentation/screens/role/user/home/user_home_page.dart';
+import 'package:ootms/presentation/screens/role/shipping/shipping_history.dart';
+import 'package:ootms/presentation/screens/role/user/chat/chat.dart';
+import 'package:ootms/presentation/screens/role/user/chat/chat_list.dart';
+import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -14,6 +17,6 @@ class MyApp extends StatelessWidget {
               seedColor: const Color.fromRGBO(42, 64, 148, 1)),
           useMaterial3: true,
         ),
-        home: UserHomePage());
+        home: ShippingHistoryPage());
   }
 }
