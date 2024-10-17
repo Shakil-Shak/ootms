@@ -9,6 +9,7 @@ Widget commonButton(String title,
     double width = double.infinity,
     double borderRadious = 20.0,
     double height = 50,
+    bool isBold = true,
     VoidCallback? onTap,
     bool isLoading = false}) {
   return GestureDetector(
@@ -29,7 +30,7 @@ Widget commonButton(String title,
                   color: Colors.white,
                 )
               : commonText(title,
-                  size: textSize, color: textColor, isBold: true),
+                  size: textSize, color: textColor, isBold: isBold),
         ),
       ),
     ),
