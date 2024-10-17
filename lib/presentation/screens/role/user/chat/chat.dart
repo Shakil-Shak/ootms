@@ -7,53 +7,6 @@ import 'package:ootms/presentation/components/common_text.dart';
 class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Function to trigger the bottom sheet with location details
-    void _showBottomSheet() {
-      showModalBottomSheet(
-        context: context,
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        builder: (context) {
-          return DraggableScrollableSheet(
-            expand: false,
-            builder: (context, scrollController) {
-              return Container(
-                width: MediaQuery.of(context).size.width, // Full width
-
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Icon(Icons.cancel))
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    commonButton("Request for Take The Load")
-                  ],
-                ),
-              );
-            },
-          );
-        },
-      );
-    }
-
     final chatProvider = Provider.of<ChatProvider>(context);
 
     return Scaffold(
@@ -155,7 +108,53 @@ class ChatPage extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    _showBottomSheet();
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(20)),
+                      ),
+                      builder: (context) {
+                        return DraggableScrollableSheet(
+                          expand: false,
+                          builder: (context, scrollController) {
+                            return Container(
+                              width: MediaQuery.of(context)
+                                  .size
+                                  .width, // Full width
+
+                              padding: const EdgeInsets.all(16.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20)),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Icon(Icons.cancel))
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  commonButton("Request for Take The Load")
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
                   },
                   child: Card(
                     elevation: 3,

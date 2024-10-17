@@ -1,25 +1,24 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
-import 'package:ootms/presentation/navigation/animeted_navigation.dart';
-import 'package:ootms/presentation/screens/role/user/user_bottom_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/country_model.dart';
 
-import '../../role/user/country_model.dart';
-
-class CompleateProfilePage extends StatefulWidget {
-  final bool user;
-  CompleateProfilePage({super.key, required this.user});
+class UserEditProfile extends StatefulWidget {
+  const UserEditProfile({super.key});
 
   @override
-  State<CompleateProfilePage> createState() => _CompleateProfilePageState();
+  State<UserEditProfile> createState() => _UserEditProfileState();
 }
 
-class _CompleateProfilePageState extends State<CompleateProfilePage> {
+class _UserEditProfileState extends State<UserEditProfile> {
   final TextEditingController addressController = TextEditingController();
-
-  final TextEditingController texIdController = TextEditingController();
+  final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  String _selectedCountry = 'USA';
 
   final List<Country> countries = [
     Country('United States', '+1', 'assets/images/usaflag.png'),
@@ -28,7 +27,9 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
     Country('Australia', '+61', 'assets/images/usaflag.png'),
     // Add more countries as needed
   ];
+
   Country? selectedCountry;
+
   TextEditingController phoneController = TextEditingController();
 
   @override
@@ -36,6 +37,8 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        title: commonText("Edit Profile", size: 21, isBold: true),
+        centerTitle: true,
         backgroundColor: Colors.white,
       ),
       body: Padding(
@@ -43,18 +46,6 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              commonText("Now Complete Your \nProfile to Continue.",
-                  textAlign: TextAlign.center,
-                  size: 21,
-                  color: AppColor.black,
-                  isBold: true),
-              SizedBox(
-                height: 8,
-              ),
-              commonText(
-                "Fill in your information.",
-              ),
-              const SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
@@ -86,6 +77,14 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
                   ],
                 ),
               ),
+              commonTextfieldWithTitle("Full Name", fullNameController,
+                  hintText: "Full Name", keyboardType: TextInputType.text),
+              const SizedBox(height: 20),
+              commonTextfieldWithTitle("Email", emailController,
+                  assetIconPath: "assets/icons/emailicon.png",
+                  hintText: "Email",
+                  keyboardType: TextInputType.emailAddress),
+              const SizedBox(height: 20),
               commonTextfieldWithTitle(
                 "Phone",
                 phoneController,
@@ -112,10 +111,51 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
                 ),
               ),
               const SizedBox(height: 20),
-              commonTextfieldWithTitle(
-                "Tax ID",
-                texIdController,
-                hintText: "Enter your tax ID",
+              Row(
+                children: [
+                  commonText(
+                    "Country",
+                    size: 14,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Card(
+                elevation: 3,
+                color: Colors.white,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16)),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: _selectedCountry,
+                      icon: Icon(Icons.arrow_drop_down),
+                      iconSize: 24,
+                      isExpanded: true,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _selectedCountry = newValue!;
+                        });
+                      },
+                      items: <String>[
+                        'USA',
+                        'Canada',
+                        'Mexico',
+                        'UK',
+                        'Germany'
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(height: 20),
               commonTextfieldWithTitle(
@@ -125,12 +165,8 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
               ),
               const SizedBox(height: 50),
               InkWell(
-                onTap: () {
-                  if (widget.user) {
-                    animetedNavigationPush(UserRootPage(), context);
-                  }
-                },
-                child: commonButton("Continue"),
+                onTap: () {},
+                child: commonButton("Submit"),
               ),
               const SizedBox(height: 10),
             ],
