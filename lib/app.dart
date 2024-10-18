@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ootms/presentation/screens/role/user/profile/user_profile.dart';
-import 'package:ootms/presentation/screens/role/user/settings/TermsConditions.dart';
-import 'package:ootms/presentation/screens/role/user/settings/privacyPolicy.dart';
-import 'package:ootms/presentation/screens/role/user/settings/settings.dart';
+import 'package:ootms/presentation/screens/auth/signup/compleate_profile.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -17,7 +14,9 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromRGBO(42, 64, 148, 1)),
         useMaterial3: true,
       ),
-      home: UserProfile(),
+      home: CompleateProfilePage(
+        user: true,
+      ),
     );
   }
 }
