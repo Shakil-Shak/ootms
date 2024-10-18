@@ -9,8 +9,8 @@ import 'package:ootms/presentation/screens/auth/signin/signin_view.dart';
 import 'package:ootms/presentation/screens/auth/signup/signup_view.dart';
 
 class SignInSignUpChosserPage extends StatefulWidget {
-  SignInSignUpChosserPage({super.key, required this.role});
-  String role;
+  SignInSignUpChosserPage({super.key, required this.user});
+  bool user;
 
   @override
   State<SignInSignUpChosserPage> createState() =>
@@ -34,14 +34,16 @@ class _SignInSignUpChosserPageState extends State<SignInSignUpChosserPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             commonButton("Sign In",
-                onTap: () => animetedNavigationPush(SignInPage(), context),
+                onTap: () => animetedNavigationPush(
+                    SignInPage(user: widget.user), context),
                 color: AppColor.primaryColor,
                 textColor: AppColor.white),
             SizedBox(
               height: 20,
             ),
             commonBorderButton("Sign Up",
-                onTap: () => animetedNavigationPush(SignupPage(), context)),
+                onTap: () => animetedNavigationPush(
+                    SignupPage(user: widget.user), context)),
           ],
         )
       ],

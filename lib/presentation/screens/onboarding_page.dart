@@ -10,8 +10,8 @@ import 'package:provider/provider.dart';
 
 class OnboardingScreen extends StatelessWidget {
   final PageController _pageController = PageController();
-  String role;
-  OnboardingScreen({super.key, required this.role});
+  bool user;
+  OnboardingScreen({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class OnboardingScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    SignInSignUpChosserPage(role: role))),
+                                    SignInSignUpChosserPage(user: user))),
                       )
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

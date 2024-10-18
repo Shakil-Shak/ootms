@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
@@ -8,7 +10,8 @@ import 'package:ootms/presentation/screens/auth/signin/signin_view.dart';
 import 'package:provider/provider.dart';
 
 class ResetPasswordPage extends StatelessWidget {
-  ResetPasswordPage({super.key});
+  bool user;
+  ResetPasswordPage({super.key, required this.user});
 
   final TextEditingController confirmPasswordController =
       TextEditingController();
@@ -86,7 +89,11 @@ class ResetPasswordPage extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        animetedNavigationPush(SignInPage(), context);
+                        animetedNavigationPush(
+                            SignInPage(
+                              user: user,
+                            ),
+                            context);
                       },
                       child: commonButton("Reset Password"),
                     ),

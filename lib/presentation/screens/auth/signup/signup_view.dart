@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
@@ -9,8 +11,8 @@ import 'package:ootms/presentation/screens/auth/otp_view.dart';
 import 'package:provider/provider.dart';
 
 class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
-
+  SignupPage({super.key, required this.user});
+  bool user;
   @override
   State<SignupPage> createState() => _SignupPageState();
 }
@@ -125,12 +127,12 @@ class _SignupPageState extends State<SignupPage> {
                       Consumer<SignupPageController>(
                         builder: (context, controller, _) {
                           return commonButton("Sign Up", onTap: () {
-                            if (controller.selectedRole == "User") {
+                            if (widget.user) {
                               animetedNavigationPush(
                                 OtpPage(user: true, fromSignUp: true),
                                 context,
                               );
-                            } else if (controller.selectedRole == "Driver") {
+                            } else {
                               animetedNavigationPush(
                                 OtpPage(user: false, fromSignUp: true),
                                 context,
@@ -147,7 +149,11 @@ class _SignupPageState extends State<SignupPage> {
                               color: Colors.black),
                           GestureDetector(
                             onTap: () {
-                              animetedNavigationPush(SignInPage(), context);
+                              animetedNavigationPush(
+                                  SignInPage(
+                                    user: widget.user,
+                                  ),
+                                  context);
                             },
                             child: commonText(" Sign In",
                                 decoration: TextDecoration.underline,
@@ -173,11 +179,9 @@ class _SignupPageState extends State<SignupPage> {
 class SignupPageController extends ChangeNotifier {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
-  String _selectedRole = 'User';
 
   bool get isPasswordVisible => _isPasswordVisible;
   bool get isConfirmPasswordVisible => _isConfirmPasswordVisible;
-  String get selectedRole => _selectedRole;
 
   void togglePasswordVisibility() {
     _isPasswordVisible = !_isPasswordVisible;
@@ -186,11 +190,6 @@ class SignupPageController extends ChangeNotifier {
 
   void toggleConfirmPasswordVisibility() {
     _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
-    notifyListeners();
-  }
-
-  void selectRole(String role) {
-    _selectedRole = role;
     notifyListeners();
   }
 }

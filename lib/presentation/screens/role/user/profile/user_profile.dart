@@ -36,7 +36,7 @@ class _UserProfileState extends State<UserProfile> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: commonText("Edit Profile", size: 21, isBold: true),
+        title: commonText("Profile", size: 21, isBold: true),
         centerTitle: true,
         backgroundColor: Colors.white,
       ),

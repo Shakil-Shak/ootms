@@ -32,11 +32,14 @@ class _SelectRoleState extends State<SelectRole> {
                 Icon(
                   Icons.person_2_outlined,
                 ),
-                onTap: () => MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider(
-                        create: (_) => OnboardingProvider(),
-                        child: OnboardingScreen(
-                          role: "User",
+                onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChangeNotifierProvider(
+                          create: (_) => OnboardingProvider(),
+                          child: OnboardingScreen(
+                            user: true,
+                          ),
                         ),
                       ),
                     ),
@@ -57,7 +60,7 @@ class _SelectRoleState extends State<SelectRole> {
                   builder: (context) => ChangeNotifierProvider(
                     create: (_) => OnboardingProvider(),
                     child: OnboardingScreen(
-                      role: "Driver",
+                      user: false,
                     ),
                   ),
                 ),

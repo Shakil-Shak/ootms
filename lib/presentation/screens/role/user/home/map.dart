@@ -3,6 +3,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/home/map2.dart';
 
 class MapPage extends StatefulWidget {
   @override
@@ -62,13 +64,19 @@ class _MapPageState extends State<MapPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         commonText("Live tracking", size: 18, isBold: true),
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(width: 1)),
-                          child:
-                              commonText("Track on map", color: AppColor.black),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                            animetedNavigationPush(Map2Page(), context);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(width: 1)),
+                            child: commonText("Track on map",
+                                color: AppColor.black),
+                          ),
                         ),
                       ],
                     ),

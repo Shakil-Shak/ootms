@@ -2,11 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/home/drawer.dart';
+import 'package:ootms/presentation/screens/role/user/home/set_location.dart';
 
-class UserHomePage extends StatelessWidget {
+class UserHomePage extends StatefulWidget {
+  const UserHomePage({super.key});
+
+  @override
+  State<UserHomePage> createState() => _UserHomePageState();
+}
+
+class _UserHomePageState extends State<UserHomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: customDrawer(context),
       backgroundColor: AppColor.white,
       body: SingleChildScrollView(
         child: Column(
@@ -50,7 +64,7 @@ class UserHomePage extends StatelessWidget {
                                 icon: const Icon(Icons.menu,
                                     size: 28, color: Colors.black),
                                 onPressed: () {
-                                  // Handle menu action
+                                  _scaffoldKey.currentState!.openDrawer();
                                 },
                               ),
                             ),
@@ -72,20 +86,35 @@ class UserHomePage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16.0, vertical: 10.0),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.location_on,
-                              color: AppColor.white,
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            commonText(
-                                "36 East 8th Street, New York,\nNY 10003, United States.",
-                                size: 16,
-                                color: AppColor.white)
-                          ],
+                        child: InkWell(
+                          onTap: () {
+                            animetedNavigationPush(SetLocationPage(), context);
+                          },
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.location_on,
+                                      color: AppColor.white,
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    commonText(
+                                        "36 East 8th Street, New York,\nNY 10003, United States.",
+                                        size: 16,
+                                        color: AppColor.white)
+                                  ],
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                color: AppColor.white,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       Center(

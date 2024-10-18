@@ -212,6 +212,8 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
                 onTap: () {
                   if (widget.user) {
                     animetedNavigationPush(const UserRootPage(), context);
+                  } else {
+                    //driver
                   }
                 },
                 child: commonButton("Continue"),

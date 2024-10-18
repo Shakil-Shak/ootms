@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
@@ -12,8 +14,8 @@ import 'package:provider/provider.dart';
 class SignInPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-  SignInPage({super.key});
+  bool user;
+  SignInPage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -110,10 +112,12 @@ class SignInPage extends StatelessWidget {
                       Consumer<SignInPageController>(
                         builder: (context, controller, _) {
                           return commonButton("Sign In", onTap: () {
-                            if (controller.selectedRole == "User") {
+                            if (user) {
                               animetedNavigationPush(
                                   const UserRootPage(), context);
-                            } else if (controller.selectedRole == "Driver") {}
+                            } else {
+                              //driver root
+                            }
                           });
                         },
                       ),
@@ -125,7 +129,10 @@ class SignInPage extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               animetedNavigationPush(
-                                  const SignupPage(), context);
+                                  SignupPage(
+                                    user: user,
+                                  ),
+                                  context);
                             },
                             child: commonText("  Sign Up",
                                 isBold: true,
@@ -149,12 +156,10 @@ class SignInPage extends StatelessWidget {
 
 class SignInPageController extends ChangeNotifier {
   bool _isPasswordVisible = false;
-  String _selectedRole = 'User';
   bool _rememberMe = false;
 
   bool get isPasswordVisible => _isPasswordVisible;
   bool get remembeMe => _rememberMe;
-  String get selectedRole => _selectedRole;
 
   void selectPasswordVisibility(bool isVisible) {
     _isPasswordVisible = isVisible;
@@ -163,11 +168,6 @@ class SignInPageController extends ChangeNotifier {
 
   void callRememberMe(bool data) {
     _rememberMe = data;
-    notifyListeners();
-  }
-
-  void selectRole(String role) {
-    _selectedRole = role;
     notifyListeners();
   }
 }

@@ -3,6 +3,8 @@ import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/create_load/map.dart';
 
 class UserCreateLoadPage extends StatefulWidget {
   const UserCreateLoadPage({super.key});
@@ -256,12 +258,17 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
             SizedBox(height: 16),
             // Next Button
             commonIconButton(
-                "Next",
-                isRight: true,
-                Icon(
-                  Icons.arrow_forward,
-                  color: AppColor.white,
-                ))
+              "Next",
+              isRight: true,
+              Icon(
+                Icons.arrow_forward,
+                color: AppColor.white,
+              ),
+              onTap: () {
+                _tabController!.index = 1;
+                setState(() {});
+              },
+            )
           ],
         ),
       ),
@@ -448,6 +455,9 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
             // Find Driver Button
             commonButton(
               "Find A Driver",
+              onTap: () {
+                animetedNavigationPush(Map3Page(), context);
+              },
             ),
           ],
         ),

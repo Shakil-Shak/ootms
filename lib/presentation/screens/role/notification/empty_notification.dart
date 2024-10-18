@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 
-class NotificationPage extends StatelessWidget {
-  const NotificationPage({super.key});
+class EmptyNotificationPage extends StatelessWidget {
+  const EmptyNotificationPage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -6,6 +6,7 @@ import 'package:ootms/presentation/components/common_button.dart';
 
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
+import 'package:ootms/presentation/screens/role/notification/empty_notification.dart';
 
 class AllNotificationsPage extends StatelessWidget {
   final List<Map<String, dynamic>> loadRequests = [
@@ -200,27 +201,29 @@ class AllNotificationsPage extends StatelessWidget {
           },
         ),
       ),
-      body: ListView.separated(
-        separatorBuilder: (context, index) => SizedBox(
-          height: 4,
-        ),
-        itemCount: loadRequests.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            tileColor: (loadRequests[index]['read'] == false)
-                ? AppColor.primaryColorLight
-                : Colors.transparent,
-            leading: Image.asset(
-              "assets/icons/user home page/notify.png",
+      body: (loadRequests.isEmpty)
+          ? EmptyNotificationPage()
+          : ListView.separated(
+              separatorBuilder: (context, index) => SizedBox(
+                height: 4,
+              ),
+              itemCount: loadRequests.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  tileColor: (loadRequests[index]['read'] == false)
+                      ? AppColor.primaryColorLight
+                      : Colors.transparent,
+                  leading: Image.asset(
+                    "assets/icons/user home page/notify.png",
+                  ),
+                  title: commonText(loadRequests[index]['title'], size: 16),
+                  subtitle: commonText(loadRequests[index]['time'], size: 14),
+                  onTap: () {
+                    _showBottomSheet(context);
+                  },
+                );
+              },
             ),
-            title: commonText(loadRequests[index]['title'], size: 16),
-            subtitle: commonText(loadRequests[index]['time'], size: 14),
-            onTap: () {
-              _showBottomSheet(context);
-            },
-          );
-        },
-      ),
     );
   }
 }

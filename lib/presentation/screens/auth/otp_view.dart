@@ -10,8 +10,7 @@ import 'package:provider/provider.dart';
 
 class OtpPage extends StatelessWidget {
   final bool user, fromSignUp;
-  OtpPage({Key? key, required this.user, this.fromSignUp = false})
-      : super(key: key);
+  const OtpPage({super.key, required this.user, this.fromSignUp = false});
 
   @override
   Widget build(BuildContext context) {
@@ -83,18 +82,18 @@ class OtpPage extends StatelessWidget {
                 ),
                 Spacer(),
                 commonButton("Verify", onTap: () {
-                  if (user) {
-                    if (fromSignUp) {
-                      animetedNavigationPush(
-                          CompleateProfilePage(
-                            user: true,
-                          ),
-                          context);
-                    } else {
-                      animetedNavigationPush(const UserRootPage(), context);
-                    }
+                  if (fromSignUp) {
+                    animetedNavigationPush(
+                        CompleateProfilePage(
+                          user: user,
+                        ),
+                        context);
                   } else {
-                    //////////////////////
+                    if (user) {
+                      animetedNavigationPush(const UserRootPage(), context);
+                    } else {
+                      //driver
+                    }
                   }
                 }),
                 const SizedBox(height: 40),
