@@ -7,16 +7,30 @@ class DriverShippingDetailsPage extends StatelessWidget {
   final String date;
   final String from;
   final String to;
-  final String driver;
-  final String driverImage;
+  final String shipperAddress;
+
+  final String shipperEmail;
+  final String shipperPhone;
+  final String reciverAddress;
+  final String reciverEmail;
+  final String reciverPhone;
+  final String reciverName;
+  final String shipperName;
 
   DriverShippingDetailsPage({
+    super.key,
     required this.shippingId,
     required this.date,
     required this.from,
     required this.to,
-    required this.driver,
-    required this.driverImage,
+    required this.shipperAddress,
+    required this.shipperEmail,
+    required this.shipperPhone,
+    required this.reciverAddress,
+    required this.reciverEmail,
+    required this.reciverPhone,
+    required this.reciverName,
+    required this.shipperName,
   });
 
   @override
@@ -93,63 +107,125 @@ class DriverShippingDetailsPage extends StatelessWidget {
             ),
             const Divider(thickness: 6),
             // Driver Info
+
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  commonText("Driver Info", size: 16, isBold: true),
-                  const SizedBox(height: 8),
+                  commonText("Receiver Info", isBold: true, size: 18),
+                  Divider(),
+                  SizedBox(height: 10),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(driverImage),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            commonText("Receiver Name", isBold: true),
+                            commonText(reciverName),
+                          ],
+                        ),
                       ),
-                      const SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          commonText(driver, isBold: true),
-                          commonText(
-                            "+995 654654 | example@gmail.com",
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            commonText("Receiver Phone", isBold: true),
+                            commonText(reciverPhone),
+                          ],
+                        ),
                       ),
                     ],
                   ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            commonText("Receiver Email", isBold: true),
+                            commonText(reciverEmail),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            commonText("Receiver Address", isBold: true),
+                            commonText(reciverAddress),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
                 ],
               ),
             ),
 
             const Divider(thickness: 6),
-            // Truck Info
+
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  commonText("Truck Info", size: 16, isBold: true),
-                  const SizedBox(height: 8),
+                  commonText("Shipper’s Info", isBold: true, size: 18),
+                  Divider(),
+                  SizedBox(height: 10),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      commonText("Truck Number: ", size: 14, isBold: true),
                       Expanded(
-                          child: commonText("DHK METRO HA 64-8549", size: 14)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            commonText("Shipper Name", isBold: true),
+                            commonText(shipperName),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            commonText("Shipper Phone", isBold: true),
+                            commonText(shipperPhone),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 10),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      commonText("Trailer Size: ", isBold: true, size: 14),
                       Expanded(
-                          child: commonText("48-foot trailer—24 pallets",
-                              size: 14)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            commonText("Shipper Email", isBold: true),
+                            commonText(shipperEmail),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            commonText("Shipper Address", isBold: true),
+                            commonText(shipperAddress),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
+                  SizedBox(height: 20),
                 ],
               ),
             ),
@@ -159,34 +235,6 @@ class DriverShippingDetailsPage extends StatelessWidget {
             LoadInfo(),
             const SizedBox(height: 16),
             const Divider(thickness: 6, color: Colors.black26),
-            const SizedBox(
-              height: 8,
-            ),
-
-            // Request Again Button
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  commonText("REQUEST AGAIN", size: 14),
-                  Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 16,
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            const Divider(
-              thickness: 6,
-              color: Colors.black26,
-            ),
-            const SizedBox(
-              height: 8,
-            ),
           ],
         ),
       ),

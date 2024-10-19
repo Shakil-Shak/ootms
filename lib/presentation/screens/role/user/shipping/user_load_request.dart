@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/shipping/user_load_request_details.dart';
 
 class UserLoadRequestPage extends StatelessWidget {
   final List<Map<String, dynamic>> loadRequests = [
@@ -102,8 +104,10 @@ class UserLoadRequestPage extends StatelessWidget {
                             ),
                           ),
                           Expanded(
-                            child: commonButton("Accept Load",
-                                borderRadious: 10, isBold: false),
+                            child: commonButton("Accept Load", onTap: () {
+                              animetedNavigationPush(
+                                  UserLoadRequestDetailsPage(), context);
+                            }, borderRadious: 10, isBold: false),
                           ),
                         ],
                       ),

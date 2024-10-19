@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/shipping/user_current%20_shipment_details.dart';
 
 class UserCurrentShipmentsPage extends StatelessWidget {
   final List<Map<String, dynamic>> loadRequests = [
@@ -60,60 +62,66 @@ class UserCurrentShipmentsPage extends StatelessWidget {
         itemBuilder: (context, index) {
           final request = loadRequests[index];
 
-          return Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(request['driverImage']),
-                radius: 24,
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    commonText(request['driverName'], size: 16, isBold: true),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    commonText(request['truckInfo'], size: 14),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset(
-                                "assets/icons/arrow_up.png",
-                              ),
-                              const SizedBox(width: 4),
-                              Expanded(
-                                  child: commonText(request['from'], size: 14)),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Transform.rotate(
-                                  angle: pi,
-                                  child:
-                                      Image.asset("assets/icons/arrow_up.png")),
-                              const SizedBox(width: 4),
-                              Expanded(
-                                  child: commonText(request['to'], size: 14)),
-                            ],
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
+          return InkWell(
+            onTap: () {
+              animetedNavigationPush(UserCurrentShipmentDetailsPage(), context);
+            },
+            child: Row(
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(request['driverImage']),
+                  radius: 24,
                 ),
-              ),
-            ],
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      commonText(request['driverName'], size: 16, isBold: true),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      commonText(request['truckInfo'], size: 14),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset(
+                                  "assets/icons/arrow_up.png",
+                                ),
+                                const SizedBox(width: 4),
+                                Expanded(
+                                    child:
+                                        commonText(request['from'], size: 14)),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Transform.rotate(
+                                    angle: pi,
+                                    child: Image.asset(
+                                        "assets/icons/arrow_up.png")),
+                                const SizedBox(width: 4),
+                                Expanded(
+                                    child: commonText(request['to'], size: 14)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),

@@ -5,7 +5,13 @@ import 'package:flutter/widgets.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/common/country_model.dart';
+import 'package:ootms/presentation/screens/role/driver/home/driver_support.dart';
+import 'package:ootms/presentation/screens/role/driver/profile/driver_edit_profile.dart';
+import 'package:ootms/presentation/screens/role/driver/settings/driver_settings.dart';
+import 'package:ootms/presentation/screens/role/driver/shipping/driver_current_shipments.dart';
+import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request.dart';
 
 class DriverProfile extends StatefulWidget {
   const DriverProfile({super.key});
@@ -94,27 +100,38 @@ class _DriverProfileState extends State<DriverProfile> {
                   ProfileMenuItem(
                     iconPath: "assets/icons/edit-profile.png",
                     text: "Edit Profile",
-                    onTap: () {},
+                    onTap: () {
+                      animetedNavigationPush(DriverEditProfile(), context);
+                    },
                   ),
                   ProfileMenuItem(
                     iconPath: "assets/icons/shipment.png",
                     text: "Current Shipments",
-                    onTap: () {},
+                    onTap: () {
+                      animetedNavigationPush(
+                          DriverCurrentShipmentsPage(), context);
+                    },
                   ),
                   ProfileMenuItem(
                     iconPath: "assets/icons/arrow_up.png",
                     text: "Load Request",
-                    onTap: () {},
+                    onTap: () {
+                      animetedNavigationPush(DriverLoadRequestPage(), context);
+                    },
                   ),
                   ProfileMenuItem(
                     iconPath: "assets/icons/settings.png",
                     text: "Settings",
-                    onTap: () {},
+                    onTap: () {
+                      animetedNavigationPush(DriverSettingsPage(), context);
+                    },
                   ),
                   ProfileMenuItem(
                     iconPath: "assets/icons/shild.png",
                     text: "Support",
-                    onTap: () {},
+                    onTap: () {
+                      animetedNavigationPush(DriverSupportPage(), context);
+                    },
                   ),
                 ],
               ),

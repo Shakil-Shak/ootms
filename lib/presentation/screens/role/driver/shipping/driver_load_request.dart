@@ -2,31 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request_details.dart';
 
 class DriverLoadRequestPage extends StatelessWidget {
   final List<Map<String, dynamic>> loadRequests = [
     {
-      'driverName': 'Sabbir Ahmed',
+      'loadType': 'Dry Load.',
       'truckInfo': '48-foot trailer—24 pallets.',
-      'availability': 'The truck is fully available.',
+      'from': 'Rupatoli, Barishal',
+      'to': 'Banani, Dhaka',
       'driverImage': 'https://i.pravatar.cc/100',
     },
     {
-      'driverName': 'Sabbir Ahmed',
+      'loadType': 'Dry Load.',
       'truckInfo': '48-foot trailer—24 pallets.',
-      'availability': 'The truck is fully available.',
+      'from': 'Rupatoli, Barishal',
+      'to': 'Banani, Dhaka',
       'driverImage': 'https://i.pravatar.cc/100',
     },
     {
-      'driverName': 'Sabbir Ahmed',
+      'loadType': 'Dry Load.',
       'truckInfo': '48-foot trailer—24 pallets.',
-      'availability': 'The truck is fully available.',
+      'from': 'Rupatoli, Barishal',
+      'to': 'Banani, Dhaka',
       'driverImage': 'https://i.pravatar.cc/100',
     },
     {
-      'driverName': 'Sabbir Ahmed',
+      'loadType': 'Dry Load.',
       'truckInfo': '48-foot trailer—24 pallets.',
-      'availability': 'The truck is fully available.',
+      'from': 'Rupatoli, Barishal',
+      'to': 'Banani, Dhaka',
       'driverImage': 'https://i.pravatar.cc/100',
     },
   ];
@@ -58,15 +64,19 @@ class DriverLoadRequestPage extends StatelessWidget {
           return Row(
             children: [
               CircleAvatar(
-                backgroundImage: NetworkImage(request['driverImage']),
-                radius: 24,
+                radius: 28,
+                backgroundColor: AppColor.primaryColor,
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(request['driverImage']),
+                  radius: 24,
+                ),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    commonText(request['driverName'], size: 16, isBold: true),
+                    commonText(request['loadType'], size: 16, isBold: true),
                     SizedBox(
                       height: 4,
                     ),
@@ -74,15 +84,10 @@ class DriverLoadRequestPage extends StatelessWidget {
                     SizedBox(
                       height: 4,
                     ),
-                    Row(
-                      children: [
-                        Icon(Icons.circle, size: 12, color: Colors.green),
-                        const SizedBox(width: 4),
-                        commonText(request['availability'], size: 14),
-                      ],
-                    ),
+                    commonText("${request['from']} To ${request['to']}",
+                        size: 14),
                     SizedBox(
-                      height: 4,
+                      height: 8,
                     ),
                     SizedBox(
                       height: 40,
@@ -102,8 +107,10 @@ class DriverLoadRequestPage extends StatelessWidget {
                             ),
                           ),
                           Expanded(
-                            child: commonButton("Accept Load",
-                                borderRadious: 10, isBold: false),
+                            child: commonButton("Accept Load", onTap: () {
+                              animetedNavigationPush(
+                                  DriverLoadRequestDetailsPage(), context);
+                            }, borderRadious: 10, isBold: false),
                           ),
                         ],
                       ),

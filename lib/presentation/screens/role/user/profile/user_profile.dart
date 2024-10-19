@@ -5,7 +5,13 @@ import 'package:flutter/widgets.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/common/country_model.dart';
+import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
+import 'package:ootms/presentation/screens/role/user/profile/user_edit_profile.dart';
+import 'package:ootms/presentation/screens/role/user/settings/user_settings.dart';
+import 'package:ootms/presentation/screens/role/user/shipping/user_current_shipments.dart';
+import 'package:ootms/presentation/screens/role/user/shipping/user_load_request.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -94,27 +100,38 @@ class _UserProfileState extends State<UserProfile> {
                   ProfileMenuItem(
                     iconPath: "assets/icons/edit-profile.png",
                     text: "Edit Profile",
-                    onTap: () {},
+                    onTap: () {
+                      animetedNavigationPush(UserEditProfile(), context);
+                    },
                   ),
                   ProfileMenuItem(
                     iconPath: "assets/icons/shipment.png",
                     text: "Current Shipments",
-                    onTap: () {},
+                    onTap: () {
+                      animetedNavigationPush(
+                          UserCurrentShipmentsPage(), context);
+                    },
                   ),
                   ProfileMenuItem(
                     iconPath: "assets/icons/arrow_up.png",
                     text: "Load Request",
-                    onTap: () {},
+                    onTap: () {
+                      animetedNavigationPush(UserLoadRequestPage(), context);
+                    },
                   ),
                   ProfileMenuItem(
                     iconPath: "assets/icons/settings.png",
                     text: "Settings",
-                    onTap: () {},
+                    onTap: () {
+                      animetedNavigationPush(UserSettingsPage(), context);
+                    },
                   ),
                   ProfileMenuItem(
                     iconPath: "assets/icons/shild.png",
                     text: "Support",
-                    onTap: () {},
+                    onTap: () {
+                      animetedNavigationPush(UserSupportPage(), context);
+                    },
                   ),
                 ],
               ),

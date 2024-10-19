@@ -4,6 +4,8 @@ import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/settings/user_change_password.dart';
+import 'package:ootms/presentation/screens/role/user/settings/user_privacy_policy.dart';
+import 'package:ootms/presentation/screens/role/user/settings/user_terms_conditions.dart';
 import 'package:provider/provider.dart';
 
 // Main settings page
@@ -46,7 +48,7 @@ class UserSettingsPage extends StatelessWidget {
                 ),
                 text: 'Privacy Policy',
                 onTap: () {
-                  // Implement the Report a problem feature
+                  animetedNavigationPush(UserPrivacyPolicyPage(), context);
                 },
               ),
               const SizedBox(height: 16.0),
@@ -56,7 +58,7 @@ class UserSettingsPage extends StatelessWidget {
                 ),
                 text: 'Terms and Conditions',
                 onTap: () {
-                  // Implement the Report a problem feature
+                  animetedNavigationPush(UserTermsconditionsPage(), context);
                 },
               ),
               const SizedBox(height: 16.0),

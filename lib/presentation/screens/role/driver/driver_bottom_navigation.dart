@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/assets/icons_string.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/screens/role/driver/find_load/driver_find_load.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_home_page.dart';
+import 'package:ootms/presentation/screens/role/driver/profile/driver_profile.dart';
 
 class DriverRootPage extends StatefulWidget {
   const DriverRootPage({super.key});
@@ -39,9 +41,7 @@ class _DriverRootPageState extends State<DriverRootPage> {
   @override
   void initState() {
     super.initState();
-    _widgetOptions = [
-      DriverHomePage(),
-    ];
+    _widgetOptions = [DriverHomePage(), DriverFindLoadPage(), DriverProfile()];
   }
 
   @override
