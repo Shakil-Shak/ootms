@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
-import 'package:ootms/presentation/screens/onboarding_page.dart';
+import 'package:ootms/presentation/screens/splash/onboarding_page.dart';
 import 'package:provider/provider.dart';
 
 class SelectRole extends StatefulWidget {

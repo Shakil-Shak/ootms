@@ -8,6 +8,7 @@ import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/auth/signin/forget_password/forget_password_view.dart';
 import 'package:ootms/presentation/screens/auth/signup/signup_view.dart';
+import 'package:ootms/presentation/screens/role/driver/driver_bottom_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/user_bottom_navigation.dart';
 import 'package:provider/provider.dart';
 
@@ -116,7 +117,8 @@ class SignInPage extends StatelessWidget {
                               animetedNavigationPush(
                                   const UserRootPage(), context);
                             } else {
-                              //driver root
+                              animetedNavigationPush(
+                                  const DriverRootPage(), context);
                             }
                           });
                         },

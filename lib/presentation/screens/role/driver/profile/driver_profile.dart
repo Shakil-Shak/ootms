@@ -7,14 +7,14 @@ import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/screens/role/common/country_model.dart';
 
-class UserProfile extends StatefulWidget {
-  const UserProfile({super.key});
+class DriverProfile extends StatefulWidget {
+  const DriverProfile({super.key});
 
   @override
-  State<UserProfile> createState() => _UserProfileState();
+  State<DriverProfile> createState() => _DriverProfileState();
 }
 
-class _UserProfileState extends State<UserProfile> {
+class _DriverProfileState extends State<DriverProfile> {
   final TextEditingController addressController = TextEditingController();
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();

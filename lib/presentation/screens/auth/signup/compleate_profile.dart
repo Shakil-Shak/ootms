@@ -5,9 +5,10 @@ import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/driver/driver_bottom_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/user_bottom_navigation.dart';
 
-import '../../role/user/country_model.dart';
+import '../../role/common/country_model.dart';
 
 class CompleateProfilePage extends StatefulWidget {
   final bool user;
@@ -213,7 +214,7 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
                   if (widget.user) {
                     animetedNavigationPush(const UserRootPage(), context);
                   } else {
-                    //driver
+                    animetedNavigationPush(const DriverRootPage(), context);
                   }
                 },
                 child: commonButton("Continue"),

@@ -3,28 +3,26 @@ import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
-import 'package:ootms/presentation/screens/role/user/shipping/user_shipping_history.dart';
-import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
-import 'package:ootms/presentation/screens/role/user/create_load/user_create_load.dart';
-import 'package:ootms/presentation/screens/role/user/home/user_drawer.dart';
-import 'package:ootms/presentation/screens/role/user/home/user_set_location.dart';
-import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
+import 'package:ootms/presentation/screens/role/driver/chat/driver_chat_list.dart';
+import 'package:ootms/presentation/screens/role/driver/find_load/driver_find_load.dart';
+import 'package:ootms/presentation/screens/role/driver/home/driver_set_location.dart';
+import 'package:ootms/presentation/screens/role/driver/home/driver_support.dart';
+import 'package:ootms/presentation/screens/role/driver/shipping/driver_shipping_history.dart';
 
-class UserHomePage extends StatefulWidget {
-  const UserHomePage({super.key});
+class DriverHomePage extends StatefulWidget {
+  const DriverHomePage({super.key});
 
   @override
-  State<UserHomePage> createState() => _UserHomePageState();
+  State<DriverHomePage> createState() => _DriverHomePageState();
 }
 
-class _UserHomePageState extends State<UserHomePage> {
+class _DriverHomePageState extends State<DriverHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: userCustomDrawer(context),
       backgroundColor: AppColor.white,
       body: SingleChildScrollView(
         child: Column(
@@ -93,7 +91,7 @@ class _UserHomePageState extends State<UserHomePage> {
                         child: InkWell(
                           onTap: () {
                             animetedNavigationPush(
-                                UserSetLocationPage(), context);
+                                DriverSetLocationPage(), context);
                           },
                           child: Row(
                             children: [
@@ -193,11 +191,10 @@ class _UserHomePageState extends State<UserHomePage> {
                 children: [
                   buildActionCard(
                     imagePath: "assets/icons/user home page/picup2.png",
-                    label: 'Create Load',
-                    description: 'Send your loads with us in just a few steps.',
+                    label: 'Search for Load',
+                    description: 'Take your loads with us in just few steps.',
                     onTap: () {
-                      animetedNavigationPush(
-                          const UserCreateLoadPage(), context);
+                      animetedNavigationPush(DriverFindLoadPage(), context);
                     },
                   ),
                   buildActionCard(
@@ -206,7 +203,7 @@ class _UserHomePageState extends State<UserHomePage> {
                     description: 'Check your previous shipping history.',
                     onTap: () {
                       animetedNavigationPush(
-                          UserShippingHistoryPage(), context);
+                          DriverShippingHistoryPage(), context);
                     },
                   ),
                   buildActionCard(
@@ -214,7 +211,7 @@ class _UserHomePageState extends State<UserHomePage> {
                     label: 'Chat',
                     description: 'Easily chat with the driver.',
                     onTap: () {
-                      animetedNavigationPush(UserChatListPage(), context);
+                      animetedNavigationPush(DriverChatListPage(), context);
                     },
                   ),
                   buildActionCard(
@@ -222,7 +219,7 @@ class _UserHomePageState extends State<UserHomePage> {
                     label: 'Support',
                     description: 'Take direct support from here.',
                     onTap: () {
-                      animetedNavigationPush(const UserSupportPage(), context);
+                      animetedNavigationPush(DriverSupportPage(), context);
                     },
                   ),
                 ],
