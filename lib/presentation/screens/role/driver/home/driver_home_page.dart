@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -72,14 +73,19 @@ class _DriverHomePageState extends State<DriverHomePage> {
                             ),
                             const Spacer(),
                             // Notification bell
-                            Image.asset(
-                                "assets/icons/user home page/notify.png"),
+                            // Image.asset(
+                            //     "assets/icons/user home page/notify.png"),
+                            const FaIcon(
+                              FontAwesomeIcons.solidBell,
+                              color: Color.fromRGBO(255, 206, 49, 1),
+                              size: 30,
+                            ),
                             const SizedBox(width: 10),
                             // Profile avatar
                             const CircleAvatar(
                               backgroundColor: AppColor.black,
                               backgroundImage: AssetImage(
-                                  'assets/icons/profile_icon_2.png'), // Replace with your image asset
+                                  'assets/icons/profile_icon_2.png'), 
                               radius: 18,
                             ),
                           ],
@@ -91,7 +97,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                         child: InkWell(
                           onTap: () {
                             animetedNavigationPush(
-                                DriverSetLocationPage(), context);
+                                const DriverSetLocationPage(), context);
                           },
                           child: Row(
                             children: [
@@ -184,9 +190,9 @@ class _DriverHomePageState extends State<DriverHomePage> {
               child: GridView.count(
                 shrinkWrap: true,
                 crossAxisCount: 2,
-                childAspectRatio: 1.5,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
+                childAspectRatio: 1.3,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 5,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   buildActionCard(
@@ -194,7 +200,8 @@ class _DriverHomePageState extends State<DriverHomePage> {
                     label: 'Search for Load',
                     description: 'Take your loads with us in just few steps.',
                     onTap: () {
-                      animetedNavigationPush(const DriverFindLoadPage(), context);
+                      animetedNavigationPush(
+                          const DriverFindLoadPage(), context);
                     },
                   ),
                   buildActionCard(
@@ -219,7 +226,8 @@ class _DriverHomePageState extends State<DriverHomePage> {
                     label: 'Support',
                     description: 'Take direct support from here.',
                     onTap: () {
-                      animetedNavigationPush(const DriverSupportPage(), context);
+                      animetedNavigationPush(
+                          const DriverSupportPage(), context);
                     },
                   ),
                 ],
