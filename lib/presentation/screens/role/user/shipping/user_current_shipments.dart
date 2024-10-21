@@ -64,7 +64,8 @@ class UserCurrentShipmentsPage extends StatelessWidget {
 
           return InkWell(
             onTap: () {
-              animetedNavigationPush(const UserCurrentShipmentDetailsPage(), context);
+              animetedNavigationPush(
+                  const UserCurrentShipmentDetailsPage(), context);
             },
             child: Row(
               children: [
@@ -96,8 +97,9 @@ class UserCurrentShipmentsPage extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 4),
                                 Expanded(
-                                    child:
-                                        commonText(request['from'], size: 14)),
+                                    child: commonText(
+                                  request['from'],
+                                )),
                               ],
                             ),
                           ),
@@ -111,7 +113,9 @@ class UserCurrentShipmentsPage extends StatelessWidget {
                                         "assets/icons/arrow_up.png")),
                                 const SizedBox(width: 4),
                                 Expanded(
-                                    child: commonText(request['to'], size: 14)),
+                                    child: commonText(
+                                  request['to'],
+                                )),
                               ],
                             ),
                           ),

@@ -29,8 +29,11 @@ Widget commonButton(String title,
               ? const CircularProgressIndicator(
                   color: Colors.white,
                 )
-              : commonText(title,
-                  size: textSize, color: textColor, isBold: isBold),
+              : FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: commonText(title,
+                      size: textSize, color: textColor, isBold: isBold),
+                ),
         ),
       ),
     ),

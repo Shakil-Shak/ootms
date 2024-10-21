@@ -96,6 +96,9 @@ class DriverReAssignShipmentPage extends StatelessWidget {
                       ],
                     ),
                   ),
+                  SizedBox(
+                    width: 8,
+                  ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,6 +123,9 @@ class DriverReAssignShipmentPage extends StatelessWidget {
                       ],
                     ),
                   ),
+                  SizedBox(
+                    width: 8,
+                  ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,85 +145,84 @@ class DriverReAssignShipmentPage extends StatelessWidget {
               ),
 
               const Divider(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          commonText(
-                            "Load Type",
-                            size: 14,
-                            isBold: true,
-                          ),
-                          commonText(
-                            "Dry Load",
-                            size: 14,
-                          ),
-                          const SizedBox(height: 10),
-                          commonText(
-                            "Pickup",
-                            size: 14,
-                            isBold: true,
-                          ),
-                          commonText(
-                            "12-12-2024",
-                            size: 14,
-                          ),
-                          commonText("Address: Rupatoli, Barishal",
-                              size: 14, fontWeight: FontWeight.w500),
-                          const SizedBox(height: 10),
-                          commonText(
-                            "Weight",
-                            size: 14,
-                            isBold: true,
-                          ),
-                          commonText(
-                            "120 kg",
-                            size: 14,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          commonText(
-                            "Trailer size",
-                            size: 14,
-                            isBold: true,
-                          ),
-                          commonText(
-                            "48-foot trailer—24 pallets",
-                            size: 14,
-                          ),
-                          const SizedBox(height: 10),
-                          commonText(
-                            "Delivery",
-                            size: 14,
-                            isBold: true,
-                          ),
-                          commonText(
-                            "13-12-2024",
-                            size: 14,
-                          ),
-                          commonText("Address: Banasree, Dhaka",
-                              size: 14, fontWeight: FontWeight.w500),
-                          const SizedBox(height: 10),
-                          commonText(
-                            "HazMat",
-                            size: 14,
-                            isBold: true,
-                          ),
-                          commonText(
-                            "Flammable Gas 2,\nCorrosive, Danger.",
-                            size: 14,
-                          ),
-                        ],
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        commonText(
+                          "Load Type",
+                          size: 14,
+                          isBold: true,
+                        ),
+                        commonText(
+                          "Dry Load",
+                          size: 14,
+                        ),
+                        const SizedBox(height: 10),
+                        commonText(
+                          "Pickup",
+                          size: 14,
+                          isBold: true,
+                        ),
+                        commonText(
+                          "12-12-2024",
+                          size: 14,
+                        ),
+                        commonText("Address: Rupatoli, Barishal",
+                            size: 14, fontWeight: FontWeight.w500),
+                        const SizedBox(height: 10),
+                        commonText(
+                          "Weight",
+                          size: 14,
+                          isBold: true,
+                        ),
+                        commonText(
+                          "120 kg",
+                          size: 14,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        commonText(
+                          "Trailer size",
+                          size: 14,
+                          isBold: true,
+                        ),
+                        commonText(
+                          "48-foot trailer—24 pallets",
+                          size: 14,
+                        ),
+                        const SizedBox(height: 10),
+                        commonText(
+                          "Delivery",
+                          size: 14,
+                          isBold: true,
+                        ),
+                        commonText(
+                          "13-12-2024",
+                          size: 14,
+                        ),
+                        commonText("Address: Banasree, Dhaka",
+                            size: 14, fontWeight: FontWeight.w500),
+                        const SizedBox(height: 10),
+                        commonText(
+                          "HazMat",
+                          size: 14,
+                          isBold: true,
+                        ),
+                        commonText(
+                          "Flammable Gas 2,\nCorrosive, Danger.",
+                          size: 14,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -231,7 +236,7 @@ class DriverReAssignShipmentPage extends StatelessWidget {
 
               const Divider(),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: commonText("Padma Bridge, Mawa Ghat.",
                     size: 14, isBold: true),
               ),

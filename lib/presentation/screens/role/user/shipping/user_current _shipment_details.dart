@@ -4,7 +4,7 @@ import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 
 class UserCurrentShipmentDetailsPage extends StatelessWidget {
- final String phone = "123-456-789",
+  final String phone = "123-456-789",
       name = "NR Shakib",
       email = "example@gmail.com",
       address = "Rupatoli, Barishal";
@@ -143,77 +143,81 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          commonText(
-                            "Load Type",
-                            size: 14,
-                            isBold: true,
-                          ),
-                          commonText(
-                            "Dry Load",
-                            size: 14,
-                          ),
-                          const SizedBox(height: 10),
-                          commonText(
-                            "Pickup",
-                            size: 14,
-                            isBold: true,
-                          ),
-                          commonText(
-                            "12-12-2024",
-                            size: 14,
-                          ),
-                          commonText("Address: Rupatoli, Barishal",
-                              size: 14, fontWeight: FontWeight.w500),
-                          const SizedBox(height: 10),
-                          commonText(
-                            "Weight",
-                            size: 14,
-                            isBold: true,
-                          ),
-                          commonText(
-                            "120 kg",
-                            size: 14,
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            commonText(
+                              "Load Type",
+                              size: 14,
+                              isBold: true,
+                            ),
+                            commonText(
+                              "Dry Load",
+                              size: 14,
+                            ),
+                            const SizedBox(height: 10),
+                            commonText(
+                              "Pickup",
+                              size: 14,
+                              isBold: true,
+                            ),
+                            commonText(
+                              "12-12-2024",
+                              size: 14,
+                            ),
+                            commonText("Address: Rupatoli, Barishal",
+                                size: 14, fontWeight: FontWeight.w500),
+                            const SizedBox(height: 10),
+                            commonText(
+                              "Weight",
+                              size: 14,
+                              isBold: true,
+                            ),
+                            commonText(
+                              "120 kg",
+                              size: 14,
+                            ),
+                          ],
+                        ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          commonText(
-                            "Trailer size",
-                            size: 14,
-                            isBold: true,
-                          ),
-                          commonText(
-                            "48-foot trailer—24 pallets",
-                            size: 14,
-                          ),
-                          const SizedBox(height: 10),
-                          commonText(
-                            "Delivery",
-                            size: 14,
-                            isBold: true,
-                          ),
-                          commonText(
-                            "13-12-2024",
-                            size: 14,
-                          ),
-                          commonText("Address: Banasree, Dhaka",
-                              size: 14, fontWeight: FontWeight.w500),
-                          const SizedBox(height: 10),
-                          commonText(
-                            "HazMat",
-                            size: 14,
-                            isBold: true,
-                          ),
-                          commonText(
-                            "Flammable Gas 2,\nCorrosive, Danger.",
-                            size: 14,
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            commonText(
+                              "Trailer size",
+                              size: 14,
+                              isBold: true,
+                            ),
+                            commonText(
+                              "48-foot trailer—24 pallets",
+                              size: 14,
+                            ),
+                            const SizedBox(height: 10),
+                            commonText(
+                              "Delivery",
+                              size: 14,
+                              isBold: true,
+                            ),
+                            commonText(
+                              "13-12-2024",
+                              size: 14,
+                            ),
+                            commonText("Address: Banasree, Dhaka",
+                                size: 14, fontWeight: FontWeight.w500),
+                            const SizedBox(height: 10),
+                            commonText(
+                              "HazMat",
+                              size: 14,
+                              isBold: true,
+                            ),
+                            commonText(
+                              "Flammable Gas 2,\nCorrosive, Danger.",
+                              size: 14,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

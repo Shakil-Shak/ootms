@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/common/widgets.dart';
-import 'package:ootms/presentation/screens/role/user/shipping/user_current_shipments.dart';
-import 'package:ootms/presentation/screens/role/user/shipping/user_load_request.dart';
-import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
-import 'package:ootms/presentation/screens/role/user/settings/user_terms_conditions.dart';
-import 'package:ootms/presentation/screens/role/user/settings/user_privacy_policy.dart';
-import 'package:ootms/presentation/screens/role/user/settings/user_settings.dart';
+import 'package:ootms/presentation/screens/role/driver/home/driver_support.dart';
+import 'package:ootms/presentation/screens/role/driver/settings/driver_privacy_policy.dart';
+import 'package:ootms/presentation/screens/role/driver/settings/driver_settings.dart';
+import 'package:ootms/presentation/screens/role/driver/settings/driver_terms_conditions.dart';
+import 'package:ootms/presentation/screens/role/driver/shipping/driver_current_shipments.dart';
+import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request.dart';
 
 Widget driverCustomDrawer(BuildContext context) {
   return Drawer(
@@ -41,19 +41,19 @@ Widget driverCustomDrawer(BuildContext context) {
           ),
           const Spacer(),
           // Menu items
-          DrawerMenuItem(
-            iconPath: 'assets/icons/user home page/truck-svgrepo-com 1.png',
-            text: 'Track Your Shipment',
-            onTap: () {
-              // Handle the action
-            },
-          ),
+          // DrawerMenuItem(
+          //   iconPath: 'assets/icons/user home page/truck-svgrepo-com 1.png',
+          //   text: 'Track Your Shipment',
+          //   onTap: () {
+          //     // Handle the action
+          //   },
+          // ),
           DrawerMenuItem(
             iconPath: 'assets/icons/shipment.png', // Change to your icon path
             text: 'Current Shipment',
             onTap: () {
               Navigator.pop(context);
-              animetedNavigationPush(UserCurrentShipmentsPage(), context);
+              animetedNavigationPush(DriverCurrentShipmentsPage(), context);
             },
           ),
           DrawerMenuItem(
@@ -61,7 +61,7 @@ Widget driverCustomDrawer(BuildContext context) {
             text: 'Load Request',
             onTap: () {
               Navigator.pop(context);
-              animetedNavigationPush(UserLoadRequestPage(), context);
+              animetedNavigationPush(DriverLoadRequestPage(), context);
             },
           ),
 
@@ -70,7 +70,7 @@ Widget driverCustomDrawer(BuildContext context) {
             text: 'Settings',
             onTap: () {
               Navigator.pop(context);
-              animetedNavigationPush(UserSettingsPage(), context);
+              animetedNavigationPush(DriverSettingsPage(), context);
             },
           ),
           const Spacer(
@@ -87,7 +87,7 @@ Widget driverCustomDrawer(BuildContext context) {
             text: 'Support',
             onTap: () {
               Navigator.pop(context);
-              animetedNavigationPush(const UserSupportPage(), context);
+              animetedNavigationPush(const DriverSupportPage(), context);
             },
           ),
           DrawerMenuItem(
@@ -95,7 +95,7 @@ Widget driverCustomDrawer(BuildContext context) {
             text: 'Privacy Policy',
             onTap: () {
               Navigator.pop(context);
-              animetedNavigationPush(UserPrivacyPolicyPage(), context);
+              animetedNavigationPush(DriverPrivacyPolicyPage(), context);
             },
           ),
           DrawerMenuItem(
@@ -103,7 +103,7 @@ Widget driverCustomDrawer(BuildContext context) {
             text: 'Terms and Conditions',
             onTap: () {
               Navigator.pop(context);
-              animetedNavigationPush(UserTermsconditionsPage(), context);
+              animetedNavigationPush(DriverTermsconditionsPage(), context);
             },
           ),
           const Spacer(

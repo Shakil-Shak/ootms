@@ -84,8 +84,9 @@ class DriverLoadRequestPage extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    commonText("${request['from']} To ${request['to']}",
-                        size: 14),
+                    commonText(
+                      "${request['from']} To ${request['to']}",
+                    ),
                     const SizedBox(
                       height: 8,
                     ),
@@ -97,7 +98,7 @@ class DriverLoadRequestPage extends StatelessWidget {
                             child: commonButton(
                               "Cancel",
                               isBold: false,
-                              borderRadious: 10,
+                              borderRadious: 8,
                               onTap: () {
                                 // Add your cancel action
                               },
@@ -110,7 +111,7 @@ class DriverLoadRequestPage extends StatelessWidget {
                             child: commonButton("Accept Load", onTap: () {
                               animetedNavigationPush(
                                   DriverLoadRequestDetailsPage(), context);
-                            }, borderRadious: 10, isBold: false),
+                            }, borderRadious: 8, isBold: false),
                           ),
                         ],
                       ),

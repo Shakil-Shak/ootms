@@ -6,6 +6,7 @@ import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/chat/driver_chat_list.dart';
 import 'package:ootms/presentation/screens/role/driver/find_load/driver_find_load.dart';
+import 'package:ootms/presentation/screens/role/driver/home/driver_drawer.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_set_location.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_support.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_shipping_history.dart';
@@ -24,6 +25,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      drawer: driverCustomDrawer(context),
       backgroundColor: AppColor.white,
       body: SingleChildScrollView(
         child: Column(
@@ -84,8 +86,8 @@ class _DriverHomePageState extends State<DriverHomePage> {
                             // Profile avatar
                             const CircleAvatar(
                               backgroundColor: AppColor.black,
-                              backgroundImage: AssetImage(
-                                  'assets/icons/profile_icon_2.png'), 
+                              backgroundImage:
+                                  AssetImage('assets/icons/profile_icon_2.png'),
                               radius: 18,
                             ),
                           ],
@@ -281,9 +283,8 @@ class _DriverHomePageState extends State<DriverHomePage> {
                 ],
               ),
               const SizedBox(height: 10),
-              commonText(
-                description,
-              ),
+              Expanded(
+                  child: commonText(description, overflow: TextOverflow.clip)),
             ],
           ),
         ),

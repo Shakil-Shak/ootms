@@ -97,8 +97,9 @@ class DriverCurrentShipmentsPage extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 4),
                                 Expanded(
-                                    child:
-                                        commonText(request['from'], size: 14)),
+                                    child: commonText(
+                                  request['from'],
+                                )),
                               ],
                             ),
                           ),
@@ -112,7 +113,9 @@ class DriverCurrentShipmentsPage extends StatelessWidget {
                                         "assets/icons/arrow_up.png")),
                                 const SizedBox(width: 4),
                                 Expanded(
-                                    child: commonText(request['to'], size: 14)),
+                                    child: commonText(
+                                  request['to'],
+                                )),
                               ],
                             ),
                           ),

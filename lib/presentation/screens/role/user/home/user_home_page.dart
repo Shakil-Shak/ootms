@@ -251,7 +251,7 @@ class _UserHomePageState extends State<UserHomePage> {
         elevation: 3,
         color: AppColor.white,
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -275,10 +275,9 @@ class _UserHomePageState extends State<UserHomePage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
-              commonText(
-                description,
-              ),
+              const SizedBox(height: 5),
+              Expanded(
+                  child: commonText(description, overflow: TextOverflow.clip)),
             ],
           ),
         ),
