@@ -18,7 +18,7 @@ class _DriverTrackYourShipmentState extends State<DriverTrackYourShipment> {
         centerTitle: true,
         title: commonText('Track Your Shipment', size: 21, isBold: true),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },

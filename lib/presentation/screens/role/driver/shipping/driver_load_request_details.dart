@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -41,7 +43,7 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
             commonText("Shipper's Information", isBold: true, size: 18),
             const Divider(),
             const SizedBox(height: 10),
-            _buildInfoRow("Shipper Name", " ${shipperRating} ${shipperName}",
+            _buildInfoRow("Shipper Name", " $shipperRating $shipperName",
                 "Shipper Phone", shipperPhone),
             const SizedBox(height: 10),
             _buildInfoRow("Shipper Email", shipperEmail, "Shipper Address",
@@ -137,7 +139,7 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Cancel and Assign Load Buttons
             Row(
@@ -146,7 +148,7 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
                 Expanded(
                   child: commonButton("Cancel",
                       borderRadious: 10,
-                      color: Color(0xFFDDDDDD),
+                      color: const Color(0xFFDDDDDD),
                       textColor: AppColor.black),
                 ),
                 const SizedBox(width: 16),
@@ -179,7 +181,7 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
                 children: [
                   Visibility(
                     visible: title1 == "Shipper Name",
-                    child: Icon(
+                    child: const Icon(
                       Icons.star,
                       size: 15,
                       color: Colors.yellow,
@@ -233,7 +235,7 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Expanded(
@@ -255,7 +257,7 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           // Delivery Instructions
@@ -280,7 +282,7 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
         throw 'Could not launch $phoneNumber';
       }
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 }

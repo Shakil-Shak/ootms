@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 // Main settings page
 class DriverSettingsPage extends StatelessWidget {
-  DriverSettingsPage({super.key});
+  const DriverSettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -112,14 +112,16 @@ class DriverSettingsPage extends StatelessWidget {
                           child: commonButton("Cancle", borderRadious: 10,
                               onTap: () {
                         Navigator.pop(context);
-                      }, color: Color(0xFFDDDDDD), textColor: AppColor.black)),
+                      },
+                              color: const Color(0xFFDDDDDD),
+                              textColor: AppColor.black)),
                       const SizedBox(
                         width: 5,
                       ),
                       Expanded(
                           child: commonButton("Delete", onTap: () {
                         Navigator.pop(context);
-                      }, borderRadious: 10, color: Color(0xFFCE0000)))
+                      }, borderRadious: 10, color: const Color(0xFFCE0000)))
                     ],
                   ),
                 ],
@@ -166,7 +168,7 @@ class DriverSettingsOption extends StatelessWidget {
                 commonText(text, size: 16.0, color: Colors.black),
               ],
             ),
-            Icon(
+            const Icon(
               Icons.arrow_forward_ios,
               size: 18,
             )

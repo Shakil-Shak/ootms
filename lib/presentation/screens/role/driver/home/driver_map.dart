@@ -7,8 +7,10 @@ import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_map2.dart';
 
 class DriverMapPage extends StatefulWidget {
+  const DriverMapPage({super.key});
+
   @override
-  _DriverMapPageState createState() => _DriverMapPageState();
+  State<DriverMapPage> createState() => _DriverMapPageState();
 }
 
 class _DriverMapPageState extends State<DriverMapPage> {
@@ -16,7 +18,7 @@ class _DriverMapPageState extends State<DriverMapPage> {
       'AIzaSyAJrp3VvbO4E4jo7HRgqsk7EP8mPIZStxQ'; // Replace with your Geoapify API key
   MapController mapController = MapController();
   LatLng? _markerPosition =
-      LatLng(23.627556, 90.5212385); // Default marker position
+      const LatLng(23.627556, 90.5212385); // Default marker position
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -30,7 +32,7 @@ class _DriverMapPageState extends State<DriverMapPage> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
@@ -43,7 +45,7 @@ class _DriverMapPageState extends State<DriverMapPage> {
               height: MediaQuery.of(context).size.height *
                   0.9, // 70% of screen height
               padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
@@ -53,11 +55,11 @@ class _DriverMapPageState extends State<DriverMapPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     commonText("Shipping Details", size: 16, isBold: true),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     loadDetailsCard(),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -70,7 +72,7 @@ class _DriverMapPageState extends State<DriverMapPage> {
                             animetedNavigationPush(DriverMap2Page(), context);
                           },
                           child: Container(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(width: 1)),
@@ -80,13 +82,13 @@ class _DriverMapPageState extends State<DriverMapPage> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Card(
                       elevation: 5,
                       color: AppColor.white,
-                      child: Container(
+                      child: SizedBox(
                         height: 240,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -122,7 +124,7 @@ class _DriverMapPageState extends State<DriverMapPage> {
         children: [
           // Map with marker
           ColorFiltered(
-            colorFilter: ColorFilter.mode(Colors.white, BlendMode.colorBurn),
+            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.colorBurn),
             child: FlutterMap(
               mapController: mapController,
               options: MapOptions(
@@ -131,7 +133,7 @@ class _DriverMapPageState extends State<DriverMapPage> {
                 },
                 initialCenter: (_markerPosition != null)
                     ? _markerPosition!
-                    : LatLng(23.627556, 90.5212385),
+                    : const LatLng(23.627556, 90.5212385),
                 maxZoom: 21.0,
               ),
               children: [
@@ -148,7 +150,7 @@ class _DriverMapPageState extends State<DriverMapPage> {
                       height: 25.0,
                       point: (_markerPosition != null)
                           ? _markerPosition!
-                          : LatLng(23.627556, 90.5212385),
+                          : const LatLng(23.627556, 90.5212385),
                       child: InkWell(
                         onTap: () {
                           _onMarkerTap(_markerPosition!);
@@ -160,7 +162,7 @@ class _DriverMapPageState extends State<DriverMapPage> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                  color: Color.fromRGBO(0, 0, 255, 1),
+                                  color: const Color.fromRGBO(0, 0, 255, 1),
                                   shape: BoxShape.circle,
                                   boxShadow: const [
                                     BoxShadow(
@@ -185,7 +187,7 @@ class _DriverMapPageState extends State<DriverMapPage> {
             top: 50,
             child: Container(
               width: MediaQuery.sizeOf(context).width * 0.9,
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
@@ -201,7 +203,7 @@ class _DriverMapPageState extends State<DriverMapPage> {
                       ),
                     ),
                   ),
-                  Icon(Icons.search),
+                  const Icon(Icons.search),
                 ],
               ),
             ),
@@ -247,7 +249,7 @@ class _DriverMapPageState extends State<DriverMapPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 commonText("John Doe's Load", size: 16, isBold: true),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 commonText(
                   '7421477-475645',
                   size: 14,
@@ -255,7 +257,7 @@ class _DriverMapPageState extends State<DriverMapPage> {
                 ),
               ],
             ),
-            Divider(),
+            const Divider(),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -301,7 +303,7 @@ class _DriverMapPageState extends State<DriverMapPage> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
                     color: Colors.orange[100],
                     borderRadius: BorderRadius.circular(8),
@@ -315,7 +317,7 @@ class _DriverMapPageState extends State<DriverMapPage> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
             // Shipment progress
             shipmentStep(
@@ -347,26 +349,26 @@ class _DriverMapPageState extends State<DriverMapPage> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         children: [
-          Icon(Icons.location_on, color: Colors.red, size: 24),
-          SizedBox(width: 10),
+          const Icon(Icons.location_on, color: Colors.red, size: 24),
+          const SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 commonText(title, size: 14, isBold: true),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Row(
                   children: [
                     commonText(
                       location,
                       color: Colors.black87,
                     ),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     commonText(
                       '|',
                       color: Colors.black87,
                     ),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     commonText(
                       dateTime,
                       color: Colors.black87,

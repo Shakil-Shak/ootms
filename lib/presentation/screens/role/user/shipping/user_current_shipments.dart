@@ -47,14 +47,14 @@ class UserCurrentShipmentsPage extends StatelessWidget {
         centerTitle: true,
         title: commonText('Current Shipments', size: 21, isBold: true),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
       body: ListView.separated(
-        separatorBuilder: (context, index) => SizedBox(
+        separatorBuilder: (context, index) => const SizedBox(
           height: 16,
         ),
         padding: const EdgeInsets.all(16.0),
@@ -64,7 +64,7 @@ class UserCurrentShipmentsPage extends StatelessWidget {
 
           return InkWell(
             onTap: () {
-              animetedNavigationPush(UserCurrentShipmentDetailsPage(), context);
+              animetedNavigationPush(const UserCurrentShipmentDetailsPage(), context);
             },
             child: Row(
               children: [
@@ -78,11 +78,11 @@ class UserCurrentShipmentsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText(request['driverName'], size: 16, isBold: true),
-                      SizedBox(
+                      const SizedBox(
                         height: 4,
                       ),
                       commonText(request['truckInfo'], size: 14),
-                      SizedBox(
+                      const SizedBox(
                         height: 4,
                       ),
                       Row(

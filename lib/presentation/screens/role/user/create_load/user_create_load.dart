@@ -90,8 +90,8 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
         children: [
           Container(
             decoration: BoxDecoration(
-              color: Color(
-                  0xFF2D4E68), // Background color for the TabBar container
+              color: const Color(
+                  0xFF2D4E68),
               borderRadius: BorderRadius.circular(20),
             ),
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -158,25 +158,25 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
               _receiverNameController,
               hintText: "Enter full name",
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             commonTextfieldWithTitle(
               "Receiver Phone",
               _receiverPhoneController,
               hintText: "Enter phone number",
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             commonTextfieldWithTitle(
               "Receiver Email",
               _receiverEmailController,
               hintText: "Enter email address",
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             commonTextfieldWithTitle(
               "Receiver Address",
               _receiverAddressController,
               hintText: "Enter address",
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
@@ -186,7 +186,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                     hintText: "Enter city",
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: commonTextfieldWithTitle(
                     "State",
@@ -194,7 +194,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                     hintText: "Enter state",
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: commonTextfieldWithTitle(
                     "Zip",
@@ -204,7 +204,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                 ),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
@@ -215,7 +215,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                     keyboardType: TextInputType.number,
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: commonTextfieldWithTitle(
                     "Weight",
@@ -226,7 +226,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                 ),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
@@ -237,7 +237,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                     keyboardType: TextInputType.number,
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: commonTextfieldWithTitle(
                     "Bill of Lading",
@@ -248,19 +248,19 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                 ),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             commonTextfieldWithTitle(
               "Delivery Instructions",
               _deliveryInstructionsController,
               hintText: "Enter delivery instructions",
               maxLine: 3,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             // Next Button
             commonIconButton(
               "Next",
               isRight: true,
-              Icon(
+              const Icon(
                 Icons.arrow_forward,
                 color: AppColor.white,
               ),
@@ -287,25 +287,25 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
               _shipperNameController,
               hintText: "Enter full name",
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             commonTextfieldWithTitle(
               "Shipper Phone",
               _shipperPhoneController,
               hintText: "Enter phone number",
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             commonTextfieldWithTitle(
               "Shipper Email",
               _shipperEmailController,
               hintText: "Enter email address",
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             commonTextfieldWithTitle(
               "Shipper Address",
               _shipperAddressController,
               hintText: "Enter address",
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
@@ -315,7 +315,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                     hintText: "Enter city",
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: commonTextfieldWithTitle(
                     "State",
@@ -323,7 +323,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                     hintText: "Enter state",
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: commonTextfieldWithTitle(
                     "Zip",
@@ -333,13 +333,13 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                 ),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             commonTextfieldWithTitle(
               "Load Type",
               _loadTypeController,
               hintText: "Enter load type",
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
@@ -347,33 +347,33 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                     "Pickup",
                     _pickupController,
                     hintText: "MM-DD-YYYY",
-                    suffinxIcon: Icon(Icons.calendar_month_outlined, size: 20),
+                    suffinxIcon: const Icon(Icons.calendar_month_outlined, size: 20),
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: commonTextfieldWithTitle(
                     "Delivery",
                     _deliveryController,
                     hintText: "MM-DD-YYYY",
-                    suffinxIcon: Icon(Icons.calendar_month_outlined, size: 20),
+                    suffinxIcon: const Icon(Icons.calendar_month_outlined, size: 20),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             commonTextfieldWithTitle(
               "Trailer Size",
               _trailerSizeController,
               hintText: "Enter trailer size",
             ),
 
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
 
             Card(
               elevation: 3,
               child: Container(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -381,7 +381,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
                       blurRadius: 5,
-                      offset: Offset(0, 5),
+                      offset: const Offset(0, 5),
                     ),
                   ],
                 ),
@@ -404,7 +404,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                                 });
                               },
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             commonText("No"),
@@ -421,7 +421,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     // Checkbox list of HazMat items
                     Column(
                       children: hazMatItems.keys.map((String key) {
@@ -442,7 +442,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
               ),
             ),
 
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
             commonTextfieldWithTitle(
               "Description",
@@ -450,7 +450,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
               hintText: "Enter description",
               maxLine: 3,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
 
             // Find Driver Button
             commonButton(

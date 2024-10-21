@@ -3,6 +3,8 @@ import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 
 class DriverPrivacyPolicyPage extends StatelessWidget {
+  const DriverPrivacyPolicyPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,14 +23,14 @@ class DriverPrivacyPolicyPage extends StatelessWidget {
                 'Lorem ipsum dolor sit amet consectetur. . Convallis vel risus egestas ornare proin in. Arcu sodales tempus tellus mattis ac elit hendrerit sapien venenatis id gravida nisl.',
                 size: 14,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Icon(
                       Icons.circle,
                       size: 10,

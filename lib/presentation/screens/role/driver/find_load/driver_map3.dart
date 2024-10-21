@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -9,7 +11,7 @@ import 'package:ootms/presentation/components/common_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DriverMap3Page extends StatefulWidget {
-  DriverMap3Page({super.key});
+  const DriverMap3Page({super.key});
 
   @override
   State<DriverMap3Page> createState() => _DriverMap3PageState();
@@ -246,7 +248,7 @@ class _DriverMap3PageState extends State<DriverMap3Page> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 24,
                         ),
                         Padding(
@@ -254,10 +256,10 @@ class _DriverMap3PageState extends State<DriverMap3Page> {
                           child: commonText("Here is a load for you.",
                               size: 16, isBold: true),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
-                        Divider(
+                        const Divider(
                           thickness: 6,
                         ),
                         Padding(
@@ -268,7 +270,7 @@ class _DriverMap3PageState extends State<DriverMap3Page> {
                             isBold: true,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 4,
                         ),
                         Padding(
@@ -279,7 +281,7 @@ class _DriverMap3PageState extends State<DriverMap3Page> {
                     ),
 
                     const SizedBox(height: 8),
-                    Divider(
+                    const Divider(
                       thickness: 6,
                     ),
                     const SizedBox(
@@ -307,7 +309,7 @@ class _DriverMap3PageState extends State<DriverMap3Page> {
                               width: 2,
                               height: 60,
                               color: Colors.black54,
-                              margin: EdgeInsets.symmetric(
+                              margin: const EdgeInsets.symmetric(
                                 horizontal: 8,
                               ),
                             ),
@@ -327,10 +329,10 @@ class _DriverMap3PageState extends State<DriverMap3Page> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
-                    Divider(
+                    const Divider(
                       thickness: 6,
                     ),
                     const SizedBox(height: 8),
@@ -358,7 +360,7 @@ class _DriverMap3PageState extends State<DriverMap3Page> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Divider(
+                    const Divider(
                       thickness: 6,
                     ),
                     const SizedBox(height: 8),
@@ -388,10 +390,10 @@ class _DriverMap3PageState extends State<DriverMap3Page> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
-                    Divider(
+                    const Divider(
                       thickness: 6,
                     ),
                     const SizedBox(height: 8),
@@ -586,7 +588,7 @@ class _DriverMap3PageState extends State<DriverMap3Page> {
         throw 'Could not launch $phoneNumber';
       }
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 }

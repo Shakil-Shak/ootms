@@ -20,19 +20,19 @@ class _DriverRootPageState extends State<DriverRootPage> {
         backgroundColor: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Image.asset(AppIcons.home),
+          child: Image.asset(AppIcons.home, color: AppColor.primaryColor),
         )),
     CircleAvatar(
         backgroundColor: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Image.asset(AppIcons.plus),
+          child: Image.asset(AppIcons.plus, color: AppColor.primaryColor),
         )),
     CircleAvatar(
         backgroundColor: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Image.asset(AppIcons.profile),
+          child: Image.asset(AppIcons.profile, color: AppColor.primaryColor),
         )),
   ];
 
@@ -41,7 +41,11 @@ class _DriverRootPageState extends State<DriverRootPage> {
   @override
   void initState() {
     super.initState();
-    _widgetOptions = [DriverHomePage(), DriverFindLoadPage(), DriverProfile()];
+    _widgetOptions = [
+      const DriverHomePage(),
+      const DriverFindLoadPage(),
+      const DriverProfile()
+    ];
   }
 
   @override

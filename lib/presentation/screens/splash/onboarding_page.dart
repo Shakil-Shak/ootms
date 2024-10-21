@@ -108,7 +108,7 @@ class OnboardingScreen extends StatelessWidget {
                               onTap: () {
                                 // Move to next page
                                 _pageController.nextPage(
-                                  duration: Duration(milliseconds: 300),
+                                  duration: const Duration(milliseconds: 300),
                                   curve: Curves.easeIn,
                                 );
                               },
@@ -130,7 +130,7 @@ class OnboardingPage extends StatelessWidget {
   final String title;
   final String description;
 
-  OnboardingPage({
+  const OnboardingPage({super.key, 
     required this.imagePath,
     required this.title,
     required this.description,
@@ -144,7 +144,7 @@ class OnboardingPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(imagePath),
-          SizedBox(height: 24.0),
+          const SizedBox(height: 24.0),
           commonText(
             title,
             textAlign: TextAlign.center,
@@ -152,7 +152,7 @@ class OnboardingPage extends StatelessWidget {
             color: AppColor.black,
             isBold: true,
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           commonText(
             description,
             textAlign: TextAlign.center,

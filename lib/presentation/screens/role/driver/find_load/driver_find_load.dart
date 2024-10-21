@@ -9,7 +9,7 @@ class DriverFindLoadPage extends StatefulWidget {
   const DriverFindLoadPage({super.key});
 
   @override
-  _DriverFindLoadPageState createState() => _DriverFindLoadPageState();
+  State<DriverFindLoadPage> createState() => _DriverFindLoadPageState();
 }
 
 class _DriverFindLoadPageState extends State<DriverFindLoadPage>
@@ -28,10 +28,10 @@ class _DriverFindLoadPageState extends State<DriverFindLoadPage>
           title: commonText("Find Load", size: 21, isBold: true),
           centerTitle: true,
         ),
-        body: InformationTab());
+        body: informationTab());
   }
 
-  Widget InformationTab() {
+  Widget informationTab() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(
@@ -43,38 +43,38 @@ class _DriverFindLoadPageState extends State<DriverFindLoadPage>
               _nameController,
               hintText: "Enter full name",
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             commonTextfieldWithTitle(
               "Truck Number",
               _numberController,
               hintText: "Enter truck number",
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             commonTextfieldWithTitle(
               "Trailer Size",
               _trailercontroller,
               hintText: "Trailer Size",
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             commonTextfieldWithTitle(
               "Pallet Spaces",
               _palletSpacesController,
               hintText: "00",
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
 
             commonTextfieldWithTitle(
               "Current Location",
               _locationController,
               hintText: "Enter your location",
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             commonTextfieldWithTitle(
               "Availability",
               _availabilityController,
               hintText: "Availability",
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             // Next Button
             commonButton(
               "Accept Load",

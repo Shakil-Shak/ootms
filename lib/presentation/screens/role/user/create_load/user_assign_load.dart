@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -27,8 +29,8 @@ class UserAssignLoadPage extends StatelessWidget {
           children: [
             // Driver's Information Section
             commonText("Driver's Information", isBold: true, size: 18),
-            Divider(),
-            SizedBox(height: 10),
+            const Divider(),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -52,7 +54,7 @@ class UserAssignLoadPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -76,12 +78,12 @@ class UserAssignLoadPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Truck Information Section
             commonText("Truck Information", isBold: true, size: 18),
-            Divider(),
-            SizedBox(height: 10),
+            const Divider(),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -105,7 +107,7 @@ class UserAssignLoadPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -129,7 +131,7 @@ class UserAssignLoadPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Message Input with Call Button
             Row(
@@ -183,7 +185,7 @@ class UserAssignLoadPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Cancel and Assign Load Buttons
             Row(
@@ -192,7 +194,7 @@ class UserAssignLoadPage extends StatelessWidget {
                 Expanded(
                   child: commonButton("Cancel",
                       borderRadious: 10,
-                      color: Color(0xFFDDDDDD),
+                      color: const Color(0xFFDDDDDD),
                       textColor: AppColor.black),
                 ),
                 const SizedBox(width: 16),
@@ -224,7 +226,7 @@ class UserAssignLoadPage extends StatelessWidget {
         throw 'Could not launch $phoneNumber';
       }
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 }

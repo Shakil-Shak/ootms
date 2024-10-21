@@ -4,16 +4,16 @@ import 'package:latlong2/latlong.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 
 class UserMap2Page extends StatefulWidget {
+  const UserMap2Page({super.key});
+
   @override
-  _UserMap2PageState createState() => _UserMap2PageState();
+  State<UserMap2Page> createState() => _UserMap2PageState();
 }
 
 class _UserMap2PageState extends State<UserMap2Page> {
-  final String apiKey =
-      'AIzaSyAJrp3VvbO4E4jo7HRgqsk7EP8mPIZStxQ'; // Replace with your Geoapify API key
+  final String apiKey = 'AIzaSyAJrp3VvbO4E4jo7HRgqsk7EP8mPIZStxQ';
   MapController mapController = MapController();
-  LatLng? _markerPosition =
-      LatLng(23.627556, 90.5212385); // Default marker position
+  final LatLng _markerPosition = const LatLng(23.627556, 90.5212385);
 
   @override
   void initState() {
@@ -28,14 +28,13 @@ class _UserMap2PageState extends State<UserMap2Page> {
         children: [
           // Map with marker
           ColorFiltered(
-            colorFilter: ColorFilter.mode(Colors.white, BlendMode.colorBurn),
+            colorFilter:
+                const ColorFilter.mode(Colors.white, BlendMode.colorBurn),
             child: FlutterMap(
               mapController: mapController,
               options: MapOptions(
                 onTap: (tapPosition, point) {},
-                initialCenter: (_markerPosition != null)
-                    ? _markerPosition!
-                    : LatLng(23.627556, 90.5212385),
+                initialCenter: _markerPosition,
                 maxZoom: 21.0,
               ),
               children: [
@@ -50,12 +49,10 @@ class _UserMap2PageState extends State<UserMap2Page> {
                     Marker(
                       width: 25.0,
                       height: 25.0,
-                      point: (_markerPosition != null)
-                          ? _markerPosition!
-                          : LatLng(23.627556, 90.5212385),
+                      point: _markerPosition,
                       child: InkWell(
                         onTap: () {
-                          mapController.move(_markerPosition!, 11);
+                          mapController.move(_markerPosition, 11);
                           setState(() {});
                         },
                         child: Stack(
@@ -63,7 +60,7 @@ class _UserMap2PageState extends State<UserMap2Page> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                  color: Color.fromRGBO(0, 0, 255, 1),
+                                  color: const Color.fromRGBO(0, 0, 255, 1),
                                   shape: BoxShape.circle,
                                   boxShadow: const [
                                     BoxShadow(

@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -8,7 +6,7 @@ import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_map2.dart';
 
 class DriverCurrentShipmentDetailsPage extends StatelessWidget {
-  String shipperPhone = "123-456-789",
+  final String shipperPhone = "123-456-789",
       shipperName = "NR Shakib",
       shipperRating = "4.5",
       shipperEmail = "example@gmail.com",
@@ -22,7 +20,7 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
       description =
           "Lorem ipsum dolor sit amet consectetur. Blandit auctor sit scelerisque ultricies.";
 
-  DriverCurrentShipmentDetailsPage({super.key});
+  const DriverCurrentShipmentDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +40,7 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
             commonText("Shipper's Information", isBold: true, size: 18),
             const Divider(),
             const SizedBox(height: 10),
-            _buildInfoRow("Shipper Name", " ${shipperRating} ${shipperName}",
+            _buildInfoRow("Shipper Name", " $shipperRating $shipperName",
                 "Shipper Phone", shipperPhone),
             const SizedBox(height: 10),
             _buildInfoRow("Shipper Email", shipperEmail, "Shipper Address",
@@ -91,7 +89,7 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
               "Go To The Map",
               borderRadious: 10,
               onTap: () {
-                animetedNavigationPush(DriverMap2Page(), context);
+                animetedNavigationPush(const DriverMap2Page(), context);
               },
             ),
             const SizedBox(height: 16),
@@ -121,7 +119,7 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
                 children: [
                   Visibility(
                     visible: title1 == "Shipper Name",
-                    child: Icon(
+                    child: const Icon(
                       Icons.star,
                       size: 15,
                       color: Colors.yellow,
@@ -175,7 +173,7 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Expanded(
@@ -197,7 +195,7 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           // Delivery Instructions

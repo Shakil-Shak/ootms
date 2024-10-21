@@ -26,7 +26,7 @@ Widget userCustomDrawer(BuildContext context) {
                 backgroundImage: AssetImage(
                     'assets/images/profile.jpg'), // Change to your profile image path
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -39,7 +39,7 @@ Widget userCustomDrawer(BuildContext context) {
               ),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           // Menu items
           DrawerMenuItem(
             iconPath: 'assets/icons/user home page/truck-svgrepo-com 1.png',
@@ -73,12 +73,12 @@ Widget userCustomDrawer(BuildContext context) {
               animetedNavigationPush(UserSettingsPage(), context);
             },
           ),
-          Spacer(
+          const Spacer(
             flex: 3,
           ),
           // About and support section at the bottom
           DrawerMenuItem(
-            icon: Icon(Icons.info_outline),
+            icon: const Icon(Icons.info_outline),
             text: 'About Us',
             onTap: () {},
           ),
@@ -87,7 +87,7 @@ Widget userCustomDrawer(BuildContext context) {
             text: 'Support',
             onTap: () {
               Navigator.pop(context);
-              animetedNavigationPush(UserSupportPage(), context);
+              animetedNavigationPush(const UserSupportPage(), context);
             },
           ),
           DrawerMenuItem(
@@ -106,7 +106,7 @@ Widget userCustomDrawer(BuildContext context) {
               animetedNavigationPush(UserTermsconditionsPage(), context);
             },
           ),
-          Spacer(
+          const Spacer(
             flex: 2,
           ),
           DrawerMenuItem(

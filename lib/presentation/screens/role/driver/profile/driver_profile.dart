@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -59,7 +58,7 @@ class _DriverProfileState extends State<DriverProfile> {
                   Container(
                     width: 80,
                     height: 80,
-                    margin: EdgeInsets.all(2),
+                    margin: const EdgeInsets.all(2),
                     decoration: BoxDecoration(
                         color: AppColor.primaryColor,
                         borderRadius: BorderRadius.circular(40),
@@ -81,12 +80,12 @@ class _DriverProfileState extends State<DriverProfile> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             commonText("MostainAhmed", size: 18, isBold: true),
             commonText("example@gmail.com"),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             // Profile Menu Options
@@ -101,7 +100,8 @@ class _DriverProfileState extends State<DriverProfile> {
                     iconPath: "assets/icons/edit-profile.png",
                     text: "Edit Profile",
                     onTap: () {
-                      animetedNavigationPush(DriverEditProfile(), context);
+                      animetedNavigationPush(
+                          const DriverEditProfile(), context);
                     },
                   ),
                   ProfileMenuItem(
@@ -130,13 +130,14 @@ class _DriverProfileState extends State<DriverProfile> {
                     iconPath: "assets/icons/shild.png",
                     text: "Support",
                     onTap: () {
-                      animetedNavigationPush(DriverSupportPage(), context);
+                      animetedNavigationPush(
+                          const DriverSupportPage(), context);
                     },
                   ),
                 ],
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
@@ -195,14 +196,16 @@ class _DriverProfileState extends State<DriverProfile> {
                         child: commonButton("Cancle", borderRadious: 10,
                             onTap: () {
                       Navigator.pop(context);
-                    }, color: Color(0xFFDDDDDD), textColor: AppColor.black)),
+                    },
+                            color: const Color(0xFFDDDDDD),
+                            textColor: AppColor.black)),
                     const SizedBox(
                       width: 5,
                     ),
                     Expanded(
                         child: commonButton("Logout", onTap: () {
                       Navigator.pop(context);
-                    }, borderRadious: 10, color: Color(0xFFCE0000)))
+                    }, borderRadious: 10, color: const Color(0xFFCE0000)))
                   ],
                 ),
               ),

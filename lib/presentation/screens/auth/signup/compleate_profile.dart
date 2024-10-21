@@ -173,13 +173,13 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
                         size: 14,
                         fontWeight: FontWeight.w500,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 16,
                       ),
                       DottedBorder(
                         borderType: BorderType.RRect,
                         dashPattern: const [7, 7],
-                        radius: Radius.circular(10),
+                        radius: const Radius.circular(10),
                         color: AppColor.black,
                         strokeWidth: 1,
                         child: SizedBox(

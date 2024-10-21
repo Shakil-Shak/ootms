@@ -7,16 +7,16 @@ import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 
 class DriverMap2Page extends StatefulWidget {
+  const DriverMap2Page({super.key});
+
   @override
-  _DriverMap2PageState createState() => _DriverMap2PageState();
+  State<DriverMap2Page> createState() => _DriverMap2PageState();
 }
 
 class _DriverMap2PageState extends State<DriverMap2Page> {
-  final String apiKey =
-      'AIzaSyAJrp3VvbO4E4jo7HRgqsk7EP8mPIZStxQ'; // Replace with your Geoapify API key
+  final String apiKey = 'AIzaSyAJrp3VvbO4E4jo7HRgqsk7EP8mPIZStxQ';
   MapController mapController = MapController();
-  LatLng? _markerPosition =
-      LatLng(23.627556, 90.5212385); // Default marker position
+  final LatLng _markerPosition = const LatLng(23.627556, 90.5212385);
 
   int rating = 4;
   final TextEditingController commentController = TextEditingController();
@@ -25,7 +25,7 @@ class _DriverMap2PageState extends State<DriverMap2Page> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
@@ -37,7 +37,7 @@ class _DriverMap2PageState extends State<DriverMap2Page> {
           builder: (context, scrollController) {
             return Container(
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
@@ -45,14 +45,14 @@ class _DriverMap2PageState extends State<DriverMap2Page> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     commonText(
                       'Your Shipment Has Been\nDelivered To The Receiver.',
                       size: 18,
                       isBold: true,
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(5, (index) {
@@ -67,14 +67,14 @@ class _DriverMap2PageState extends State<DriverMap2Page> {
                         );
                       }),
                     ),
-                    SizedBox(height: 10),
-                    Divider(
+                    const SizedBox(height: 10),
+                    const Divider(
                       thickness: 8,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     commonText("Leave A Comment For User.",
                         size: 16, isBold: true),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Card(
@@ -86,14 +86,14 @@ class _DriverMap2PageState extends State<DriverMap2Page> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     commonButton(
                       "Submit",
                       onTap: () {
                         Navigator.pop(context);
                       },
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),
@@ -112,14 +112,13 @@ class _DriverMap2PageState extends State<DriverMap2Page> {
         children: [
           // Map with marker
           ColorFiltered(
-            colorFilter: ColorFilter.mode(Colors.white, BlendMode.colorBurn),
+            colorFilter:
+                const ColorFilter.mode(Colors.white, BlendMode.colorBurn),
             child: FlutterMap(
               mapController: mapController,
               options: MapOptions(
                 onTap: (tapPosition, point) {},
-                initialCenter: (_markerPosition != null)
-                    ? _markerPosition!
-                    : LatLng(23.627556, 90.5212385),
+                initialCenter: _markerPosition,
                 maxZoom: 21.0,
               ),
               children: [
@@ -134,12 +133,10 @@ class _DriverMap2PageState extends State<DriverMap2Page> {
                     Marker(
                       width: 25.0,
                       height: 25.0,
-                      point: (_markerPosition != null)
-                          ? _markerPosition!
-                          : LatLng(23.627556, 90.5212385),
+                      point: _markerPosition,
                       child: InkWell(
                         onTap: () {
-                          mapController.move(_markerPosition!, 11);
+                          mapController.move(_markerPosition, 11);
                           setState(() {});
                         },
                         child: Stack(
@@ -147,7 +144,7 @@ class _DriverMap2PageState extends State<DriverMap2Page> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                  color: Color.fromRGBO(0, 0, 255, 1),
+                                  color: const Color.fromRGBO(0, 0, 255, 1),
                                   shape: BoxShape.circle,
                                   boxShadow: const [
                                     BoxShadow(

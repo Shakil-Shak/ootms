@@ -40,7 +40,7 @@ class DriverAllNotificationsPage extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
@@ -51,7 +51,7 @@ class DriverAllNotificationsPage extends StatelessWidget {
               width: MediaQuery.of(context).size.width, // Full width
 
               padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
@@ -66,7 +66,7 @@ class DriverAllNotificationsPage extends StatelessWidget {
                         textAlign: TextAlign.center,
                         size: 16),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   Row(
@@ -82,7 +82,7 @@ class DriverAllNotificationsPage extends StatelessWidget {
                           },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Expanded(
@@ -110,7 +110,7 @@ class DriverAllNotificationsPage extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
@@ -122,7 +122,7 @@ class DriverAllNotificationsPage extends StatelessWidget {
           builder: (context, scrollController) {
             return Container(
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
@@ -130,14 +130,14 @@ class DriverAllNotificationsPage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     commonText(
                       'Your Shipment Has Been\nDelivered To The Receiver.',
                       size: 18,
                       isBold: true,
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(5, (index) {
@@ -152,14 +152,14 @@ class DriverAllNotificationsPage extends StatelessWidget {
                         );
                       }),
                     ),
-                    SizedBox(height: 10),
-                    Divider(
+                    const SizedBox(height: 10),
+                    const Divider(
                       thickness: 8,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     commonText("Leave a comment for driver.",
                         size: 16, isBold: true),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Card(
@@ -169,14 +169,14 @@ class DriverAllNotificationsPage extends StatelessWidget {
                             hintText: "Leave A Comment For Driver"),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     commonButton(
                       "Submit",
                       onTap: () {
                         Navigator.pop(context);
                       },
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),
@@ -194,16 +194,16 @@ class DriverAllNotificationsPage extends StatelessWidget {
         centerTitle: true,
         title: commonText('Notifications', size: 21, isBold: true),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
       body: (loadRequests.isEmpty)
-          ? DriverEmptyNotificationPage()
+          ? const DriverEmptyNotificationPage()
           : ListView.separated(
-              separatorBuilder: (context, index) => SizedBox(
+              separatorBuilder: (context, index) => const SizedBox(
                 height: 4,
               ),
               itemCount: loadRequests.length,

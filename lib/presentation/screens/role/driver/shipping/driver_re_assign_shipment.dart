@@ -29,8 +29,8 @@ class DriverReAssignShipmentPage extends StatelessWidget {
             children: [
               // Driver's Information Section
               commonText("Driver's Information", isBold: true, size: 18),
-              Divider(),
-              SizedBox(height: 10),
+              const Divider(),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -54,7 +54,7 @@ class DriverReAssignShipmentPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -78,12 +78,12 @@ class DriverReAssignShipmentPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Truck Information Section
               commonText("Truck Information", isBold: true, size: 18),
-              Divider(),
-              SizedBox(height: 10),
+              const Divider(),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -107,7 +107,7 @@ class DriverReAssignShipmentPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -131,14 +131,14 @@ class DriverReAssignShipmentPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               commonText(
                 "Load Information",
                 size: 18,
                 isBold: true,
               ),
 
-              Divider(),
+              const Divider(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -229,7 +229,7 @@ class DriverReAssignShipmentPage extends StatelessWidget {
                 isBold: true,
               ),
 
-              Divider(),
+              const Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: commonText("Padma Bridge, Mawa Ghat.",

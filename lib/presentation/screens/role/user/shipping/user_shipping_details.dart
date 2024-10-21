@@ -10,7 +10,8 @@ class UserShippingDetailsPage extends StatelessWidget {
   final String driver;
   final String driverImage;
 
-  UserShippingDetailsPage({
+  const UserShippingDetailsPage({
+    super.key,
     required this.shippingId,
     required this.date,
     required this.from,
@@ -44,7 +45,7 @@ class UserShippingDetailsPage extends StatelessWidget {
                   IconButton(
                     icon: Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: [Icon(Icons.copy), commonText("Copy")],
+                      children: [const Icon(Icons.copy), commonText("Copy")],
                     ),
                     onPressed: () {
                       // Copy to clipboard
@@ -66,7 +67,7 @@ class UserShippingDetailsPage extends StatelessWidget {
                     date,
                     size: 14,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -77,7 +78,7 @@ class UserShippingDetailsPage extends StatelessWidget {
                       Expanded(child: commonText(from)),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -156,7 +157,7 @@ class UserShippingDetailsPage extends StatelessWidget {
 
             const Divider(thickness: 6),
             // Load Information
-            LoadInfo(),
+            loadInfo(),
             const SizedBox(height: 16),
             const Divider(thickness: 6, color: Colors.black26),
             const SizedBox(
@@ -170,7 +171,7 @@ class UserShippingDetailsPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   commonText("REQUEST AGAIN", size: 14),
-                  Icon(
+                  const Icon(
                     Icons.arrow_forward_ios_rounded,
                     size: 16,
                   )
@@ -193,7 +194,7 @@ class UserShippingDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget LoadInfo() {
+  Widget loadInfo() {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

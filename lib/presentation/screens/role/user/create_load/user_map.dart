@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -11,7 +13,7 @@ import 'package:ootms/presentation/screens/role/user/create_load/user_assign_loa
 import 'package:url_launcher/url_launcher.dart';
 
 class UserMap3Page extends StatefulWidget {
-  UserMap3Page({super.key});
+  const UserMap3Page({super.key});
 
   @override
   State<UserMap3Page> createState() => _UserMap3PageState();
@@ -22,7 +24,7 @@ class _UserMap3PageState extends State<UserMap3Page> {
   final String apiKey =
       'AIzaSyAJrp3VvbO4E4jo7HRgqsk7EP8mPIZStxQ'; // Replace with your Geoapify API key
   MapController mapController = MapController();
-  LatLng? _markerPosition = LatLng(23.627556, 90.5212385);
+  LatLng? _markerPosition = const LatLng(23.627556, 90.5212385);
 
   @override
   void initState() {
@@ -34,7 +36,7 @@ class _UserMap3PageState extends State<UserMap3Page> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
@@ -47,13 +49,13 @@ class _UserMap3PageState extends State<UserMap3Page> {
               height: MediaQuery.of(context).size.height *
                   0.9, // 70% of screen height
               padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
               child: SingleChildScrollView(
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(25),
                         topRight: Radius.circular(25)),
@@ -193,14 +195,14 @@ class _UserMap3PageState extends State<UserMap3Page> {
 
                       Container(
                         color: AppColor.primaryColorLight.withOpacity(0.3),
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
                               child: commonButton("Cancel",
                                   borderRadious: 10,
-                                  color: Color(0xFFDDDDDD),
+                                  color: const Color(0xFFDDDDDD),
                                   textColor: AppColor.black),
                             ),
                             const SizedBox(width: 16),
@@ -245,7 +247,7 @@ class _UserMap3PageState extends State<UserMap3Page> {
         children: [
           // Map with marker
           ColorFiltered(
-            colorFilter: ColorFilter.mode(Colors.white, BlendMode.colorBurn),
+            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.colorBurn),
             child: FlutterMap(
               mapController: mapController,
               options: MapOptions(
@@ -254,7 +256,7 @@ class _UserMap3PageState extends State<UserMap3Page> {
                 },
                 initialCenter: (_markerPosition != null)
                     ? _markerPosition!
-                    : LatLng(23.627556, 90.5212385),
+                    : const LatLng(23.627556, 90.5212385),
                 maxZoom: 21.0,
               ),
               children: [
@@ -271,7 +273,7 @@ class _UserMap3PageState extends State<UserMap3Page> {
                       height: 25.0,
                       point: (_markerPosition != null)
                           ? _markerPosition!
-                          : LatLng(23.627556, 90.5212385),
+                          : const LatLng(23.627556, 90.5212385),
                       child: InkWell(
                         onTap: () {
                           _onMarkerTap(_markerPosition!);
@@ -283,7 +285,7 @@ class _UserMap3PageState extends State<UserMap3Page> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                  color: Color.fromRGBO(0, 0, 255, 1),
+                                  color: const Color.fromRGBO(0, 0, 255, 1),
                                   shape: BoxShape.circle,
                                   boxShadow: const [
                                     BoxShadow(
@@ -308,7 +310,7 @@ class _UserMap3PageState extends State<UserMap3Page> {
             top: 50,
             child: Container(
               width: MediaQuery.sizeOf(context).width * 0.9,
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
@@ -324,7 +326,7 @@ class _UserMap3PageState extends State<UserMap3Page> {
                       ),
                     ),
                   ),
-                  Icon(Icons.search),
+                  const Icon(Icons.search),
                 ],
               ),
             ),
@@ -366,7 +368,7 @@ class _UserMap3PageState extends State<UserMap3Page> {
         throw 'Could not launch $phoneNumber';
       }
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 }

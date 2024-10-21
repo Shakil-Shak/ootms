@@ -3,6 +3,8 @@ import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 
 class UserTermsconditionsPage extends StatelessWidget {
+  const UserTermsconditionsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -55,7 +55,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                     Container(
                       width: 80,
                       height: 80,
-                      margin: EdgeInsets.all(2),
+                      margin: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
                           color: AppColor.primaryColor,
                           borderRadius: BorderRadius.circular(40),
@@ -133,7 +133,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
                       value: _selectedCountry,
-                      icon: Icon(Icons.arrow_drop_down),
+                      icon: const Icon(Icons.arrow_drop_down),
                       iconSize: 24,
                       isExpanded: true,
                       onChanged: (String? newValue) {

@@ -5,6 +5,8 @@ import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_map.dart';
 
 class UserSetLocationPage extends StatelessWidget {
+  const UserSetLocationPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,13 +22,13 @@ class UserSetLocationPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           // Search Bar Section
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 8),
-            decoration: BoxDecoration(color: AppColor.white, boxShadow: const [
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+            decoration: const BoxDecoration(color: AppColor.white, boxShadow: [
               BoxShadow(blurRadius: 3, color: Colors.black38),
             ]),
             child: const Row(
@@ -50,7 +52,7 @@ class UserSetLocationPage extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           // Location Options
@@ -59,27 +61,29 @@ class UserSetLocationPage extends StatelessWidget {
               children: [
                 // Set on Map Option
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration:
-                      BoxDecoration(color: AppColor.white, boxShadow: const [
+                      const BoxDecoration(color: AppColor.white, boxShadow: [
                     BoxShadow(blurRadius: 3, color: Colors.black38),
                   ]),
                   child: ListTile(
                     leading: Image.asset("assets/icons/user home page/pin.png"),
                     title: commonText('Set On Map', size: 16, isBold: true),
                     onTap: () {
-                      animetedNavigationPush(UserMapPage(), context);
+                      animetedNavigationPush(const UserMapPage(), context);
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 // My Current Location Option
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration:
-                      BoxDecoration(color: AppColor.white, boxShadow: const [
+                      const BoxDecoration(color: AppColor.white, boxShadow: [
                     BoxShadow(blurRadius: 3, color: Colors.black38),
                   ]),
                   child: ListTile(
@@ -87,7 +91,7 @@ class UserSetLocationPage extends StatelessWidget {
                     title: commonText('My Current Location',
                         size: 16, isBold: true),
                     onTap: () {
-                      animetedNavigationPush(UserMapPage(), context);
+                      animetedNavigationPush(const UserMapPage(), context);
                     },
                   ),
                 ),

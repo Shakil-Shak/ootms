@@ -5,6 +5,8 @@ import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 
 class DriverChatPage extends StatelessWidget {
+  const DriverChatPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final chatProvider = Provider.of<DriverChatProvider>(context);
@@ -13,11 +15,11 @@ class DriverChatPage extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               backgroundImage: NetworkImage('https://i.pravatar.cc/100'),
               radius: 20,
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -28,7 +30,7 @@ class DriverChatPage extends StatelessWidget {
           ],
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -39,7 +41,7 @@ class DriverChatPage extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               reverse: true,
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               itemCount: chatProvider.messages.length,
               itemBuilder: (context, index) {
                 final message = chatProvider.messages[index];
@@ -53,19 +55,19 @@ class DriverChatPage extends StatelessWidget {
                         : CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        margin: EdgeInsets.symmetric(vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
+                        margin: const EdgeInsets.symmetric(vertical: 4),
                         decoration: BoxDecoration(
                           color: isSentByMe
                               ? AppColor.primaryColor
                               : AppColor.primaryColorLight,
                           borderRadius: isSentByMe
-                              ? BorderRadius.only(
+                              ? const BorderRadius.only(
                                   bottomLeft: Radius.circular(16),
                                   bottomRight: Radius.circular(16),
                                   topLeft: Radius.circular(16))
-                              : BorderRadius.only(
+                              : const BorderRadius.only(
                                   bottomLeft: Radius.circular(16),
                                   bottomRight: Radius.circular(16),
                                   topRight: Radius.circular(16)),
@@ -111,7 +113,7 @@ class DriverChatPage extends StatelessWidget {
                     showModalBottomSheet(
                       context: context,
                       backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(20)),
                       ),
@@ -125,7 +127,7 @@ class DriverChatPage extends StatelessWidget {
                                   .width, // Full width
 
                               padding: const EdgeInsets.all(16.0),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(20)),
@@ -141,10 +143,10 @@ class DriverChatPage extends StatelessWidget {
                                           onTap: () {
                                             Navigator.pop(context);
                                           },
-                                          child: Icon(Icons.cancel))
+                                          child: const Icon(Icons.cancel))
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   commonButton("Request for Take The Load")
@@ -159,16 +161,16 @@ class DriverChatPage extends StatelessWidget {
                   child: Card(
                     elevation: 3,
                     child: Container(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: AppColor.white,
                       ),
-                      child: Icon(Icons.add, color: AppColor.black),
+                      child: const Icon(Icons.add, color: AppColor.black),
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Card(
                     elevation: 3,
@@ -179,15 +181,14 @@ class DriverChatPage extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
                             child: Icon(Icons.message),
                           ),
                           Expanded(
                             child: TextField(
                               controller: chatProvider.messageController,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: "Type something...",
                                 border: InputBorder.none,
                                 hintStyle: TextStyle(color: AppColor.black),
@@ -200,7 +201,7 @@ class DriverChatPage extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.send),
+                  icon: const Icon(Icons.send),
                   onPressed: () {
                     chatProvider
                         .sendMessage(chatProvider.messageController.text);

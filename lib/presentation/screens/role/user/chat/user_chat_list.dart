@@ -28,12 +28,14 @@ class UserChatListPage extends StatelessWidget {
     },
   ];
 
+  UserChatListPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -48,12 +50,12 @@ class UserChatListPage extends StatelessWidget {
             Card(
               elevation: 3,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 decoration: BoxDecoration(
                   color: AppColor.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: TextField(
+                child: const TextField(
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: "Search messages...",
@@ -62,11 +64,11 @@ class UserChatListPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Messages list
             commonText("Messages", isBold: true, size: 16),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
                 itemCount: messages.length,
@@ -89,7 +91,7 @@ class UserChatListPage extends StatelessWidget {
                             radius: 20,
                             backgroundImage: NetworkImage(message['imageUrl']!),
                           ),
-                          SizedBox(width: 12),
+                          const SizedBox(width: 12),
 
                           // Message details
                           Expanded(
@@ -101,7 +103,7 @@ class UserChatListPage extends StatelessWidget {
                                   size: 14,
                                   isBold: true,
                                 ),
-                                SizedBox(height: 4),
+                                const SizedBox(height: 4),
                                 commonText(
                                   message['message']!,
                                   color: Colors.black54,

@@ -8,7 +8,7 @@ void main() {
   runApp(
     ChangeNotifierProvider(
       create: (_) => UserDeleteAccountPageController(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }

@@ -94,7 +94,7 @@ class UserChangepasswordPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   commonText("Forgot Password",

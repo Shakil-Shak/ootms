@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -59,7 +58,7 @@ class _UserProfileState extends State<UserProfile> {
                   Container(
                     width: 80,
                     height: 80,
-                    margin: EdgeInsets.all(2),
+                    margin: const EdgeInsets.all(2),
                     decoration: BoxDecoration(
                         color: AppColor.primaryColor,
                         borderRadius: BorderRadius.circular(40),
@@ -81,12 +80,12 @@ class _UserProfileState extends State<UserProfile> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             commonText("MostainAhmed", size: 18, isBold: true),
             commonText("example@gmail.com"),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             // Profile Menu Options
@@ -101,7 +100,7 @@ class _UserProfileState extends State<UserProfile> {
                     iconPath: "assets/icons/edit-profile.png",
                     text: "Edit Profile",
                     onTap: () {
-                      animetedNavigationPush(UserEditProfile(), context);
+                      animetedNavigationPush(const UserEditProfile(), context);
                     },
                   ),
                   ProfileMenuItem(
@@ -130,13 +129,13 @@ class _UserProfileState extends State<UserProfile> {
                     iconPath: "assets/icons/shild.png",
                     text: "Support",
                     onTap: () {
-                      animetedNavigationPush(UserSupportPage(), context);
+                      animetedNavigationPush(const UserSupportPage(), context);
                     },
                   ),
                 ],
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
@@ -195,14 +194,16 @@ class _UserProfileState extends State<UserProfile> {
                         child: commonButton("Cancle", borderRadious: 10,
                             onTap: () {
                       Navigator.pop(context);
-                    }, color: Color(0xFFDDDDDD), textColor: AppColor.black)),
+                    },
+                            color: const Color(0xFFDDDDDD),
+                            textColor: AppColor.black)),
                     const SizedBox(
                       width: 5,
                     ),
                     Expanded(
                         child: commonButton("Logout", onTap: () {
                       Navigator.pop(context);
-                    }, borderRadious: 10, color: Color(0xFFCE0000)))
+                    }, borderRadious: 10, color: const Color(0xFFCE0000)))
                   ],
                 ),
               ),

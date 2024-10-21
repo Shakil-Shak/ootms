@@ -46,14 +46,14 @@ class DriverLoadRequestPage extends StatelessWidget {
         centerTitle: true,
         title: commonText('Load Request', size: 21, isBold: true),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
       body: ListView.separated(
-        separatorBuilder: (context, index) => SizedBox(
+        separatorBuilder: (context, index) => const SizedBox(
           height: 16,
         ),
         padding: const EdgeInsets.all(16.0),
@@ -77,16 +77,16 @@ class DriverLoadRequestPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     commonText(request['loadType'], size: 16, isBold: true),
-                    SizedBox(
+                    const SizedBox(
                       height: 4,
                     ),
                     commonText(request['truckInfo'], size: 14),
-                    SizedBox(
+                    const SizedBox(
                       height: 4,
                     ),
                     commonText("${request['from']} To ${request['to']}",
                         size: 14),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     SizedBox(

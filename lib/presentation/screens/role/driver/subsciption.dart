@@ -1,19 +1,20 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 
 class SubscriptionPage extends StatefulWidget {
+  const SubscriptionPage({super.key});
+
   @override
-  _SubscriptionPageState createState() => _SubscriptionPageState();
+  State<SubscriptionPage> createState() => _SubscriptionPageState();
 }
 
 class _SubscriptionPageState extends State<SubscriptionPage>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
-  PageController _pageController =
+  final PageController _pageController =
       PageController(viewportFraction: 0.8); // Carousel controller
   int currentIndex = 0;
   @override
@@ -38,7 +39,7 @@ class _SubscriptionPageState extends State<SubscriptionPage>
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -53,7 +54,7 @@ class _SubscriptionPageState extends State<SubscriptionPage>
           // TabBar
           Container(
             decoration: BoxDecoration(
-              color: Color(
+              color: const Color(
                   0xFF2D4E68), // Background color for the TabBar container
               borderRadius: BorderRadius.circular(20),
             ),
@@ -141,7 +142,7 @@ class _SubscriptionPageState extends State<SubscriptionPage>
               height: 450, // Adjust this according to your needs
               enlargeCenterPage: true,
               autoPlay: true, // Automatic sliding
-              autoPlayInterval: Duration(seconds: 5),
+              autoPlayInterval: const Duration(seconds: 5),
               onPageChanged: (index, reason) {
                 setState(() {
                   currentIndex = index;
@@ -164,7 +165,7 @@ class _SubscriptionPageState extends State<SubscriptionPage>
         height: 450, // Adjust this according to your needs
         enlargeCenterPage: true,
         autoPlay: true, // Automatic sliding
-        autoPlayInterval: Duration(seconds: 5),
+        autoPlayInterval: const Duration(seconds: 5),
         onPageChanged: (index, reason) {
           setState(() {
             currentIndex = index;
@@ -180,7 +181,7 @@ class _SubscriptionPageState extends State<SubscriptionPage>
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black12,
             blurRadius: 8,
@@ -239,8 +240,8 @@ class _SubscriptionPageState extends State<SubscriptionPage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
               5,
-              (index) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
+              (index) => const Padding(
+                padding: EdgeInsets.symmetric(vertical: 4),
                 child: Row(
                   children: [
                     Icon(

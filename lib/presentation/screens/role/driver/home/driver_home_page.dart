@@ -194,7 +194,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                     label: 'Search for Load',
                     description: 'Take your loads with us in just few steps.',
                     onTap: () {
-                      animetedNavigationPush(DriverFindLoadPage(), context);
+                      animetedNavigationPush(const DriverFindLoadPage(), context);
                     },
                   ),
                   buildActionCard(
@@ -219,7 +219,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                     label: 'Support',
                     description: 'Take direct support from here.',
                     onTap: () {
-                      animetedNavigationPush(DriverSupportPage(), context);
+                      animetedNavigationPush(const DriverSupportPage(), context);
                     },
                   ),
                 ],

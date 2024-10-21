@@ -17,7 +17,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
   final String reciverName;
   final String shipperName;
 
-  DriverShippingDetailsPage({
+  const DriverShippingDetailsPage({
     super.key,
     required this.shippingId,
     required this.date,
@@ -58,7 +58,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                   IconButton(
                     icon: Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: [Icon(Icons.copy), commonText("Copy")],
+                      children: [const Icon(Icons.copy), commonText("Copy")],
                     ),
                     onPressed: () {
                       // Copy to clipboard
@@ -80,7 +80,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                     date,
                     size: 14,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -91,7 +91,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                       Expanded(child: commonText(from)),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -114,8 +114,8 @@ class DriverShippingDetailsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   commonText("Receiver Info", isBold: true, size: 18),
-                  Divider(),
-                  SizedBox(height: 10),
+                  const Divider(),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -139,7 +139,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -163,7 +163,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -176,8 +176,8 @@ class DriverShippingDetailsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   commonText("Shipper’s Info", isBold: true, size: 18),
-                  Divider(),
-                  SizedBox(height: 10),
+                  const Divider(),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -201,7 +201,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -225,14 +225,14 @@ class DriverShippingDetailsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
 
             const Divider(thickness: 6),
             // Load Information
-            LoadInfo(),
+            loadInfo(),
             const SizedBox(height: 16),
             const Divider(thickness: 6, color: Colors.black26),
           ],
@@ -241,7 +241,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget LoadInfo() {
+  Widget loadInfo() {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

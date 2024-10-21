@@ -129,12 +129,12 @@ class _SignupPageState extends State<SignupPage> {
                           return commonButton("Sign Up", onTap: () {
                             if (widget.user) {
                               animetedNavigationPush(
-                                OtpPage(user: true, fromSignUp: true),
+                                const OtpPage(user: true, fromSignUp: true),
                                 context,
                               );
                             } else {
                               animetedNavigationPush(
-                                OtpPage(user: false, fromSignUp: true),
+                                const OtpPage(user: false, fromSignUp: true),
                                 context,
                               );
                             }

@@ -1,17 +1,15 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 
 class UserCurrentShipmentDetailsPage extends StatelessWidget {
-  String phone = "123-456-789",
+ final String phone = "123-456-789",
       name = "NR Shakib",
       email = "example@gmail.com",
       address = "Rupatoli, Barishal";
 
-  UserCurrentShipmentDetailsPage({super.key});
+  const UserCurrentShipmentDetailsPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +27,8 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
             children: [
               // Driver's Information Section
               commonText("Driver's Information", isBold: true, size: 18),
-              Divider(),
-              SizedBox(height: 10),
+              const Divider(),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -54,7 +52,7 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -78,12 +76,12 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Truck Information Section
               commonText("Truck Information", isBold: true, size: 18),
-              Divider(),
-              SizedBox(height: 10),
+              const Divider(),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -107,7 +105,7 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -131,14 +129,14 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               commonText(
                 "Load Information",
                 size: 18,
                 isBold: true,
               ),
 
-              Divider(),
+              const Divider(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
