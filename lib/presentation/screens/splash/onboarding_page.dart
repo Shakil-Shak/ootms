@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
-import 'package:ootms/presentation/screens/auth/signin_signup_chosser.dart';
+import 'package:ootms/presentation/screens/auth/sign_in_sign_up_chosser.dart';
 
 import 'package:provider/provider.dart';
 
 class OnboardingScreen extends StatelessWidget {
   final PageController _pageController = PageController();
-  String role;
-  OnboardingScreen({super.key, required this.role});
+  bool user;
+  OnboardingScreen({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -28,23 +28,33 @@ class OnboardingScreen extends StatelessWidget {
                   },
                   children: [
                     OnboardingPage(
-                      imagePath: 'assets/images/onborder1.png',
+                      imagePath: (user)
+                          ? 'assets/images/onborder1.png'
+                          : 'assets/images/onbording1d.png',
                       title: "Welcome to\n“OOTMS”",
-                      description:
-                          "Simplify Your Shipment Process with “OOTMS”.",
+                      description: (user)
+                          ? "Simplify Your Shipment Process with “OOTMS”."
+                          : "Make your job easier with instant load matching, real-time updates, and seamless communication.",
                     ),
                     OnboardingPage(
                       imagePath: 'assets/images/onborder2.png',
-                      title: "“Effortless Load Posting”",
-                      description:
-                          "For shippers: Post your load details and let drivers pick it up.",
+                      title: (user)
+                          ? "“Effortless Load Posting”"
+                          : "“Accept Loads that Fit Your Schedule”",
+                      description: (user)
+                          ? "For shippers: Post your load details and let drivers pick it up."
+                          : "Accept loads that match your availability and equipment.",
                     ),
                     OnboardingPage(
-                      imagePath: 'assets/images/onborder3.png',
-                      title:
-                          "“Track Your Freight with Real-Time Location Updates”",
-                      description:
-                          "Stay informed about your shipment’s exact location as it moves through the supply chain.",
+                      imagePath: (user)
+                          ? 'assets/images/onborder3.png'
+                          : 'assets/images/obbording3d.png',
+                      title: (user)
+                          ? "“Track Your Freight with Real-Time Location Updates”"
+                          : "“Stay Connected with Shippers”",
+                      description: (user)
+                          ? "Stay informed about your shipment’s exact location as it moves through the supply chain."
+                          : "Chat directly with shippers to confirm delivery details, send updates, and manage changes.",
                     ),
                   ],
                 ),
@@ -79,7 +89,7 @@ class OnboardingScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    SignInSignUpChosserPage(role: role))),
+                                    SignInSignUpChosserPage(user: user))),
                       )
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

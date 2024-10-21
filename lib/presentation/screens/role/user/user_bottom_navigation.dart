@@ -42,8 +42,8 @@ class _UserRootPageState extends State<UserRootPage> {
   void initState() {
     super.initState();
     _widgetOptions = [
-      const UserHomePage(),
-      const UserCreateLoad(),
+      UserHomePage(),
+      UserCreateLoadPage(),
       const UserProfile()
     ];
   }

@@ -1,13 +1,18 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
-import 'package:ootms/presentation/screens/auth/signin/signin_view.dart';
+import 'package:ootms/presentation/screens/role/driver/driver_bottom_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/user_bottom_navigation.dart';
+
+import '../../role/common/country_model.dart';
 
 class CompleateProfilePage extends StatefulWidget {
-  const CompleateProfilePage({super.key});
+  final bool user;
+  const CompleateProfilePage({super.key, required this.user});
 
   @override
   State<CompleateProfilePage> createState() => _CompleateProfilePageState();
@@ -48,9 +53,8 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
               const SizedBox(
                 height: 8,
               ),
-              commonText(
-                "Fill in your information.",
-              ),
+              commonText("Fill in your information.",
+                  fontWeight: FontWeight.w600),
               const SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
@@ -85,6 +89,7 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
               ),
               commonTextfieldWithTitle(
                 "Phone",
+                fontWeight: FontWeight.w500,
                 phoneController,
                 hintText: "Enter your phone number",
                 prifixIconWidget: Container(
@@ -109,21 +114,108 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
                 ),
               ),
               const SizedBox(height: 20),
-              commonTextfieldWithTitle(
-                "Tax ID",
-                texIdController,
-                hintText: "Enter your tax ID",
+              Visibility(
+                visible: widget.user,
+                child: commonTextfieldWithTitle(
+                  "Tax ID",
+                  fontWeight: FontWeight.w500,
+                  texIdController,
+                  hintText: "Enter your tax ID",
+                ),
               ),
+              Visibility(
+                visible: !widget.user,
+                child: commonTextfieldWithTitle(
+                  "CDL Number",
+                  fontWeight: FontWeight.w500,
+                  texIdController,
+                  hintText: "Enter your CDL number",
+                ),
+              ),
+              Visibility(
+                visible: !widget.user,
+                child: const SizedBox(height: 20),
+              ),
+              Visibility(
+                visible: !widget.user,
+                child: commonTextfieldWithTitle(
+                  "Truck Number",
+                  fontWeight: FontWeight.w500,
+                  texIdController,
+                  hintText: "Enter your truck number",
+                ),
+              ),
+              Visibility(
+                visible: !widget.user,
+                child: const SizedBox(height: 20),
+              ),
+              Visibility(
+                visible: !widget.user,
+                child: commonTextfieldWithTitle(
+                  "Trailer Size",
+                  fontWeight: FontWeight.w500,
+                  texIdController,
+                  hintText: "Trailer Size",
+                ),
+              ),
+              Visibility(
+                visible: !widget.user,
+                child: const SizedBox(height: 20),
+              ),
+              Visibility(
+                  visible: !widget.user,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      commonText(
+                        "Verify Your CDL",
+                        size: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      DottedBorder(
+                        borderType: BorderType.RRect,
+                        dashPattern: const [7, 7],
+                        radius: Radius.circular(10),
+                        color: AppColor.black,
+                        strokeWidth: 1,
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 150,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.cloud_upload_outlined,
+                                color: Colors.grey,
+                                size: 40,
+                              ),
+                              commonText("Choose image or capture image",
+                                  size: 14, fontWeight: FontWeight.w500)
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
               const SizedBox(height: 20),
               commonTextfieldWithTitle(
                 "Address",
+                fontWeight: FontWeight.w500,
                 addressController,
                 hintText: "Enter your address",
               ),
               const SizedBox(height: 50),
               InkWell(
                 onTap: () {
-                  animetedNavigationPush(SignInPage(), context);
+                  if (widget.user) {
+                    animetedNavigationPush(const UserRootPage(), context);
+                  } else {
+                    animetedNavigationPush(const DriverRootPage(), context);
+                  }
                 },
                 child: commonButton("Continue"),
               ),
@@ -134,13 +226,4 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
       ),
     );
   }
-}
-
-// this is country model
-class Country {
-  final String name;
-  final String code;
-  final String flag;
-
-  Country(this.name, this.code, this.flag);
 }
