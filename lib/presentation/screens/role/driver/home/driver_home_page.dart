@@ -9,6 +9,8 @@ import 'package:ootms/presentation/screens/role/driver/find_load/driver_find_loa
 import 'package:ootms/presentation/screens/role/driver/home/driver_drawer.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_set_location.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_support.dart';
+import 'package:ootms/presentation/screens/role/driver/notification/driver_all_notifications.dart';
+import 'package:ootms/presentation/screens/role/driver/profile/driver_profile.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_shipping_history.dart';
 
 class DriverHomePage extends StatefulWidget {
@@ -77,18 +79,30 @@ class _DriverHomePageState extends State<DriverHomePage> {
                             // Notification bell
                             // Image.asset(
                             //     "assets/icons/user home page/notify.png"),
-                            const FaIcon(
-                              FontAwesomeIcons.solidBell,
-                              color: Color.fromRGBO(255, 206, 49, 1),
-                              size: 30,
+                            InkWell(
+                              onTap: () {
+                                animetedNavigationPush(
+                                    DriverAllNotificationsPage(), context);
+                              },
+                              child: const FaIcon(
+                                FontAwesomeIcons.solidBell,
+                                color: Color.fromRGBO(255, 206, 49, 1),
+                                size: 30,
+                              ),
                             ),
                             const SizedBox(width: 10),
                             // Profile avatar
-                            const CircleAvatar(
-                              backgroundColor: AppColor.black,
-                              backgroundImage:
-                                  AssetImage('assets/icons/profile_icon_2.png'),
-                              radius: 18,
+                            InkWell(
+                              onTap: () {
+                                animetedNavigationPush(
+                                    DriverProfile(), context);
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: AppColor.black,
+                                backgroundImage: AssetImage(
+                                    'assets/icons/profile_icon_2.png'),
+                                radius: 18,
+                              ),
                             ),
                           ],
                         ),

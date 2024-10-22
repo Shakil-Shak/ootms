@@ -3,6 +3,8 @@ import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/notification/user_all_notifications.dart';
+import 'package:ootms/presentation/screens/role/user/profile/user_profile.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_shipping_history.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
 import 'package:ootms/presentation/screens/role/user/create_load/user_create_load.dart';
@@ -74,15 +76,26 @@ class _UserHomePageState extends State<UserHomePage> {
                             ),
                             const Spacer(),
                             // Notification bell
-                            Image.asset(
-                                "assets/icons/user home page/notify.png"),
+                            InkWell(
+                              onTap: () {
+                                animetedNavigationPush(
+                                    UserAllNotificationsPage(), context);
+                              },
+                              child: Image.asset(
+                                  "assets/icons/user home page/notify.png"),
+                            ),
                             const SizedBox(width: 10),
                             // Profile avatar
-                            const CircleAvatar(
-                              backgroundColor: AppColor.black,
-                              backgroundImage: AssetImage(
-                                  'assets/icons/profile_icon_2.png'), // Replace with your image asset
-                              radius: 18,
+                            InkWell(
+                              onTap: () {
+                                animetedNavigationPush(UserProfile(), context);
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: AppColor.black,
+                                backgroundImage: AssetImage(
+                                    'assets/icons/profile_icon_2.png'), // Replace with your image asset
+                                radius: 18,
+                              ),
                             ),
                           ],
                         ),

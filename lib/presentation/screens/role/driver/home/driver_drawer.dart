@@ -70,14 +70,6 @@ Widget driverCustomDrawer(BuildContext context) {
             ),
 
             DrawerMenuItem(
-              iconPath: 'assets/icons/settings.png',
-              text: 'Settings',
-              onTap: () {
-                Navigator.pop(context);
-                animetedNavigationPush(DriverSettingsPage(), context);
-              },
-            ),
-            DrawerMenuItem(
               iconPath: 'assets/icons/user home page/truck-svgrepo-com 1.png',
               text: 'My Equipment',
               onTap: () {
@@ -92,6 +84,15 @@ Widget driverCustomDrawer(BuildContext context) {
               onTap: () {
                 Navigator.pop(context);
                 animetedNavigationPush(SubscriptionPage(), context);
+              },
+            ),
+
+            DrawerMenuItem(
+              iconPath: 'assets/icons/settings.png',
+              text: 'Settings',
+              onTap: () {
+                Navigator.pop(context);
+                animetedNavigationPush(DriverSettingsPage(), context);
               },
             ),
             SizedBox(
