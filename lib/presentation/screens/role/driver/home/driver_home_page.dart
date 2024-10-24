@@ -95,7 +95,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                             InkWell(
                               onTap: () {
                                 animetedNavigationPush(
-                                    DriverProfile(), context);
+                                    const DriverProfile(), context);
                               },
                               child: const CircleAvatar(
                                 backgroundColor: AppColor.black,

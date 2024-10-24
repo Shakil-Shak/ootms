@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ootms/core/constants/assets/images_string.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_shipping_details.dart';
@@ -20,7 +21,7 @@ class DriverShippingHistoryPage extends StatelessWidget {
       'shipperEmail': 'shipper1@example.com',
       'shipperName': 'Jane Smith',
       'shipperPhone': '987-654-3210',
-      'driverImage': ""
+      'driverImage': AppImages.profile
     },
     {
       'date': '26 June 2024, 02:30 PM',
@@ -36,7 +37,7 @@ class DriverShippingHistoryPage extends StatelessWidget {
       'shipperEmail': 'shipper2@example.com',
       'shipperName': 'Bob Brown',
       'shipperPhone': '876-543-2109',
-      'driverImage': ""
+      'driverImage': AppImages.profile
     },
     {
       'date': '27 June 2024, 01:15 PM',
@@ -52,7 +53,7 @@ class DriverShippingHistoryPage extends StatelessWidget {
       'shipperEmail': 'shipper3@example.com',
       'shipperName': 'Diana Prince',
       'shipperPhone': '765-432-1098',
-      'driverImage': ""
+      'driverImage': AppImages.profile
     },
   ];
 
@@ -153,7 +154,7 @@ class DriverShippingHistoryPage extends StatelessWidget {
                         ),
                       ),
                       CircleAvatar(
-                        backgroundImage: NetworkImage(request['driverImage']),
+                        backgroundImage: AssetImage(request['driverImage']),
                         radius: 20,
                       ),
                     ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ootms/core/constants/assets/images_string.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/screens/select_role.dart';
 
@@ -31,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.all(50.0),
-            child: Image.asset("assets/images/logo.png"),
+            child: Image.asset(AppImages.logo),
           ),
           const SizedBox(
             height: 40,

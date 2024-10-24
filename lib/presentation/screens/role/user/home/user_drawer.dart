@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:ootms/core/constants/assets/images_string.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/common/widgets.dart';
@@ -23,8 +24,7 @@ Widget userCustomDrawer(BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const CircleAvatar(
-                backgroundImage: AssetImage(
-                    'assets/images/profile.jpg'), // Change to your profile image path
+                backgroundImage: AssetImage(AppImages.profile),
               ),
               const SizedBox(width: 16),
               Column(
@@ -49,7 +49,7 @@ Widget userCustomDrawer(BuildContext context) {
             },
           ),
           DrawerMenuItem(
-            iconPath: 'assets/icons/shipment.png', // Change to your icon path
+            iconPath: 'assets/icons/shipment.png',
             text: 'Current Shipment',
             onTap: () {
               Navigator.pop(context);
@@ -70,7 +70,7 @@ Widget userCustomDrawer(BuildContext context) {
             text: 'Settings',
             onTap: () {
               Navigator.pop(context);
-              animetedNavigationPush(UserSettingsPage(), context);
+              animetedNavigationPush(const UserSettingsPage(), context);
             },
           ),
           const Spacer(
@@ -95,7 +95,7 @@ Widget userCustomDrawer(BuildContext context) {
             text: 'Privacy Policy',
             onTap: () {
               Navigator.pop(context);
-              animetedNavigationPush(UserPrivacyPolicyPage(), context);
+              animetedNavigationPush(const UserPrivacyPolicyPage(), context);
             },
           ),
           DrawerMenuItem(
@@ -103,7 +103,7 @@ Widget userCustomDrawer(BuildContext context) {
             text: 'Terms and Conditions',
             onTap: () {
               Navigator.pop(context);
-              animetedNavigationPush(UserTermsconditionsPage(), context);
+              animetedNavigationPush(const UserTermsconditionsPage(), context);
             },
           ),
           const Spacer(

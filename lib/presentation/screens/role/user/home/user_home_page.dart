@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -76,19 +77,31 @@ class _UserHomePageState extends State<UserHomePage> {
                             ),
                             const Spacer(),
                             // Notification bell
+                            // InkWell(
+                            //   onTap: () {
+                            //     animetedNavigationPush(
+                            //         UserAllNotificationsPage(), context);
+                            //   },
+                            //   child: Image.asset(
+                            //       "assets/icons/user home page/notify.png"),
+                            // ),
                             InkWell(
                               onTap: () {
                                 animetedNavigationPush(
                                     UserAllNotificationsPage(), context);
                               },
-                              child: Image.asset(
-                                  "assets/icons/user home page/notify.png"),
+                              child: const FaIcon(
+                                FontAwesomeIcons.solidBell,
+                                color: Color.fromRGBO(255, 206, 49, 1),
+                                size: 30,
+                              ),
                             ),
                             const SizedBox(width: 10),
                             // Profile avatar
                             InkWell(
                               onTap: () {
-                                animetedNavigationPush(UserProfile(), context);
+                                animetedNavigationPush(
+                                    const UserProfile(), context);
                               },
                               child: const CircleAvatar(
                                 backgroundColor: AppColor.black,
@@ -106,7 +119,7 @@ class _UserHomePageState extends State<UserHomePage> {
                         child: InkWell(
                           onTap: () {
                             animetedNavigationPush(
-                                UserSetLocationPage(), context);
+                                const UserSetLocationPage(), context);
                           },
                           child: Row(
                             children: [
