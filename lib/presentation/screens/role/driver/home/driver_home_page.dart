@@ -62,7 +62,6 @@ class _DriverHomePageState extends State<DriverHomePage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // Menu icon
                             Container(
                               decoration: BoxDecoration(
                                   color: AppColor.white,
@@ -79,6 +78,14 @@ class _DriverHomePageState extends State<DriverHomePage> {
                             // Notification bell
                             // Image.asset(
                             //     "assets/icons/user home page/notify.png"),
+                            Switch(
+                              value: true,
+                              onChanged: (value) {},
+                              activeTrackColor: Colors.green[300],
+                              activeColor: Colors.white,
+                              inactiveTrackColor: Colors.grey[300],
+                            ),
+                            const SizedBox(width: 10),
                             InkWell(
                               onTap: () {
                                 animetedNavigationPush(
@@ -234,7 +241,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                     label: 'Chat',
                     description: 'Easily chat with the driver.',
                     onTap: () {
-                      animetedNavigationPush(DriverChatListPage(), context);
+                      // animetedNavigationPush(DriverChatListPage(), context);
                     },
                   ),
                   buildActionCard(

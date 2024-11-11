@@ -222,8 +222,8 @@ class _UserHomePageState extends State<UserHomePage> {
                     label: 'Create Load',
                     description: 'Send your loads with us in just a few steps.',
                     onTap: () {
-                      animetedNavigationPush(
-                          const UserCreateLoadPage(), context);
+                      // animetedNavigationPush(
+                      //     const UserCreateLoadPage(), context);
                     },
                   ),
                   buildActionCard(
@@ -240,7 +240,7 @@ class _UserHomePageState extends State<UserHomePage> {
                     label: 'Chat',
                     description: 'Easily chat with the driver.',
                     onTap: () {
-                      animetedNavigationPush(UserChatListPage(), context);
+                      // animetedNavigationPush(UserChatListPage(), context);
                     },
                   ),
                   buildActionCard(
