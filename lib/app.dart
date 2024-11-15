@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ootms/presentation/screens/splash/splash_screen.dart';
+import 'package:ootms/presentation/screens/role/load%20from%20excle/assign_loads.dart';
+import 'package:ootms/presentation/screens/role/load%20from%20excle/loads_data_2.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -19,6 +20,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF2D4E68)),
           useMaterial3: true,
         ),
-        home: const SplashScreen());
+        home: AssignLoadsScreen());
   }
 }
