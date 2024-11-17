@@ -129,7 +129,7 @@ class _UserProfileState extends State<UserProfile> {
                     iconPath: "assets/icons/shild.png",
                     text: "Support",
                     onTap: () {
-                      animetedNavigationPush(const UserSupportPage(), context);
+                      animetedNavigationPush(UserSupportPage(), context);
                     },
                   ),
                 ],

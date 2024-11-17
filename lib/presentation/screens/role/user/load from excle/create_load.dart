@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/load%20from%20excle/load_data.dart';
 
 class Create_load_XL extends StatefulWidget {
   const Create_load_XL({super.key});
@@ -26,6 +28,9 @@ class _Create_load_XLState extends State<Create_load_XL> {
           children: [
             commonIconButton(
               "Download the Excel Form",
+              onTap: () {
+                animetedNavigationPush(LoadDataScreen(), context);
+              },
               color: AppColor.primaryColorLight,
               textColor: AppColor.black,
               FaIcon(FontAwesomeIcons.fileExcel),

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_preferred_driver.dart';
+import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_final.dart';
 
 class AssignLoadsScreen extends StatefulWidget {
   @override
@@ -196,7 +199,13 @@ class _AssignLoadsScreenState extends State<AssignLoadsScreen> {
               ),
             ),
             SizedBox(height: 16),
-            commonButton("Assign Load", borderRadious: 16),
+            commonButton(
+              "Assign Load",
+              borderRadious: 16,
+              onTap: () {
+                animetedNavigationPush(AssignFinalScreen(), context);
+              },
+            ),
             SizedBox(
               height: 16,
             ),
@@ -205,8 +214,9 @@ class _AssignLoadsScreenState extends State<AssignLoadsScreen> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(width: 1)),
-              child: commonIconButton(
-                  "Assign to Another Driver", Icon(Icons.add),
+              child: commonIconButton(onTap: () {
+                animetedNavigationPush(AssignPreferredDriver(), context);
+              }, "Assign to Another Driver", Icon(Icons.add),
                   textColor: AppColor.black, color: Colors.transparent),
             ),
             SizedBox(height: 10),

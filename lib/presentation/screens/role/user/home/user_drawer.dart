@@ -87,7 +87,7 @@ Widget userCustomDrawer(BuildContext context) {
             text: 'Support',
             onTap: () {
               Navigator.pop(context);
-              animetedNavigationPush(const UserSupportPage(), context);
+              animetedNavigationPush(UserSupportPage(), context);
             },
           ),
           DrawerMenuItem(

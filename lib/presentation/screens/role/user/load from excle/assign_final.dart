@@ -3,12 +3,12 @@ import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 
-class PreferredDriverScreen extends StatefulWidget {
+class AssignFinalScreen extends StatefulWidget {
   @override
-  _PreferredDriverScreenState createState() => _PreferredDriverScreenState();
+  _AssignFinalScreenState createState() => _AssignFinalScreenState();
 }
 
-class _PreferredDriverScreenState extends State<PreferredDriverScreen> {
+class _AssignFinalScreenState extends State<AssignFinalScreen> {
   String? selectedOption;
   List<bool> loadSelections = List.generate(10, (index) => false);
 

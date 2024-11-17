@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_loads.dart';
+import 'package:ootms/presentation/screens/role/user/load%20from%20excle/load_details.dart';
 
 class LoadDataScreen extends StatelessWidget {
   @override
@@ -29,6 +32,10 @@ class LoadDataScreen extends StatelessWidget {
                       elevation: 0,
                       color: Colors.white,
                       child: ListTile(
+                        onTap: () {
+                          animetedNavigationPush(
+                              (LoadDetailsScreen()), context);
+                        },
                         title: commonText('Load - 1', size: 18, isBold: true),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +89,9 @@ class LoadDataScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16),
-            commonButton("Continue")
+            commonButton("Continue", onTap: () {
+              animetedNavigationPush(AssignLoadsScreen(), context);
+            })
           ],
         ),
       ),

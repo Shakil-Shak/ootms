@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/chat/user_chat.dart';
+import 'package:provider/provider.dart';
 
 class UserChatDetailsScreen extends StatelessWidget {
   const UserChatDetailsScreen({super.key});
@@ -30,7 +33,13 @@ class UserChatDetailsScreen extends StatelessWidget {
           child: Column(
             children: [
               driverInfo(),
-              commonIconButton(
+              commonIconButton(onTap: () {
+                animetedNavigationPush(
+                    ChangeNotifierProvider(
+                        create: (context) => UserChatProvider(),
+                        child: UserChatPage()),
+                    context);
+              },
                   "Chat with Driver",
                   Image.asset(
                     "assets/icons/user home page/massage.png",
@@ -40,7 +49,13 @@ class UserChatDetailsScreen extends StatelessWidget {
                 height: 10,
               ),
               reciverInfo(),
-              commonIconButton(
+              commonIconButton(onTap: () {
+                animetedNavigationPush(
+                    ChangeNotifierProvider(
+                        create: (context) => UserChatProvider(),
+                        child: UserChatPage()),
+                    context);
+              },
                   "Chat with Receiver",
                   Image.asset(
                     "assets/icons/user home page/massage.png",

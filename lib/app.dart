@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_preferred_driver.dart';
+import 'package:ootms/presentation/screens/splash/splash_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -19,6 +19,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF2D4E68)),
           useMaterial3: true,
         ),
-        home: AssignPreferredDriver());
+        home: const SplashScreen());
   }
 }

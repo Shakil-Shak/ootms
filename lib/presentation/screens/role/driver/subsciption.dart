@@ -156,13 +156,14 @@ class _SubscriptionPageState extends State<SubscriptionPage>
     return CarouselSlider.builder(
       itemCount: 3,
       itemBuilder: (context, index, realIndex) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: subscriptionCard(),
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: subscriptionCard(),
+          ),
         );
       },
       options: CarouselOptions(
-        height: 450, // Adjust this according to your needs
         enlargeCenterPage: true,
         autoPlay: true, // Automatic sliding
         autoPlayInterval: const Duration(seconds: 5),
@@ -190,17 +191,8 @@ class _SubscriptionPageState extends State<SubscriptionPage>
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Most Popular Tag
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
-            decoration: BoxDecoration(
-              color: Colors.blue[100],
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: commonText("Most Popular", color: Colors.blue),
-          ),
           const SizedBox(height: 10),
 
           // Plan Title
@@ -211,43 +203,31 @@ class _SubscriptionPageState extends State<SubscriptionPage>
             color: Colors.black,
           ),
 
-          // Price
-          RichText(
-            text: const TextSpan(
-              children: [
-                TextSpan(
-                  text: "\$09",
-                  style: TextStyle(
-                    fontSize: 48,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                TextSpan(
-                  text: " per month",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ),
           const SizedBox(height: 10),
 
           // Features (Checkmarks)
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: List.generate(
-              5,
-              (index) => const Padding(
+              1,
+              (index) => Padding(
                 padding: EdgeInsets.symmetric(vertical: 4),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(
                       Icons.check_circle,
                       color: Colors.blue,
                     ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                        child: commonText(
+                            "1-100 dispatches  -      \$349.95 per seat per month",
+                            size: 16,
+                            isBold: true))
                   ],
                 ),
               ),
@@ -265,6 +245,7 @@ class _SubscriptionPageState extends State<SubscriptionPage>
               color: AppColor.white,
             ),
           ),
+          const SizedBox(height: 20),
         ],
       ),
     );

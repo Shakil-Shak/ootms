@@ -3,6 +3,7 @@ import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/load%20from%20excle/create_load.dart';
 import 'package:ootms/presentation/screens/role/user/notification/user_all_notifications.dart';
 import 'package:ootms/presentation/screens/role/user/profile/user_profile.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_shipping_history.dart';
@@ -21,6 +22,42 @@ class UserHomePage extends StatefulWidget {
 
 class _UserHomePageState extends State<UserHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _showCustomDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                      animetedNavigationPush(
+                          const UserCreateLoadPage(), context);
+                    },
+                    child: commonText("Create Load from Form", isBold: true)),
+                const Divider(),
+                InkWell(
+                    onTap: () {
+                      animetedNavigationPush(const Create_load_XL(), context);
+                    },
+                    child: commonText("Create Load from Excel Sheet",
+                        isBold: true)),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -209,8 +246,7 @@ class _UserHomePageState extends State<UserHomePage> {
                     label: 'Create Load',
                     description: 'Send your loads with us in just a few steps.',
                     onTap: () {
-                      animetedNavigationPush(
-                          const UserCreateLoadPage(), context);
+                      _showCustomDialog(context);
                     },
                   ),
                   buildActionCard(
@@ -235,7 +271,7 @@ class _UserHomePageState extends State<UserHomePage> {
                     label: 'Support',
                     description: 'Take direct support from here.',
                     onTap: () {
-                      animetedNavigationPush(const UserSupportPage(), context);
+                      animetedNavigationPush(UserSupportPage(), context);
                     },
                   ),
                 ],
