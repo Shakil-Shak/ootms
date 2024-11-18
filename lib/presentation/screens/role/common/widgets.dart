@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 
 class DrawerMenuItem extends StatelessWidget {
@@ -26,6 +27,7 @@ class DrawerMenuItem extends StatelessWidget {
               iconPath!,
               width: 24, // Adjust size according to your design
               height: 24,
+              color: AppColor.black,
             )
           : icon!,
       title: commonText(text, size: 14),

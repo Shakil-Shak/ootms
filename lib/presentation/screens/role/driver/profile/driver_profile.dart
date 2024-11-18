@@ -130,8 +130,7 @@ class _DriverProfileState extends State<DriverProfile> {
                     iconPath: "assets/icons/shild.png",
                     text: "Support",
                     onTap: () {
-                      animetedNavigationPush(
-                          const DriverSupportPage(), context);
+                      animetedNavigationPush(DriverSupportPage(), context);
                     },
                   ),
                 ],

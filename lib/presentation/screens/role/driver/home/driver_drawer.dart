@@ -109,7 +109,7 @@ Widget driverCustomDrawer(BuildContext context) {
               text: 'Support',
               onTap: () {
                 Navigator.pop(context);
-                animetedNavigationPush(const DriverSupportPage(), context);
+                animetedNavigationPush(DriverSupportPage(), context);
               },
             ),
             DrawerMenuItem(

@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: const AppBarTheme(
             backgroundColor: Colors.white,
             surfaceTintColor: Colors.white,
-            actionsIconTheme: IconThemeData(color: Color.fromARGB(255, 45, 78, 104)),
+            actionsIconTheme: IconThemeData(color: Color(0xFF2D4E68)),
           ),
           scaffoldBackgroundColor: Colors.white,
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF2D4E68)),

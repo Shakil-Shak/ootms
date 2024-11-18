@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
-import 'package:ootms/presentation/navigation/animeted_navigation.dart';
-import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_preferred_driver.dart';
-import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_final.dart';
 
 class AssignLoadsScreen extends StatefulWidget {
   @override

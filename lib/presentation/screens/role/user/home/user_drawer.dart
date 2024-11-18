@@ -5,6 +5,9 @@ import 'package:ootms/core/constants/assets/images_string.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/common/widgets.dart';
+import 'package:ootms/presentation/screens/role/driver/subsciption.dart';
+import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_preferred_driver%20copy.dart';
+import 'package:ootms/presentation/screens/role/user/load%20from%20excle/load_data.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_current_shipments.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_load_request.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
@@ -16,105 +19,123 @@ Widget userCustomDrawer(BuildContext context) {
   return Drawer(
     child: Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // User info at the top
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CircleAvatar(
-                backgroundImage: AssetImage(AppImages.profile),
-              ),
-              const SizedBox(width: 16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  commonText('Mostain Billah', size: 14, isBold: true),
-                  commonText(
-                    'example@gmail.com',
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const Spacer(),
-          // Menu items
-          // DrawerMenuItem(
-          //   iconPath: 'assets/icons/user home page/truck-svgrepo-com 1.png',
-          //   text: 'Track Your Shipment',
-          //   onTap: () {
-          //     // Handle the action
-          //   },
-          // ),
-          DrawerMenuItem(
-            iconPath: 'assets/icons/shipment.png',
-            text: 'Current Shipment',
-            onTap: () {
-              Navigator.pop(context);
-              animetedNavigationPush(UserCurrentShipmentsPage(), context);
-            },
-          ),
-          DrawerMenuItem(
-            iconPath: 'assets/icons/arrow_up.png',
-            text: 'Load Request',
-            onTap: () {
-              Navigator.pop(context);
-              animetedNavigationPush(UserLoadRequestPage(), context);
-            },
-          ),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // User info at the top
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const CircleAvatar(
+                  backgroundImage: AssetImage(AppImages.profile),
+                ),
+                const SizedBox(width: 16),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    commonText('Mostain Billah', size: 14, isBold: true),
+                    commonText(
+                      'example@gmail.com',
+                    ),
+                  ],
+                ),
+              ],
+            ),
 
-          DrawerMenuItem(
-            iconPath: 'assets/icons/settings.png',
-            text: 'Settings',
-            onTap: () {
-              Navigator.pop(context);
-              animetedNavigationPush(const UserSettingsPage(), context);
-            },
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          // About and support section at the bottom
-          DrawerMenuItem(
-            icon: const Icon(Icons.info_outline),
-            text: 'About Us',
-            onTap: () {},
-          ),
-          DrawerMenuItem(
-            iconPath: 'assets/icons/shild.png',
-            text: 'Support',
-            onTap: () {
-              Navigator.pop(context);
-              animetedNavigationPush(UserSupportPage(), context);
-            },
-          ),
-          DrawerMenuItem(
-            iconPath: 'assets/icons/privacy.png',
-            text: 'Privacy Policy',
-            onTap: () {
-              Navigator.pop(context);
-              animetedNavigationPush(const UserPrivacyPolicyPage(), context);
-            },
-          ),
-          DrawerMenuItem(
-            iconPath: 'assets/icons/terms_and_condition.png',
-            text: 'Terms and Conditions',
-            onTap: () {
-              Navigator.pop(context);
-              animetedNavigationPush(const UserTermsconditionsPage(), context);
-            },
-          ),
-          const Spacer(
-            flex: 2,
-          ),
-          DrawerMenuItem(
-            iconPath: 'assets/icons/logout.png',
-            text: 'Log Out',
-            onTap: () {},
-          ),
-        ],
+            DrawerMenuItem(
+              iconPath: 'assets/icons/shipment.png',
+              text: 'Current Shipment',
+              onTap: () {
+                Navigator.pop(context);
+                animetedNavigationPush(UserCurrentShipmentsPage(), context);
+              },
+            ),
+            DrawerMenuItem(
+              iconPath: 'assets/icons/loading.png',
+              text: 'Pending Shipments',
+              onTap: () {
+                Navigator.pop(context);
+                animetedNavigationPush(LoadDataScreen(), context);
+              },
+            ),
+            DrawerMenuItem(
+              iconPath: 'assets/icons/arrow_up.png',
+              text: 'Load Request',
+              onTap: () {
+                Navigator.pop(context);
+                animetedNavigationPush(UserLoadRequestPage(), context);
+              },
+            ),
+            DrawerMenuItem(
+              iconPath: 'assets/icons/driverIcon.png',
+              text: 'Add Preferred Driver',
+              onTap: () {
+                Navigator.pop(context);
+                animetedNavigationPush(AddPreferredDriverPage2(), context);
+              },
+            ),
+            DrawerMenuItem(
+              iconPath: 'assets/icons/subscription.png',
+              text: 'Subscriptions',
+              onTap: () {
+                Navigator.pop(context);
+                animetedNavigationPush(SubscriptionPage(), context);
+              },
+            ),
+            DrawerMenuItem(
+              iconPath: 'assets/icons/settings.png',
+              text: 'Settings',
+              onTap: () {
+                Navigator.pop(context);
+                animetedNavigationPush(const UserSettingsPage(), context);
+              },
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            // About and support section at the bottom
+            DrawerMenuItem(
+              icon: const Icon(Icons.info_outline),
+              text: 'About Us',
+              onTap: () {},
+            ),
+            DrawerMenuItem(
+              iconPath: 'assets/icons/shild.png',
+              text: 'Support',
+              onTap: () {
+                Navigator.pop(context);
+                animetedNavigationPush(UserSupportPage(), context);
+              },
+            ),
+            DrawerMenuItem(
+              iconPath: 'assets/icons/privacy.png',
+              text: 'Privacy Policy',
+              onTap: () {
+                Navigator.pop(context);
+                animetedNavigationPush(const UserPrivacyPolicyPage(), context);
+              },
+            ),
+            DrawerMenuItem(
+              iconPath: 'assets/icons/terms_and_condition.png',
+              text: 'Terms and Conditions',
+              onTap: () {
+                Navigator.pop(context);
+                animetedNavigationPush(
+                    const UserTermsconditionsPage(), context);
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DrawerMenuItem(
+              iconPath: 'assets/icons/logout.png',
+              text: 'Log Out',
+              onTap: () {},
+            ),
+          ],
+        ),
       ),
     ),
   );

@@ -4,7 +4,6 @@ import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
-import 'package:ootms/presentation/screens/role/user/create_load/user_map.dart';
 import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_preferred_driver.dart';
 
 class UserCreateLoadPage extends StatefulWidget {

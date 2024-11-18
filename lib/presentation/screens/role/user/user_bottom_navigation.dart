@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ootms/core/constants/assets/icons_string.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
-import 'package:ootms/presentation/screens/role/user/create_load/user_create_load.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_home_page.dart';
 import 'package:ootms/presentation/screens/role/user/profile/user_profile.dart';
 import 'package:ootms/presentation/screens/role/user/user_create_load_option.dart';

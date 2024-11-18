@@ -139,7 +139,6 @@ class _SubscriptionPageState extends State<SubscriptionPage>
               );
             },
             options: CarouselOptions(
-              height: 450, // Adjust this according to your needs
               enlargeCenterPage: true,
               autoPlay: true, // Automatic sliding
               autoPlayInterval: const Duration(seconds: 5),
@@ -164,6 +163,7 @@ class _SubscriptionPageState extends State<SubscriptionPage>
         );
       },
       options: CarouselOptions(
+        aspectRatio: 9 / 16,
         enlargeCenterPage: true,
         autoPlay: true, // Automatic sliding
         autoPlayInterval: const Duration(seconds: 5),
@@ -245,6 +245,7 @@ class _SubscriptionPageState extends State<SubscriptionPage>
               color: AppColor.white,
             ),
           ),
+          const SizedBox(height: 20),
         ],
       ),
     );

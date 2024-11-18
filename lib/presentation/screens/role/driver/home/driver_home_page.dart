@@ -4,7 +4,6 @@ import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
-import 'package:ootms/presentation/screens/role/driver/chat/driver_chat_list.dart';
 import 'package:ootms/presentation/screens/role/driver/find_load/driver_find_load.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_drawer.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_set_location.dart';
@@ -250,8 +249,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                     label: 'Support',
                     description: 'Take direct support from here.',
                     onTap: () {
-                      animetedNavigationPush(
-                          const DriverSupportPage(), context);
+                      animetedNavigationPush(DriverSupportPage(), context);
                     },
                   ),
                 ],
