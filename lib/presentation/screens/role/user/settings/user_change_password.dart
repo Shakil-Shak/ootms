@@ -35,7 +35,7 @@ class UserChangepasswordPage extends StatelessWidget {
               Consumer<UserChangepasswordPageController>(
                 builder: (context, controller, _) {
                   return commonTextfieldWithTitle(
-                    "Old Password",
+                    "Current Password",
                     oldPasswordController,
                     hintText: "Password",
                     issuffixIconVisible: true,

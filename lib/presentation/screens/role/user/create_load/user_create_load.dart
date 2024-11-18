@@ -5,6 +5,7 @@ import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/create_load/user_map.dart';
+import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_preferred_driver.dart';
 
 class UserCreateLoadPage extends StatefulWidget {
   const UserCreateLoadPage({super.key});
@@ -90,8 +91,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
         children: [
           Container(
             decoration: BoxDecoration(
-              color: const Color(
-                  0xFF2D4E68),
+              color: const Color(0xFF2D4E68),
               borderRadius: BorderRadius.circular(20),
             ),
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -152,7 +152,9 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Receiver's Information Form Fields
+            commonText("Receiver’s Information",
+                color: AppColor.black, size: 16, isBold: true),
+            const Divider(),
             commonTextfieldWithTitle(
               "Receiver Name",
               _receiverNameController,
@@ -171,7 +173,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
               hintText: "Enter email address",
             ),
             const SizedBox(height: 16),
-            commonTextfieldWithTitle(
+            commonTextfieldWithTitleSideButton(
               "Receiver Address",
               _receiverAddressController,
               hintText: "Enter address",
@@ -282,6 +284,9 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            commonText("Shipper’s Information",
+                color: AppColor.black, size: 16, isBold: true),
+            const Divider(),
             commonTextfieldWithTitle(
               "Shipper Name",
               _shipperNameController,
@@ -300,7 +305,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
               hintText: "Enter email address",
             ),
             const SizedBox(height: 16),
-            commonTextfieldWithTitle(
+            commonTextfieldWithTitleSideButton(
               "Shipper Address",
               _shipperAddressController,
               hintText: "Enter address",
@@ -335,9 +340,15 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
             ),
             const SizedBox(height: 16),
             commonTextfieldWithTitle(
-              "Load Type",
+              "Trailer Type",
               _loadTypeController,
-              hintText: "Enter load type",
+              hintText: "Trailer Type",
+            ),
+            const SizedBox(height: 16),
+            commonTextfieldWithTitle(
+              "Product Type",
+              _trailerSizeController,
+              hintText: "Product Type",
             ),
             const SizedBox(height: 16),
             Row(
@@ -347,7 +358,8 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                     "Pickup",
                     _pickupController,
                     hintText: "MM-DD-YYYY",
-                    suffinxIcon: const Icon(Icons.calendar_month_outlined, size: 20),
+                    suffinxIcon:
+                        const Icon(Icons.calendar_month_outlined, size: 20),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -356,7 +368,8 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                     "Delivery",
                     _deliveryController,
                     hintText: "MM-DD-YYYY",
-                    suffinxIcon: const Icon(Icons.calendar_month_outlined, size: 20),
+                    suffinxIcon:
+                        const Icon(Icons.calendar_month_outlined, size: 20),
                   ),
                 ),
               ],
@@ -365,9 +378,8 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
             commonTextfieldWithTitle(
               "Trailer Size",
               _trailerSizeController,
-              hintText: "Enter trailer size",
+              hintText: "Trailer Size",
             ),
-
             const SizedBox(height: 16),
 
             Card(
@@ -450,13 +462,89 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
               hintText: "Enter description",
               maxLine: 3,
             ),
+            const SizedBox(height: 10),
+
+            commonTextfieldWithTitle(
+              "Shipment Payment",
+              _descriptionController,
+              hintText: "Write your messege",
+            ),
             const SizedBox(height: 16),
 
             // Find Driver Button
             commonButton(
-              "Find A Driver",
+              "Create Load",
               onTap: () {
-                animetedNavigationPush(UserMap3Page(), context);
+                showModalBottomSheet(
+                  context: context,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(16)),
+                  ),
+                  builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          commonText(
+                            'Do you have preferred Driver?',
+                            size: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // "No" Button
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.grey.shade300,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12, horizontal: 24),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                child: commonText(
+                                  'No',
+                                  size: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              // "Yes" Button
+                              TextButton(
+                                onPressed: () {
+                                  animetedNavigationPush(
+                                      AssignPreferredDriver(), context);
+                                },
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.blueGrey.shade800,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12, horizontal: 24),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                child: commonText(
+                                  'Yes',
+                                  size: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    );
+                  },
+                );
+                // animetedNavigationPush(const UserMap3Page(), context);
               },
             ),
           ],

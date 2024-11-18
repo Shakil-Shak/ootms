@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ootms/core/constants/assets/icons_string.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/screens/role/user/create_load/user_create_load.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_home_page.dart';
 import 'package:ootms/presentation/screens/role/user/profile/user_profile.dart';
+import 'package:ootms/presentation/screens/role/user/user_create_load_option.dart';
 
 class UserRootPage extends StatefulWidget {
   const UserRootPage({super.key});
@@ -25,17 +27,27 @@ class _UserRootPageState extends State<UserRootPage> {
             color: AppColor.primaryColor,
           ),
         )),
-    CircleAvatar(
+    const CircleAvatar(
         backgroundColor: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset(AppIcons.plus, color: AppColor.primaryColor),
+        child: Center(
+          child: Center(
+            child: Icon(
+              Icons.add,
+              color: AppColor.primaryColor,
+              size: 30,
+            ),
+          ),
         )),
-    CircleAvatar(
+    const CircleAvatar(
         backgroundColor: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset(AppIcons.profile, color: AppColor.primaryColor),
+        child: Center(
+          child: Center(
+            child: Icon(
+              FontAwesomeIcons.user,
+              color: AppColor.primaryColor,
+              size: 22,
+            ),
+          ),
         )),
   ];
 
@@ -45,8 +57,8 @@ class _UserRootPageState extends State<UserRootPage> {
   void initState() {
     super.initState();
     _widgetOptions = [
-      UserHomePage(),
-      UserCreateLoadPage(),
+      const UserHomePage(),
+      const UserCreateLoadOption(),
       const UserProfile()
     ];
   }

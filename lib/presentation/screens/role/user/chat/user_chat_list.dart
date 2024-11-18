@@ -1,30 +1,39 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
-import 'package:ootms/presentation/screens/role/user/chat/user_chat.dart';
-import 'package:provider/provider.dart';
+import 'package:ootms/presentation/screens/role/user/chat/user_chat_details.dart';
 
 class UserChatListPage extends StatelessWidget {
-  final List<Map<String, String>> messages = [
+  final List<Map<String, dynamic>> loadRequests = [
     {
-      'name': 'Sabbir Hossein',
-      'message': 'Hai, what’s up bro. hayu atuh hangout dei jang Sabrina',
-      'time': '2:30 PM',
-      'imageUrl': 'https://i.pravatar.cc/100', // Replace with your image URL
-    },
-    // Add more messages here if needed
-    {
-      'name': 'Sabbir Hossein',
-      'message': 'Hai, what’s up bro. hayu atuh hangout dei jang Sabrina',
-      'time': '2:30 PM',
-      'imageUrl': 'https://i.pravatar.cc/100', // Replace with your image URL
+      'driverName': 'Sabbir Ahmed',
+      'truckInfo': '48-foot trailer—24 pallets.',
+      'from': 'Rupatoli, Barishal.',
+      'to': 'Banasree, Dhaka',
+      'driverImage': 'https://i.pravatar.cc/100',
     },
     {
-      'name': 'Sabbir Hossein',
-      'message': 'Hai, what’s up bro. hayu atuh hangout dei jang Sabrina',
-      'time': '2:30 PM',
-      'imageUrl': 'https://i.pravatar.cc/100', // Replace with your image URL
+      'driverName': 'Sabbir Ahmed',
+      'truckInfo': '48-foot trailer—24 pallets.',
+      'from': 'Rupatoli, Barishal.',
+      'to': 'Banasree, Dhaka',
+      'driverImage': 'https://i.pravatar.cc/100',
+    },
+    {
+      'driverName': 'Sabbir Ahmed',
+      'truckInfo': '48-foot trailer—24 pallets.',
+      'from': 'Rupatoli, Barishal.',
+      'to': 'Banasree, Dhaka',
+      'driverImage': 'https://i.pravatar.cc/100',
+    },
+    {
+      'driverName': 'Sabbir Ahmed',
+      'truckInfo': '48-foot trailer—24 pallets.',
+      'from': 'Rupatoli, Barishal.',
+      'to': 'Banasree, Dhaka',
+      'driverImage': 'https://i.pravatar.cc/100',
     },
   ];
 
@@ -33,93 +42,89 @@ class UserChatListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
+      appBar: AppBar(),
       body: Padding(
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Search bar
-            Card(
-              elevation: 3,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                decoration: BoxDecoration(
-                  color: AppColor.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "Search messages...",
-                    icon: Icon(Icons.search, color: Colors.grey),
-                  ),
-                ),
-              ),
+            commonText(
+              'Current Shipments',
+              size: 18,
             ),
-            const SizedBox(height: 20),
-
-            // Messages list
-            commonText("Messages", isBold: true, size: 16),
-            const SizedBox(height: 10),
             Expanded(
-              child: ListView.builder(
-                itemCount: messages.length,
+              child: ListView.separated(
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 16,
+                ),
+                padding: const EdgeInsets.all(10.0),
+                itemCount: loadRequests.length,
                 itemBuilder: (context, index) {
-                  final message = messages[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: InkWell(
-                      onTap: () {
-                        animetedNavigationPush(
-                            ChangeNotifierProvider(
-                                create: (context) => UserChatProvider(),
-                                child: UserChatPage()),
-                            context);
-                      },
-                      child: Row(
-                        children: [
-                          // Profile picture
-                          CircleAvatar(
-                            radius: 20,
-                            backgroundImage: NetworkImage(message['imageUrl']!),
-                          ),
-                          const SizedBox(width: 12),
+                  final request = loadRequests[index];
 
-                          // Message details
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                commonText(
-                                  message['name']!,
-                                  size: 14,
-                                  isBold: true,
-                                ),
-                                const SizedBox(height: 4),
-                                commonText(
-                                  message['message']!,
-                                  color: Colors.black54,
-                                ),
-                              ],
-                            ),
+                  return InkWell(
+                    onTap: () {
+                      animetedNavigationPush(UserChatDetailsScreen(), context);
+                    },
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(request['driverImage']),
+                          radius: 24,
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              commonText(request['driverName'],
+                                  size: 16, isBold: true),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              commonText(request['truckInfo'], size: 14),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Image.asset(
+                                          "assets/icons/arrow_up.png",
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Expanded(
+                                            child: commonText(
+                                          request['from'],
+                                        )),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Transform.rotate(
+                                            angle: pi,
+                                            child: Image.asset(
+                                                "assets/icons/arrow_up.png")),
+                                        const SizedBox(width: 4),
+                                        Expanded(
+                                            child: commonText(
+                                          request['to'],
+                                        )),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
                           ),
-
-                          // Message time
-                          commonText(
-                            message['time']!,
-                            size: 10,
-                            color: Colors.black54,
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
                 },

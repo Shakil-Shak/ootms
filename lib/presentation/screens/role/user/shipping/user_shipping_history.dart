@@ -134,30 +134,30 @@ class UserShippingHistoryPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Divider(thickness: 4, color: Colors.black26),
+                // const Divider(thickness: 4, color: Colors.black26),
                 const SizedBox(
                   height: 8,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      commonText(
-                        "REQUEST AGAIN",
-                      ),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                //   child: Row(
+                //     children: [
+                //       commonText(
+                //         "REQUEST AGAIN",
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 const SizedBox(
                   height: 8,
                 ),
-                const Divider(
-                  thickness: 4,
-                  color: Colors.black26,
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+                // const Divider(
+                //   thickness: 4,
+                //   color: Colors.black26,
+                // ),
+                // const SizedBox(
+                //   height: 8,
+                // ),
               ],
             ),
           );

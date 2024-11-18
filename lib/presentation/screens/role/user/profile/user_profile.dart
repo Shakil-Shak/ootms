@@ -129,7 +129,7 @@ class _UserProfileState extends State<UserProfile> {
                     iconPath: "assets/icons/shild.png",
                     text: "Support",
                     onTap: () {
-                      animetedNavigationPush(const UserSupportPage(), context);
+                      animetedNavigationPush(UserSupportPage(), context);
                     },
                   ),
                 ],
@@ -182,8 +182,8 @@ class _UserProfileState extends State<UserProfile> {
                 ],
               ),
               Center(
-                child: commonText('Do you want to Logout?',
-                    size: 16, isBold: true),
+                child: commonText('Do you want to log out your profile?',
+                    size: 18, isBold: true),
               ),
               const SizedBox(height: 20),
               SizedBox(
@@ -203,7 +203,7 @@ class _UserProfileState extends State<UserProfile> {
                     Expanded(
                         child: commonButton("Logout", onTap: () {
                       Navigator.pop(context);
-                    }, borderRadious: 10, color: const Color(0xFFCE0000)))
+                    }, borderRadious: 10, color: AppColor.primaryColor))
                   ],
                 ),
               ),

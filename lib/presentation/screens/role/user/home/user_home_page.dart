@@ -4,6 +4,8 @@ import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/home/user_map2.dart';
+import 'package:ootms/presentation/screens/role/user/load%20from%20excle/create_load.dart';
 import 'package:ootms/presentation/screens/role/user/notification/user_all_notifications.dart';
 import 'package:ootms/presentation/screens/role/user/profile/user_profile.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_shipping_history.dart';
@@ -22,6 +24,42 @@ class UserHomePage extends StatefulWidget {
 
 class _UserHomePageState extends State<UserHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _showCustomDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                      animetedNavigationPush(
+                          const UserCreateLoadPage(), context);
+                    },
+                    child: commonText("Create Load from Form", isBold: true)),
+                const Divider(),
+                InkWell(
+                    onTap: () {
+                      animetedNavigationPush(const Create_load_XL(), context);
+                    },
+                    child: commonText("Create Load from Excel Sheet",
+                        isBold: true)),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,6 +229,121 @@ class _UserHomePageState extends State<UserHomePage> {
                                 child: commonButton(
                                   "Track",
                                   width: 120,
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.white,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(20)),
+                                      ),
+                                      builder: (context) {
+                                        return DraggableScrollableSheet(
+                                          initialChildSize: 0.8,
+                                          expand: false,
+                                          builder: (context, scrollController) {
+                                            return Container(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width, // Full width
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.9, // 70% of screen height
+                                              padding:
+                                                  const EdgeInsets.all(16.0),
+                                              decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.vertical(
+                                                        top: Radius.circular(
+                                                            20)),
+                                              ),
+                                              child: SingleChildScrollView(
+                                                controller: scrollController,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    commonText(
+                                                        "Shipping Details",
+                                                        size: 16,
+                                                        isBold: true),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    loadDetailsCard(),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        commonText(
+                                                            "Live tracking",
+                                                            size: 18,
+                                                            isBold: true),
+                                                        InkWell(
+                                                          onTap: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                            animetedNavigationPush(
+                                                                const UserMap2Page(),
+                                                                context);
+                                                          },
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            decoration: BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8),
+                                                                border:
+                                                                    Border.all(
+                                                                        width:
+                                                                            1)),
+                                                            child: commonText(
+                                                                "Track on map",
+                                                                color: AppColor
+                                                                    .black),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Card(
+                                                      elevation: 5,
+                                                      color: AppColor.white,
+                                                      child: SizedBox(
+                                                        height: 240,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            commonText("Map",
+                                                                size: 24,
+                                                                isBold: true),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
                                 ),
                               ),
                             ),
@@ -222,8 +375,7 @@ class _UserHomePageState extends State<UserHomePage> {
                     label: 'Create Load',
                     description: 'Send your loads with us in just a few steps.',
                     onTap: () {
-                      // animetedNavigationPush(
-                      //     const UserCreateLoadPage(), context);
+                      _showCustomDialog(context);
                     },
                   ),
                   buildActionCard(
@@ -240,7 +392,7 @@ class _UserHomePageState extends State<UserHomePage> {
                     label: 'Chat',
                     description: 'Easily chat with the driver.',
                     onTap: () {
-                      // animetedNavigationPush(UserChatListPage(), context);
+                      animetedNavigationPush(UserChatListPage(), context);
                     },
                   ),
                   buildActionCard(
@@ -248,7 +400,7 @@ class _UserHomePageState extends State<UserHomePage> {
                     label: 'Support',
                     description: 'Take direct support from here.',
                     onTap: () {
-                      animetedNavigationPush(const UserSupportPage(), context);
+                      animetedNavigationPush(UserSupportPage(), context);
                     },
                   ),
                 ],
@@ -261,6 +413,158 @@ class _UserHomePageState extends State<UserHomePage> {
             const SizedBox(height: 20),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget loadDetailsCard() {
+    return Card(
+      color: AppColor.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      elevation: 5,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Load details and status
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                commonText("John Doe's Load", size: 16, isBold: true),
+                const SizedBox(height: 4),
+                commonText(
+                  '7421477-475645',
+                  size: 14,
+                  color: Colors.grey,
+                ),
+              ],
+            ),
+            const Divider(),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            commonText(
+                              'From',
+                              color: Colors.grey,
+                            ),
+                            commonText('Rupatoli, Barishal',
+                                size: 12, isBold: true),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Row(
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            commonText(
+                              'To',
+                              color: Colors.grey,
+                            ),
+                            commonText('Banasree, Dhaka',
+                                size: 12, isBold: true),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.orange[100],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: commonText(
+                'In transit',
+                size: 14,
+                isBold: true,
+                color: Colors.orange,
+              ),
+            ),
+            const SizedBox(height: 10),
+
+            // Shipment progress
+            shipmentStep(
+              title: 'In transit at sorting center',
+              location: 'Dhaka',
+              dateTime: '2024-07-16 | 08:00 AM',
+            ),
+            shipmentStep(
+              title: 'Dispatched',
+              location: 'London',
+              dateTime: '2024-07-15 | 02:30 PM',
+            ),
+            shipmentStep(
+              title: 'Picked up',
+              location: 'Barishal',
+              dateTime: '2024-07-14 | 10:00 AM',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget shipmentStep(
+      {required String title,
+      required String location,
+      required String dateTime}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          const Icon(Icons.location_on, color: Colors.red, size: 24),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                commonText(title, size: 14, isBold: true),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    commonText(
+                      location,
+                      color: Colors.black87,
+                    ),
+                    const SizedBox(width: 5),
+                    commonText(
+                      '|',
+                      color: Colors.black87,
+                    ),
+                    const SizedBox(width: 5),
+                    commonText(
+                      dateTime,
+                      color: Colors.black87,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

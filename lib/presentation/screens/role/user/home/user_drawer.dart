@@ -41,13 +41,13 @@ Widget userCustomDrawer(BuildContext context) {
           ),
           const Spacer(),
           // Menu items
-          DrawerMenuItem(
-            iconPath: 'assets/icons/user home page/truck-svgrepo-com 1.png',
-            text: 'Track Your Shipment',
-            onTap: () {
-              // Handle the action
-            },
-          ),
+          // DrawerMenuItem(
+          //   iconPath: 'assets/icons/user home page/truck-svgrepo-com 1.png',
+          //   text: 'Track Your Shipment',
+          //   onTap: () {
+          //     // Handle the action
+          //   },
+          // ),
           DrawerMenuItem(
             iconPath: 'assets/icons/shipment.png',
             text: 'Current Shipment',
@@ -73,8 +73,8 @@ Widget userCustomDrawer(BuildContext context) {
               animetedNavigationPush(const UserSettingsPage(), context);
             },
           ),
-          const Spacer(
-            flex: 3,
+          const SizedBox(
+            height: 15,
           ),
           // About and support section at the bottom
           DrawerMenuItem(
@@ -87,7 +87,7 @@ Widget userCustomDrawer(BuildContext context) {
             text: 'Support',
             onTap: () {
               Navigator.pop(context);
-              animetedNavigationPush(const UserSupportPage(), context);
+              animetedNavigationPush(UserSupportPage(), context);
             },
           ),
           DrawerMenuItem(

@@ -12,6 +12,7 @@ import 'package:ootms/presentation/screens/role/driver/home/driver_support.dart'
 import 'package:ootms/presentation/screens/role/driver/notification/driver_all_notifications.dart';
 import 'package:ootms/presentation/screens/role/driver/profile/driver_profile.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_shipping_history.dart';
+import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
 
 class DriverHomePage extends StatefulWidget {
   const DriverHomePage({super.key});
@@ -241,7 +242,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                     label: 'Chat',
                     description: 'Easily chat with the driver.',
                     onTap: () {
-                      // animetedNavigationPush(DriverChatListPage(), context);
+                      animetedNavigationPush(UserChatListPage(), context);
                     },
                   ),
                   buildActionCard(

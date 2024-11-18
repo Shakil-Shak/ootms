@@ -59,7 +59,8 @@ class UserSettingsPage extends StatelessWidget {
                 ),
                 text: 'Terms and Conditions',
                 onTap: () {
-                  animetedNavigationPush(UserTermsconditionsPage(), context);
+                  animetedNavigationPush(
+                      const UserTermsconditionsPage(), context);
                 },
               ),
               const SizedBox(height: 16.0),
@@ -67,7 +68,7 @@ class UserSettingsPage extends StatelessWidget {
                 icon: Image.asset("assets/icons/delete.png"),
                 text: 'Delete account',
                 onTap: () {
-                  _showDeleteAccountDialog(context);
+                  // _showDeleteAccountDialog(context);
                 },
               ),
             ],

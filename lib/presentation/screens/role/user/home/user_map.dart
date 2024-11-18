@@ -14,11 +14,9 @@ class UserMapPage extends StatefulWidget {
 }
 
 class _UserMapPageState extends State<UserMapPage> {
-  final String apiKey =
-      'AIzaSyAJrp3VvbO4E4jo7HRgqsk7EP8mPIZStxQ'; 
+  final String apiKey = 'AIzaSyAJrp3VvbO4E4jo7HRgqsk7EP8mPIZStxQ';
   MapController mapController = MapController();
-  LatLng? _markerPosition =
-      const LatLng(23.627556, 90.5212385); 
+  LatLng? _markerPosition = const LatLng(23.627556, 90.5212385);
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -113,7 +111,7 @@ class _UserMapPageState extends State<UserMapPage> {
     setState(() {
       _markerPosition = position;
     });
-    _showLocationDetails(position); // Show bottom sheet on marker tap
+    // _showLocationDetails(position); // Show bottom sheet on marker tap
   }
 
   @override
@@ -124,7 +122,8 @@ class _UserMapPageState extends State<UserMapPage> {
         children: [
           // Map with marker
           ColorFiltered(
-            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.colorBurn),
+            colorFilter:
+                const ColorFilter.mode(Colors.white, BlendMode.colorBurn),
             child: FlutterMap(
               mapController: mapController,
               options: MapOptions(
@@ -303,7 +302,8 @@ class _UserMapPageState extends State<UserMapPage> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
                     color: Colors.orange[100],
                     borderRadius: BorderRadius.circular(8),
