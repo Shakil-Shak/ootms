@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ootms/core/constants/assets/icons_string.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/screens/role/driver/find_load/driver_find_load.dart';
@@ -22,17 +23,27 @@ class _DriverRootPageState extends State<DriverRootPage> {
           padding: const EdgeInsets.all(8.0),
           child: Image.asset(AppIcons.home, color: AppColor.primaryColor),
         )),
-    CircleAvatar(
+    const CircleAvatar(
         backgroundColor: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset(AppIcons.plus, color: AppColor.primaryColor),
+        child: Center(
+          child: Center(
+            child: Icon(
+              Icons.add,
+              color: AppColor.primaryColor,
+              size: 30,
+            ),
+          ),
         )),
-    CircleAvatar(
+    const CircleAvatar(
         backgroundColor: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset(AppIcons.profile, color: AppColor.primaryColor),
+        child: Center(
+          child: Center(
+            child: Icon(
+              FontAwesomeIcons.user,
+              color: AppColor.primaryColor,
+              size: 22,
+            ),
+          ),
         )),
   ];
 

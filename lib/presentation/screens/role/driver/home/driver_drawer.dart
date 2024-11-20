@@ -5,6 +5,7 @@ import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/common/widgets.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_support.dart';
+import 'package:ootms/presentation/screens/role/driver/home/equipment.dart';
 import 'package:ootms/presentation/screens/role/driver/settings/driver_privacy_policy.dart';
 import 'package:ootms/presentation/screens/role/driver/settings/driver_settings.dart';
 import 'package:ootms/presentation/screens/role/driver/settings/driver_terms_conditions.dart';
@@ -41,7 +42,7 @@ Widget driverCustomDrawer(BuildContext context) {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             // Menu items
@@ -74,7 +75,7 @@ Widget driverCustomDrawer(BuildContext context) {
               text: 'My Equipment',
               onTap: () {
                 Navigator.pop(context);
-                // animetedNavigationPush(, context);
+                animetedNavigationPush(MyEquipmentPage(), context);
               },
             ),
 
@@ -83,7 +84,7 @@ Widget driverCustomDrawer(BuildContext context) {
               text: 'Subscriptions',
               onTap: () {
                 Navigator.pop(context);
-                animetedNavigationPush(SubscriptionPage(), context);
+                animetedNavigationPush(const SubscriptionPage(), context);
               },
             ),
 
@@ -92,10 +93,10 @@ Widget driverCustomDrawer(BuildContext context) {
               text: 'Settings',
               onTap: () {
                 Navigator.pop(context);
-                animetedNavigationPush(DriverSettingsPage(), context);
+                animetedNavigationPush(const DriverSettingsPage(), context);
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             // About and support section at the bottom
@@ -117,7 +118,8 @@ Widget driverCustomDrawer(BuildContext context) {
               text: 'Privacy Policy',
               onTap: () {
                 Navigator.pop(context);
-                animetedNavigationPush(DriverPrivacyPolicyPage(), context);
+                animetedNavigationPush(
+                    const DriverPrivacyPolicyPage(), context);
               },
             ),
             DrawerMenuItem(
@@ -125,10 +127,11 @@ Widget driverCustomDrawer(BuildContext context) {
               text: 'Terms and Conditions',
               onTap: () {
                 Navigator.pop(context);
-                animetedNavigationPush(DriverTermsconditionsPage(), context);
+                animetedNavigationPush(
+                    const DriverTermsconditionsPage(), context);
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             DrawerMenuItem(

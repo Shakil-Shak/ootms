@@ -62,18 +62,14 @@ Widget userCustomDrawer(BuildContext context) {
             ),
             DrawerMenuItem(
               iconPath: 'assets/icons/arrow_up.png',
-              text: 'Load Request',
+              text: 'My Load Request',
               onTap: () {
                 Navigator.pop(context);
-                animetedNavigationPush(UserLoadRequestPage(), context);
-              },
-            ),
-            DrawerMenuItem(
-              iconPath: 'assets/icons/driverIcon.png',
-              text: 'Add Preferred Driver',
-              onTap: () {
-                Navigator.pop(context);
-                animetedNavigationPush(AddPreferredDriverPage2(), context);
+                animetedNavigationPush(
+                    const UserLoadRequestPage(
+                      isFromDrawer: true,
+                    ),
+                    context);
               },
             ),
             DrawerMenuItem(
@@ -81,9 +77,18 @@ Widget userCustomDrawer(BuildContext context) {
               text: 'Subscriptions',
               onTap: () {
                 Navigator.pop(context);
-                animetedNavigationPush(SubscriptionPage(), context);
+                animetedNavigationPush(const SubscriptionPage(), context);
               },
             ),
+            DrawerMenuItem(
+              iconPath: 'assets/icons/driverIcon.png',
+              text: 'Add Preferred Driver',
+              onTap: () {
+                Navigator.pop(context);
+                animetedNavigationPush(const AddPreferredDriverPage2(), context);
+              },
+            ),
+
             DrawerMenuItem(
               iconPath: 'assets/icons/settings.png',
               text: 'Settings',

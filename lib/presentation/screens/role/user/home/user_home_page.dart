@@ -407,7 +407,10 @@ class _UserHomePageState extends State<UserHomePage> {
               ),
             ),
             const SizedBox(height: 20),
-
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: commonText("Recently Tracking", isBold: true, size: 16),
+            ),
             // Recently Tracking Section
             trakingDesign(number: "123-456-789", address: "Banasree, Dhaka"),
             const SizedBox(height: 20),

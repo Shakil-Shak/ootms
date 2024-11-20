@@ -44,6 +44,7 @@ class _DriverProfileState extends State<DriverProfile> {
         title: commonText("Profile", size: 21, isBold: true),
         centerTitle: true,
         backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),

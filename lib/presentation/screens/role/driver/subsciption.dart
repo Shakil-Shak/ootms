@@ -108,10 +108,8 @@ class _SubscriptionPageState extends State<SubscriptionPage>
                 )
               : Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: commonText(
-                      "Choose your preferred package and\nupload your stories.",
-                      isBold: true,
-                      size: 14),
+                  child: commonText("Choose your preferred package",
+                      isBold: true, size: 16),
                 ),
 
           const SizedBox(height: 20),

@@ -16,12 +16,12 @@ class MyEquipmentPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               commonText("My Trucks", size: 16, isBold: true),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               ListView.builder(
                 shrinkWrap:
                     true, // Allows it to work inside a scrollable parent
                 physics:
-                    NeverScrollableScrollPhysics(), // Prevents nested scrolling
+                    const NeverScrollableScrollPhysics(), // Prevents nested scrolling
                 itemCount: trucks.length,
                 itemBuilder: (context, index) {
                   return Padding(
@@ -34,12 +34,12 @@ class MyEquipmentPage extends StatelessWidget {
                   );
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               commonText("My Trailers", size: 16, isBold: true),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               ListView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: trailers.length,
                 itemBuilder: (context, index) {
                   return Padding(

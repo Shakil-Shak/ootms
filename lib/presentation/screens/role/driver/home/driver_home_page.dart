@@ -149,56 +149,56 @@ class _DriverHomePageState extends State<DriverHomePage> {
                           ),
                         ),
                       ),
-                      Center(
-                        child: commonText("Track Your Shipment",
-                            size: 22, isBold: true, color: AppColor.white),
-                      ),
-                      Container(
-                        height: 50,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 10),
-                        padding: const EdgeInsets.only(left: 8),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              spreadRadius: 2,
-                              blurRadius: 6,
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            // Truck icon
-                            const Icon(Icons.local_shipping,
-                                color: Colors.blue),
-                            const SizedBox(width: 10),
+                      // Center(
+                      //   child: commonText("Track Your Shipment",
+                      //       size: 22, isBold: true, color: AppColor.white),
+                      // ),
+                      // Container(
+                      //   height: 50,
+                      //   margin: const EdgeInsets.symmetric(
+                      //       horizontal: 16, vertical: 10),
+                      //   padding: const EdgeInsets.only(left: 8),
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.white,
+                      //     borderRadius: BorderRadius.circular(12),
+                      //     boxShadow: [
+                      //       BoxShadow(
+                      //         color: Colors.black.withOpacity(0.1),
+                      //         spreadRadius: 2,
+                      //         blurRadius: 6,
+                      //       ),
+                      //     ],
+                      //   ),
+                      //   child: Row(
+                      //     children: [
+                      //       // Truck icon
+                      //       const Icon(Icons.local_shipping,
+                      //           color: Colors.blue),
+                      //       const SizedBox(width: 10),
 
-                            // Input field
-                            const Expanded(
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'Enter bill of lading number',
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
+                      //       // Input field
+                      //       const Expanded(
+                      //         child: TextField(
+                      //           decoration: InputDecoration(
+                      //             hintText: 'Enter bill of lading number',
+                      //             border: InputBorder.none,
+                      //           ),
+                      //         ),
+                      //       ),
 
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: FittedBox(
-                                child: commonButton(
-                                  "Track",
-                                  width: 120,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(),
+                      //       Container(
+                      //         padding: const EdgeInsets.symmetric(vertical: 8),
+                      //         child: FittedBox(
+                      //           child: commonButton(
+                      //             "Track",
+                      //             width: 120,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // const SizedBox(),
                     ],
                   )
                 ],
@@ -256,8 +256,12 @@ class _DriverHomePageState extends State<DriverHomePage> {
               ),
             ),
             const SizedBox(height: 20),
-
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: commonText("Shipping History", isBold: true, size: 16),
+            ),
             // Recently Tracking Section
+            trakingDesign(number: "123-456-789", address: "Banasree, Dhaka"),
             trakingDesign(number: "123-456-789", address: "Banasree, Dhaka"),
             const SizedBox(height: 20),
           ],
