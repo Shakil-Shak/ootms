@@ -73,6 +73,7 @@ Widget commonIconButton(String title, Widget icon,
     double textSize = 18,
     double width = double.infinity,
     double height = 50,
+    bool isBold = true,
     VoidCallback? onTap,
     bool isLoading = false}) {
   return GestureDetector(
@@ -101,7 +102,7 @@ Widget commonIconButton(String title, Widget icon,
                         width: 5,
                       ),
                     commonText(title,
-                        size: textSize, color: textColor, isBold: true),
+                        size: textSize, color: textColor, isBold: isBold),
                     if (isRight)
                       const SizedBox(
                         width: 5,

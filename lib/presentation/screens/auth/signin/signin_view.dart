@@ -143,9 +143,12 @@ class SignInPage extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(width: 1, color: AppColor.black)),
-                    child: commonIconButton("Sign Up With Google",
+                    child: commonIconButton(
+                        "Sign Up With Google",
+                        isBold: false,
                         Image.asset("assets/icons/devicon_google.png"),
-                        color: Colors.transparent, textColor: AppColor.black),
+                        color: Colors.transparent,
+                        textColor: AppColor.black),
                   ),
                   SizedBox(
                     height: 20,
@@ -155,9 +158,13 @@ class SignInPage extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(width: 1, color: AppColor.black)),
-                    child: commonIconButton("Sign Up With Google",
-                        Image.asset("assets/icons/logos_facebook.png"),
-                        color: Colors.transparent, textColor: AppColor.black),
+                    child: commonIconButton(
+                      "Sign Up With Google",
+                      Image.asset("assets/icons/logos_facebook.png"),
+                      isBold: false,
+                      color: Colors.transparent,
+                      textColor: AppColor.black,
+                    ),
                   ),
                   SizedBox(
                     height: 20,

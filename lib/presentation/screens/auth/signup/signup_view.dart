@@ -167,6 +167,7 @@ class _SignupPageState extends State<SignupPage> {
                         child: commonIconButton("Sign Up With Google",
                             Image.asset("assets/icons/devicon_google.png"),
                             color: Colors.transparent,
+                            isBold: false,
                             textColor: AppColor.black),
                       ),
                       SizedBox(
@@ -178,7 +179,9 @@ class _SignupPageState extends State<SignupPage> {
                             borderRadius: BorderRadius.circular(10),
                             border:
                                 Border.all(width: 1, color: AppColor.black)),
-                        child: commonIconButton("Sign Up With Google",
+                        child: commonIconButton(
+                            "Sign Up With Google",
+                            isBold: false,
                             Image.asset("assets/icons/logos_facebook.png"),
                             color: Colors.transparent,
                             textColor: AppColor.black),
