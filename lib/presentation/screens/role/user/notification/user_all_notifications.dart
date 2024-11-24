@@ -6,6 +6,10 @@ import 'package:ootms/presentation/components/common_button.dart';
 
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/profile/user_edit_profile.dart';
+import 'package:ootms/presentation/screens/role/user/shipping/user_load_request.dart';
+import 'package:ootms/presentation/screens/role/user/shipping/user_load_request_details.dart';
 
 class UserAllNotificationsPage extends StatelessWidget {
   final List<Map<String, dynamic>> loadRequests = [
@@ -15,7 +19,7 @@ class UserAllNotificationsPage extends StatelessWidget {
       'read': false
     },
     {
-      'title': 'Your Shipment is delivered by driver, please confirm it first.',
+      'title': 'You have a load request from driver.',
       'time': '16 minutes ago',
       'read': false
     },
@@ -218,7 +222,12 @@ class UserAllNotificationsPage extends StatelessWidget {
                   title: commonText(loadRequests[index]['title'], size: 16),
                   subtitle: commonText(loadRequests[index]['time'], size: 14),
                   onTap: () {
-                    _showBottomSheet(context);
+                    if (index == 1) {
+                      animetedNavigationPush(
+                          UserLoadRequestDetailsPage(), context);
+                    } else {
+                      _showBottomSheet(context);
+                    }
                   },
                 );
               },

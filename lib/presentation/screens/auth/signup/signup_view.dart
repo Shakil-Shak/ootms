@@ -180,7 +180,7 @@ class _SignupPageState extends State<SignupPage> {
                             border:
                                 Border.all(width: 1, color: AppColor.black)),
                         child: commonIconButton(
-                            "Sign Up With Google",
+                            "Sign Up With Facebook",
                             isBold: false,
                             Image.asset("assets/icons/logos_facebook.png"),
                             color: Colors.transparent,

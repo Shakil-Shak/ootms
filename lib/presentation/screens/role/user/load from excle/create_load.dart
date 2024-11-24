@@ -33,9 +33,9 @@ class _Create_load_XLState extends State<Create_load_XL> {
               },
               color: AppColor.primaryColorLight,
               textColor: AppColor.black,
-              FaIcon(FontAwesomeIcons.fileExcel),
+              const FaIcon(FontAwesomeIcons.fileExcel),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             DottedBorder(

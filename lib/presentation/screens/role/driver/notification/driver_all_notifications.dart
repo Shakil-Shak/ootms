@@ -6,26 +6,29 @@ import 'package:ootms/presentation/components/common_button.dart';
 
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/driver/home/driver_map2.dart';
+import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request_details.dart';
 
 class DriverAllNotificationsPage extends StatelessWidget {
   final List<Map<String, dynamic>> loadRequests = [
     {
-      'title': 'Your Shipment is delivered by driver, please confirm it first.',
+      'title': 'You have a load request.',
       'time': '16 minutes ago',
       'read': false
     },
     {
-      'title': 'Your Shipment is delivered by driver, please confirm it first.',
+      'title': 'You have a load near you.',
       'time': '16 minutes ago',
       'read': false
     },
     {
-      'title': 'Your Shipment is delivered by driver, please confirm it first.',
+      'title': 'You have a load request.',
       'time': '16 minutes ago',
       'read': true
     },
     {
-      'title': 'Your Shipment is delivered by driver, please confirm it first.',
+      'title': 'You have a load request.',
       'time': '16 minutes ago',
       'read': true
     },
@@ -218,7 +221,14 @@ class DriverAllNotificationsPage extends StatelessWidget {
                   title: commonText(loadRequests[index]['title'], size: 16),
                   subtitle: commonText(loadRequests[index]['time'], size: 14),
                   onTap: () {
-                    _showBottomSheet(context);
+                    if (index == 1) {
+                      animetedNavigationPush(const DriverMap2Page(), context);
+                    } else {
+                      animetedNavigationPush(
+                          DriverLoadRequestDetailsPage(), context);
+                    }
+
+                    // _showBottomSheet(context);
                   },
                 );
               },

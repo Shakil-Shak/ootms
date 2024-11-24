@@ -23,6 +23,9 @@ class DriverHomePage extends StatefulWidget {
 class _DriverHomePageState extends State<DriverHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  bool switchValue = true;
+  String duty = "On-Duty";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,9 +81,18 @@ class _DriverHomePageState extends State<DriverHomePage> {
                             // Notification bell
                             // Image.asset(
                             //     "assets/icons/user home page/notify.png"),
+                            commonText(duty, color: Colors.white, size: 16),
+                            const SizedBox(width: 10),
                             Switch(
-                              value: true,
-                              onChanged: (value) {},
+                              value: switchValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  switchValue = value;
+                                  switchValue == true
+                                      ? duty = "On-Duty"
+                                      : duty = "Off-Duty";
+                                });
+                              },
                               activeTrackColor: Colors.green[300],
                               activeColor: Colors.white,
                               inactiveTrackColor: Colors.grey[300],
