@@ -142,6 +142,53 @@ class _SignupPageState extends State<SignupPage> {
                         },
                       ),
                       const SizedBox(height: 30),
+                      Row(children: [
+                        Expanded(
+                            child: Container(
+                          height: 1,
+                          color: AppColor.black,
+                        )),
+                        commonText("  Or  ", size: 16),
+                        Expanded(
+                            child: Container(
+                          height: 1,
+                          color: AppColor.black,
+                        )),
+                      ]),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border:
+                                Border.all(width: 1, color: AppColor.black)),
+                        child: commonIconButton("Sign Up With Google",
+                            Image.asset("assets/icons/devicon_google.png"),
+                            color: Colors.transparent,
+                            isBold: false,
+                            textColor: AppColor.black),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border:
+                                Border.all(width: 1, color: AppColor.black)),
+                        child: commonIconButton(
+                            "Sign Up With Google",
+                            isBold: false,
+                            Image.asset("assets/icons/logos_facebook.png"),
+                            color: Colors.transparent,
+                            textColor: AppColor.black),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
