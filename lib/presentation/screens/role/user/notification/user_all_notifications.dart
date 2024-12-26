@@ -7,8 +7,6 @@ import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
-import 'package:ootms/presentation/screens/role/user/profile/user_edit_profile.dart';
-import 'package:ootms/presentation/screens/role/user/shipping/user_load_request.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_load_request_details.dart';
 
 class UserAllNotificationsPage extends StatelessWidget {
