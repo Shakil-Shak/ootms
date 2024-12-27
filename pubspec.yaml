@@ -46,6 +46,8 @@ dependencies:
   dotted_border: ^2.1.0
   carousel_slider: ^5.0.0
   font_awesome_flutter: ^10.7.0
+  dio: ^5.7.0
+  shared_preferences: ^2.3.3
 
 dev_dependencies:
   flutter_test:
