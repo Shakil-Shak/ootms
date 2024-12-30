@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -54,9 +55,7 @@ class _DriverProfileState extends State<DriverProfile> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
                   border: Border.all(width: 1, color: AppColor.primaryColor)),
-              child: Stack(
-                children: [
-                  Container(
+              child: Container(
                     width: 80,
                     height: 80,
                     margin: const EdgeInsets.all(2),
@@ -68,18 +67,6 @@ class _DriverProfileState extends State<DriverProfile> {
                                 AssetImage("assets/icons/profile_icon_2.png"),
                             fit: BoxFit.cover)),
                   ),
-                  const Positioned(
-                    bottom: 5,
-                    right: 5,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 12,
-                      child: Icon(Icons.mode_edit_outline_outlined,
-                          size: 16, color: Colors.black),
-                    ),
-                  ),
-                ],
-              ),
             ),
             const SizedBox(
               height: 10,

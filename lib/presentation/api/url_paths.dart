@@ -1,6 +1,6 @@
 class ApiPaths {
   // Base URL
-  static const String baseUrl = 'https://dpl8h6ft-8000.inc1.devtunnels.ms';
+  static const String baseUrl = 'http://137.184.95.36:8020';
 
   // Endpoints
   static const String signinUrl = '$baseUrl/api/v1/auth/local';

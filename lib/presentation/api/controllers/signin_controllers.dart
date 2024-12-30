@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ootms/presentation/api/api_services.dart';
 import 'package:ootms/presentation/api/login_tokan.dart';
 import 'package:ootms/presentation/api/models/signin_model.dart';
+import 'package:ootms/presentation/api/sharepreference_service.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,8 +62,9 @@ class SignInPageController extends ChangeNotifier {
   }
 
   Future<void> _saveTokenToLocalStorage(String token) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString(ootmsAccessToken, token);
+SharedPreferencesService service = SharedPreferencesService();
+
+    await service.saveString(ootmsAccessToken, token);
   }
 
   // Future<bool> saveUser(String token, String id, String role) async {

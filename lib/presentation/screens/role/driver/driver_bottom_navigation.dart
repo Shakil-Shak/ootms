@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ootms/core/constants/assets/icons_string.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
@@ -61,38 +62,37 @@ class _DriverRootPageState extends State<DriverRootPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Center(
-          child: _widgetOptions.elementAt(_currentIndex),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: AppColor.primaryColor,
-          currentIndex: _currentIndex,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white70,
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: iconList[0],
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: iconList[1],
-              label: 'Accept Load',
-            ),
-            BottomNavigationBarItem(
-              icon: iconList[2],
-              label: 'Profile',
-            ),
-          ],
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-        ),
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: AppColor.white));
+    return Scaffold(
+      body: Center(
+        child: _widgetOptions.elementAt(_currentIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: AppColor.primaryColor,
+        currentIndex: _currentIndex,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: iconList[0],
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: iconList[1],
+            label: 'Accept Load',
+          ),
+          BottomNavigationBarItem(
+            icon: iconList[2],
+            label: 'Profile',
+          ),
+        ],
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
       ),
     );
   }

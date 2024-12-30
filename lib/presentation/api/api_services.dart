@@ -1,12 +1,22 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
+import 'package:ootms/presentation/api/login_tokan.dart';
+import 'package:ootms/presentation/api/sharepreference_service.dart';
 
 class ApiService {
   final Dio _dio = Dio();
 
+  SharedPreferencesService service = SharedPreferencesService();
+
   // Generic GET Request
   Future<dynamic> getRequest(String url) async {
+   ;
+      String token = service.getString(ootmsAccessToken)!;
     try {
-      final response = await _dio.get(url);
+      final response = await _dio.get(url,options: Options(headers: {
+              "Authorization": "Bearer $token",
+            }),);
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);

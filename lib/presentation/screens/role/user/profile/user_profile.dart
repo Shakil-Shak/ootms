@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
@@ -11,6 +12,9 @@ import 'package:ootms/presentation/screens/role/user/profile/user_edit_profile.d
 import 'package:ootms/presentation/screens/role/user/settings/user_settings.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_current_shipments.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_load_request.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../components/common_loading.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -46,112 +50,123 @@ class _UserProfileState extends State<UserProfile> {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
+      body: ChangeNotifierProvider(
+        create: (controller) => ProfileController(),
+        child: Stack(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  border: Border.all(width: 1, color: AppColor.primaryColor)),
-              child: Stack(
-                children: [
-                  Container(
-                    width: 80,
-                    height: 80,
-                    margin: const EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                        color: AppColor.primaryColor,
-                        borderRadius: BorderRadius.circular(40),
-                        image: const DecorationImage(
-                            image:
-                                AssetImage("assets/icons/profile_icon_2.png"),
-                            fit: BoxFit.cover)),
-                  ),
-                  const Positioned(
-                    bottom: 5,
-                    right: 5,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 12,
-                      child: Icon(Icons.mode_edit_outline_outlined,
-                          size: 16, color: Colors.black),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          border: Border.all(
+                              width: 1, color: AppColor.primaryColor)),
+                      child: Container(
+                        width: 80,
+                        height: 80,
+                        margin: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                            color: AppColor.primaryColor,
+                            borderRadius: BorderRadius.circular(40),
+                            image: const DecorationImage(
+                                image: AssetImage(
+                                    "assets/icons/profile_icon_2.png"),
+                                fit: BoxFit.cover)),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            commonText("MostainAhmed", size: 18, isBold: true),
-            commonText("example@gmail.com"),
-            const SizedBox(
-              height: 10,
-            ),
-            // Profile Menu Options
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                border: Border.all(width: 1),
-              ),
-              child: Column(
-                children: [
-                  ProfileMenuItem(
-                    iconPath: "assets/icons/edit-profile.png",
-                    text: "Edit Profile",
-                    onTap: () {
-                      animetedNavigationPush(const UserEditProfile(), context);
-                    },
-                  ),
-                  ProfileMenuItem(
-                    iconPath: "assets/icons/shipment.png",
-                    text: "Current Shipments",
-                    onTap: () {
-                      animetedNavigationPush(
-                          UserCurrentShipmentsPage(), context);
-                    },
-                  ),
-                  ProfileMenuItem(
-                    iconPath: "assets/icons/arrow_up.png",
-                    text: "Load Request",
-                    onTap: () {
-                      animetedNavigationPush(UserLoadRequestPage(), context);
-                    },
-                  ),
-                  ProfileMenuItem(
-                    iconPath: "assets/icons/settings.png",
-                    text: "Settings",
-                    onTap: () {
-                      animetedNavigationPush(UserSettingsPage(), context);
-                    },
-                  ),
-                  ProfileMenuItem(
-                    iconPath: "assets/icons/shild.png",
-                    text: "Support",
-                    onTap: () {
-                      animetedNavigationPush(UserSupportPage(), context);
-                    },
-                  ),
-                ],
-              ),
-            ),
-            const Spacer(),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                border: Border.all(width: 1),
-              ),
-              child: ProfileMenuItem(
-                iconPath: "assets/icons/logout.png",
-                text: "Logout",
-                onTap: () {
-                  _showDeleteAccountDialog(context);
-                },
-              ),
-            ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    commonText("MostainAhmed", size: 18, isBold: true),
+                    commonText("example@gmail.com"),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    // Profile Menu Options
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(width: 1),
+                      ),
+                      child: Column(
+                        children: [
+                          //=======================edit profile
+                          Consumer<ProfileController>(
+                              builder: (context, controller, _) {
+                            return ProfileMenuItem(
+                              iconPath: "assets/icons/edit-profile.png",
+                              text: "Edit Profile",
+                              onTap: () {
+                                // controller.getProfileData();
+                                animetedNavigationPush(
+                                    const UserEditProfile(), context);
+                              },
+                            );
+                          }),
+                          ProfileMenuItem(
+                            iconPath: "assets/icons/shipment.png",
+                            text: "Current Shipments",
+                            onTap: () {
+                              animetedNavigationPush(
+                                  UserCurrentShipmentsPage(), context);
+                            },
+                          ),
+                          ProfileMenuItem(
+                            iconPath: "assets/icons/arrow_up.png",
+                            text: "Load Request",
+                            onTap: () {
+                              animetedNavigationPush(
+                                  UserLoadRequestPage(), context);
+                            },
+                          ),
+                          ProfileMenuItem(
+                            iconPath: "assets/icons/settings.png",
+                            text: "Settings",
+                            onTap: () {
+                              animetedNavigationPush(
+                                  UserSettingsPage(), context);
+                            },
+                          ),
+                          ProfileMenuItem(
+                            iconPath: "assets/icons/shild.png",
+                            text: "Support",
+                            onTap: () {
+                              animetedNavigationPush(
+                                  UserSupportPage(), context);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Spacer(),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(width: 1),
+                      ),
+                      child: ProfileMenuItem(
+                        iconPath: "assets/icons/logout.png",
+                        text: "Logout",
+                        onTap: () {
+                          _showDeleteAccountDialog(context);
+                        },
+                      ),
+                    ),
 
-            const SizedBox(height: 20),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              ),
+            ),
+            //==============================================common loading
+            Consumer<ProfileController>(
+              builder: (context, controller, _) {
+                return CommonLoading(isLoading: controller.isLoading);
+              },
+            ),
           ],
         ),
       ),

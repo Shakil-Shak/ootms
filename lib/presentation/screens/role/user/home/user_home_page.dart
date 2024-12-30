@@ -222,7 +222,7 @@ class _UserHomePageState extends State<UserHomePage> {
                                 ),
                               ),
                             ),
-
+                            //========================================================================track
                             Container(
                               padding: const EdgeInsets.symmetric(vertical: 8),
                               child: FittedBox(
@@ -230,119 +230,7 @@ class _UserHomePageState extends State<UserHomePage> {
                                   "Track",
                                   width: 120,
                                   onTap: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      backgroundColor: Colors.white,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(20)),
-                                      ),
-                                      builder: (context) {
-                                        return DraggableScrollableSheet(
-                                          initialChildSize: 0.8,
-                                          expand: false,
-                                          builder: (context, scrollController) {
-                                            return Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width, // Full width
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.9, // 70% of screen height
-                                              padding:
-                                                  const EdgeInsets.all(16.0),
-                                              decoration: const BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.vertical(
-                                                        top: Radius.circular(
-                                                            20)),
-                                              ),
-                                              child: SingleChildScrollView(
-                                                controller: scrollController,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    commonText(
-                                                        "Shipping Details",
-                                                        size: 16,
-                                                        isBold: true),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    loadDetailsCard(),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        commonText(
-                                                            "Live tracking",
-                                                            size: 18,
-                                                            isBold: true),
-                                                        InkWell(
-                                                          onTap: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                            animetedNavigationPush(
-                                                                const UserMap2Page(),
-                                                                context);
-                                                          },
-                                                          child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            decoration: BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8),
-                                                                border:
-                                                                    Border.all(
-                                                                        width:
-                                                                            1)),
-                                                            child: commonText(
-                                                                "Track on map",
-                                                                color: AppColor
-                                                                    .black),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Card(
-                                                      elevation: 5,
-                                                      color: AppColor.white,
-                                                      child: SizedBox(
-                                                        height: 240,
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            commonText("Map",
-                                                                size: 24,
-                                                                isBold: true),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    );
+                                    trackBottomSheet();
                                   },
                                 ),
                               ),
@@ -417,6 +305,88 @@ class _UserHomePageState extends State<UserHomePage> {
           ],
         ),
       ),
+    );
+  }
+//===============================track modal bottom sheet
+  trackBottomSheet() {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.8,
+          expand: false,
+          builder: (context, scrollController) {
+            return Container(
+              width: MediaQuery.of(context).size.width, // Full width
+              height: MediaQuery.of(context).size.height *
+                  0.9, // 70% of screen height
+              padding: const EdgeInsets.all(16.0),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              ),
+              child: SingleChildScrollView(
+                controller: scrollController,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    commonText("Shipping Details", size: 16, isBold: true),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    loadDetailsCard(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        commonText("Live tracking", size: 18, isBold: true),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                            animetedNavigationPush(
+                                const UserMap2Page(), context);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(width: 1)),
+                            child: commonText("Track on map",
+                                color: AppColor.black),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Card(
+                      elevation: 5,
+                      color: AppColor.white,
+                      child: SizedBox(
+                        height: 240,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            commonText("Map", size: 24, isBold: true),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 
