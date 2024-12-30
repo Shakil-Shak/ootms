@@ -14,8 +14,8 @@ import 'package:ootms/presentation/screens/role/user/user_bottom_navigation.dart
 import 'package:provider/provider.dart';
 
 class SignInPage extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController(text: "tobilax791@evnft.com");
+  final TextEditingController passwordController = TextEditingController(text: "hello123");
   final bool user;
 
   SignInPage({super.key, required this.user});

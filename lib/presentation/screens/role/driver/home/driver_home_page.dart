@@ -35,7 +35,6 @@ class _DriverHomePageState extends State<DriverHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header Section
             ClipRRect(
               borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(16),
@@ -57,7 +56,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SizedBox(),
+                      const SizedBox(height: 20,),
                       Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 10),
