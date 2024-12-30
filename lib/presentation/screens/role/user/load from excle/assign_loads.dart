@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
+import 'package:ootms/presentation/components/common_snackbar.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/home/user_home_page.dart';
+import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_final.dart';
 
 class AssignLoadsScreen extends StatefulWidget {
   @override
@@ -10,7 +14,7 @@ class AssignLoadsScreen extends StatefulWidget {
 
 class _AssignLoadsScreenState extends State<AssignLoadsScreen> {
   String? selectedOption;
-  List<bool> loadSelections = List.generate(10, (index) => false);
+  List<bool> loadSelections = List.generate(2, (index) => false);
 
   void _showBottomSheet(
       BuildContext context, String option, Function()? onchanged) {
@@ -128,7 +132,7 @@ class _AssignLoadsScreenState extends State<AssignLoadsScreen> {
                       Expanded(
                         flex: 2,
                         child: commonText(
-                          'Load - ${index + 1}',
+                          '7456${index + 1}',
                           fontWeight: FontWeight.bold,
                           size: 18,
                         ),
@@ -157,7 +161,7 @@ class _AssignLoadsScreenState extends State<AssignLoadsScreen> {
                                       ),
                                     )),
                                 const SizedBox(width: 8),
-                                commonText('Rupatoli, Barishal.'),
+                                commonText('California, USA'),
                               ],
                             ),
                             const SizedBox(height: 4),
@@ -177,7 +181,7 @@ class _AssignLoadsScreenState extends State<AssignLoadsScreen> {
                                       ),
                                     )),
                                 const SizedBox(width: 8),
-                                commonText('Banasree, Dhaka'),
+                                commonText('Toronto, Canada'),
                               ],
                             ),
                           ],
@@ -196,7 +200,8 @@ class _AssignLoadsScreenState extends State<AssignLoadsScreen> {
             "Assign to Driver",
             borderRadious: 16,
             onTap: () {
-              // animetedNavigationPush(AssignFinalScreen(), context);
+              animetedNavigationPush(UserHomePage(), context);
+              showCommonSnackbar(context, "Assign Load successful!");
             },
           ),
           const SizedBox(

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ootms/presentation/components/common_button.dart';
+import 'package:ootms/presentation/components/common_snackbar.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 
 import 'package:ootms/presentation/components/common_textfield.dart';
@@ -35,7 +36,12 @@ class UserSupportPage extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              commonButton("Submit")
+              commonButton(
+                "Submit",
+                onTap: () {
+                  showCommonSnackbar(context, "Submited successful!");
+                },
+              )
             ],
           ),
         ));

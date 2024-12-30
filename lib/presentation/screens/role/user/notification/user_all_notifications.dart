@@ -192,45 +192,63 @@ class UserAllNotificationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: commonText('Notifications', size: 21, isBold: true),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+        appBar: AppBar(
+          centerTitle: true,
+          title: commonText('Notifications', size: 21, isBold: true),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
-      ),
-      body: (loadRequests.isEmpty)
-          ? const UserEmptyNotificationPage()
-          : ListView.separated(
-              separatorBuilder: (context, index) => const SizedBox(
-                height: 4,
-              ),
-              itemCount: loadRequests.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  tileColor: (loadRequests[index]['read'] == false)
-                      ? AppColor.primaryColorLight
-                      : Colors.transparent,
-                  leading: Image.asset(
-                    "assets/icons/user home page/notify.png",
-                  ),
-                  title: commonText(loadRequests[index]['title'], size: 16),
-                  subtitle: commonText(loadRequests[index]['time'], size: 14),
-                  onTap: () {
-                    if (index == 1) {
-                      animetedNavigationPush(
-                          UserLoadRequestDetailsPage(), context);
-                    } else {
-                      _showBottomSheet(context);
-                    }
-                  },
-                );
-              },
+        body: Center(
+            child: Column(
+          children: [
+            const SizedBox(
+              height: 50,
             ),
-    );
+            Image.asset(
+              "assets/images/empty.png",
+              height: 80,
+              width: 80,
+            ),
+            commonText("No notification found",
+                color: AppColor.black, size: 12),
+            const SizedBox(
+              height: 20,
+            )
+          ],
+        ))
+        // (loadRequests.isEmpty)
+        //     ? const UserEmptyNotificationPage()
+        //     : ListView.separated(
+        //         separatorBuilder: (context, index) => const SizedBox(
+        //           height: 4,
+        //         ),
+        //         itemCount: loadRequests.length,
+        //         itemBuilder: (context, index) {
+        //           return ListTile(
+        //             tileColor: (loadRequests[index]['read'] == false)
+        //                 ? AppColor.primaryColorLight
+        //                 : Colors.transparent,
+        //             leading: Image.asset(
+        //               "assets/icons/user home page/notify.png",
+        //             ),
+        //             title: commonText(loadRequests[index]['title'], size: 16),
+        //             subtitle: commonText(loadRequests[index]['time'], size: 14),
+        //             onTap: () {
+        //               if (index == 1) {
+        //                 animetedNavigationPush(
+        //                     UserLoadRequestDetailsPage(), context);
+        //               } else {
+        //                 _showBottomSheet(context);
+        //               }
+        //             },
+        //           );
+        //         },
+        //       ),
+        );
   }
 }
 

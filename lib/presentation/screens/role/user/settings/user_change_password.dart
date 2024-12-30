@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/presentation/components/common_button.dart';
+import 'package:ootms/presentation/components/common_snackbar.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:provider/provider.dart';
@@ -107,7 +108,13 @@ class UserChangepasswordPage extends StatelessWidget {
               const Spacer(flex: 4),
 
               // Change Password Button
-              commonButton("Submit"),
+              commonButton(
+                "Submit",
+                onTap: () {
+                  showCommonSnackbar(context, "Password changed successful!");
+                  Navigator.pop(context);
+                },
+              ),
 
               const Spacer(),
             ],

@@ -12,32 +12,20 @@ import 'package:ootms/presentation/screens/role/user/shipping/user_current%20_sh
 class UserCurrentShipmentsPage extends StatelessWidget {
   final List<Map<String, dynamic>> loadRequests = [
     {
-      'driverName': 'Sabbir Ahmed',
+      'driverName': 'Ramandeep',
       'truckInfo': '48-foot trailer—24 pallets.',
-      'from': 'Rupatoli, Barishal.',
+      'from': 'California, USA',
       'to': 'Banasree, Dhaka',
-      'driverImage': 'https://i.pravatar.cc/100',
+      'driverImage':
+          'https://images.mykhel.com/webp/images/cricket/players/1/13671.jpg',
     },
     {
-      'driverName': 'Sabbir Ahmed',
+      'driverName': 'Devid',
       'truckInfo': '48-foot trailer—24 pallets.',
-      'from': 'Rupatoli, Barishal.',
+      'from': 'Toronto, Canada',
       'to': 'Banasree, Dhaka',
-      'driverImage': 'https://i.pravatar.cc/100',
-    },
-    {
-      'driverName': 'Sabbir Ahmed',
-      'truckInfo': '48-foot trailer—24 pallets.',
-      'from': 'Rupatoli, Barishal.',
-      'to': 'Banasree, Dhaka',
-      'driverImage': 'https://i.pravatar.cc/100',
-    },
-    {
-      'driverName': 'Sabbir Ahmed',
-      'truckInfo': '48-foot trailer—24 pallets.',
-      'from': 'Rupatoli, Barishal.',
-      'to': 'Banasree, Dhaka',
-      'driverImage': 'https://i.pravatar.cc/100',
+      'driverImage':
+          'https://i1.sndcdn.com/avatars-AXMZovCgD2mPbyQy-jqf2Tw-t240x240.jpg',
     },
   ];
 

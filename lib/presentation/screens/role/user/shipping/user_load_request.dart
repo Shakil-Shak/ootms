@@ -118,81 +118,99 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
               ),
             ),
           ),
-          Expanded(
-            child: ListView.separated(
-              separatorBuilder: (context, index) => const SizedBox(
-                height: 16,
-              ),
-              padding: const EdgeInsets.all(16.0),
-              itemCount: loadRequests.length,
-              itemBuilder: (context, index) {
-                final request = loadRequests[index];
 
-                return Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(request['driverImage']),
-                      radius: 24,
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          commonText(request['driverName'],
-                              size: 16, isBold: true),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          commonText(request['truckInfo'], size: 14),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Row(
-                            children: [
-                              const Icon(Icons.circle,
-                                  size: 12, color: Colors.green),
-                              const SizedBox(width: 4),
-                              commonText(request['availability'], size: 14),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          SizedBox(
-                            height: 40,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: commonButton(
-                                    "Cancel",
-                                    isBold: false,
-                                    borderRadious: 10,
-                                    onTap: () {
-                                      // Add your cancel action
-                                    },
-                                    color: AppColor.primaryColorLight
-                                        .withOpacity(0.5),
-                                    textColor: AppColor.black,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: commonButton("Accept Load", onTap: () {
-                                    animetedNavigationPush(
-                                        UserLoadRequestDetailsPage(), context);
-                                  }, borderRadious: 10, isBold: false),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
+          Center(
+              child: Column(
+            children: [
+              const SizedBox(
+                height: 50,
+              ),
+              Image.asset(
+                "assets/images/empty.png",
+                height: 80,
+                width: 80,
+              ),
+              commonText("No request found", color: AppColor.black, size: 12),
+              const SizedBox(
+                height: 20,
+              )
+            ],
+          ))
+          // Expanded(
+          //   child: ListView.separated(
+          //     separatorBuilder: (context, index) => const SizedBox(
+          //       height: 16,
+          //     ),
+          //     padding: const EdgeInsets.all(16.0),
+          //     itemCount: loadRequests.length,
+          //     itemBuilder: (context, index) {
+          //       final request = loadRequests[index];
+
+          //       return Row(
+          //         children: [
+          //           CircleAvatar(
+          //             backgroundImage: NetworkImage(request['driverImage']),
+          //             radius: 24,
+          //           ),
+          //           const SizedBox(width: 16),
+          //           Expanded(
+          //             child: Column(
+          //               crossAxisAlignment: CrossAxisAlignment.start,
+          //               children: [
+          //                 commonText(request['driverName'],
+          //                     size: 16, isBold: true),
+          //                 const SizedBox(
+          //                   height: 4,
+          //                 ),
+          //                 commonText(request['truckInfo'], size: 14),
+          //                 const SizedBox(
+          //                   height: 4,
+          //                 ),
+          //                 Row(
+          //                   children: [
+          //                     const Icon(Icons.circle,
+          //                         size: 12, color: Colors.green),
+          //                     const SizedBox(width: 4),
+          //                     commonText(request['availability'], size: 14),
+          //                   ],
+          //                 ),
+          //                 const SizedBox(
+          //                   height: 4,
+          //                 ),
+          //                 SizedBox(
+          //                   height: 40,
+          //                   child: Row(
+          //                     children: [
+          //                       Expanded(
+          //                         child: commonButton(
+          //                           "Cancel",
+          //                           isBold: false,
+          //                           borderRadious: 10,
+          //                           onTap: () {
+          //                             // Add your cancel action
+          //                           },
+          //                           color: AppColor.primaryColorLight
+          //                               .withOpacity(0.5),
+          //                           textColor: AppColor.black,
+          //                         ),
+          //                       ),
+          //                       Expanded(
+          //                         child: commonButton("Accept Load", onTap: () {
+          //                           animetedNavigationPush(
+          //                               UserLoadRequestDetailsPage(), context);
+          //                         }, borderRadious: 10, isBold: false),
+          //                       ),
+          //                     ],
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         ],
+          //       );
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );

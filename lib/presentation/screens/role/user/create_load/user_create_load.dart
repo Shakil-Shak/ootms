@@ -53,13 +53,13 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
   bool isHazMat = false; // Controls Yes/No for HazMat
   Map<String, bool> hazMatItems = {
     "Dangerous": false,
-    "Flammable Gas 2": true,
+    "Flammable Gas 2": false,
     "Poison 6": false,
-    "Corrosive": true,
+    "Corrosive": false,
     "Oxygen 2": false,
-    "Danger": true,
+    "Danger": false,
     "Flammable 3": false,
-    "Radioactive 7": true,
+    "Radioactive 7": false,
     "Non-Flammable Gas": false
   };
 

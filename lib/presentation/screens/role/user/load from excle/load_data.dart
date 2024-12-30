@@ -25,7 +25,7 @@ class LoadDataScreen extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: 8,
+                itemCount: 2,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
@@ -37,7 +37,8 @@ class LoadDataScreen extends StatelessWidget {
                           animetedNavigationPush(
                               (const LoadDetailsScreen()), context);
                         },
-                        title: commonText('Load - 1', size: 18, isBold: true),
+                        title: commonText('4545${index + 1}',
+                            size: 18, isBold: true),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -57,8 +58,7 @@ class LoadDataScreen extends StatelessWidget {
                                       ),
                                     )),
                                 const SizedBox(width: 8),
-                                Expanded(
-                                    child: commonText('Rupatoli, Barishal.')),
+                                Expanded(child: commonText('California, USA')),
                               ],
                             ),
                             const SizedBox(height: 4),
@@ -78,7 +78,7 @@ class LoadDataScreen extends StatelessWidget {
                                       ),
                                     )),
                                 const SizedBox(width: 8),
-                                Expanded(child: commonText('Banasree, Dhaka')),
+                                Expanded(child: commonText('Toronto, Canada')),
                               ],
                             ),
                           ],
@@ -115,7 +115,7 @@ class LoadDataScreen extends StatelessWidget {
                             TextButton(
                               onPressed: () {
                                 Navigator.pop(context);
-                                   animetedNavigationPush(
+                                animetedNavigationPush(
                                     const UserMap2Page(), context);
                               },
                               style: TextButton.styleFrom(
