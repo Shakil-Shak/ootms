@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_home_page.dart';
+import 'package:ootms/presentation/api/login_tokan.dart';
 import 'package:ootms/presentation/screens/splash/splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  Future<String?> getLanguage() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(ootmsAccessToken);
+  }
 
   @override
   Widget build(BuildContext context) {

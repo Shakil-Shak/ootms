@@ -61,8 +61,14 @@ class SignInPageController extends ChangeNotifier {
   }
 
   Future<void> _saveTokenToLocalStorage(String token) async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    print("object");
+    SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString(ootmsAccessToken, token);
   }
+
+  // Future<bool> saveUser(String token, String id, String role) async {
+  //   sp.setString("token", token);
+  //   sp.setString("id", id);
+  //   sp.setString("role", role);
+  //   return true;
+  // }
 }
