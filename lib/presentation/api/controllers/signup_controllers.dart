@@ -29,6 +29,7 @@ class SignupPageController extends ChangeNotifier {
     required String email,
     required String password,
     required String confirmPassword,
+    required String user,
   }) async {
     if (password != confirmPassword) {
       throw Exception("Passwords do not match.");
@@ -44,6 +45,7 @@ class SignupPageController extends ChangeNotifier {
           "fullName": fullName,
           "email": email,
           "password": password,
+          "role": user
         },
       );
 
