@@ -6,6 +6,7 @@ import 'package:ootms/presentation/components/common_loading.dart';
 import 'package:ootms/presentation/components/common_snackbar.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
+import 'package:ootms/presentation/components/common_validities.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/auth/signin/signin_view.dart';
 import 'package:ootms/presentation/screens/auth/otp_view.dart';
@@ -129,6 +130,43 @@ class _SignupPageState extends State<SignupPage> {
                       Consumer<SignupPageController>(
                         builder: (context, controller, _) {
                           return commonButton("Sign Up", onTap: () async {
+                            //name validity
+                            final nameError = ValidationUtils.validateName(
+                                fullNameController.text);
+                            if (nameError != null) {
+                              showCommonSnackbar(context, nameError,
+                                  isError: true);
+                              return;
+                            }
+                            // Validate email
+                            final emailError = ValidationUtils.validateEmail(
+                                emailController.text);
+                            if (emailError != null) {
+                              showCommonSnackbar(context, emailError,
+                                  isError: true);
+                              return;
+                            }
+
+                            // Validate password
+                            final passwordError =
+                                ValidationUtils.validatePassword(
+                                    passwordController.text);
+                            if (passwordError != null) {
+                              showCommonSnackbar(context, passwordError,
+                                  isError: true);
+                              return;
+                            }
+                            final confirmPasswordError =
+                                ValidationUtils.validateConfirmPassword(
+                              passwordController.text,
+                              confirmPasswordController.text,
+                            );
+
+                            if (confirmPasswordError != null) {
+                              showCommonSnackbar(context, confirmPasswordError,
+                                  isError: true);
+                              return;
+                            }
                             if (!agreeWithPolicy) {
                               showCommonSnackbar(context,
                                   "Please agree to the terms and conditions.");

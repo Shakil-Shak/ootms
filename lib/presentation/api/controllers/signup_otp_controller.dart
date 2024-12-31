@@ -1,9 +1,8 @@
 import 'dart:async';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ootms/presentation/api/api_services.dart';
-import 'package:ootms/presentation/api/models/otp_model.dart';
+import 'package:ootms/presentation/components/common_snackbar.dart';
 
 class SignUpOtpController extends ChangeNotifier {
   List<TextEditingController> controllers =
@@ -64,40 +63,37 @@ class SignUpOtpController extends ChangeNotifier {
   }
 
   // Verify OTP logic
-  Future<UserRegistrationResponse?> verifyOtp(BuildContext context, String url,
+  Future<dynamic> verifyOtp(BuildContext context, String url,
       {Options? token, String? email}) async {
     try {
       _isLoading = true;
       notifyListeners();
-      String otp = controllers.map((controller) => controller.text).join();
 
-      print(otp);
-      final response = await ApiService().postRequest(
-          url,
-          (email != null)
-              ? {
-                  "email": email,
-                  "otp": otp,
-                }
-              : {
-                  "otp": otp,
-                },
-          token: token);
-
-      // Check if the response is valid
-      if (response != null && response['status'] == 'OK') {
-        // Parse the response into the UserRegistrationResponse model
-        final userRegistrationResponse =
-            UserRegistrationResponse.fromJson(response);
-
-        print("OTP Verified Successfully: ${userRegistrationResponse.data}");
-
-        return userRegistrationResponse;
-      } else {
-        throw Exception(response?['message'] ?? 'Failed to verify OTP.');
+      // Collect and validate OTP
+      String otp =
+          controllers.map((controller) => controller.text.trim()).join();
+      if (otp.length < 4) {
+        showCommonSnackbar(context, "OTP must be 4 digits.", isError: true);
+        return null;
       }
+
+      // Debugging logs
+      print("OTP: $otp");
+      if (email != null) {
+        print("Email: $email");
+      }
+
+      // Construct the request body
+      final Map<String, dynamic> requestBody = {"otp": otp};
+      if (email != null && email.trim().isNotEmpty) {
+        requestBody["email"] = email.trim();
+      }
+      final response =
+          await ApiService().postRequest(url, requestBody, token: token);
+
+      return response;
     } catch (e) {
-      print("Verify OTP Error: $e");
+      showCommonSnackbar(context, "Failed to verify OTP", isError: true);
       return null;
     } finally {
       _isLoading = false;

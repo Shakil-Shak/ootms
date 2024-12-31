@@ -1,11 +1,11 @@
-class OtpModels {
+class ExceptionModel {
   final String status;
-  final String statusCode;
+  final int statusCode;
   final String message;
-  final OtpData data;
+  final ErrorData data;
   final List<dynamic> errors;
 
-  OtpModels({
+  ExceptionModel({
     required this.status,
     required this.statusCode,
     required this.message,
@@ -13,12 +13,12 @@ class OtpModels {
     required this.errors,
   });
 
-  factory OtpModels.fromJson(Map<String, dynamic> json) {
-    return OtpModels(
+  factory ExceptionModel.fromJson(Map<String, dynamic> json) {
+    return ExceptionModel(
       status: json['status'],
       statusCode: json['statusCode'],
       message: json['message'],
-      data: OtpData.fromJson(json['data']),
+      data: ErrorData.fromJson(json['data']),
       errors: json['errors'] ?? [],
     );
   }
@@ -34,26 +34,22 @@ class OtpModels {
   }
 }
 
-class OtpData {
+class ErrorData {
   final String type;
-  final String forgetPasswordToken;
 
-  OtpData({
+  ErrorData({
     required this.type,
-    required this.forgetPasswordToken,
   });
 
-  factory OtpData.fromJson(Map<String, dynamic> json) {
-    return OtpData(
+  factory ErrorData.fromJson(Map<String, dynamic> json) {
+    return ErrorData(
       type: json['type'],
-      forgetPasswordToken: json['forgetPasswordToken'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'type': type,
-      'forgetPasswordToken': forgetPasswordToken,
     };
   }
 }

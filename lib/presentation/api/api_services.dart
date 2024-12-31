@@ -26,7 +26,7 @@ class ApiService {
 
   // Generic POST Request
   Future<dynamic> postRequest(String url, Map<String, dynamic> data,
-      {token}) async {
+      {Options? token}) async {
     try {
       final response = await _dio.post(url, data: data, options: token);
       return response.data;
@@ -58,16 +58,13 @@ class ApiService {
   void _handleDioError(DioException e) {
     switch (e.type) {
       case DioExceptionType.connectionTimeout:
-        throw Exception(
-            'Connection Timeout: Unable to connect to the server. Please check your internet connection.');
+        throw ('Connection Timeout: Unable to connect to the server. Please check your internet connection.');
 
       case DioExceptionType.sendTimeout:
-        throw Exception(
-            'Send Timeout: The request took too long to send. Please try again.');
+        throw ('Send Timeout: The request took too long to send. Please try again.');
 
       case DioExceptionType.receiveTimeout:
-        throw Exception(
-            'Receive Timeout: The server took too long to respond. Please try again later.');
+        throw ('Receive Timeout: The server took too long to respond. Please try again later.');
 
       case DioExceptionType.badResponse:
         final statusCode = e.response?.statusCode;
@@ -78,35 +75,27 @@ class ApiService {
         if (statusCode != null) {
           switch (statusCode) {
             case 400:
-              throw Exception(
-                  'Bad Request: The server could not understand the request.');
+              throw ('Bad Request: The server could not understand the request.');
             case 401:
-              throw Exception(
-                  'Unauthorized: Invalid credentials or token. Please login again.');
+              throw ('Unauthorized: Invalid credentials or token. Please login again.');
             case 403:
-              throw Exception(
-                  'Forbidden: You do not have permission to access this resource.');
+              throw ('Forbidden: You do not have permission to access this resource.');
             case 404:
-              throw Exception(
-                  'Not Found: The requested resource could not be found.');
+              throw ('Not Found: The requested resource could not be found.');
             case 500:
-              throw Exception(
-                  'Internal Server Error: Something went wrong on the server.');
+              throw ('Internal Server Error: Something went wrong on the server.');
             case 503:
-              throw Exception(
-                  'Service Unavailable: The server is currently unavailable. Please try again later.');
+              throw ('Service Unavailable: The server is currently unavailable. Please try again later.');
             default:
-              throw Exception('Error [$statusCode]: $responseMessage');
+              throw ('Error [$statusCode]: $responseMessage');
           }
         }
         break;
 
       case DioExceptionType.cancel:
-        throw Exception(
-            'Request Cancelled: The request was cancelled before completion.');
+        throw ('Request Cancelled: The request was cancelled before completion.');
       default:
-        throw Exception(
-            'Unknown Error: Something went wrong. Please try again.');
+        throw ('Unknown Error: Something went wrong. Please try again.');
     }
   }
 }
