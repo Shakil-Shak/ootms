@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:ootms/presentation/api/login_tokan.dart';
+import 'package:ootms/presentation/api/sharePrefarences/login_tokan.dart';
 import 'package:ootms/presentation/api/sharepreference_service.dart';
 
 class ApiService {
@@ -9,8 +9,7 @@ class ApiService {
 
   // Generic GET Request
   Future<dynamic> getRequest(String url) async {
-    ;
-    String token = service.getString(ootmsAccessToken)!;
+    String token = service.getString(ootmsUserAccessToken)!;
     try {
       final response = await _dio.get(
         url,

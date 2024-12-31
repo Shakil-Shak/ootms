@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/signin_controllers.dart';
+import 'package:ootms/presentation/api/sharePrefarences/login_tokan.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_loading.dart';
 import 'package:ootms/presentation/components/common_snackbar.dart';
@@ -153,9 +154,9 @@ class SignInPage extends StatelessWidget {
                             }
 
                             final signinModel = await controller.signIn(
-                              email: emailController.text,
-                              password: passwordController.text,
-                            );
+                                email: emailController.text,
+                                password: passwordController.text,
+                                role: user ? userString : driverString);
 
                             if (signinModel != null &&
                                 signinModel.status == "OK") {
