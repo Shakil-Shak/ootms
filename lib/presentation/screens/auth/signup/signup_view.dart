@@ -137,17 +137,22 @@ class _SignupPageState extends State<SignupPage> {
 
                             try {
                               final signupResponse = await controller.signup(
-                                fullName: fullNameController.text,
-                                email: emailController.text,
-                                password: passwordController.text,
-                                confirmPassword: confirmPasswordController.text,
-                              );
+                                  fullName: fullNameController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  confirmPassword:
+                                      confirmPasswordController.text,
+                                  user: widget.user ? "user" : "driver");
 
                               if (signupResponse != null) {
                                 showCommonSnackbar(context,
                                     "Signup successful! OTP sent to your email.");
                                 animetedNavigationPush(
-                                  OtpPage(user: widget.user, fromSignUp: true),
+                                  OtpPage(
+                                    user: widget.user,
+                                    fromSignUp: true,
+                                    token: signupResponse.data.signUpToken,
+                                  ),
                                   context,
                                 );
                               } else {

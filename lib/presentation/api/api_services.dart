@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:ootms/presentation/api/login_tokan.dart';
 import 'package:ootms/presentation/api/sharepreference_service.dart';
@@ -11,12 +9,15 @@ class ApiService {
 
   // Generic GET Request
   Future<dynamic> getRequest(String url) async {
-   ;
-      String token = service.getString(ootmsAccessToken)!;
+    ;
+    String token = service.getString(ootmsAccessToken)!;
     try {
-      final response = await _dio.get(url,options: Options(headers: {
-              "Authorization": "Bearer $token",
-            }),);
+      final response = await _dio.get(
+        url,
+        options: Options(headers: {
+          "Authorization": "Bearer $token",
+        }),
+      );
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -24,9 +25,10 @@ class ApiService {
   }
 
   // Generic POST Request
-  Future<dynamic> postRequest(String url, Map<String, dynamic> data) async {
+  Future<dynamic> postRequest(String url, Map<String, dynamic> data,
+      {token}) async {
     try {
-      final response = await _dio.post(url, data: data);
+      final response = await _dio.post(url, data: data, options: token);
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);

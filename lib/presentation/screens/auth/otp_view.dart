@@ -1,16 +1,30 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/signup_otp_controller.dart';
+import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_otp_field.dart';
+import 'package:ootms/presentation/components/common_snackbar.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/auth/signup/compleate_profile.dart';
+import 'package:ootms/presentation/screens/role/driver/driver_bottom_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/user_bottom_navigation.dart';
 import 'package:provider/provider.dart';
 
 class OtpPage extends StatelessWidget {
   final bool user, fromSignUp;
-  const OtpPage({super.key, required this.user, this.fromSignUp = false});
+  final String? token, email;
+  const OtpPage({
+    super.key,
+    this.token,
+    this.email,
+    required this.user,
+    this.fromSignUp = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -81,20 +95,56 @@ class OtpPage extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                commonButton("Verify", onTap: () {
-                  if (fromSignUp) {
-                    animetedNavigationPush(
-                        CompleateProfilePage(
-                          user: user,
-                        ),
-                        context);
-                  } else {
-                    if (user) {
-                      animetedNavigationPush(const UserRootPage(), context);
-                    } else {
-                      //driver
-                    }
-                  }
+                Consumer<SignUpOtpController>(
+                    builder: (context, controller, _) {
+                  return commonButton(
+                    controller.isLoading ? "Verifying..." : "Verify",
+                    onTap: controller.isLoading
+                        ? null // Disable button when loading
+                        : () async {
+                            if (token != null) {
+                              final response = await controller.verifyOtp(
+                                  context, ApiPaths.verifyEmailUrl,
+                                  token: Options(headers: {
+                                    "SignUpToken": "signUpToken $token",
+                                  }));
+                              if (response != null) {
+                                if (fromSignUp) {
+                                  animetedNavigationPush(
+                                    CompleateProfilePage(user: user),
+                                    context,
+                                  );
+                                }
+                              } else {
+                                showCommonSnackbar(
+                                  context,
+                                  "Invalid OTP. Please try again.",
+                                  isError: true,
+                                );
+                              }
+                            } else {
+                              final response = await controller.verifyOtp(
+                                  context, ApiPaths.verifyOtpUrl,
+                                  email: email);
+
+                              if (response != null) {
+                                if (user) {
+                                  animetedNavigationPush(
+                                      const UserRootPage(), context);
+                                } else {
+                                  animetedNavigationPush(
+                                      const DriverRootPage(), context);
+                                }
+                              } else {
+                                showCommonSnackbar(
+                                  context,
+                                  "Invalid OTP. Please try again.",
+                                  isError: true,
+                                );
+                              }
+                            }
+                          },
+                  );
                 }),
                 const SizedBox(height: 40),
               ],
@@ -103,51 +153,5 @@ class OtpPage extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class SignUpOtpController extends ChangeNotifier {
-  List<TextEditingController> controllers =
-      List.generate(6, (index) => TextEditingController());
-  int _timer = 30;
-  bool _isResendEnabled = false;
-
-  int get timer => _timer;
-  bool get isResendEnabled => _isResendEnabled;
-
-  SignUpOtpController() {
-    startTimer();
-  }
-
-  void startTimer() {
-    _isResendEnabled = false;
-    _timer = 30;
-    notifyListeners();
-
-    Future.delayed(const Duration(seconds: 1), updateTimer);
-  }
-
-  void updateTimer() {
-    if (_timer > 0) {
-      _timer--;
-      notifyListeners();
-      Future.delayed(const Duration(seconds: 1), updateTimer);
-    } else {
-      _isResendEnabled = true;
-      notifyListeners();
-    }
-  }
-
-  void resendOtp() {
-    startTimer();
-    // Add any additional logic for resending the OTP here
-  }
-
-  @override
-  void dispose() {
-    for (var controller in controllers) {
-      controller.dispose();
-    }
-    super.dispose();
   }
 }
