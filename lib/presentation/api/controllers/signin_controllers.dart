@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/presentation/api/api_services.dart';
-import 'package:ootms/presentation/api/login_tokan.dart';
+import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 import 'package:ootms/presentation/api/models/signin_model.dart';
-import 'package:ootms/presentation/api/sharepreference_service.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 
 class SignInPageController extends ChangeNotifier {
@@ -26,7 +25,9 @@ class SignInPageController extends ChangeNotifier {
   }
 
   Future<SignInModel?> signIn(
-      {required String email, required String password}) async {
+      {required String email,
+      required String password,
+      required String role}) async {
     try {
       _isLoading = true;
       notifyListeners();
@@ -41,9 +42,9 @@ class SignInPageController extends ChangeNotifier {
 
       if (response != null && response['status'] == "OK") {
         final signInModel = SignInModel.fromJson(response);
-        if (_rememberMe) {
-          await _saveTokenToLocalStorage(signInModel.data.accessToken);
-        }
+
+        saveUserAcessDetails(signInModel.data.accessToken, role);
+
         _isLoading = false;
         notifyListeners();
         return signInModel;
@@ -59,16 +60,4 @@ class SignInPageController extends ChangeNotifier {
       return null;
     }
   }
-
-  Future<void> _saveTokenToLocalStorage(String token) async {
-    SharedPreferencesService service = SharedPreferencesService();
-    await service.saveString(ootmsAccessToken, token);
-  }
-
-  // Future<bool> saveUser(String token, String id, String role) async {
-  //   sp.setString("token", token);
-  //   sp.setString("id", id);
-  //   sp.setString("role", role);
-  //   return true;
-  // }
 }

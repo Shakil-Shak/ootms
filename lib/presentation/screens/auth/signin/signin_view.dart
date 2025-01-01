@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/signin_controllers.dart';
+import 'package:ootms/presentation/api/sharePrefarences/login_tokan.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_loading.dart';
 import 'package:ootms/presentation/components/common_snackbar.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
+import 'package:ootms/presentation/components/common_validities.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/auth/signin/forget_password/forget_password_view.dart';
 import 'package:ootms/presentation/screens/auth/signup/signup_view.dart';
@@ -112,7 +114,10 @@ class SignInPage extends StatelessWidget {
                               InkWell(
                                 onTap: () {
                                   animetedNavigationPush(
-                                      ForgetPasswordPage(), context);
+                                      ForgetPasswordPage(
+                                        user: user,
+                                      ),
+                                      context);
                                 },
                                 child: commonText("Forgot Password",
                                     size: 16,
@@ -129,10 +134,29 @@ class SignInPage extends StatelessWidget {
                       Consumer<SignInPageController>(
                         builder: (context, controller, _) {
                           return commonButton("Sign In", onTap: () async {
+                            // Validate email
+                            final emailError = ValidationUtils.validateEmail(
+                                emailController.text);
+                            if (emailError != null) {
+                              showCommonSnackbar(context, emailError,
+                                  isError: true);
+                              return;
+                            }
+
+                            // Validate password
+                            final passwordError =
+                                ValidationUtils.validatePassword(
+                                    passwordController.text);
+                            if (passwordError != null) {
+                              showCommonSnackbar(context, passwordError,
+                                  isError: true);
+                              return;
+                            }
+
                             final signinModel = await controller.signIn(
-                              email: emailController.text,
-                              password: passwordController.text,
-                            );
+                                email: emailController.text,
+                                password: passwordController.text,
+                                role: user ? userString : driverString);
 
                             if (signinModel != null &&
                                 signinModel.status == "OK") {

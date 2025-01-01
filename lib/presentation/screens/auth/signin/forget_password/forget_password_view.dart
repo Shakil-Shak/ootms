@@ -9,11 +9,13 @@ import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_snackbar.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
+import 'package:ootms/presentation/components/common_validities.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/auth/otp_view.dart';
 
 class ForgetPasswordPage extends StatelessWidget {
-  ForgetPasswordPage({super.key});
+  ForgetPasswordPage({super.key, this.user = true});
+  bool user;
   TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -46,10 +48,18 @@ class ForgetPasswordPage extends StatelessWidget {
                   keyboardType: TextInputType.emailAddress),
               const Spacer(),
               commonButton("Get Verification Code", onTap: () async {
+                // Validate email
+                final emailError =
+                    ValidationUtils.validateEmail(emailController.text);
+                if (emailError != null) {
+                  showCommonSnackbar(context, emailError, isError: true);
+                  return;
+                }
+
                 try {
                   showCommonSnackbar(context, "Sending verification code...",
                       isError: false);
-
+                  print(emailController.text);
                   final response = await ApiService().postRequest(
                       ApiPaths.forgetPasswordUrl,
                       {
@@ -64,8 +74,7 @@ class ForgetPasswordPage extends StatelessWidget {
                     animetedNavigationPush(
                       OtpPage(
                         email: emailController.text,
-                        user:
-                            false, // Indicate it's not a user sign-up but a password reset
+                        user: user,
                         fromSignUp: false,
                       ),
                       context,

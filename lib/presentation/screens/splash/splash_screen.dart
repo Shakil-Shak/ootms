@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ootms/core/constants/assets/images_string.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
+import 'package:ootms/presentation/api/sharePrefarences/login_tokan.dart';
+import 'package:ootms/presentation/screens/role/driver/driver_bottom_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/user_bottom_navigation.dart';
 import 'package:ootms/presentation/screens/select_role.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -12,13 +16,28 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  List<String>? userDetails;
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () async {
+      userDetails = await getUserAcessDetails();
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const SelectRole()),
+        MaterialPageRoute(builder: (context) {
+          if (userDetails != null && userDetails!.length > 1) {
+            String tempAcessToken = userDetails![0];
+            String tempRole = userDetails![1];
+            if (tempAcessToken.isNotEmpty && tempRole == userString) {
+              return const UserRootPage();
+            }
+            if (tempAcessToken.isNotEmpty && tempRole == driverString) {
+              return const DriverRootPage();
+            }
+          }
+          return const SelectRole();
+        }),
       );
     });
   }

@@ -5,6 +5,7 @@ import 'package:ootms/app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
   // runApp(
   //   ChangeNotifierProvider(

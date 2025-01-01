@@ -1,17 +1,27 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/api_services.dart';
+import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_button.dart';
+import 'package:ootms/presentation/components/common_snackbar.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
+import 'package:ootms/presentation/components/common_validities.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/auth/signin/signin_view.dart';
 import 'package:provider/provider.dart';
 
 class ResetPasswordPage extends StatelessWidget {
   bool user;
-  ResetPasswordPage({super.key, required this.user});
+  String token, email;
+  ResetPasswordPage(
+      {super.key,
+      required this.user,
+      required this.token,
+      required this.email});
 
   final TextEditingController confirmPasswordController =
       TextEditingController();
@@ -87,16 +97,50 @@ class ResetPasswordPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        animetedNavigationPush(
-                            SignInPage(
-                              user: user,
-                            ),
-                            context);
-                      },
-                      child: commonButton("Reset Password"),
-                    ),
+                    commonButton("Reset Password", onTap: () async {
+                      // Validate password
+                      final passwordError = ValidationUtils.validatePassword(
+                          passwordController.text);
+                      if (passwordError != null) {
+                        showCommonSnackbar(context, passwordError,
+                            isError: true);
+                        return;
+                      }
+                      final confirmPasswordError =
+                          ValidationUtils.validateConfirmPassword(
+                        passwordController.text,
+                        confirmPasswordController.text,
+                      );
+
+                      if (confirmPasswordError != null) {
+                        showCommonSnackbar(context, confirmPasswordError,
+                            isError: true);
+                        return;
+                      }
+
+                      try {
+                        final response = await ApiService().postRequest(
+                            ApiPaths.resetPasswordUrl,
+                            {
+                              "email": email,
+                              "password": passwordController.text
+                            },
+                            token: Options(headers: {
+                              "Forget-password": "Forget-password ${token}"
+                            }));
+                        print(response);
+                        if (response != null && response['status'] == 'OK') {
+                          slideNavigationPushAndRemoveUntil(
+                              SignInPage(
+                                user: user,
+                              ),
+                              context);
+                        } else {
+                          throw Exception(response?['message'] ??
+                              'Failed to Reset Password.');
+                        }
+                      } catch (e) {}
+                    }),
                   ],
                 ),
               ),

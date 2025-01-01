@@ -1,18 +1,19 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unnecessary_null_comparison
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/signup_otp_controller.dart';
+import 'package:ootms/presentation/api/models/otp_model.dart';
+import 'package:ootms/presentation/api/models/user_registration.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_otp_field.dart';
 import 'package:ootms/presentation/components/common_snackbar.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/auth/signin/forget_password/reset_password_view.dart';
 import 'package:ootms/presentation/screens/auth/signup/compleate_profile.dart';
-import 'package:ootms/presentation/screens/role/driver/driver_bottom_navigation.dart';
-import 'package:ootms/presentation/screens/role/user/user_bottom_navigation.dart';
 import 'package:provider/provider.dart';
 
 class OtpPage extends StatelessWidget {
@@ -103,17 +104,31 @@ class OtpPage extends StatelessWidget {
                         ? null // Disable button when loading
                         : () async {
                             if (token != null) {
-                              final response = await controller.verifyOtp(
+                              final responsedata = await controller.verifyOtp(
                                   context, ApiPaths.verifyEmailUrl,
                                   token: Options(headers: {
-                                    "SignUpToken": "signUpToken $token",
+                                    "SignUpToken": "signUpToken ${token}",
                                   }));
+
+                              if (responsedata == null) {
+                                return;
+                              }
+
+                              final response =
+                                  UserRegistrationModel.fromJson(responsedata);
                               if (response != null) {
-                                if (fromSignUp) {
-                                  animetedNavigationPush(
-                                    CompleateProfilePage(user: user),
-                                    context,
-                                  );
+                                if (response.status == 'OK') {
+                                  if (fromSignUp) {
+                                    animetedNavigationPush(
+                                      CompleateProfilePage(user: user),
+                                      context,
+                                    );
+                                  }
+                                } else {
+                                  showCommonSnackbar(
+                                      context,
+                                      response.message ??
+                                          'Failed to verify OTP.');
                                 }
                               } else {
                                 showCommonSnackbar(
@@ -123,18 +138,21 @@ class OtpPage extends StatelessWidget {
                                 );
                               }
                             } else {
-                              final response = await controller.verifyOtp(
+                              final responsedata = await controller.verifyOtp(
                                   context, ApiPaths.verifyOtpUrl,
                                   email: email);
-
+                              if (responsedata == null) {
+                                return;
+                              }
+                              final response = OtpModels.fromJson(responsedata);
                               if (response != null) {
-                                if (user) {
-                                  animetedNavigationPush(
-                                      const UserRootPage(), context);
-                                } else {
-                                  animetedNavigationPush(
-                                      const DriverRootPage(), context);
-                                }
+                                animetedNavigationPush(
+                                    ResetPasswordPage(
+                                      user: user,
+                                      email: email!,
+                                      token: response.data.forgetPasswordToken,
+                                    ),
+                                    context);
                               } else {
                                 showCommonSnackbar(
                                   context,
