@@ -17,3 +17,15 @@ Future<List<String>?> getUserAcessDetails() async {
 
   return null;
 }
+
+void deleteUserAccessDetails() async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  preferences.remove(ootmsUserAccessToken); 
+  preferences.remove(ootmsUserRole);     
+}
+
+void clearAllData() async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  preferences.clear(); 
+}
+

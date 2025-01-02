@@ -1,15 +1,19 @@
 import 'package:dio/dio.dart';
+import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 import 'package:ootms/presentation/api/sharePrefarences/login_tokan.dart';
 import 'package:ootms/presentation/api/sharepreference_service.dart';
 
 class ApiService {
   final Dio _dio = Dio();
 
-  SharedPreferencesService service = SharedPreferencesService();
+  // SharedPreferencesService service = SharedPreferencesService();
+   List<String>? userDetails;
 
   // Generic GET Request
   Future<dynamic> getRequest(String url) async {
-    String token = service.getString(ootmsUserAccessToken)!;
+     userDetails = await getUserAcessDetails();
+      String token = userDetails![0];
+    // String token = service.getString(ootmsUserAccessToken)!;
     try {
       final response = await _dio.get(
         url,
@@ -26,8 +30,12 @@ class ApiService {
   // Generic POST Request
   Future<dynamic> postRequest(String url, Map<String, dynamic> data,
       {Options? token}) async {
+          userDetails = await getUserAcessDetails();
+           String accesstoken = userDetails![0];
     try {
-      final response = await _dio.post(url, data: data, options: token);
+      final response = await _dio.post(url, data: data,   options: Options(headers: {
+          "Authorization": "Bearer $accesstoken",
+        }),);
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);

@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/main.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
+import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
@@ -100,7 +102,7 @@ class _UserProfileState extends State<UserProfile> {
                               iconPath: "assets/icons/edit-profile.png",
                               text: "Edit Profile",
                               onTap: () {
-                                // controller.getProfileData();
+                                controller.getProfileData();
                                 animetedNavigationPush(
                                     const UserEditProfile(), context);
                               },
@@ -218,7 +220,8 @@ class _UserProfileState extends State<UserProfile> {
                     ),
                     Expanded(
                         child: commonButton("Logout", onTap: () {
-                      Navigator.pop(context);
+                      deleteUserAccessDetails();
+                      main();
                     }, borderRadious: 10, color: AppColor.primaryColor))
                   ],
                 ),
