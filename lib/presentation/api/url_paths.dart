@@ -14,4 +14,5 @@ class ApiPaths {
       '$baseUrl/api/v1/auth/change-password';
   static const String updateProfileUrl = '$baseUrl/api/v1/users/';
   static const String profileUrl = '$baseUrl/api/v1/users/user-details';
+  static const String currentShiping = '$baseUrl/api/v1/shipment/current';
 }
