@@ -30,12 +30,15 @@ class ApiService {
   // Generic POST Request
   Future<dynamic> postRequest(String url, Map<String, dynamic> data,
       {Options? token}) async {
-          userDetails = await getUserAcessDetails();
-           String accesstoken = userDetails![0];
+          // userDetails = await getUserAcessDetails();
+          //  String accesstoken = userDetails![0]?? "";
     try {
-      final response = await _dio.post(url, data: data,   options: Options(headers: {
-          "Authorization": "Bearer $accesstoken",
-        }),);
+      final response = await _dio.post(url, data: data,   
+      // options: Options(headers: {
+      //     "Authorization": "Bearer $accesstoken",
+      //   }),
+        
+        );
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
