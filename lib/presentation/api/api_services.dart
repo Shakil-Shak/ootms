@@ -7,12 +7,12 @@ class ApiService {
   final Dio _dio = Dio();
 
   // SharedPreferencesService service = SharedPreferencesService();
-   List<String>? userDetails;
+  List<String>? userDetails;
 
   // Generic GET Request
   Future<dynamic> getRequest(String url) async {
-     userDetails = await getUserAcessDetails();
-      String token = userDetails![0];
+    userDetails = await getUserAcessDetails();
+    String token = userDetails![0];
     // String token = service.getString(ootmsUserAccessToken)!;
     try {
       final response = await _dio.get(
@@ -30,15 +30,37 @@ class ApiService {
   // Generic POST Request
   Future<dynamic> postRequest(String url, Map<String, dynamic> data,
       {Options? token}) async {
-          // userDetails = await getUserAcessDetails();
-          //  String accesstoken = userDetails![0]?? "";
+    // userDetails = await getUserAcessDetails();
+    //  String accesstoken = userDetails![0]?? "";
     try {
-      final response = await _dio.post(url, data: data,   
-      // options: Options(headers: {
-      //     "Authorization": "Bearer $accesstoken",
-      //   }),
-        
-        );
+      final response = await _dio.post(
+        url, data: data,
+        // options: Options(headers: {
+        //     "Authorization": "Bearer $accesstoken",
+        //   }),
+      );
+      return response.data;
+    } on DioException catch (e) {
+      _handleDioError(e);
+    }
+  }
+
+  //==========================patch service
+  Future<dynamic> patchRequest(
+    String url,
+    Map<String, String> data,
+  ) async {
+    userDetails = await getUserAcessDetails();
+    String token = userDetails![0];
+    try {
+      final response = await _dio.patch(
+        url,
+        data: data,
+        options: Options(headers: {
+          "Authorization": "Bearer $token",
+          
+        }),
+      );
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -54,6 +76,53 @@ class ApiService {
       _handleDioError(e);
     }
   }
+
+
+//==========================put service for multipart data
+Future<dynamic> putMultipartRequest(
+  String url,
+  Map<String, dynamic> data,
+  Map<String, String> fileFields,
+) async {
+  userDetails = await getUserAcessDetails();
+  String token = userDetails![0];
+
+  try {
+
+    FormData formData = FormData();
+
+    // Add fields to FormData
+    data.forEach((key, value) {
+      formData.fields.add(MapEntry(key, value.toString()));
+    });
+
+    // Add files to FormData
+    for (var entry in fileFields.entries) {
+      formData.files.add(MapEntry(
+        entry.key,
+        await MultipartFile.fromFile(entry.value),
+      ));
+    }
+
+    // Perform the PUT request
+    final response = await _dio.put(
+      url,
+      data: formData,
+      options: Options(
+        headers: {
+          "Authorization": "Bearer $token",
+          // "Content-Type": "multipart/form-data",
+        },
+      ),
+    );
+
+    return response.data;
+  } on DioException catch (e) {
+    print("dio exception ============================$e");
+    _handleDioError(e);
+  }
+}
+
 
   // Generic DELETE Request
   Future<dynamic> deleteRequest(String url) async {

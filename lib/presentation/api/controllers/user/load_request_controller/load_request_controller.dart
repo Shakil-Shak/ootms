@@ -7,7 +7,7 @@ import 'package:ootms/presentation/api/url_paths.dart';
 
 
 class ShipingController extends ChangeNotifier {
-  final ApiService _apiService = ApiService();
+  final ApiService apiService = ApiService();
   bool isLoading = false;
   CurrentShippingModel? currentShipData;
   
@@ -17,8 +17,7 @@ Future<void> getCurrentShipData() async {
   try {
     isLoading = true;
     notifyListeners();
-
-    final response = await _apiService.getRequest(ApiPaths.currentShiping);
+    final response = await apiService.getRequest(ApiPaths.currentShiping);
 
     if (response is Map<String, dynamic>) {
       log("================================================current shiping successfull");

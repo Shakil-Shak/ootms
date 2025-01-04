@@ -286,11 +286,8 @@ import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
 import 'package:ootms/presentation/screens/role/user/profile/user_edit_profile.dart';
 import 'package:ootms/presentation/screens/role/user/settings/user_settings.dart';
-import 'package:ootms/presentation/screens/role/user/shipping/user_current_shipments.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_load_request.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../components/common_loading.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -334,12 +331,13 @@ class _UserProfileState extends State<UserProfile> {
                   child: Column(
                     children: [
                       // Safely checking if profileData and image are not null
-                      controller.profileData?.image.isNotEmpty ?? false
+                      controller.profileData.image!.isNotEmpty
                           ? CommonImage(
                               imageSrc: ApiPaths.baseUrl +
-                                  controller.profileData!.image,
+                                  controller.profileData.image!,
                               imageType: ImageType.network,
                               size: 100,
+                              borderRadius: 100,
                             )
                           : Container(
                               decoration: BoxDecoration(
@@ -387,9 +385,9 @@ class _UserProfileState extends State<UserProfile> {
                                   animetedNavigationPush(
                                       UserEditProfile(
                                         imagePath:
-                                            controller.profileData!.image,
-                                        title: controller.profileData!.fullName,
-                                        email: controller.profileData!.email,
+                                            controller.profileData.image!,
+                                        title: controller.profileData.fullName!,
+                                        email: controller.profileData.email!,
                                         contact: "134165415",
                                         address: "Dhaka",
                                         country: "Bangladesh",
@@ -405,34 +403,26 @@ class _UserProfileState extends State<UserProfile> {
                                 iconPath: "assets/icons/shipment.png",
                                 text: "Current Shipments",
                                 onTap: () {
-                                  controller.getCurrentShipData();
-                                  animetedNavigationPush(
-                                      UserCurrentShipmentsPage(), context);
+                                  controller.getCurrentShipData(context: context);
                                 },
                               );
                             }),
-                            // ProfileMenuItem(
-                            //   iconPath: "assets/icons/shipment.png",
-                            //   text: "Current Shipments",
-                            //   onTap: () {
-                            //     animetedNavigationPush(
-                            //         UserCurrentShipmentsPage(), context);
-                            //   },
-                            // ),
-                            ProfileMenuItem(
-                              iconPath: "assets/icons/arrow_up.png",
-                              text: "Load Request",
-                              onTap: () {
-                                animetedNavigationPush(
-                                    UserLoadRequestPage(), context);
-                              },
-                            ),
+                            Consumer<ProfileController>(
+                                builder: (context, controller, _) {
+                              return ProfileMenuItem(
+                                iconPath: "assets/icons/arrow_up.png",
+                                text: "Load Request",
+                                onTap: () {
+                                  controller.getLoadRequestData(context: context);
+                                },
+                              );
+                            }),
                             ProfileMenuItem(
                               iconPath: "assets/icons/settings.png",
                               text: "Settings",
                               onTap: () {
                                 animetedNavigationPush(
-                                    UserSettingsPage(), context);
+                                    const UserSettingsPage(), context);
                               },
                             ),
                             ProfileMenuItem(
@@ -469,7 +459,7 @@ class _UserProfileState extends State<UserProfile> {
               //==============================================common loading
               // Display CircularProgressIndicator when loading
               if (controller.isLoading)
-                Positioned.fill(
+                const Positioned.fill(
                   child: Align(
                     alignment: Alignment.center,
                     child: CircularProgressIndicator(

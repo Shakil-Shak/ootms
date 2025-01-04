@@ -51,8 +51,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
 
   Country? selectedCountry;
 
-
-@override
+  @override
   void initState() {
     super.initState();
     fullNameController.text = widget.title;
@@ -102,22 +101,24 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                     ),
                                   )
                                 : CommonImage(
-                              imageSrc: ApiPaths.baseUrl +widget.imagePath,
-                              imageType: ImageType.network,
-                              size: 90,
-                            ),
-                                // Container(
-                                //     width: 80,
-                                //     height: 80,
-                                //     margin: const EdgeInsets.all(2),
-                                //     decoration: BoxDecoration(
-                                //         color: AppColor.primaryColor,
-                                //         borderRadius: BorderRadius.circular(40),
-                                //         image: const DecorationImage(
-                                //             image: AssetImage(
-                                //                 "assets/icons/profile_icon_2.png"),
-                                //             fit: BoxFit.cover)),
-                                //   ),
+                                    imageSrc:
+                                        ApiPaths.baseUrl + widget.imagePath,
+                                    imageType: ImageType.network,
+                                    size: 90,
+                                    borderRadius: 100,
+                                  ),
+                            // Container(
+                            //     width: 80,
+                            //     height: 80,
+                            //     margin: const EdgeInsets.all(2),
+                            //     decoration: BoxDecoration(
+                            //         color: AppColor.primaryColor,
+                            //         borderRadius: BorderRadius.circular(40),
+                            //         image: const DecorationImage(
+                            //             image: AssetImage(
+                            //                 "assets/icons/profile_icon_2.png"),
+                            //             fit: BoxFit.cover)),
+                            //   ),
                             Positioned(
                               bottom: 5,
                               right: 2,
@@ -238,9 +239,19 @@ class _UserEditProfileState extends State<UserEditProfile> {
                     hintText: "Enter your address",
                   ),
                   const SizedBox(height: 50),
-                  InkWell(
-                    onTap: () {},
-                    child: commonButton("Submit"),
+                  Consumer<ProfileController>(
+                    builder: (context, controller, child) {
+                      return InkWell(
+                        onTap: () {
+                          controller.updateProfile(
+                              name: fullNameController.text,
+                              email: emailController.text,
+                              phone: phoneController.text,
+                              address: addressController.text);
+                        },
+                        child: commonButton("Submit"),
+                      );
+                    },
                   ),
                   const SizedBox(height: 10),
                 ],

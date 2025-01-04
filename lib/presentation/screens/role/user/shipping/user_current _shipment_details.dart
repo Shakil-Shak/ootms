@@ -3,15 +3,19 @@ import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 
+import '../../../../api/models/user_model/shiping_model/current_shiping_model.dart';
+
 class UserCurrentShipmentDetailsPage extends StatelessWidget {
+  final LoadRequest shipmentDetails;
   final String phone = "123-456-789",
       name = "NR Shakib",
       email = "example@gmail.com",
       address = "Rupatoli, Barishal";
 
-  const UserCurrentShipmentDetailsPage({super.key});
+   UserCurrentShipmentDetailsPage({super.key,required this.shipmentDetails});
   @override
   Widget build(BuildContext context) {
+    print("=================================================shipmentDetails $shipmentDetails");
     return Scaffold(
       backgroundColor: AppColor.white,
       appBar: AppBar(
@@ -37,7 +41,7 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         commonText("Driver Name", isBold: true),
-                        commonText(name),
+                        commonText(shipmentDetails.driver.fullName),
                       ],
                     ),
                   ),
@@ -46,7 +50,7 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         commonText("Driver Phone", isBold: true),
-                        commonText(phone),
+                        commonText(shipmentDetails.load.shipperPhoneNumber),
                       ],
                     ),
                   ),
@@ -61,7 +65,7 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         commonText("Driver Email", isBold: true),
-                        commonText(email),
+                        commonText(shipmentDetails.driver.email),
                       ],
                     ),
                   ),
@@ -70,7 +74,7 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         commonText("Driver Address", isBold: true),
-                        commonText(address),
+                        commonText(shipmentDetails.load.shippingAddress),
                       ],
                     ),
                   ),
