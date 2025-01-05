@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/helpers/other_helper.dart';
+import 'package:ootms/presentation/api/models/user_model/shiping_model/current_shiping_model.dart';
+import 'package:ootms/presentation/api/models/user_registration.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 
-import '../../../../api/models/user_model/shiping_model/current_shiping_model.dart';
-
 class UserCurrentShipmentDetailsPage extends StatelessWidget {
-  final LoadRequest shipmentDetails;
-  final String phone = "123-456-789",
-      name = "NR Shakib",
-      email = "example@gmail.com",
-      address = "Rupatoli, Barishal";
+  var shipmentDetails;
+  // final String phone = "123-456-789",
+  //     name = "NR Shakib",
+  //     email = "example@gmail.com",
+  //     address = "Rupatoli, Barishal";
 
-   UserCurrentShipmentDetailsPage({super.key,required this.shipmentDetails});
+  UserCurrentShipmentDetailsPage({super.key, required this.shipmentDetails});
   @override
   Widget build(BuildContext context) {
-    print("=================================================shipmentDetails $shipmentDetails");
+    print(
+        "===========================================details $shipmentDetails");
     return Scaffold(
       backgroundColor: AppColor.white,
       appBar: AppBar(
@@ -50,7 +52,7 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         commonText("Driver Phone", isBold: true),
-                        commonText(shipmentDetails.load.shipperPhoneNumber),
+                        commonText(shipmentDetails.driver.phoneNumber),
                       ],
                     ),
                   ),
@@ -103,7 +105,8 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         commonText("Trailer size", isBold: true),
-                        commonText("48-foot trailer."),
+                        commonText(
+                            "${shipmentDetails.load.trailerSize}-foot trailer."),
                       ],
                     ),
                   ),
@@ -118,7 +121,8 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         commonText("Pallet Spaces", isBold: true),
-                        commonText("24 pallets."),
+                        commonText(
+                            "${shipmentDetails.load.palletSpace} pallets."),
                       ],
                     ),
                   ),
@@ -157,7 +161,7 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                               isBold: true,
                             ),
                             commonText(
-                              "Dry Load",
+                              shipmentDetails.load.loadType,
                               size: 14,
                             ),
                             const SizedBox(height: 10),
@@ -167,11 +171,15 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                               isBold: true,
                             ),
                             commonText(
-                              "12-12-2024",
+                              OtherHelper.getDate(
+                                  serverDate: shipmentDetails.load.pickupDate
+                                      .toString()),
                               size: 14,
                             ),
-                            commonText("Address: Rupatoli, Barishal",
-                                size: 14, fontWeight: FontWeight.w500),
+                            commonText(
+                                "Address: ${shipmentDetails.load.shippingAddress}",
+                                size: 14,
+                                fontWeight: FontWeight.w500),
                             const SizedBox(height: 10),
                             commonText(
                               "Weight",
@@ -179,7 +187,7 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                               isBold: true,
                             ),
                             commonText(
-                              "120 kg",
+                              "${shipmentDetails.load.weight.toString()} Kg",
                               size: 14,
                             ),
                           ],
@@ -195,7 +203,7 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                               isBold: true,
                             ),
                             commonText(
-                              "48-foot trailer—24 pallets",
+                              "${shipmentDetails.load.trailerSize}-foot trailer—24 pallets",
                               size: 14,
                             ),
                             const SizedBox(height: 10),
@@ -205,11 +213,15 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                               isBold: true,
                             ),
                             commonText(
-                              "13-12-2024",
+                              OtherHelper.getDate(
+                                  serverDate: shipmentDetails.load.deliveryDate
+                                      .toString()),
                               size: 14,
                             ),
-                            commonText("Address: Banasree, Dhaka",
-                                size: 14, fontWeight: FontWeight.w500),
+                            commonText(
+                                "Address: ${shipmentDetails.load.receivingAddress}",
+                                size: 14,
+                                fontWeight: FontWeight.w500),
                             const SizedBox(height: 10),
                             commonText(
                               "HazMat",
@@ -217,7 +229,7 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                               isBold: true,
                             ),
                             commonText(
-                              "Flammable Gas 2,\nCorrosive, Danger.",
+                              shipmentDetails.load.hazmat,
                               size: 14,
                             ),
                           ],

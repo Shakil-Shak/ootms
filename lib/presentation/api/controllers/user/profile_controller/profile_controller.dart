@@ -21,7 +21,7 @@ class ProfileController extends ChangeNotifier {
   getProfileImage() async {
     image = await OtherHelper.openGallery();
     notifyListeners();
-    debugPrint("==============================image${File(image??"")}");
+    debugPrint("==============================image${File(image ?? "")}");
   }
 
   Future<void> getProfileData() async {
@@ -53,7 +53,8 @@ class ProfileController extends ChangeNotifier {
   }
 
 //====================================================current shiping method
-  CurrentShippingModel? currentShipData;
+
+  List<CurrentShippingModel> currentShipData = [];
   bool isCurrentShip = false;
 
   Future<void> getCurrentShipData({required context}) async {
@@ -70,9 +71,11 @@ class ProfileController extends ChangeNotifier {
         final responseData = response['data'];
         log("responseData: $responseData");
         if (responseData != null && responseData is Map<String, dynamic>) {
-          currentShipData = CurrentShippingModel.fromJson(responseData);
-          // Navigator.push(context,
-          //     MaterialPageRoute(builder: (_) => UserCurrentShipmentsPage()));
+          List responseData =
+              response['data']?["attributes"]?["loadRequests"] ?? [];
+          currentShipData = responseData
+              .map((items) => CurrentShippingModel.fromJson(items))
+              .toList();
           animetedNavigationPush(UserCurrentShipmentsPage(), context);
           print("success");
           isLoading = false;
@@ -95,8 +98,8 @@ class ProfileController extends ChangeNotifier {
   }
 
   //==================================================get load request data
-  // LoadRequestModel loadRequestData = LoadRequestModel();
   List<LoadRequestModel> loadRequestData = [];
+
   Future<void> getLoadRequestData({required context}) async {
     isLoading = true;
     notifyListeners();
@@ -104,10 +107,13 @@ class ProfileController extends ChangeNotifier {
       final response = await _apiService
           .getRequest(ApiPaths.userLoadRequest(requestType: false));
       log("Full Response: $response");
-      log("================================================successfull");
 
-      if (response['statusCode'] == 200) {
-        List responseData = response['data']["attributes"]["loadRequests"];
+      if (response != null &&
+          response['statusCode'] != null &&
+          response['statusCode'] == 200) {
+        log("================================================successfull");
+        List responseData =
+            response['data']?["attributes"]?["loadRequests"] ?? [];
         log("responseData: $responseData");
 
         loadRequestData = responseData
@@ -118,17 +124,20 @@ class ProfileController extends ChangeNotifier {
         log("topu");
         notifyListeners();
       } else {
-        log("Error: statusCode is not 200, received ${response['statusCode']}");
+        log("Error: statusCode is not 200 or response is null");
         isLoading = false;
         notifyListeners();
       }
     } catch (e) {
       log("$e");
+      isLoading = false;
+      notifyListeners();
     } finally {
       isLoading = false;
       notifyListeners();
     }
   }
+
   //===================================================update profile
 
   Future<void> updateProfile({
@@ -150,18 +159,17 @@ class ProfileController extends ChangeNotifier {
 
     // Files to upload
     Map<String, String> fileFields = {
-      "profileImage": image??"",
+      "profileImage": image ?? "",
     };
     debugPrint("=======================================imagePath$image");
     final response = await _apiService.putMultipartRequest(
-          ApiPaths.updateProfileUrl, data, fileFields);
+        ApiPaths.updateProfileUrl, data, fileFields);
 
     try {
-      
       log("===========================================Upload successful: ${response["statusCode"]}");
     } catch (e) {
       log("=========================Error: $e");
-      
+
       log("===========================================Upload Error: ${response["statusCode"]}");
     } finally {
       isLoading = false;

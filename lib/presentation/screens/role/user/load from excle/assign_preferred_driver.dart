@@ -1,15 +1,14 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:ootms/presentation/api/controllers/user/load_controller/load_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
-import 'package:ootms/presentation/navigation/animeted_navigation.dart';
-import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_loads.dart';
+import 'package:provider/provider.dart';
 
 class AssignPreferredDriver extends StatelessWidget {
-  AssignPreferredDriver({super.key});
-  TextEditingController controller = TextEditingController();
+ const AssignPreferredDriver({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,23 +18,30 @@ class AssignPreferredDriver extends StatelessWidget {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            commonText("Driver ID", size: 18),
-            const SizedBox(height: 16),
-            commonTextfield(controller, hintText: "Enter the driver ID here"),
-            const SizedBox(height: 16),
-            commonButton(
-              "Continue",
-              onTap: () {
-                animetedNavigationPush(AssignLoadsScreen(), context);
-              },
-            )
-          ],
-        ),
-      ),
+          padding: const EdgeInsets.all(16.0),
+          child: Consumer<LoadController>(
+            builder: (context, value, child) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  commonText("Driver ID", size: 18),
+                  const SizedBox(height: 16),
+                  commonTextfield(value.driverIdcontroller,
+                      hintText: "Enter the driver ID here"),
+                  const SizedBox(height: 16),
+                  commonButton(
+                    isLoading: value.isLoading,
+                    "Continue",
+                    onTap: () {
+                      value.createLoad();
+                      print("topu");
+                      // animetedNavigationPush(AssignLoadsScreen(), context);
+                    },
+                  )
+                ],
+              );
+            },
+          )),
     );
   }
 }

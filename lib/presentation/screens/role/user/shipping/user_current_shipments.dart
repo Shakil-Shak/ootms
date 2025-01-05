@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
-import 'package:ootms/presentation/api/models/user_model/shiping_model/current_shiping_model.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_image.dart';
@@ -359,11 +358,10 @@ class UserCurrentShipmentsPage extends StatelessWidget {
                       height: 16,
                     ),
                     padding: const EdgeInsets.all(16.0),
-                    itemCount: controller.currentShipData!.loadRequests.length,
+                    itemCount: controller.currentShipData.length,
                     itemBuilder: (context, index) {
                       final request = loadRequests[index];
-                      var data =
-                          controller.currentShipData?.loadRequests[index];
+                      var data = controller.currentShipData[index];
 
                       return InkWell(
                         onTap: () {
@@ -381,7 +379,7 @@ class UserCurrentShipmentsPage extends StatelessWidget {
                                 ),
                                 child: CommonImage(
                                   imageSrc:
-                                      ApiPaths.baseUrl + data!.driver.image,
+                                      ApiPaths.baseUrl + data.driver.image,
                                   imageType: ImageType.network,
                                   fill: BoxFit.cover,
                                   size: 40,
@@ -397,7 +395,7 @@ class UserCurrentShipmentsPage extends StatelessWidget {
                                   const SizedBox(
                                     height: 4,
                                   ),
-                                  commonText(data.load.receivingAddress,
+                                  commonText("${data.load.trailerSize} foot trailer - ${data.load.palletSpace} Pallets.",
                                       size: 14),
                                   const SizedBox(
                                     height: 4,

@@ -9,6 +9,8 @@ import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_load_request_details.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../api/models/user_model/load_request_model/load_request_model.dart';
+
 class UserLoadRequestPage extends StatefulWidget {
   final bool isFromDrawer;
   const UserLoadRequestPage({super.key, this.isFromDrawer = false});
@@ -19,32 +21,6 @@ class UserLoadRequestPage extends StatefulWidget {
 
 class _UserLoadRequestPageState extends State<UserLoadRequestPage>
     with SingleTickerProviderStateMixin {
-  final List<Map<String, dynamic>> loadRequests = [
-    {
-      'driverName': 'Sabbir Ahmed',
-      'truckInfo': '48-foot trailer—24 pallets.',
-      'availability': 'The truck is fully available.',
-      'driverImage': 'https://i.pravatar.cc/100',
-    },
-    {
-      'driverName': 'Sabbir Ahmed',
-      'truckInfo': '48-foot trailer—24 pallets.',
-      'availability': 'The truck is fully available.',
-      'driverImage': 'https://i.pravatar.cc/100',
-    },
-    {
-      'driverName': 'Sabbir Ahmed',
-      'truckInfo': '48-foot trailer—24 pallets.',
-      'availability': 'The truck is fully available.',
-      'driverImage': 'https://i.pravatar.cc/100',
-    },
-    {
-      'driverName': 'Sabbir Ahmed',
-      'truckInfo': '48-foot trailer—24 pallets.',
-      'availability': 'The truck is fully available.',
-      'driverImage': 'https://i.pravatar.cc/100',
-    },
-  ];
 
   TabController? _tabController;
 
@@ -152,7 +128,8 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                           padding: const EdgeInsets.all(16.0),
                           itemCount: controller.loadRequestData.length,
                           itemBuilder: (context, index) {
-                            final request = controller.loadRequestData[index];
+                            LoadRequestModel request =
+                                controller.loadRequestData[index];
 
                             return Row(
                               children: [
@@ -165,24 +142,24 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                                         children: [
                                           CommonImage(
                                             imageSrc: ApiPaths.baseUrl +
-                                                request.driver!.image,
+                                                request.driver.image,
                                             imageType: ImageType.network,
                                             size: 50,
                                             borderRadius: 100,
                                           ),
                                           const SizedBox(width: 16),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               commonText(
-                                                  request.driver!.fullName,
+                                                  request.driver.fullName,
                                                   size: 16,
                                                   isBold: true),
                                               const SizedBox(
                                                 height: 4,
                                               ),
-                                              commonText(
-                                                  request.driver!.phoneNumber,
+                                              commonText("${request.load.trailerSize}-foot trailer-${request.load.palletSpace} pallets.",
                                                   size: 14),
                                               const SizedBox(
                                                 height: 4,
@@ -193,9 +170,7 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                                                       size: 12,
                                                       color: Colors.green),
                                                   const SizedBox(width: 4),
-                                                  commonText(
-                                                      request.createdAt
-                                                          .toString(),
+                                                  commonText("The truck is fully available.",
                                                       size: 14),
                                                 ],
                                               ),
@@ -228,7 +203,26 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                                               child: commonButton("Accept Load",
                                                   onTap: () {
                                                 animetedNavigationPush(
-                                                    UserLoadRequestDetailsPage(),
+                                                    UserLoadRequestDetailsPage(
+                                                      driverName: request
+                                                          .driver.fullName,
+                                                      driverPhone: request
+                                                          .driver.phoneNumber,
+                                                      driverAddress: request
+                                                          .driver.address,
+                                                      driverEmail:
+                                                          request.driver.email,
+                                                      truckNumber: request
+                                                          .truck.truckNumber,
+                                                      trailerSize: request
+                                                          .truck.trailerSize
+                                                          .toString(),
+                                                      palletSpaces: request
+                                                          .truck.palletSpace
+                                                          .toString(),
+                                                      availability:
+                                                          "Fully Available",
+                                                    ),
                                                     context);
                                               },
                                                   borderRadious: 10,

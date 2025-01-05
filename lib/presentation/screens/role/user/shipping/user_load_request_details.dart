@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
@@ -9,12 +10,31 @@ import 'package:ootms/presentation/components/common_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UserLoadRequestDetailsPage extends StatelessWidget {
-  String phone = "123-456-789",
-      name = "NR Shakib",
-      email = "example@gmail.com",
-      address = "Rupatoli, Barishal";
+  String driverName;
+  String driverPhone;
+  String driverEmail;
+  String driverAddress;
+  String truckNumber;
+  String trailerSize;
+  String palletSpaces;
+  String availability;
 
-  UserLoadRequestDetailsPage({super.key});
+  // String phone = "123-456-789",
+  //     name = "NR Shakib",
+  //     email = "example@gmail.com",
+  //     address = "Rupatoli, Barishal";
+
+  UserLoadRequestDetailsPage({
+    super.key,
+    required this.driverName,
+    required this.driverPhone,
+    required this.driverAddress,
+    required this.driverEmail,
+    required this.truckNumber,
+    required this.trailerSize,
+    required this.palletSpaces,
+    required this.availability,
+  });
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +59,7 @@ class UserLoadRequestDetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText("Driver Name", isBold: true),
-                      commonText(name),
+                      commonText(driverName),
                     ],
                   ),
                 ),
@@ -48,7 +68,7 @@ class UserLoadRequestDetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText("Driver Phone", isBold: true),
-                      commonText(phone),
+                      commonText(driverPhone),
                     ],
                   ),
                 ),
@@ -63,7 +83,7 @@ class UserLoadRequestDetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText("Driver Email", isBold: true),
-                      commonText(email),
+                      commonText(driverEmail),
                     ],
                   ),
                 ),
@@ -72,7 +92,7 @@ class UserLoadRequestDetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText("Driver Address", isBold: true),
-                      commonText(address),
+                      commonText(driverAddress),
                     ],
                   ),
                 ),
@@ -92,7 +112,7 @@ class UserLoadRequestDetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText("Truck Number", isBold: true),
-                      commonText("DHK METRO HA 64-8549"),
+                      commonText(truckNumber),
                     ],
                   ),
                 ),
@@ -101,7 +121,7 @@ class UserLoadRequestDetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText("Trailer size", isBold: true),
-                      commonText("48-foot trailer."),
+                      commonText(trailerSize),
                     ],
                   ),
                 ),
@@ -116,7 +136,7 @@ class UserLoadRequestDetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText("Pallet Spaces", isBold: true),
-                      commonText("24 pallets."),
+                      commonText("$palletSpaces pallets."),
                     ],
                   ),
                 ),
@@ -125,7 +145,7 @@ class UserLoadRequestDetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText("Availability", isBold: true),
-                      commonText("Fully Available."),
+                      commonText(availability),
                     ],
                   ),
                 ),
@@ -169,7 +189,7 @@ class UserLoadRequestDetailsPage extends StatelessWidget {
                 // Phone icon button
                 InkWell(
                   onTap: () {
-                    _launchDialer(phone);
+                    _launchDialer(driverPhone);
                   },
                   child: Container(
                     padding: const EdgeInsets.all(8),

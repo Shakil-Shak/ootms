@@ -44,7 +44,7 @@ class ApiService {
       _handleDioError(e);
     }
   }
-Future<dynamic> otherPostRequest(String url, String data, {Options? token}) async {
+Future<dynamic> otherPostRequest(String url,data, {Options? token}) async {
   userDetails = await getUserAcessDetails();
   String accesstoken = userDetails![0] ?? "";
 
@@ -55,7 +55,7 @@ Future<dynamic> otherPostRequest(String url, String data, {Options? token}) asyn
       options: Options(
         headers: {
           "Authorization": "Bearer $accesstoken",
-          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/json',
         },
       ),
     );
