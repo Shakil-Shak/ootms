@@ -16,6 +16,9 @@ class ApiPaths {
       '$baseUrl/api/v1/auth/change-password';
   static const String updateProfileUrl = '$baseUrl/api/v1/users/';
   static const String profileUrl = '$baseUrl/api/v1/users/user-details';
+  static const String createLoad = '$baseUrl/api/v1/loads/';
+  static const String userSupport = '$baseUrl/api/v1/static-contents';
+  static String staticContent({contentType}) => '$baseUrl/api/v1/static-contents?type=$contentType';
   static const String currentShiping = '$baseUrl/api/v1/shipment/current';
   static const String chagePassword = '$baseUrl/api/v1/auth/change-password';
   static  String userLoadRequest({bool? requestType}) => '$baseUrl/api/v1/loads-request?myRequests=$requestType';

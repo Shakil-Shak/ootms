@@ -1,50 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../api/controllers/user/static_controller/static_controller.dart';
 
 class UserPrivacyPolicyPage extends StatelessWidget {
   const UserPrivacyPolicyPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final staticController =
+        Provider.of<StaticController>(context, listen: false);
+    staticController.getPrivacyPolicy(context);
+
     return Scaffold(
       backgroundColor: AppColor.white,
       appBar: AppBar(
         backgroundColor: AppColor.white,
-        title: commonText('Privacy policy', size: 20, isBold: true),
+        title: commonText('Privacy Policy', size: 20, isBold: true),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              commonText(
-                'Lorem ipsum dolor sit amet consectetur. . Convallis vel risus egestas ornare proin in. Arcu sodales tempus tellus mattis ac elit hendrerit sapien venenatis id gravida nisl.',
-                size: 14,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.circle,
-                      size: 10,
+        child: Consumer<StaticController>(
+          builder: (context, controller, child) {
+            if (controller.isLoading) {
+              return SizedBox(
+                  height: MediaQuery.of(context).size.height/1.5,
+                child: const Center(
+                    child: CircularProgressIndicator(
+                  color: AppColor.primaryColor,
+                )),
+              );
+            }
+            if (controller.privacyPolicy.isEmpty ||
+                controller.privacyPolicy['attributes']?['content'] == null) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height/1.5,
+                  child: Center(
+                    child: commonText(
+                      'Privacy Policy is Empty',
+                      size: 14,
+                      isBold: false,
                     ),
                   ),
-                  Expanded(
-                    child: commonText(
-                        "Lorem ipsum dolor sit amet consectetur. Mauris cursus laoreet ut egestas. Faucibus elit nunc luctus felis. Nullam faucibus quisque tristique elementum sagittis tempus at lectus. Mattis ipsum amet eu aliquam lorem mi scelerisque sodales viverra. Convallis pretium consequat risus ut augue. Parturient at aliquam egestas diam sed. Sagittis et malesuada sem cras. Maecenas eu aliquam id feugiat gravida nisl ultricies. Integer dui odio nibh quis. Faucibus a luctus amet enim lobortis odio. In turpis sed quam sed etiam senectus bibendum in a. Sagittis dui fringilla morbi sit interdum netus. Lacinia nulla at fusce pellentesque elementum suscipit venenatis. Nisl id aliquet quis id sed cursus vel senectus risus. Neque donec aliquet urna dictumst. Tortor semper lorem lacus ipsum commodo. Eget amet urna montes libero enim in semper. Nisi vivamus consectetur euismod ut eget sit ultricies cursus lectus. Nisl cursus fermentum tempor at.",
-                        size: 18),
-                  )
-                ],
-              )
-            ],
-          ),
+                ),
+              );
+            }
+            final content = controller.privacyPolicy['attributes']?['content'];
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: commonText(
+                content,
+                size: 18,
+                fontWeight: FontWeight.w500,
+                textAlign: TextAlign.justify
+              ),
+            );
+          },
         ),
       ),
     );

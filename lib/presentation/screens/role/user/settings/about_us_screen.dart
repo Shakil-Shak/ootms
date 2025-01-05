@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:ootms/core/constants/color/app_color.dart';
-import 'package:ootms/presentation/components/common_text.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../core/constants/color/app_color.dart';
 import '../../../../api/controllers/user/static_controller/static_controller.dart';
+import '../../../../components/common_text.dart';
 
-class UserTermsconditionsPage extends StatelessWidget {
-  const UserTermsconditionsPage({super.key});
+class AboutUsScreen extends StatelessWidget {
+  const AboutUsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class UserTermsconditionsPage extends StatelessWidget {
       backgroundColor: AppColor.white,
       appBar: AppBar(
         backgroundColor: AppColor.white,
-        title: commonText('Terms & conditions', size: 20, isBold: true),
+        title: commonText('About Us', size: 20, isBold: true),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -26,22 +26,22 @@ class UserTermsconditionsPage extends StatelessWidget {
           builder: (context, controller, child) {
             if (controller.isLoading) {
               return SizedBox(
-                height: MediaQuery.of(context).size.height / 1.5,
+                height: MediaQuery.of(context).size.height/1.5,
                 child: const Center(
                     child: CircularProgressIndicator(
                   color: AppColor.primaryColor,
                 )),
               );
             }
-            if (controller.termsConditions.isEmpty ||
-                controller.termsConditions['attributes']?['content'] == null) {
+            if (controller.aboutUs.isEmpty ||
+                controller.aboutUs['attributes']?['content'] == null) {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height / 1.5,
+                  height: MediaQuery.of(context).size.height/1.5,
                   child: Center(
                     child: commonText(
-                      'Terms and Conditions is Empty',
+                      'About Us is Empty',
                       size: 14,
                       isBold: false,
                     ),
@@ -49,14 +49,15 @@ class UserTermsconditionsPage extends StatelessWidget {
                 ),
               );
             }
-            final content =
-                controller.termsConditions['attributes']?['content'];
+            final content = controller.aboutUs['attributes']?['content'];
             return Padding(
               padding: const EdgeInsets.all(16.0),
-              child: commonText(content,
-                  size: 18,
-                  fontWeight: FontWeight.w500,
-                  textAlign: TextAlign.justify),
+              child: commonText(
+                content,
+                size: 18,
+                fontWeight: FontWeight.w500,
+                textAlign: TextAlign.justify
+              ),
             );
           },
         ),

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/user/load_controller/load_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_map2.dart';
 import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_preferred_driver.dart';
+import 'package:provider/provider.dart';
 
 class UserCreateLoadPage extends StatefulWidget {
   const UserCreateLoadPage({super.key});
@@ -83,66 +85,73 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: commonText("Create Load", size: 21, isBold: true),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: const Color(0xFF2D4E68),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            child: TabBar(
-              controller: _tabController,
-              dividerColor: Colors.transparent,
-              indicator: BoxDecoration(
-                color: AppColor.primaryColorLight,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              indicatorSize: TabBarIndicatorSize.tab,
-              tabs: [
-                Tab(
-                  child: FittedBox(
-                    child: commonText(
-                      "Receiver\nInformation",
-                      textAlign: TextAlign.center,
-                      isBold: true,
-                      size: 21,
-                      color: (_tabController!.index == 0)
-                          ? AppColor.black
-                          : AppColor.white,
+        appBar: AppBar(
+          title: commonText("Create Load", size: 21, isBold: true),
+          centerTitle: true,
+        ),
+        body: Consumer<LoadController>(
+          builder: (context, controller, child) {
+            return Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF2D4E68),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TabBar(
+                    controller: _tabController,
+                    dividerColor: Colors.transparent,
+                    indicator: BoxDecoration(
+                      color: AppColor.primaryColorLight,
+                      borderRadius: BorderRadius.circular(16),
                     ),
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    tabs: [
+                      Tab(
+                        child: FittedBox(
+                          child: commonText(
+                            "Receiver\nInformation",
+                            textAlign: TextAlign.center,
+                            isBold: true,
+                            size: 21,
+                            color: (_tabController!.index == 0)
+                                ? AppColor.black
+                                : AppColor.white,
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: FittedBox(
+                          child: commonText(
+                            "Shipper's\nInformation",
+                            textAlign: TextAlign.center,
+                            isBold: true,
+                            size: 21,
+                            color: (_tabController!.index == 1)
+                                ? AppColor.black
+                                : AppColor.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Tab(
-                  child: FittedBox(
-                    child: commonText(
-                      "Shipper's\nInformation",
-                      textAlign: TextAlign.center,
-                      isBold: true,
-                      size: 21,
-                      color: (_tabController!.index == 1)
-                          ? AppColor.black
-                          : AppColor.white,
-                    ),
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      receiverInformationTab(),
+                      shipperInformationTab()
+                    ],
                   ),
                 ),
               ],
-            ),
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [receiverInformationTab(), shipperInformationTab()],
-            ),
-          ),
-        ],
-      ),
-    );
+            );
+          },
+        ));
   }
 
   Widget receiverInformationTab() {
@@ -259,16 +268,23 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
             ),
             const SizedBox(height: 16),
             // Next Button
-            commonIconButton(
-              "Next",
-              isRight: true,
-              const Icon(
-                Icons.arrow_forward,
-                color: AppColor.white,
-              ),
-              onTap: () {
-                _tabController!.index = 1;
-                setState(() {});
+            Consumer<LoadController>(
+              builder: (context, value, child) {
+                return commonIconButton(
+                  "Next",
+                  isRight: true,
+                  const Icon(
+                    Icons.arrow_forward,
+                    color: AppColor.white,
+                  ),
+                  onTap: () {
+                    _tabController!.index = 1;
+                    setState(() {
+                      value.createLoad();
+                      print("===================================topu");
+                    });
+                  },
+                );
               },
             )
           ],
