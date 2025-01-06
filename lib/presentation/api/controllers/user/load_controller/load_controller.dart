@@ -103,7 +103,7 @@ class LoadController extends ChangeNotifier {
     // ];
     List<Map<String, dynamic>> data = [
       {
-        "driver": driverIdcontroller.text,
+        // "driver": driverIdcontroller.text,
         "shipperName": shipperNameController.text,
         "shipperPhoneNumber": shipperPhoneController.text,
         "shipperEmail": shipperEmailController.text,
@@ -117,7 +117,7 @@ class LoadController extends ChangeNotifier {
         "trailerType": loadTypeController.text,
         "trailerSize": trailerSizeController.text,
         "productType": productTypeCtrl.text,
-        "isHazmat": isHazMat,
+        // "isHazmat": isHazMat,
         "Hazmat": "gas-2",
         "description": descriptionController.text,
         "shipmentPayment": paymentCtl.text,
