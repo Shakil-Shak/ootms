@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:ootms/presentation/api/api_services.dart';
+import 'package:ootms/presentation/api/service/api_services.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 
 class StaticController extends ChangeNotifier {

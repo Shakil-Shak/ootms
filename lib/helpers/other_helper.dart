@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 class OtherHelper {
+  
+  static const String bearerToken = "BearerToken";
   //===================================pick image from gallery
     static Future<String?> openGallery() async {
     final ImagePicker picker = ImagePicker();

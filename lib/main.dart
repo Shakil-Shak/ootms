@@ -15,7 +15,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => ProfileController()),
         ChangeNotifierProvider(create: (_) => LoadController()),
-        ChangeNotifierProvider(create: (_) => StaticController()),
+        ChangeNotifierProvider(create: (_) => StaticController ()),
       ],
       child:const MyApp(),
     ),

@@ -5,7 +5,7 @@ import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../api/api_services.dart';
+import '../../../../api/service/api_services.dart';
 import '../../../../api/url_paths.dart';
 import '../../../../components/common_loading.dart';
 

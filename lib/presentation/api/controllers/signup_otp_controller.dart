@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:ootms/presentation/api/api_services.dart';
+import 'package:ootms/presentation/api/service/api_services.dart';
 import 'package:ootms/presentation/components/common_snackbar.dart';
 
 class SignUpOtpController extends ChangeNotifier {

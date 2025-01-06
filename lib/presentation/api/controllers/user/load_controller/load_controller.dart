@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../api_services.dart';
+import '../../../service/api_services.dart';
 import '../../../url_paths.dart';
 
 class LoadController extends ChangeNotifier {
@@ -40,7 +40,6 @@ class LoadController extends ChangeNotifier {
   final TextEditingController paymentCtl = TextEditingController();
   bool isHazMat = false;
   List<String> hazmatList = [];
-  final ApiService apiService = ApiService();
   bool isLoading = false;
   Map<String, bool> hazMatItems = {
     "Dangerous": false,
@@ -105,15 +104,15 @@ class LoadController extends ChangeNotifier {
     print("=================================================data $data");
 
     try {
-      final response =
-          await apiService.otherPostRequest(ApiPaths.createLoad, data);
-      print(
-          "44==========================================================response$response");
+      // final response =
+          // await apiService.otherPostRequest(ApiPaths.createLoad, data);
+      // print(
+      //     "44==========================================================response$response");
 
-      log("status code before =-==================${response["statusCode"]}");
-      if (response["statusCode"] == 201) {
-        log("===================================================================create load success");
-      }
+      // log("status code before =-==================${response["statusCode"]}");
+      // if (response["statusCode"] == 201) {
+      //   log("===================================================================create load success");
+      // }
     } catch (e) {
       log("failed =-==================$e");
     } finally {
