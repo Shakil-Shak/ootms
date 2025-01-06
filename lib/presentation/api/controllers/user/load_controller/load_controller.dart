@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../api_services.dart';
@@ -7,9 +8,9 @@ import '../../../url_paths.dart';
 
 class LoadController extends ChangeNotifier {
   TextEditingController driverIdcontroller = TextEditingController();
-  final TextEditingController receiverNameController = TextEditingController();
-  final TextEditingController receiverPhoneController = TextEditingController();
-  final TextEditingController receiverEmailController = TextEditingController();
+  final TextEditingController receiverNameController = TextEditingController(text: kDebugMode? "Topu":"");
+  final TextEditingController receiverPhoneController = TextEditingController(text: kDebugMode? "46465454":"");
+  final TextEditingController receiverEmailController = TextEditingController(text: kDebugMode? "Topu@gmail.com":"");
   final TextEditingController receiverAddressController =
       TextEditingController();
   final TextEditingController receiverCityController = TextEditingController();
@@ -67,40 +68,6 @@ class LoadController extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    // List<Map<String, dynamic>> data = [
-    //   {
-    //     "driver": "63f96eb5b4dce8b0298ebf77",
-    //     "shipperName": "John Doe",
-    //     "shipperPhoneNumber": "+1234567890",
-    //     "shipperEmail": "shipper@example.com",
-    //     "shippingAddress": "123 Main Street",
-    //     "shippingCity": "New York",
-    //     "shippingState": "NY",
-    //     "shippingZip": "10001",
-    //     "palletSpace": 10,
-    //     "weight": 1500,
-    //     "loadType": "Full Load",
-    //     "trailerType": "Refrigerated",
-    //     "trailerSize": "22",
-    //     "productType": "Frozen Foods",
-    //     "isHazmat": true,
-    //     "Hazmat": "Class 2",
-    //     "description": "Frozen meat shipment",
-    //     "shipmentPayment": 5000,
-    //     "receiverName": "Jane Doe",
-    //     "receiverPhoneNumber": "+0987654321",
-    //     "receiverEmail": "receiver@example.com",
-    //     "receivingAddress": "456 Elm Street",
-    //     "receiverCity": "Los Angeles",
-    //     "receiverState": "CA",
-    //     "receiverZip": "90001",
-    //     "receiverpostalCode": "90001",
-    //     "pickupDate": "2025-01-10T08:00:00Z",
-    //     "deliveryDate": "2025-01-12T18:00:00Z",
-    //     "billOfLading": "BOL-123456789",
-    //     "deliveryInstruction": "Handle with care, keep refrigerated."
-    //   }
-    // ];
     List<Map<String, dynamic>> data = [
       {
         // "driver": driverIdcontroller.text,
@@ -118,7 +85,7 @@ class LoadController extends ChangeNotifier {
         "trailerSize": trailerSizeController.text,
         "productType": productTypeCtrl.text,
         // "isHazmat": isHazMat,
-        "Hazmat": "gas-2",
+        "Hazmat": hazmatList,
         "description": descriptionController.text,
         "shipmentPayment": paymentCtl.text,
         "receiverName": receiverNameController.text,
@@ -135,6 +102,7 @@ class LoadController extends ChangeNotifier {
         "deliveryInstruction": deliveryInstructionsController.text
       }
     ];
+    print("=================================================data $data");
 
     try {
       final response =
