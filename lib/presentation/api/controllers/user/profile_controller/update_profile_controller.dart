@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:ootms/presentation/api/service/get_api_service.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 
@@ -40,16 +41,17 @@ class UpdateProfileController extends GetxController {
     Map<String, String> header = {"Authorization": "Bearer $accesstoken"};
 
     List<MultipartBody> multipartBody = [
-      MultipartBody("image", File(image!)),
+      MultipartBody("profileImage", File(image!)),
     ];
     debugPrint("=======================================imagePath$image");
     var response = await ApiClient.putMultipartData(
-        method: "PATCH",
+        method: "PUT",
         ApiPaths.updateProfileUrl,
         body,
         multipartBody: multipartBody,
         headers: header);
-
+      debugPrint("=======================================================body $body");
+      debugPrint("=======================================================header $header");
     if (response.statusCode == 200) {
       var responseData = response.body is String
           ? jsonDecode(response.body)["data"]

@@ -1,16 +1,24 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 
+import '../../../../components/common_snackbar.dart';
+import '../../../../screens/role/user/home/user_home_page.dart';
+import '../../../../screens/role/user/load from excle/assign_loads.dart';
 import '../../../service/api_services.dart';
 import '../../../url_paths.dart';
 
 class LoadController extends ChangeNotifier {
   TextEditingController driverIdcontroller = TextEditingController();
-  final TextEditingController receiverNameController = TextEditingController(text: kDebugMode? "Topu":"");
-  final TextEditingController receiverPhoneController = TextEditingController(text: kDebugMode? "46465454":"");
-  final TextEditingController receiverEmailController = TextEditingController(text: kDebugMode? "Topu@gmail.com":"");
+  final TextEditingController receiverNameController =
+      TextEditingController(text: kDebugMode ? "Topu" : "");
+  final TextEditingController receiverPhoneController =
+      TextEditingController(text: kDebugMode ? "46465454" : "");
+  final TextEditingController receiverEmailController =
+      TextEditingController(text: kDebugMode ? "Topu@gmail.com" : "");
   final TextEditingController receiverAddressController =
       TextEditingController();
   final TextEditingController receiverCityController = TextEditingController();
@@ -41,6 +49,8 @@ class LoadController extends ChangeNotifier {
   bool isHazMat = false;
   List<String> hazmatList = [];
   bool isLoading = false;
+  bool isSuccess = false;
+  final ApiService apiService = ApiService();
   Map<String, bool> hazMatItems = {
     "Dangerous": false,
     "Flammable Gas 2": false,
@@ -63,13 +73,43 @@ class LoadController extends ChangeNotifier {
   }
 
 //============================================================create load method
-  Future<void> createLoad() async {
+  Future<void> createLoad({context}) async {
     isLoading = true;
     notifyListeners();
+    // List<Map<String, dynamic>> data = [
+    //   {
+    //     "shipperName": "John Doe",
+    //     "shipperPhoneNumber": "+1234567890",
+    //     "shipperEmail": "john.doe@example.com",
+    //     "shippingAddress": "123 Main Street",
+    //     "shippingCity": "New York",
+    //     "shippingState": "NY",
+    //     "shippingZip": "10001",
+    //     "palletSpace": 10,
+    //     "weight": 1500,
+    //     "loadType": "Full Load",
+    //     "trailerSize": 500,
+    //     "productType": "Frozen Foods",
+    //     "Hazmat": "Hazmat",
+    //     "description": "Frozen meat shipment",
+    //     "shipmentPayment": 5000,
+    //     "receiverName": "Jane Smith",
+    //     "receiverPhoneNumber": "+0987654321",
+    //     "receiverEmail": "jane.smith@example.com",
+    //     "receivingAddress": "456 Elm Street",
+    //     "receiverCity": "Los Angeles",
+    //     "receiverState": "CA",
+    //     "receiverZip": "90001",
+    //     "receiverpostalCode": "90001",
+    //     "pickupDate": "2025-01-10T08:00:00Z",
+    //     "deliveryDate": "2025-01-12T18:00:00Z",
+    //     "billOfLading": "BOL-123456789",
+    //     "deliveryInstruction": "Handle with care, keep refrigerated."
+    //   }
+    // ];
 
     List<Map<String, dynamic>> data = [
       {
-        // "driver": driverIdcontroller.text,
         "shipperName": shipperNameController.text,
         "shipperPhoneNumber": shipperPhoneController.text,
         "shipperEmail": shipperEmailController.text,
@@ -83,8 +123,7 @@ class LoadController extends ChangeNotifier {
         "trailerType": loadTypeController.text,
         "trailerSize": trailerSizeController.text,
         "productType": productTypeCtrl.text,
-        // "isHazmat": isHazMat,
-        "Hazmat": hazmatList,
+        "Hazmat": "Hazmat",
         "description": descriptionController.text,
         "shipmentPayment": paymentCtl.text,
         "receiverName": receiverNameController.text,
@@ -104,17 +143,62 @@ class LoadController extends ChangeNotifier {
     print("=================================================data $data");
 
     try {
-      // final response =
-          // await apiService.otherPostRequest(ApiPaths.createLoad, data);
-      // print(
-      //     "44==========================================================response$response");
+      final response = await apiService.otherPostRequest(
+          ApiPaths.createLoad, jsonEncode(data));
+      print(
+          "44==========================================================response$response");
 
-      // log("status code before =-==================${response["statusCode"]}");
-      // if (response["statusCode"] == 201) {
-      //   log("===================================================================create load success");
-      // }
+      log("status code before =-==================${response["statusCode"]}");
+      if (response["statusCode"] == "201") {
+        showCommonSnackbar(context, "Create Load Successfull", isError: false);
+        isSuccess = true;
+        notifyListeners();
+      }
     } catch (e) {
+      showCommonSnackbar(context, "Create Load Failed", isError: true);
       log("failed =-==================$e");
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  //============================================assign a preffered driver method
+  //============================================================create load method
+  Future<void> assignPrefferedDriver({context}) async {
+    isLoading = true;
+    notifyListeners();
+
+    Map<String, String> data = {
+      "driver": driverIdcontroller.text,
+    };
+
+    try {
+      final response = await apiService.otherPostRequest(
+          ApiPaths.preferredDriver, jsonEncode(data));
+      debugPrint(
+          "44==========================================================response$response");
+
+      debugPrint(
+          "status code before =-==================${response["statusCode"]}");
+      if (response["statusCode"] == 201) {
+        animetedNavigationPush(UserHomePage(), context);
+        showCommonSnackbar(context, "Assign Preffered Driver Successfull",
+            isError: false);
+        isSuccess = true;
+        notifyListeners();
+      } else if (response["statusCode"] == 208) {
+        showCommonSnackbar(
+          context,
+          response["message"],
+        );
+      } else {
+        showCommonSnackbar(context, "Something Went wrong", isError: true);
+      }
+    } catch (e) {
+      showCommonSnackbar(context, "Assign Preffered Driver Failed",
+          isError: true);
+      debugPrint("failed =-==================$e");
     } finally {
       isLoading = false;
       notifyListeners();

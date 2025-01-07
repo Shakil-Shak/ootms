@@ -87,8 +87,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               width: 1, color: AppColor.primaryColor)),
                       child: Stack(
                         children: [
-                          Obx((){
-                            return editController.image != null
+                          editController.image != null
                               ? Container(
                                   height: 80,
                                   width: 80,
@@ -108,8 +107,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                   imageType: ImageType.network,
                                   size: 90,
                                   borderRadius: 100,
-                                );
-                          }),
+                                ),
                           // Container(
                           //     width: 80,
                           //     height: 80,
@@ -128,6 +126,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                             child: InkWell(
                               onTap: () {
                                 editController.getProfileImage();
+                                setState(() {});
                               },
                               child: const CircleAvatar(
                                 backgroundColor: Colors.white,
@@ -154,31 +153,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                           Image.asset("assets/images/usaflag.png"),
                       hintText: "Enter your phone",
                       keyboardType: TextInputType.emailAddress),
-                  // commonTextfieldWithTitle(
-                  //   "Phone",
-                  //   phoneController,
-                  //   hintText: "Enter your phone number",
-                  //   prifixIconWidget: Container(
-                  //     margin: const EdgeInsets.symmetric(horizontal: 8),
-                  //     child: FittedBox(
-                  //       child: DropdownButton<Country>(
-                  //         value: selectedCountry ?? countries[0],
-                  //         onChanged: (Country? newValue) {
-                  //           setState(() {
-                  //             selectedCountry = newValue;
-                  //           });
-                  //         },
-                  //         items: countries.map<DropdownMenuItem<Country>>(
-                  //             (Country country) {
-                  //           return DropdownMenuItem<Country>(
-                  //             value: country,
-                  //             child: Image.asset(country.flag),
-                  //           );
-                  //         }).toList(),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+
                   const SizedBox(height: 20),
                   Row(
                     children: [
@@ -207,31 +182,6 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               size: 14,
                               fontWeight: FontWeight.w400,
                               color: const Color(0xFF1A1A1A))),
-                      // child: DropdownButtonHideUnderline(
-                      //   child: DropdownButton<String>(
-                      //     value: _selectedCountry,
-                      //     icon: const Icon(Icons.arrow_drop_down),
-                      //     iconSize: 24,
-                      //     isExpanded: true,
-                      //     onChanged: (String? newValue) {
-                      //       setState(() {
-                      //         _selectedCountry = newValue!;
-                      //       });
-                      //     },
-                      //     items: <String>[
-                      //       'USA',
-                      //       'Canada',
-                      //       'Mexico',
-                      //       'UK',
-                      //       'Germany'
-                      //     ].map<DropdownMenuItem<String>>((String value) {
-                      //       return DropdownMenuItem<String>(
-                      //         value: value,
-                      //         child: Text(value),
-                      //       );
-                      //     }).toList(),
-                      //   ),
-                      // ),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -241,19 +191,18 @@ class _UserEditProfileState extends State<UserEditProfile> {
                     hintText: "Enter your address",
                   ),
                   const SizedBox(height: 50),
-                  Consumer<ProfileController>(
-                    builder: (context, controller, child) {
-                      return InkWell(
-                        onTap: () {
-                          editController.updateProfile(
-                              name: fullNameController.text,
-                              email: emailController.text,
-                              phone: phoneController.text,
-                              address: addressController.text);
-                        },
-                        child: commonButton("Submit"),
-                      );
+                  InkWell(
+                    onTap: () {
+                      editController.updateProfile(
+                          name: fullNameController.text,
+                          email: emailController.text,
+                          phone: phoneController.text,
+                          address: addressController.text);
                     },
+                    child: Obx(() {
+                      return commonButton("Submit",
+                          isLoading: editController.isLoading.value);
+                    }),
                   ),
                   const SizedBox(height: 10),
                 ],
