@@ -1,7 +1,7 @@
 class ApiPaths {
   // Base URL
   static const String baseUrl = 'http://137.184.95.36:8020';
-  
+
   // static const String baseUrl = 'https://17hm40f8-8020.asse.devtunnels.ms';
 
   // Endpoints
@@ -18,8 +18,11 @@ class ApiPaths {
   static const String profileUrl = '$baseUrl/api/v1/users/user-details';
   static const String createLoad = '$baseUrl/api/v1/loads/';
   static const String userSupport = '$baseUrl/api/v1/static-contents';
-  static String staticContent({contentType}) => '$baseUrl/api/v1/static-contents?type=$contentType';
+  static String staticContent({contentType}) =>
+      '$baseUrl/api/v1/static-contents?type=$contentType';
   static const String currentShiping = '$baseUrl/api/v1/shipment/current';
+  static const String shippingHistory = '$baseUrl/api/v1/shipment/history';
   static const String chagePassword = '$baseUrl/api/v1/auth/change-password';
-  static  String userLoadRequest({bool? requestType}) => '$baseUrl/api/v1/loads-request?myRequests=$requestType';
+  static String userLoadRequest({bool? requestType}) =>
+      '$baseUrl/api/v1/loads-request?myRequests=$requestType';
 }

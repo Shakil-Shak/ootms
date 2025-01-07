@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
@@ -14,6 +15,7 @@ import 'package:ootms/presentation/screens/role/user/create_load/user_create_loa
 import 'package:ootms/presentation/screens/role/user/home/user_drawer.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_set_location.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
+import 'package:provider/provider.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({super.key});
@@ -67,246 +69,265 @@ class _UserHomePageState extends State<UserHomePage> {
       key: _scaffoldKey,
       drawer: userCustomDrawer(context),
       backgroundColor: AppColor.white,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header Section
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(16),
-                  bottomRight: Radius.circular(16)),
-              child: Stack(
-                children: [
-                  // Background image
-                  Container(
-                    height: 250,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(
-                              'assets/images/userHomePagebg.png'), // Replace with your image asset
-                          fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                              Colors.black38, BlendMode.multiply)),
+      body: Consumer<ProfileController>(builder: (context, controller, child) {
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header Section
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16)),
+                child: Stack(
+                  children: [
+                    // Background image
+                    Container(
+                      height: 250,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage(
+                                'assets/images/userHomePagebg.png'), // Replace with your image asset
+                            fit: BoxFit.cover,
+                            colorFilter: ColorFilter.mode(
+                                Colors.black38, BlendMode.multiply)),
+                      ),
                     ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox(),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // Menu icon
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: AppColor.white,
-                                  borderRadius: BorderRadius.circular(8)),
-                              child: IconButton(
-                                icon: const Icon(Icons.menu,
-                                    size: 28, color: Colors.black),
-                                onPressed: () {
-                                  _scaffoldKey.currentState!.openDrawer();
-                                },
-                              ),
-                            ),
-                            const Spacer(),
-                            // Notification bell
-                            // InkWell(
-                            //   onTap: () {
-                            //     animetedNavigationPush(
-                            //         UserAllNotificationsPage(), context);
-                            //   },
-                            //   child: Image.asset(
-                            //       "assets/icons/user home page/notify.png"),
-                            // ),
-                            InkWell(
-                              onTap: () {
-                                animetedNavigationPush(
-                                    UserAllNotificationsPage(), context);
-                              },
-                              child: const FaIcon(
-                                FontAwesomeIcons.solidBell,
-                                color: Color.fromRGBO(255, 206, 49, 1),
-                                size: 30,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            // Profile avatar
-                            InkWell(
-                              onTap: () {
-                                animetedNavigationPush(
-                                    const UserProfile(), context);
-                              },
-                              child: const CircleAvatar(
-                                backgroundColor: AppColor.black,
-                                backgroundImage: AssetImage(
-                                    'assets/icons/profile_icon_2.png'), // Replace with your image asset
-                                radius: 18,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 10.0),
-                        child: InkWell(
-                          onTap: () {
-                            animetedNavigationPush(
-                                const UserSetLocationPage(), context);
-                          },
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const SizedBox(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 10),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.location_on,
-                                      color: AppColor.white,
-                                    ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                    commonText(
-                                        "36 East 8th Street, New York,\nNY 10003, United States.",
-                                        size: 16,
-                                        color: AppColor.white)
-                                  ],
-                                ),
-                              ),
-                              const Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                color: AppColor.white,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Center(
-                        child: commonText("Track Your Shipment",
-                            size: 22, isBold: true, color: AppColor.white),
-                      ),
-                      Container(
-                        height: 50,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 10),
-                        padding: const EdgeInsets.only(left: 8),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              spreadRadius: 2,
-                              blurRadius: 6,
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            // Truck icon
-                            const Icon(Icons.local_shipping,
-                                color: Colors.blue),
-                            const SizedBox(width: 10),
-
-                            // Input field
-                            const Expanded(
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'Enter bill of lading number',
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                            //========================================================================track
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: FittedBox(
-                                child: commonButton(
-                                  "Track",
-                                  width: 120,
-                                  onTap: () {
-                                    trackBottomSheet();
+                              // Menu icon
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: AppColor.white,
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: IconButton(
+                                  icon: const Icon(Icons.menu,
+                                      size: 28, color: Colors.black),
+                                  onPressed: () {
+                                    _scaffoldKey.currentState!.openDrawer();
                                   },
                                 ),
                               ),
-                            ),
-                          ],
+                              const Spacer(),
+                              // Notification bell
+                              // InkWell(
+                              //   onTap: () {
+                              //     animetedNavigationPush(
+                              //         UserAllNotificationsPage(), context);
+                              //   },
+                              //   child: Image.asset(
+                              //       "assets/icons/user home page/notify.png"),
+                              // ),
+                              InkWell(
+                                onTap: () {
+                                  animetedNavigationPush(
+                                      UserAllNotificationsPage(), context);
+                                },
+                                child: const FaIcon(
+                                  FontAwesomeIcons.solidBell,
+                                  color: Color.fromRGBO(255, 206, 49, 1),
+                                  size: 30,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              // Profile avatar
+                              InkWell(
+                                onTap: () {
+                                  animetedNavigationPush(
+                                      const UserProfile(), context);
+                                },
+                                child: const CircleAvatar(
+                                  backgroundColor: AppColor.black,
+                                  backgroundImage: AssetImage(
+                                      'assets/icons/profile_icon_2.png'), // Replace with your image asset
+                                  radius: 18,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      const SizedBox(),
-                    ],
-                  )
-                ],
-              ),
-            ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 10.0),
+                          child: InkWell(
+                            onTap: () {
+                              animetedNavigationPush(
+                                  const UserSetLocationPage(), context);
+                            },
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.location_on,
+                                        color: AppColor.white,
+                                      ),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      commonText(
+                                          "36 East 8th Street, New York,\nNY 10003, United States.",
+                                          size: 16,
+                                          color: AppColor.white)
+                                    ],
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  color: AppColor.white,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Center(
+                          child: commonText("Track Your Shipment",
+                              size: 22, isBold: true, color: AppColor.white),
+                        ),
+                        Container(
+                          height: 50,
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 10),
+                          padding: const EdgeInsets.only(left: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                spreadRadius: 2,
+                                blurRadius: 6,
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              // Truck icon
+                              const Icon(Icons.local_shipping,
+                                  color: Colors.blue),
+                              const SizedBox(width: 10),
 
-            const SizedBox(height: 40), // For spacing after the header
-
-            // Action Cards Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: GridView.count(
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                childAspectRatio: 1.5,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  buildActionCard(
-                    imagePath: "assets/icons/user home page/picup2.png",
-                    label: 'Create Load',
-                    description: 'Send your loads with us in just a few steps.',
-                    onTap: () {
-                      _showCustomDialog(context);
-                    },
-                  ),
-                  buildActionCard(
-                    imagePath: "assets/icons/user home page/history.png",
-                    label: 'Shipping History',
-                    description: 'Check your previous shipping history.',
-                    onTap: () {
-                      animetedNavigationPush(
-                          UserShippingHistoryPage(), context);
-                    },
-                  ),
-                  buildActionCard(
-                    imagePath: "assets/icons/user home page/massage.png",
-                    label: 'Chat',
-                    description: 'Easily chat with the driver.',
-                    onTap: () {
-                      animetedNavigationPush(UserChatListPage(), context);
-                    },
-                  ),
-                  buildActionCard(
-                    imagePath: "assets/icons/user home page/support.png",
-                    label: 'Support',
-                    description: 'Take direct support from here.',
-                    onTap: () {
-                      animetedNavigationPush(UserSupportPage(), context);
-                    },
-                  ),
-                ],
+                              // Input field
+                              const Expanded(
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter bill of lading number',
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                              //========================================================================track
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                child: FittedBox(
+                                  child: commonButton(
+                                    "Track",
+                                    width: 120,
+                                    onTap: () {
+                                      trackBottomSheet();
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(),
+                      ],
+                    )
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: commonText("Recently Tracking", isBold: true, size: 16),
-            ),
-            // Recently Tracking Section
-            trakingDesign(number: "123-456-789", address: "Banasree, Dhaka"),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
+
+              const SizedBox(height: 40), // For spacing after the header
+
+              // Action Cards Section
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.5,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    buildActionCard(
+                      imagePath: "assets/icons/user home page/picup2.png",
+                      label: 'Create Load',
+                      description:
+                          'Send your loads with us in just a few steps.',
+                      onTap: () {
+                        _showCustomDialog(context);
+                      },
+                    ),
+                    Consumer<ProfileController>(
+                        builder: (context, controller, _) {
+                      return buildActionCard(
+                        imagePath: "assets/icons/user home page/history.png",
+                        label: 'Shipping History',
+                        description: 'Check your previous shipping history.',
+                        onTap: () {
+                          controller.getShippingHistoryData(context: context);
+                          // animetedNavigationPush(
+                          //     UserShippingHistoryPage(), context);
+                        },
+                      );
+                    }),
+                    buildActionCard(
+                      imagePath: "assets/icons/user home page/massage.png",
+                      label: 'Chat',
+                      description: 'Easily chat with the driver.',
+                      onTap: () {
+                        animetedNavigationPush(UserChatListPage(), context);
+                      },
+                    ),
+                    buildActionCard(
+                      imagePath: "assets/icons/user home page/support.png",
+                      label: 'Support',
+                      description: 'Take direct support from here.',
+                      onTap: () {
+                        animetedNavigationPush(UserSupportPage(), context);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: commonText("Recently Tracking", isBold: true, size: 16),
+              ),
+              // Recently Tracking Section
+              trakingDesign(number: "123-456-789", address: "Banasree, Dhaka"),
+              const SizedBox(height: 20),
+              if (controller.isLoading)
+                const Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(AppColor.primaryColor),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        );
+      }),
     );
   }
+
 //===============================track modal bottom sheet
   trackBottomSheet() {
     return showModalBottomSheet(
