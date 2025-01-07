@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:http/http.dart' as http;
-import 'package:ootms/presentation/api/error_response.dart';
+import 'package:ootms/helpers/other_helper.dart';
+import 'package:ootms/helpers/prefs_helper.dart';
+import 'package:ootms/presentation/api/service/error_response.dart';
 
-import '../../helpers/other_helper.dart';
-import '../../helpers/prefs_helper.dart';
 
 class ApiClient extends GetxService {
   static const String noInternetMessage = "Can't connect to the internet!";

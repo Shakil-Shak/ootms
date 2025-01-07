@@ -17,12 +17,7 @@ class ProfileController extends ChangeNotifier {
   bool isLoading = false;
   ProfileModel profileData = ProfileModel();
 
-  String? image;
-  getProfileImage() async {
-    image = await OtherHelper.openGallery();
-    notifyListeners();
-    debugPrint("==============================image${File(image ?? "")}");
-  }
+
 
   Future<void> getProfileData() async {
     isLoading = true;
@@ -138,42 +133,5 @@ class ProfileController extends ChangeNotifier {
     }
   }
 
-  //===================================================update profile
 
-  Future<void> updateProfile({
-    required String name,
-    required String email,
-    required String phone,
-    required String address,
-  }) async {
-    isLoading = true;
-    notifyListeners();
-
-    // Data fields
-    Map<String, String> data = {
-      "fullName": name,
-      "email": email,
-      "phoneNumber": phone,
-      "address": address,
-    };
-
-    // Files to upload
-    Map<String, String> fileFields = {
-      "profileImage": image ?? "",
-    };
-    debugPrint("=======================================imagePath$image");
-    final response = await _apiService.putMultipartRequest(
-        ApiPaths.updateProfileUrl, data, fileFields);
-
-    try {
-      log("===========================================Upload successful: ${response["statusCode"]}");
-    } catch (e) {
-      log("=========================Error: $e");
-
-      log("===========================================Upload Error: ${response["statusCode"]}");
-    } finally {
-      isLoading = false;
-      notifyListeners();
-    }
-  }
 }

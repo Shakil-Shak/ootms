@@ -1,19 +1,19 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefsHelper {
-  static String token = "";
-  static String password = "";
-  static String mentorid = "";
-  static String mentorRegid = "";
+  // static String token = "";
+  // static String password = "";
+  // static String mentorid = "";
+  // static String mentorRegid = "";
 
-  static getAllData() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+  // static getAllData() async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
 
-    token = preferences.getString("mentorToken") ?? "";
-    password = preferences.getString("password") ?? "";
-    mentorid = await PrefsHelper.getString("mentorId");
-    mentorRegid = await PrefsHelper.getString("mentorRegId");
-  }
+  //   token = preferences.getString("mentorToken") ?? "";
+  //   password = preferences.getString("password") ?? "";
+  //   mentorid = await PrefsHelper.getString("mentorId");
+  //   mentorRegid = await PrefsHelper.getString("mentorRegId");
+  // }
 
   static Future<String> getString(String key) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
