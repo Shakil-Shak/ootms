@@ -200,7 +200,6 @@ class _AssignLoadsScreenState extends State<AssignLoadsScreen> {
             "Assign to Driver",
             borderRadious: 16,
             onTap: () {
-              animetedNavigationPush(UserHomePage(), context);
               showCommonSnackbar(context, "Assign Load successful!");
             },
           ),
