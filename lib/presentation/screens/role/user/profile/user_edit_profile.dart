@@ -1,18 +1,15 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
-import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/update_profile_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:ootms/presentation/screens/role/common/country_model.dart';
-import 'package:provider/provider.dart';
-
 import '../../../../api/url_paths.dart';
 import '../../../../components/common_image.dart';
 
@@ -43,15 +40,6 @@ class _UserEditProfileState extends State<UserEditProfile> {
   TextEditingController phoneController = TextEditingController();
   final UpdateProfileController editController =
       Get.find<UpdateProfileController>();
-  // String _selectedCountry = 'USA';
-
-  // final List<Country> countries = [
-  //   Country('United States', '+1', 'assets/images/usaflag.png'),
-  //   Country('Canada', '+1', 'assets/images/usaflag.png'),
-  //   Country('United Kingdom', '+44', 'assets/images/usaflag.png'),
-  //   Country('Australia', '+61', 'assets/images/usaflag.png'),
-  //   // Add more countries as needed
-  // ];
 
   Country? selectedCountry;
 
@@ -67,15 +55,16 @@ class _UserEditProfileState extends State<UserEditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: commonText("Edit Profile", size: 21, isBold: true),
+        centerTitle: true,
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: commonText("Edit Profile", size: 21, isBold: true),
-          centerTitle: true,
-          backgroundColor: Colors.white,
-        ),
-        body: ChangeNotifierProvider(
-          create: (controller) => ProfileController(),
-          child: Padding(
+      ),
+      body: GetBuilder<UpdateProfileController>(
+        builder: (controller) {
+          log(ApiPaths.baseUrl + widget.imagePath);
+          return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: SingleChildScrollView(
               child: Column(
@@ -108,18 +97,6 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                   size: 90,
                                   borderRadius: 100,
                                 ),
-                          // Container(
-                          //     width: 80,
-                          //     height: 80,
-                          //     margin: const EdgeInsets.all(2),
-                          //     decoration: BoxDecoration(
-                          //         color: AppColor.primaryColor,
-                          //         borderRadius: BorderRadius.circular(40),
-                          //         image: const DecorationImage(
-                          //             image: AssetImage(
-                          //                 "assets/icons/profile_icon_2.png"),
-                          //             fit: BoxFit.cover)),
-                          //   ),
                           Positioned(
                             bottom: 5,
                             right: 2,
@@ -141,10 +118,13 @@ class _UserEditProfileState extends State<UserEditProfile> {
                   commonTextfieldWithTitle("Full Name", fullNameController,
                       hintText: "Full Name", keyboardType: TextInputType.text),
                   const SizedBox(height: 20),
-                  commonTextfieldWithTitle("Email", emailController,
-                      assetIconPath: "assets/icons/emailicon.png",
-                      hintText: "Email",
-                      keyboardType: TextInputType.emailAddress),
+                  commonTextfieldWithTitle(
+                    "Email",
+                    emailController,
+                    prifixIconWidget: Image.asset("assets/icons/emailicon.png"),
+                    hintText: "Email",
+                    keyboardType: TextInputType.emailAddress,
+                  ),
                   const SizedBox(height: 20),
                   // ======================================phone picker
 
@@ -152,7 +132,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                       prifixIconWidget:
                           Image.asset("assets/images/usaflag.png"),
                       hintText: "Enter your phone",
-                      keyboardType: TextInputType.emailAddress),
+                      keyboardType: TextInputType.number),
 
                   const SizedBox(height: 20),
                   Row(
@@ -208,7 +188,9 @@ class _UserEditProfileState extends State<UserEditProfile> {
                 ],
               ),
             ),
-          ),
-        ));
+          );
+        },
+      ),
+    );
   }
 }

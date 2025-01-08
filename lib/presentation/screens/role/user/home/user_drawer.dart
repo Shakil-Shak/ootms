@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/assets/images_string.dart';
+import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/static_controller/static_controller.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
@@ -17,6 +18,11 @@ import 'package:ootms/presentation/screens/role/user/settings/user_terms_conditi
 import 'package:ootms/presentation/screens/role/user/settings/user_privacy_policy.dart';
 import 'package:ootms/presentation/screens/role/user/settings/user_settings.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../../core/constants/color/app_color.dart';
+import '../../../../../main.dart';
+import '../../../../api/sharePrefarences/local_storage_save.dart';
+import '../../../../components/common_button.dart';
 
 Widget userCustomDrawer(BuildContext context) {
   return Drawer(
@@ -67,7 +73,7 @@ Widget userCustomDrawer(BuildContext context) {
               DrawerMenuItem(
                 iconPath: 'assets/icons/arrow_up.png',
                 text: 'My Load Request',
-                onTap: () {
+                onTap: () async {
                   Navigator.pop(context);
                   animetedNavigationPush(
                       const UserLoadRequestPage(
@@ -147,12 +153,73 @@ Widget userCustomDrawer(BuildContext context) {
               DrawerMenuItem(
                 iconPath: 'assets/icons/logout.png',
                 text: 'Log Out',
-                onTap: () {},
+                onTap: () {
+                  _showDeleteAccountDialog(context);
+                },
               ),
             ],
           );
         },
       )),
     ),
+  );
+}
+
+void _showDeleteAccountDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        backgroundColor: Colors.white,
+        contentPadding: const EdgeInsets.all(16.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+            Center(
+              child: commonText('Do you want to log out your profile?',
+                  size: 18, isBold: true),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              height: 40,
+              child: Row(
+                children: [
+                  Expanded(
+                      child: commonButton("Cancel", borderRadious: 10,
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          color: const Color(0xFFDDDDDD),
+                          textColor: AppColor.black)),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                      child: commonButton("Logout", onTap: () {
+                        deleteUserAccessDetails(context: context);
+                        main();
+                      }, borderRadious: 10, color: AppColor.primaryColor))
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
+      );
+    },
   );
 }
