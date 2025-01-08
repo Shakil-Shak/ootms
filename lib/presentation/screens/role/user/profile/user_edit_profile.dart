@@ -73,9 +73,8 @@ class _UserEditProfileState extends State<UserEditProfile> {
           centerTitle: true,
           backgroundColor: Colors.white,
         ),
-        body: ChangeNotifierProvider(
-          create: (controller) => ProfileController(),
-          child: Padding(
+        body: GetBuilder<UpdateProfileController>(builder: (controller) {
+          return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: SingleChildScrollView(
               child: Column(
@@ -89,37 +88,25 @@ class _UserEditProfileState extends State<UserEditProfile> {
                         children: [
                           editController.image != null
                               ? Container(
-                                  height: 80,
-                                  width: 80,
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Image.file(
-                                    File(editController.image!),
-                                    width: 128,
-                                    height: 128,
-                                    fit: BoxFit.fill,
-                                  ),
-                                )
+                            height: 80,
+                            width: 80,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: Image.file(
+                              File(editController.image!),
+                              width: 128,
+                              height: 128,
+                              fit: BoxFit.fill,
+                            ),
+                          )
                               : CommonImage(
-                                  imageSrc: ApiPaths.baseUrl + widget.imagePath,
-                                  imageType: ImageType.network,
-                                  size: 90,
-                                  borderRadius: 100,
-                                ),
-                          // Container(
-                          //     width: 80,
-                          //     height: 80,
-                          //     margin: const EdgeInsets.all(2),
-                          //     decoration: BoxDecoration(
-                          //         color: AppColor.primaryColor,
-                          //         borderRadius: BorderRadius.circular(40),
-                          //         image: const DecorationImage(
-                          //             image: AssetImage(
-                          //                 "assets/icons/profile_icon_2.png"),
-                          //             fit: BoxFit.cover)),
-                          //   ),
+                            imageSrc: ApiPaths.baseUrl + widget.imagePath,
+                            imageType: ImageType.network,
+                            size: 90,
+                            borderRadius: 100,
+                          ),
                           Positioned(
                             bottom: 5,
                             right: 2,
@@ -141,16 +128,18 @@ class _UserEditProfileState extends State<UserEditProfile> {
                   commonTextfieldWithTitle("Full Name", fullNameController,
                       hintText: "Full Name", keyboardType: TextInputType.text),
                   const SizedBox(height: 20),
-                  commonTextfieldWithTitle("Email", emailController,
+                  commonTextfieldWithTitle(
+                    enable: false,
+                      "Email", emailController,
                       assetIconPath: "assets/icons/emailicon.png",
                       hintText: "Email",
-                      keyboardType: TextInputType.emailAddress),
+                      keyboardType: TextInputType.none),
                   const SizedBox(height: 20),
                   // ======================================phone picker
 
                   commonTextfieldWithTitle("Phone", phoneController,
                       prifixIconWidget:
-                          Image.asset("assets/images/usaflag.png"),
+                      Image.asset("assets/images/usaflag.png"),
                       hintText: "Enter your phone",
                       keyboardType: TextInputType.emailAddress),
 
@@ -208,7 +197,8 @@ class _UserEditProfileState extends State<UserEditProfile> {
                 ],
               ),
             ),
-          ),
-        ));
+          );
+        },),
+        );
   }
 }

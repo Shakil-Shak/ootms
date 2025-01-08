@@ -234,7 +234,7 @@ class _UserProfileState extends State<UserProfile> {
                 child: Row(
                   children: [
                     Expanded(
-                        child: commonButton("Cancle", borderRadious: 10,
+                        child: commonButton("Cancel", borderRadious: 10,
                             onTap: () {
                       Navigator.pop(context);
                     },
@@ -245,7 +245,7 @@ class _UserProfileState extends State<UserProfile> {
                     ),
                     Expanded(
                         child: commonButton("Logout", onTap: () {
-                      deleteUserAccessDetails();
+                      deleteUserAccessDetails(context: context);
                       main();
                     }, borderRadious: 10, color: AppColor.primaryColor))
                   ],

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
 import 'package:ootms/helpers/other_helper.dart';
 import 'package:ootms/helpers/prefs_helper.dart';
 import 'package:ootms/presentation/api/service/error_response.dart';
@@ -152,10 +154,16 @@ class ApiClient extends GetxService {
     // Add files to request
     for (MultipartBody element in multipartBody) {
       if (element.file.existsSync()) {
+        var mimeType = lookupMimeType(element.file.path) ?? 'application/octet-stream';
+        var mimeParts = mimeType.split('/');
+
         request.files.add(await http.MultipartFile.fromPath(
           element.key,
           element.file.path,
+          contentType: MediaType(mimeParts[0], mimeParts[1]),
         ));
+      } else {
+        debugPrint('File does not exist: ${element.file.path}');
       }
     }
 
@@ -234,6 +242,7 @@ class ApiClient extends GetxService {
         '====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
     return response0;
   }
+
 
 // static void showToast(String message) {
 //   Fluttertoast.showToast(

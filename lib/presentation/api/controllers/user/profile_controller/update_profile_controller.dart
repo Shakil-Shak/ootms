@@ -16,6 +16,7 @@ class UpdateProfileController extends GetxController {
   String? image;
   getProfileImage() async {
     image = await OtherHelper.openGallery();
+    update();
     debugPrint("==============================image${File(image ?? "")}");
   }
   //===================================================update profile
@@ -43,7 +44,7 @@ class UpdateProfileController extends GetxController {
     List<MultipartBody> multipartBody = [
       MultipartBody("profileImage", File(image!)),
     ];
-    debugPrint("=======================================imagePath$image");
+    debugPrint("=======================================imagePath: $image");
     var response = await ApiClient.putMultipartData(
         method: "PUT",
         ApiPaths.updateProfileUrl,

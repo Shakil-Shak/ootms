@@ -141,8 +141,7 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                                       Row(
                                         children: [
                                           CommonImage(
-                                            imageSrc: ApiPaths.baseUrl +
-                                                request.driver.image,
+                                            imageSrc: ApiPaths.baseUrl + request.driver.image,
                                             imageType: ImageType.network,
                                             size: 50,
                                             borderRadius: 100,

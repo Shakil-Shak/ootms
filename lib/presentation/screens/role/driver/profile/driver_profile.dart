@@ -192,7 +192,7 @@ class _DriverProfileState extends State<DriverProfile> {
                     ),
                     Expanded(
                         child: commonButton("Logout", onTap: () {
-                      deleteUserAccessDetails();
+                      deleteUserAccessDetails(context: context);
                       main();
                     }, borderRadious: 10, color: const Color(0xFFCE0000)))
                   ],

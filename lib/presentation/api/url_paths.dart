@@ -1,13 +1,13 @@
 class ApiPaths {
   // Base URL
-<<<<<<< HEAD
+
   static const String baseUrl = 'http://137.184.95.36:8020';
-=======
+
   // static const String baseUrl = 'http://137.184.95.36:8020';
->>>>>>> 0859dd7f115095ce9e267ff3386407cc2624dcd2
+
 
   // static const String baseUrl = 'https://17hm40f8-8020.asse.devtunnels.ms';
-  static const String baseUrl = 'https://kz1131kq-8020.asse.devtunnels.ms';
+  // static const String baseUrl = 'https://kz1131kq-8020.asse.devtunnels.ms';
 
   // Endpoints
   static const String signinUrl = '$baseUrl/api/v1/auth/local';
