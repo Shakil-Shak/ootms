@@ -16,6 +16,8 @@ import 'package:ootms/presentation/screens/role/user/profile/user_edit_profile.d
 import 'package:ootms/presentation/screens/role/user/settings/user_settings.dart';
 import 'package:provider/provider.dart';
 
+import '../shipping/user_load_request.dart';
+
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
 
@@ -140,7 +142,7 @@ class _UserProfileState extends State<UserProfile> {
                                 iconPath: "assets/icons/arrow_up.png",
                                 text: "Load Request",
                                 onTap: () {
-                                  controller.getLoadRequestData(context: context);
+                                  controller.getLoadRequestData(context: context).then((value) => animetedNavigationPush(const UserLoadRequestPage(), context));
                                 },
                               );
                             }),

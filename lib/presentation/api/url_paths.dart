@@ -1,9 +1,9 @@
 class ApiPaths {
   // Base URL
 
-  static const String baseUrl = 'http://137.184.95.36:8020';
-
   // static const String baseUrl = 'http://137.184.95.36:8020';
+
+  static const String baseUrl = 'http://10.0.70.37:8020';
 
 
   // static const String baseUrl = 'https://17hm40f8-8020.asse.devtunnels.ms';

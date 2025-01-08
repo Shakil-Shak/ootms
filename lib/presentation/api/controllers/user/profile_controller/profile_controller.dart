@@ -139,12 +139,13 @@ class ProfileController extends ChangeNotifier {
   //==================================================get load request data
   List<LoadRequestModel> loadRequestData = [];
 
-  Future<void> getLoadRequestData({required context}) async {
+  Future<void> getLoadRequestData({required context, bool requestType = false, bool callFromHome = false}) async {
     isLoading = true;
-    notifyListeners();
+    if(!callFromHome){
+      notifyListeners();
+    }
     try {
-      final response = await _apiService
-          .getRequest(ApiPaths.userLoadRequest(requestType: false));
+      final response = await _apiService.getRequest(ApiPaths.userLoadRequest(requestType: requestType));
       log("Full Response: $response");
 
       if (response != null &&
@@ -158,19 +159,11 @@ class ProfileController extends ChangeNotifier {
         loadRequestData = responseData
             .map((items) => LoadRequestModel.fromJson(items))
             .toList();
-        animetedNavigationPush(const UserLoadRequestPage(), context);
-        isLoading = false;
-        log("topu");
-        notifyListeners();
       } else {
         log("Error: statusCode is not 200 or response is null");
-        isLoading = false;
-        notifyListeners();
       }
     } catch (e) {
       log("$e");
-      isLoading = false;
-      notifyListeners();
     } finally {
       isLoading = false;
       notifyListeners();
