@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/main.dart';
@@ -107,10 +109,10 @@ class _UserProfileState extends State<UserProfile> {
                                 iconPath: "assets/icons/edit-profile.png",
                                 text: "Edit Profile",
                                 onTap: () {
+                                  log("controller.profileData.image : ${controller.profileData.image}");
                                   animetedNavigationPush(
                                       UserEditProfile(
-                                        imagePath:
-                                            controller.profileData.image!,
+                                        imagePath: controller.profileData.image!,
                                         title: controller.profileData.fullName!,
                                         email: controller.profileData.email!,
                                         contact: "134165415",

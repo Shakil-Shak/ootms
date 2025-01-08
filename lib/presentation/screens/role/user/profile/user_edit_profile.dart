@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -74,6 +75,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
           backgroundColor: Colors.white,
         ),
         body: GetBuilder<UpdateProfileController>(builder: (controller) {
+          log(ApiPaths.baseUrl + widget.imagePath);
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: SingleChildScrollView(
