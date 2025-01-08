@@ -182,7 +182,7 @@ class _UserProfileState extends State<UserProfile> {
                 ),
               ),
               //==============================================common loading
-              // Display CircularProgressIndicator when loading
+ 
               if (controller.isLoading)
                 const Positioned.fill(
                   child: Align(
