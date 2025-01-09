@@ -23,6 +23,7 @@ class ApiPaths {
   static const String createLoad = '$baseUrl/api/v1/loads/';
   static const String preferredDriver = '$baseUrl/api/v1/preferred-driver/';
   static const String userSupport = '$baseUrl/api/v1/support/';
+  static const String shipingHistory = '$baseUrl/api/v1/shipment/history';
   static String staticContent({contentType}) =>
       '$baseUrl/api/v1/static-contents?type=$contentType';
   static const String currentShiping = '$baseUrl/api/v1/shipment/current';

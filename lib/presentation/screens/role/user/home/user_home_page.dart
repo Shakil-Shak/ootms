@@ -9,13 +9,15 @@ import 'package:ootms/presentation/screens/role/user/home/user_map2.dart';
 import 'package:ootms/presentation/screens/role/user/load%20from%20excle/create_load.dart';
 import 'package:ootms/presentation/screens/role/user/notification/user_all_notifications.dart';
 import 'package:ootms/presentation/screens/role/user/profile/user_profile.dart';
-import 'package:ootms/presentation/screens/role/user/shipping/user_shipping_history.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
 import 'package:ootms/presentation/screens/role/user/create_load/user_create_load.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_drawer.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_set_location.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
+import 'package:ootms/presentation/screens/role/user/shipping/user_shipping_details.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../api/controllers/user/shipping_controller/shipping_history_controller.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({super.key});
@@ -68,7 +70,8 @@ class _UserHomePageState extends State<UserHomePage> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ProfileController>(context, listen: false).getLoadRequestData(context: context, callFromHome: true);
+      Provider.of<ProfileController>(context, listen: false)
+          .getLoadRequestData(context: context, callFromHome: true);
     });
   }
 
@@ -280,7 +283,7 @@ class _UserHomePageState extends State<UserHomePage> {
                         _showCustomDialog(context);
                       },
                     ),
-                    Consumer<ProfileController>(
+                    Consumer<ShippinfHistoryController>(
                         builder: (context, controller, _) {
                       return buildActionCard(
                         imagePath: "assets/icons/user home page/history.png",

@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/helpers/other_helper.dart';
+import 'package:ootms/presentation/api/controllers/user/load_request_controller/load_request_controller.dart';
+import 'package:ootms/presentation/api/models/user_model/shiping_model/shipping_history_model.dart';
+import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_shipping_details.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../api/controllers/user/shipping_controller/shipping_history_controller.dart';
 
 class UserShippingHistoryPage extends StatelessWidget {
   UserShippingHistoryPage({super.key});
@@ -63,121 +70,134 @@ class UserShippingHistoryPage extends StatelessWidget {
           //     )
           //   ],
           // ))
-          ListView.builder(
-        itemCount: requests.length,
-        itemBuilder: (context, index) {
-          final request = requests[index];
-          return GestureDetector(
-            onTap: () {
-              // Navigate to the details page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => UserShippingDetailsPage(
-                    shippingId: request['shippingId'],
-                    date: request['date'],
-                    from: request['from'],
-                    to: request['to'],
-                    driver: request['driver'],
-                    driverImage: request['driverImage'],
-                  ),
+          Consumer<ShippinfHistoryController>(
+        builder: (context, value, child) {
+          return ListView.builder(
+            itemCount: value.shippingHistoryData.length,
+            itemBuilder: (context, index) {
+              final request = requests[index];
+              ShippingHistoryModel data = value.shippingHistoryData[index];
+              return GestureDetector(
+                onTap: () {
+                  // Navigate to the details page
+                  // Navigator.push(
+                  //   context,
+                  // MaterialPageRoute(
+                  //   builder: (context) => UserShippingDetailsPage(
+                  //     shippingId: data.id,
+                  //     date: OtherHelper.getDate(serverDate: data.load.deliveryDate.toString()),
+                  //     from: data.load.shippingAddress,
+                  //     to: data.load.receivingAddress,
+                  //     driver: data.driver.fullName,
+                  //     driverImage: ApiPaths.baseUrl+ data.driver.image,
+                  //   ),
+                  // ),
+                  // );
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Divider(
+                      thickness: 2,
+                      color: Colors.black26,
+                    ),
+                    // Date and price
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          commonText(
+                              "${OtherHelper.getDate(serverDate: data.load.deliveryDate.toString())}, ${OtherHelper.getTime(serverDate: data.load.deliveryDate.toString())}",
+                              size: 16,
+                              isBold: true),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              commonText(request['price'],
+                                  size: 16, isBold: true),
+                              const Icon(
+                                Icons.arrow_forward_ios_outlined,
+                                size: 16,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    // Route information
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Image.asset("assets/icons/arrow_up.png"),
+                                    const SizedBox(width: 4),
+                                    Expanded(
+                                        child: commonText(
+                                            data.load.shippingAddress,
+                                            size: 14)),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Image.asset("assets/icons/arrow_up.png"),
+                                    const SizedBox(width: 4),
+                                    Expanded(
+                                        child: commonText(
+                                            data.load.receivingAddress,
+                                            size: 14)),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                ApiPaths.baseUrl + data.driver.image),
+                            radius: 20,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    // const Divider(thickness: 4, color: Colors.black26),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    //   child: Row(
+                    //     children: [
+                    //       commonText(
+                    //         "REQUEST AGAIN",
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    // const Divider(
+                    //   thickness: 4,
+                    //   color: Colors.black26,
+                    // ),
+                    // const SizedBox(
+                    //   height: 8,
+                    // ),
+                  ],
                 ),
               );
             },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Divider(
-                  thickness: 2,
-                  color: Colors.black26,
-                ),
-                // Date and price
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      commonText(request['date'], size: 16, isBold: true),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          commonText(request['price'], size: 16, isBold: true),
-                          const Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            size: 16,
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                // Route information
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset("assets/icons/arrow_up.png"),
-                                const SizedBox(width: 4),
-                                Expanded(
-                                    child:
-                                        commonText(request['from'], size: 14)),
-                              ],
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset("assets/icons/arrow_up.png"),
-                                const SizedBox(width: 4),
-                                Expanded(
-                                    child: commonText(request['to'], size: 14)),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(request['driverImage']),
-                        radius: 20,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-                // const Divider(thickness: 4, color: Colors.black26),
-                const SizedBox(
-                  height: 8,
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                //   child: Row(
-                //     children: [
-                //       commonText(
-                //         "REQUEST AGAIN",
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                const SizedBox(
-                  height: 8,
-                ),
-                // const Divider(
-                //   thickness: 4,
-                //   color: Colors.black26,
-                // ),
-                // const SizedBox(
-                //   height: 8,
-                // ),
-              ],
-            ),
           );
         },
       ),
