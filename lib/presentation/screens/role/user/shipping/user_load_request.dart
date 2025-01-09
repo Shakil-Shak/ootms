@@ -63,17 +63,17 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                       child: Container(
                         decoration: BoxDecoration(
                           color: const Color(0xFF2D4E68),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 20),
+                            vertical: 8, horizontal: 20),
                         margin: const EdgeInsets.symmetric(horizontal: 16),
                         child: TabBar(
                           controller: _tabController,
                           dividerColor: Colors.transparent,
                           indicator: BoxDecoration(
                             color: AppColor.primaryColorLight,
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(20),
                           ),
                           indicatorSize: TabBarIndicatorSize.tab,
                           onTap: (value) {
@@ -132,6 +132,7 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                                       "assets/images/empty.png",
                                       height: 80,
                                       width: 80,
+                                      color: Colors.grey,
                                     ),
                                     commonText("No request found",
                                         color: AppColor.black, size: 12),
@@ -150,109 +151,117 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                                 LoadRequestModel request =
                                     controller.loadRequestData[index];
 
-                                return Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              CommonImage(
-                                                imageSrc: ApiPaths.baseUrl + request.driver.image,
-                                                imageType: ImageType.network,
-                                                size: 50,
-                                                borderRadius: 100,
-                                              ),
-                                              const SizedBox(width: 16),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  commonText(
-                                                      request.driver.fullName,
-                                                      size: 16,
-                                                      isBold: true),
-                                                  const SizedBox(
-                                                    height: 4,
-                                                  ),
-                                                  commonText("${request.load.trailerSize}-foot trailer-${request.load.palletSpace} pallets.",
-                                                      size: 14),
-                                                  const SizedBox(
-                                                    height: 4,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      const Icon(Icons.circle,
-                                                          size: 12,
-                                                          color: Colors.green),
-                                                      const SizedBox(width: 4),
-                                                      commonText("The truck is fully available.",
-                                                          size: 14),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 4,
-                                          ),
-                                          SizedBox(
-                                            height: 40,
-                                            child: Row(
+                                return GestureDetector(
+                                  onTap: () {
+                                    animetedNavigationPush(
+                                        UserLoadRequestDetailsPage(
+                                          driverName: request
+                                              .driver.fullName,
+                                          driverPhone: request
+                                              .driver.phoneNumber,
+                                          driverAddress: request
+                                              .driver.address,
+                                          driverEmail:
+                                          request.driver.email,
+                                          truckNumber: request
+                                              .truck.truckNumber,
+                                          trailerSize: request
+                                              .truck.trailerSize
+                                              .toString(),
+                                          palletSpaces: request
+                                              .truck.palletSpace
+                                              .toString(),
+                                          availability:
+                                          "Fully Available",
+                                        ),
+                                        context);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
                                               children: [
-                                                Expanded(
-                                                  child: commonButton(
-                                                    "Cancel",
-                                                    isBold: false,
-                                                    borderRadious: 10,
-                                                    onTap: () {
-                                                      // Add your cancel action
-                                                    },
-                                                    color: AppColor
-                                                        .primaryColorLight
-                                                        .withOpacity(0.5),
-                                                    textColor: AppColor.black,
-                                                  ),
+                                                CommonImage(
+                                                  imageSrc: ApiPaths.baseUrl + request.driver.image,
+                                                  imageType: ImageType.network,
+                                                  size: 50,
+                                                  borderRadius: 100,
                                                 ),
-                                                Expanded(
-                                                  child: commonButton("Accept Load",
-                                                      onTap: () {
-                                                    animetedNavigationPush(
-                                                        UserLoadRequestDetailsPage(
-                                                          driverName: request
-                                                              .driver.fullName,
-                                                          driverPhone: request
-                                                              .driver.phoneNumber,
-                                                          driverAddress: request
-                                                              .driver.address,
-                                                          driverEmail:
-                                                              request.driver.email,
-                                                          truckNumber: request
-                                                              .truck.truckNumber,
-                                                          trailerSize: request
-                                                              .truck.trailerSize
-                                                              .toString(),
-                                                          palletSpaces: request
-                                                              .truck.palletSpace
-                                                              .toString(),
-                                                          availability:
-                                                              "Fully Available",
-                                                        ),
-                                                        context);
-                                                  },
-                                                      borderRadious: 10,
-                                                      isBold: false),
-                                                ),
+                                                const SizedBox(width: 16),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    commonText(
+                                                        request.driver.fullName,
+                                                        size: 16,
+                                                        isBold: true),
+                                                    const SizedBox(
+                                                      height: 4,
+                                                    ),
+                                                    commonText("${request.load.trailerSize}-foot trailer-${request.load.palletSpace} pallets.",
+                                                        size: 14),
+                                                    const SizedBox(
+                                                      height: 4,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        const Icon(Icons.circle,
+                                                            size: 12,
+                                                            color: Colors.green),
+                                                        const SizedBox(width: 4),
+                                                        commonText("The truck is fully available.",
+                                                            size: 14),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                )
                                               ],
                                             ),
-                                          ),
-                                        ],
+                                            const SizedBox(
+                                              height: 4,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 50.0),
+                                              child: SizedBox(
+                                                height: 40,
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: commonButton(
+                                                        "Reject Load",
+                                                        isBold: false,
+                                                        borderRadious: 10,
+                                                        margin: 10,
+                                                        onTap: () {
+                                                          // Add your cancel action
+                                                        },
+                                                        color: AppColor
+                                                            .primaryColorLight
+                                                            .withOpacity(0.5),
+                                                        textColor: AppColor.black,
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: commonButton("Assign Load",
+                                                          onTap: () {},
+                                                          borderRadious: 10,
+                                                          margin: 10,
+                                                          isBold: false),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 );
                               },
                             ),

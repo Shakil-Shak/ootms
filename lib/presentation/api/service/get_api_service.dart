@@ -9,6 +9,7 @@ import 'package:mime/mime.dart';
 import 'package:ootms/helpers/other_helper.dart';
 import 'package:ootms/helpers/prefs_helper.dart';
 import 'package:ootms/presentation/api/service/error_response.dart';
+import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 
 
 class ApiClient extends GetxService {
@@ -19,9 +20,10 @@ class ApiClient extends GetxService {
 //==========================================> Get Data <======================================
   static Future<Response> getData(String uri,
       {Map<String, dynamic>? query, Map<String, String>? headers}) async {
-    bearerToken = await PrefsHelper.getString(OtherHelper.bearerToken);
+    List<String>? userDetails = await getUserAcessDetails();
+    String token = userDetails![0];
 
-    var mainHeaders = {'Authorization': 'Bearer $bearerToken'};
+    var mainHeaders = {'Authorization': 'Bearer $token'};
     try {
       debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');
 
@@ -241,6 +243,30 @@ class ApiClient extends GetxService {
     debugPrint(
         '====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
     return response0;
+  }
+
+  //==========================================> Put Data <======================================
+  static Future<Response> putData(String uri,  body,
+      {Map<String, String>? headers}) async {
+
+    List<String>? userDetails = await getUserAcessDetails();
+    String token = userDetails![0];
+
+    var mainHeaders = {'Authorization': 'Bearer $token'};
+    try {
+      debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');
+      debugPrint('====> API Body: $body');
+
+      http.Response response = await http
+          .put(Uri.parse(uri), body: body, headers: headers)
+          .timeout(const Duration(seconds: timeoutInSeconds));
+      debugPrint(
+          "==========> Response Post Method :------ : ${response.statusCode}");
+      return handleResponse(response, uri);
+    } catch (e) {
+      debugPrint("===> $e");
+      return const Response(statusCode: 1, statusText: noInternetMessage);
+    }
   }
 
 

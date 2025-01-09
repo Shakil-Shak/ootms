@@ -3,12 +3,27 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/load_details_controller.dart';
+import 'package:ootms/presentation/api/models/load_details_model.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class DriverLoadRequestDetailsPage extends StatelessWidget {
+class DriverLoadRequestDetailsPage extends StatefulWidget {
+
+  DriverLoadRequestDetailsPage({super.key});
+
+  static String loadId = "";
+
+  @override
+  State<DriverLoadRequestDetailsPage> createState() => _DriverLoadRequestDetailsPageState();
+}
+
+class _DriverLoadRequestDetailsPageState extends State<DriverLoadRequestDetailsPage> {
+
+  LoadDetailsController loadDetailsController = Get.find<LoadDetailsController>();
   String shipperPhone = "123-456-789",
       shipperName = "NR Shakib",
       shipperRating = "4.5",
@@ -23,7 +38,12 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
       description =
           "Lorem ipsum dolor sit amet consectetur. Blandit auctor sit scelerisque ultricies.";
 
-  DriverLoadRequestDetailsPage({super.key});
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadDetailsController.getLoadDetails(loadId: DriverLoadRequestDetailsPage.loadId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,136 +54,139 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: AppColor.white,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Shipper's Information
-            commonText("Shipper's Information", isBold: true, size: 18),
-            const Divider(),
-            const SizedBox(height: 10),
-            _buildInfoRow("Shipper Name", " $shipperRating $shipperName",
-                "Shipper Phone", shipperPhone),
-            const SizedBox(height: 10),
-            _buildInfoRow("Shipper Email", shipperEmail, "Shipper Address",
-                shipperAddress),
+      body: GetBuilder<LoadDetailsController>(builder: (controller) {
+        var loadItems = controller.loadDetailsModel.attributes.query;
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Shipper's Information
+              commonText("Shipper's Information", isBold: true, size: 18),
+              const Divider(),
+              const SizedBox(height: 10),
+              _buildInfoRow("Shipper Name", " $shipperRating $shipperName",
+                  "Shipper Phone", shipperPhone),
+              const SizedBox(height: 10),
+              _buildInfoRow("Shipper Email", shipperEmail, "Shipper Address",
+                  shipperAddress),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            // Load Information Section
-            commonText("Load Information", isBold: true, size: 18),
-            const Divider(),
-            const SizedBox(height: 10),
-            _buildLoadInfoSection(),
+              // Load Information Section
+              commonText("Load Information", isBold: true, size: 18),
+              const Divider(),
+              const SizedBox(height: 10),
+              _buildLoadInfoSection(),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            // Receiver's Information Section
-            commonText("Receiver's Information", isBold: true, size: 18),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 10),
-                  _buildInfoRow("Receiver Name", reciverName, "Receiver Phone",
-                      reciverPhone),
-                  const SizedBox(height: 10),
-                  _buildInfoRow("Receiver Email", reciverEmail,
-                      "Receiver Address", reciverAddress),
+              // Receiver's Information Section
+              commonText("Receiver's Information", isBold: true, size: 18),
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10),
+                    _buildInfoRow("Receiver Name", reciverName, "Receiver Phone",
+                        reciverPhone),
+                    const SizedBox(height: 10),
+                    _buildInfoRow("Receiver Email", reciverEmail,
+                        "Receiver Address", reciverAddress),
 
-                  const SizedBox(height: 10),
+                    const SizedBox(height: 10),
 
-                  // Delivery Instructions
-                  commonText("Delivery Instructions", isBold: true, size: 16),
-                  const SizedBox(height: 5),
-                  commonText(deliveryInstructions),
+                    // Delivery Instructions
+                    commonText("Delivery Instructions", isBold: true, size: 16),
+                    const SizedBox(height: 5),
+                    commonText(deliveryInstructions),
 
-                  const SizedBox(height: 30),
-                ],
+                    const SizedBox(height: 30),
+                  ],
+                ),
               ),
-            ),
 
-            // Message Input with Call Button
-            Row(
-              children: [
-                // Message input field
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: Colors.grey, width: 1),
-                    ),
-                    child: const Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12.0),
-                          child: Icon(
-                            Icons.message,
-                            color: AppColor.black,
-                          ),
-                        ),
-                        Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: "Send a message",
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(color: Colors.grey),
+              // Message Input with Call Button
+              Row(
+                children: [
+                  // Message input field
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        border: Border.all(color: Colors.grey, width: 1),
+                      ),
+                      child: const Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Icon(
+                              Icons.message,
+                              color: AppColor.black,
                             ),
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "Send a message",
+                                border: InputBorder.none,
+                                hintStyle: TextStyle(color: Colors.grey),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 10),
-                // Phone icon button
-                InkWell(
-                  onTap: () {
-                    _launchDialer(shipperPhone);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        color: AppColor.white,
-                        shape: BoxShape.circle,
-                        border: Border.all(width: 1)),
-                    child: const Icon(
-                      Icons.phone,
-                      color: Colors.black,
+                  const SizedBox(width: 10),
+                  // Phone icon button
+                  InkWell(
+                    onTap: () {
+                      _launchDialer(shipperPhone);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          color: AppColor.white,
+                          shape: BoxShape.circle,
+                          border: Border.all(width: 1)),
+                      child: const Icon(
+                        Icons.phone,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
+                ],
+              ),
+              const SizedBox(height: 20),
 
-            // Cancel and Assign Load Buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: commonButton("Cancel",
-                      borderRadious: 10,
-                      color: const Color(0xFFDDDDDD),
-                      textColor: AppColor.black),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: commonButton(
-                    borderRadious: 10,
-                    "Accept Load",
-                    textColor: Colors.white,
+              // Cancel and Assign Load Buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: commonButton("Cancel",
+                        borderRadious: 10,
+                        color: const Color(0xFFDDDDDD),
+                        textColor: AppColor.black),
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: commonButton(
+                      borderRadious: 10,
+                      "Accept Load",
+                      textColor: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },),
     );
   }
 

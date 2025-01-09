@@ -31,4 +31,7 @@ class ApiPaths {
   static const String chagePassword = '$baseUrl/api/v1/auth/change-password';
   static String userLoadRequest({bool? requestType}) =>
       '$baseUrl/api/v1/loads-request?myRequests=$requestType';
+  static String getNotification = '$baseUrl/api/v1/notifications?page=';
+  static String notificationStatus = '$baseUrl/api/v1/notifications/read/';
+  static String loadsDetails = '$baseUrl/api/v1/loads/';
 }

@@ -77,6 +77,24 @@ class OtherHelper {
     }
   }
 
+  /// Time difference code
+  static String getTimeDifference(DateTime timestamp) {
+    final DateTime givenTime = timestamp;
+    final DateTime now = DateTime.now().toUtc();
+
+    final Duration difference = now.difference(givenTime);
+
+    if (difference.inDays > 0) {
+      return '${difference.inDays} day${difference.inDays > 1 ? 's' : ''} ago';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} hour${difference.inHours > 1 ? 's' : ''} ago';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''} ago';
+    } else {
+      return 'Just now';
+    }
+  }
+
   // static Future<String> openTimePicker(TextEditingController controller) async {
   //   final TimeOfDay? picked = await showTimePicker(
   //       context: Get.context!,
