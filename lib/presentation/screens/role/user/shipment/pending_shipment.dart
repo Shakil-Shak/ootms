@@ -5,19 +5,14 @@ import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_map2.dart';
 import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_preferred_driver.dart';
-import 'package:ootms/presentation/screens/role/user/load%20from%20excle/create_load.dart';
 import 'package:ootms/presentation/screens/role/user/load%20from%20excle/load_details.dart';
 
-class LoadDataScreen extends StatefulWidget {
+class PendingShipmentScreen extends StatefulWidget {
   @override
-  State<LoadDataScreen> createState() => _LoadDataScreenState();
-
-  final List<LoadData> loadDataList;
-
-  const LoadDataScreen({super.key, required this.loadDataList});
+  State<PendingShipmentScreen> createState() => _PendingShipmentScreenState();
 }
 
-class _LoadDataScreenState extends State<LoadDataScreen> {
+class _PendingShipmentScreenState extends State<PendingShipmentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +30,7 @@ class _LoadDataScreenState extends State<LoadDataScreen> {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: widget.loadDataList.length,
+                itemCount: 2,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
@@ -47,7 +42,7 @@ class _LoadDataScreenState extends State<LoadDataScreen> {
                           animetedNavigationPush(
                               (const LoadDetailsScreen()), context);
                         },
-                        title: commonText(widget.loadDataList[index].load,
+                        title: commonText('4545${index + 1}',
                             size: 18, isBold: true),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,9 +63,7 @@ class _LoadDataScreenState extends State<LoadDataScreen> {
                                       ),
                                     )),
                                 const SizedBox(width: 8),
-                                Expanded(
-                                    child: commonText(
-                                        widget.loadDataList[index].receiver)),
+                                Expanded(child: commonText('California, USA')),
                               ],
                             ),
                             const SizedBox(height: 4),
@@ -90,9 +83,7 @@ class _LoadDataScreenState extends State<LoadDataScreen> {
                                       ),
                                     )),
                                 const SizedBox(width: 8),
-                                Expanded(
-                                    child: commonText(
-                                        widget.loadDataList[index].shipper)),
+                                Expanded(child: commonText('Toronto, Canada')),
                               ],
                             ),
                           ],
