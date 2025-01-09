@@ -2,18 +2,14 @@
 
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
-import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/update_profile_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:ootms/presentation/screens/role/common/country_model.dart';
-import 'package:provider/provider.dart';
-
 import '../../../../api/url_paths.dart';
 import '../../../../components/common_image.dart';
 
@@ -44,15 +40,6 @@ class _UserEditProfileState extends State<UserEditProfile> {
   TextEditingController phoneController = TextEditingController();
   final UpdateProfileController editController =
       Get.find<UpdateProfileController>();
-  // String _selectedCountry = 'USA';
-
-  // final List<Country> countries = [
-  //   Country('United States', '+1', 'assets/images/usaflag.png'),
-  //   Country('Canada', '+1', 'assets/images/usaflag.png'),
-  //   Country('United Kingdom', '+44', 'assets/images/usaflag.png'),
-  //   Country('Australia', '+61', 'assets/images/usaflag.png'),
-  //   // Add more countries as needed
-  // ];
 
   Country? selectedCountry;
 
@@ -68,13 +55,14 @@ class _UserEditProfileState extends State<UserEditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: commonText("Edit Profile", size: 21, isBold: true),
+        centerTitle: true,
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: commonText("Edit Profile", size: 21, isBold: true),
-          centerTitle: true,
-          backgroundColor: Colors.white,
-        ),
-        body: GetBuilder<UpdateProfileController>(builder: (controller) {
+      ),
+      body: GetBuilder<UpdateProfileController>(
+        builder: (controller) {
           log(ApiPaths.baseUrl + widget.imagePath);
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -90,25 +78,25 @@ class _UserEditProfileState extends State<UserEditProfile> {
                         children: [
                           editController.image != null
                               ? Container(
-                            height: 80,
-                            width: 80,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: Image.file(
-                              File(editController.image!),
-                              width: 128,
-                              height: 128,
-                              fit: BoxFit.fill,
-                            ),
-                          )
+                                  height: 80,
+                                  width: 80,
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Image.file(
+                                    File(editController.image!),
+                                    width: 128,
+                                    height: 128,
+                                    fit: BoxFit.fill,
+                                  ),
+                                )
                               : CommonImage(
-                            imageSrc: ApiPaths.baseUrl + widget.imagePath,
-                            imageType: ImageType.network,
-                            size: 90,
-                            borderRadius: 100,
-                          ),
+                                  imageSrc: ApiPaths.baseUrl + widget.imagePath,
+                                  imageType: ImageType.network,
+                                  size: 90,
+                                  borderRadius: 100,
+                                ),
                           Positioned(
                             bottom: 5,
                             right: 2,
@@ -131,19 +119,20 @@ class _UserEditProfileState extends State<UserEditProfile> {
                       hintText: "Full Name", keyboardType: TextInputType.text),
                   const SizedBox(height: 20),
                   commonTextfieldWithTitle(
-                    enable: false,
-                      "Email", emailController,
-                      assetIconPath: "assets/icons/emailicon.png",
-                      hintText: "Email",
-                      keyboardType: TextInputType.none),
+                    "Email",
+                    emailController,
+                    prifixIconWidget: Image.asset("assets/icons/emailicon.png"),
+                    hintText: "Email",
+                    keyboardType: TextInputType.emailAddress,
+                  ),
                   const SizedBox(height: 20),
                   // ======================================phone picker
 
                   commonTextfieldWithTitle("Phone", phoneController,
                       prifixIconWidget:
-                      Image.asset("assets/images/usaflag.png"),
+                          Image.asset("assets/images/usaflag.png"),
                       hintText: "Enter your phone",
-                      keyboardType: TextInputType.emailAddress),
+                      keyboardType: TextInputType.number),
 
                   const SizedBox(height: 20),
                   Row(
@@ -200,7 +189,8 @@ class _UserEditProfileState extends State<UserEditProfile> {
               ),
             ),
           );
-        },),
-        );
+        },
+      ),
+    );
   }
 }

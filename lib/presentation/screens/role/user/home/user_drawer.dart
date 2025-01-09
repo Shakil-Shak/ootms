@@ -11,6 +11,7 @@ import 'package:ootms/presentation/screens/role/driver/subsciption.dart';
 import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_preferred_driver%20copy.dart';
 import 'package:ootms/presentation/screens/role/user/load%20from%20excle/load_data.dart';
 import 'package:ootms/presentation/screens/role/user/settings/about_us_screen.dart';
+import 'package:ootms/presentation/screens/role/user/shipment/pending_shipment.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_current_shipments.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_load_request.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
@@ -67,7 +68,7 @@ Widget userCustomDrawer(BuildContext context) {
                 text: 'Pending Shipments',
                 onTap: () {
                   Navigator.pop(context);
-                  animetedNavigationPush(LoadDataScreen(), context);
+                  animetedNavigationPush(PendingShipmentScreen(), context);
                 },
               ),
               DrawerMenuItem(
@@ -117,8 +118,7 @@ Widget userCustomDrawer(BuildContext context) {
                 text: 'About Us',
                 onTap: () {
                   value.getAboutUs(context);
-                  animetedNavigationPush(
-                      const AboutUsScreen(), context);
+                  animetedNavigationPush(const AboutUsScreen(), context);
                 },
               ),
               DrawerMenuItem(
@@ -201,8 +201,8 @@ void _showDeleteAccountDialog(BuildContext context) {
                   Expanded(
                       child: commonButton("Cancel", borderRadious: 10,
                           onTap: () {
-                            Navigator.pop(context);
-                          },
+                    Navigator.pop(context);
+                  },
                           color: const Color(0xFFDDDDDD),
                           textColor: AppColor.black)),
                   const SizedBox(
@@ -210,9 +210,9 @@ void _showDeleteAccountDialog(BuildContext context) {
                   ),
                   Expanded(
                       child: commonButton("Logout", onTap: () {
-                        deleteUserAccessDetails(context: context);
-                        main();
-                      }, borderRadious: 10, color: AppColor.primaryColor))
+                    deleteUserAccessDetails(context: context);
+                    main();
+                  }, borderRadious: 10, color: AppColor.primaryColor))
                 ],
               ),
             ),

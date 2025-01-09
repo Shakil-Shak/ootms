@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:ootms/presentation/api/models/user_model/shiping_model/shipping_history_model.dart';
 import 'package:ootms/presentation/api/service/api_services.dart';
@@ -8,16 +8,48 @@ import 'package:ootms/presentation/api/models/user_model/profile_model/get_profi
 import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_shipping_history.dart';
 
-import '../../../../../helpers/other_helper.dart';
+
+import '../../../../components/common_snackbar.dart';
 import '../../../../navigation/animeted_navigation.dart';
 import '../../../../screens/role/user/shipping/user_current_shipments.dart';
-import '../../../../screens/role/user/shipping/user_load_request.dart';
 import '../../../models/user_model/shiping_model/current_shiping_model.dart';
 
 class ProfileController extends ChangeNotifier {
   final ApiService _apiService = ApiService();
   bool isLoading = false;
   ProfileModel profileData = ProfileModel();
+  bool isSupportFieldClear = false;
+  Future<void> postSupport(
+      {required String title, required String content,required context}) async {
+    isLoading = true;
+    notifyListeners();
+    Map<String, dynamic> data = {
+      "title": title,
+      "content": content,
+    };
+
+    final response =
+        await _apiService.otherPostRequest(ApiPaths.userSupport, data);
+
+    if (response is Map<String, dynamic>) {
+      if (response['statusCode'] == "201") {
+        showCommonSnackbar(context, "Submited successful!");
+        isSupportFieldClear = true;
+        notifyListeners();
+        isLoading = false;
+        notifyListeners();
+      } else {
+        isLoading = false;
+        notifyListeners();
+      }
+    } else {
+      isLoading = false;
+      notifyListeners();
+      log("Error: Response is not a Map<String, dynamic>");
+    }
+  }
+
+  //===================================================get profile data
 
   Future<void> getProfileData() async {
     isLoading = true;
@@ -150,7 +182,7 @@ class ProfileController extends ChangeNotifier {
 
       if (response != null &&
           response['statusCode'] != null &&
-          response['statusCode'] == 200) {
+          response['statusCode'] == "200") {
         log("================================================successfull");
         List responseData =
             response['data']?["attributes"]?["loadRequests"] ?? [];
