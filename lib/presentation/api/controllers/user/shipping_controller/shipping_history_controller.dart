@@ -17,7 +17,7 @@ class ShippinfHistoryController extends ChangeNotifier {
 
       if (response is Map<String, dynamic>) {
         log("================================================current shiping successfull");
-        if (response['statusCode'] == "200") {
+        if (response['statusCode'] == 200) {
           final responseData = response['data'];
           if (responseData != null && responseData is Map<String, dynamic>) {
             shippingHistoryData =

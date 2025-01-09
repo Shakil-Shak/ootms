@@ -28,6 +28,7 @@ class ApiPaths {
   static const String currentShiping = '$baseUrl/api/v1/shipment/current';
   static const String shippingHistory = '$baseUrl/api/v1/shipment/history';
   static const String chagePassword = '$baseUrl/api/v1/auth/change-password';
+  static const String equipment = '$baseUrl/api/v1/truck-details';
   static String userLoadRequest({bool? requestType}) =>
       '$baseUrl/api/v1/loads-request?myRequests=$requestType';
 }

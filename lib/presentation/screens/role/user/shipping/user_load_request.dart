@@ -231,12 +231,12 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                                                           driverEmail:
                                                               request.driver.email,
                                                           truckNumber: request
-                                                              .truck.truckNumber,
+                                                              .truck!.truckNumber,
                                                           trailerSize: request
-                                                              .truck.trailerSize
+                                                              .truck!.trailerSize
                                                               .toString(),
                                                           palletSpaces: request
-                                                              .truck.palletSpace
+                                                              .truck!.palletSpace
                                                               .toString(),
                                                           availability:
                                                               "Fully Available",

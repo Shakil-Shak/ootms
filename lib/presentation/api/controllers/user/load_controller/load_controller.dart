@@ -7,7 +7,6 @@ import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 
 import '../../../../components/common_snackbar.dart';
 import '../../../../screens/role/user/home/user_home_page.dart';
-import '../../../../screens/role/user/load from excle/assign_loads.dart';
 import '../../../service/api_services.dart';
 import '../../../url_paths.dart';
 
@@ -140,13 +139,12 @@ class LoadController extends ChangeNotifier {
         "deliveryInstruction": deliveryInstructionsController.text
       }
     ];
-    print("=================================================data $data");
+  
 
     try {
       final response = await apiService.otherPostRequest(
           ApiPaths.createLoad, jsonEncode(data));
-      print(
-          "44==========================================================response$response");
+    
 
       log("status code before =-==================${response["statusCode"]}");
       if (response["statusCode"] == "201") {
