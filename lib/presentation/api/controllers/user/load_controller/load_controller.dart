@@ -5,12 +5,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 
+import '../../../../../helpers/other_helper.dart';
 import '../../../../components/common_snackbar.dart';
 import '../../../../screens/role/user/home/user_home_page.dart';
 import '../../../service/api_services.dart';
 import '../../../url_paths.dart';
 
 class LoadController extends ChangeNotifier {
+  String selectedValue = "";
+  String selectedFilterItem = "";
   TextEditingController driverIdcontroller = TextEditingController();
   final TextEditingController receiverNameController =
       TextEditingController(text: kDebugMode ? "Topu" : "");
@@ -79,13 +82,24 @@ class LoadController extends ChangeNotifier {
     "'Radioactive 7'": false,
     "'Non-Flammable Gas'": false
   };
+
+  pickPickupDate() async {
+    String pickDate = await OtherHelper.datePicker(pickupController);
+    pickupController.value = TextEditingValue(text: pickDate);
+    notifyListeners();
+  }
+    pickdelivaryDate() async {
+    String pickDate = await OtherHelper.datePicker(deliveryController);
+    deliveryController.value = TextEditingValue(text: pickDate);
+    notifyListeners();
+  }
+
   void updateHazMatItem(String key, bool value) {
     hazMatItems[key] = value;
 
-    // Update hazmatList with only keys as strings
     hazmatList = hazMatItems.entries
-        .where((entry) => entry.value) // Filter entries where value is true
-        .map((entry) => entry.key) // Add only the key as string
+        .where((entry) => entry.value) 
+        .map((entry) => entry.key)
         .toList();
     print("=======================================hazmat list$hazmatList");
 

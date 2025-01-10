@@ -17,13 +17,15 @@ import '../../../models/user_model/shiping_model/current_shiping_model.dart';
 class ProfileController extends ChangeNotifier {
   final ApiService _apiService = ApiService();
   bool isLoading = false;
+  bool isSupportLoad = false;
+
   ProfileModel profileData = ProfileModel();
   bool isSupportFieldClear = false;
   Future<void> postSupport(
       {required String title,
       required String content,
       required context}) async {
-    isLoading = true;
+    isSupportLoad = true;
     notifyListeners();
     Map<String, dynamic> data = {
       "title": title,
@@ -38,14 +40,14 @@ class ProfileController extends ChangeNotifier {
         showCommonSnackbar(context, "Submited successful!");
         isSupportFieldClear = true;
         notifyListeners();
-        isLoading = false;
+        isSupportLoad = false;
         notifyListeners();
       } else {
-        isLoading = false;
+        isSupportLoad = false;
         notifyListeners();
       }
     } else {
-      isLoading = false;
+      isSupportLoad = false;
       notifyListeners();
       log("Error: Response is not a Map<String, dynamic>");
     }
@@ -54,13 +56,13 @@ class ProfileController extends ChangeNotifier {
   //===================================================get profile data
 
   Future<void> getProfileData() async {
+    log("================================================successfull");
     isLoading = true;
     notifyListeners();
 
     final response = await _apiService.getRequest(ApiPaths.profileUrl);
 
     if (response is Map<String, dynamic>) {
-      log("================================================successfull");
       if (response['statusCode'] == 200) {
         final responseData = response['data'];
         if (responseData != null && responseData is Map<String, dynamic>) {
@@ -87,7 +89,7 @@ class ProfileController extends ChangeNotifier {
   bool isCurrentShip = false;
 
   Future<void> getCurrentShipData({required context}) async {
-    isLoading = true;
+    isCurrentShip = true;
     notifyListeners();
 
     final response = await _apiService.getRequest(ApiPaths.currentShiping);
@@ -100,30 +102,27 @@ class ProfileController extends ChangeNotifier {
         final responseData = response['data'];
         log("responseData: $responseData");
         if (responseData != null && responseData is Map<String, dynamic>) {
-          List responseData =
-              response['data']["attributes"]["loadRequests"];
-              
-              debugPrint("=============================================responseData$responseData");
+          List responseData = response['data']["attributes"]["loadRequests"];
+
           currentShipData = responseData
               .map((items) => CurrentShippingModel.fromJson(items))
               .toList();
-              debugPrint("=============================================currentshipdata$currentShipData");
-          animetedNavigationPush(UserCurrentShipmentsPage(), context);
+
           print("success");
-          isLoading = false;
+          isCurrentShip = false;
           notifyListeners();
         } else {
-          isLoading = false;
+          isCurrentShip = false;
           notifyListeners();
           log("Error: Response data is null or not a Map<String, dynamic>");
         }
       } else {
         log("Error: statusCode is not 200, received ${response['statusCode']}");
-        isLoading = false;
+        isCurrentShip = false;
         notifyListeners();
       }
     } else {
-      isLoading = false;
+      isCurrentShip = false;
       notifyListeners();
       log("Error: Response is not a Map<String, dynamic>");
     }
@@ -175,12 +174,13 @@ class ProfileController extends ChangeNotifier {
 
   //==================================================get load request data
   List<LoadRequestModel> loadRequestData = [];
+  bool isLoadRequest = false;
 
   Future<void> getLoadRequestData(
       {required context,
       bool requestType = false,
       bool callFromHome = false}) async {
-    isLoading = true;
+    isLoadRequest = true;
     if (!callFromHome) {
       notifyListeners();
     }
@@ -191,7 +191,6 @@ class ProfileController extends ChangeNotifier {
       if (response != null &&
           response['statusCode'] != null &&
           response['statusCode'] == 200) {
-        log("================================================successfull");
         List responseData =
             response['data']?["attributes"]?["loadRequests"] ?? [];
         log("responseData: $responseData");
@@ -205,7 +204,7 @@ class ProfileController extends ChangeNotifier {
     } catch (e) {
       log("$e");
     } finally {
-      isLoading = false;
+      isLoadRequest = false;
       notifyListeners();
     }
   }
@@ -215,12 +214,12 @@ class ProfileController extends ChangeNotifier {
   //===============================================================================get equipment data
   List<EquipmentModel> equipmentData = [];
   getEquipmentData() async {
-    print("topu================================================================");
+    print(
+        "topu================================================================");
     isLoading = true;
     notifyListeners();
 
     try {
-      
       print("=======================================ressdflksadflksdjfksdjf");
       final response = await _apiService.getRequest(ApiPaths.equipment);
       print("=======================================response$response");
@@ -229,8 +228,7 @@ class ProfileController extends ChangeNotifier {
           response['statusCode'] != null &&
           response['statusCode'] == "201") {
         log("================================================successfull");
-        List responseData =
-            response['data']["attributes"] ?? [];
+        List responseData = response['data']["attributes"] ?? [];
         log("responseData: $responseData");
         equipmentData = responseData
             .map((items) => EquipmentModel.fromJson(items))

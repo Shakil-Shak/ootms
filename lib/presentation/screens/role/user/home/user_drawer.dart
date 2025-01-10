@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/assets/images_string.dart';
-import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/static_controller/static_controller.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
@@ -117,8 +116,7 @@ Widget userCustomDrawer(BuildContext context) {
                 text: 'About Us',
                 onTap: () {
                   value.getAboutUs(context);
-                  animetedNavigationPush(
-                      const AboutUsScreen(), context);
+                  animetedNavigationPush(const AboutUsScreen(), context);
                 },
               ),
               DrawerMenuItem(
@@ -201,8 +199,8 @@ void _showDeleteAccountDialog(BuildContext context) {
                   Expanded(
                       child: commonButton("Cancel", borderRadious: 10,
                           onTap: () {
-                            Navigator.pop(context);
-                          },
+                    Navigator.pop(context);
+                  },
                           color: const Color(0xFFDDDDDD),
                           textColor: AppColor.black)),
                   const SizedBox(
@@ -210,9 +208,9 @@ void _showDeleteAccountDialog(BuildContext context) {
                   ),
                   Expanded(
                       child: commonButton("Logout", onTap: () {
-                        deleteUserAccessDetails(context: context);
-                        main();
-                      }, borderRadious: 10, color: AppColor.primaryColor))
+                    deleteUserAccessDetails(context: context);
+                    main();
+                  }, borderRadious: 10, color: AppColor.primaryColor))
                 ],
               ),
             ),

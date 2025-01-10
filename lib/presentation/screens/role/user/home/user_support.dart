@@ -57,7 +57,7 @@ class UserSupportPage extends StatelessWidget {
                     height: 20,
                   ),
                   commonButton(
-                    isLoading: value.isLoading,
+                    isLoading: value.isSupportLoad,
                     "Submit",
                     onTap: () async {
                       if (formkey.currentState!.validate()) {

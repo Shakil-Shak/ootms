@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/bottom_nav_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -8,13 +10,11 @@ import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_map2.dart';
 import 'package:ootms/presentation/screens/role/user/load%20from%20excle/create_load.dart';
 import 'package:ootms/presentation/screens/role/user/notification/user_all_notifications.dart';
-import 'package:ootms/presentation/screens/role/user/profile/user_profile.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
 import 'package:ootms/presentation/screens/role/user/create_load/user_create_load.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_drawer.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_set_location.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
-import 'package:ootms/presentation/screens/role/user/shipping/user_shipping_details.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../api/controllers/user/shipping_controller/shipping_history_controller.dart';
@@ -28,6 +28,7 @@ class UserHomePage extends StatefulWidget {
 
 class _UserHomePageState extends State<UserHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final BottomNavController navController = Get.put(BottomNavController());
 
   void _showCustomDialog(BuildContext context) {
     showDialog(
@@ -153,8 +154,9 @@ class _UserHomePageState extends State<UserHomePage> {
                               // Profile avatar
                               InkWell(
                                 onTap: () {
-                                  animetedNavigationPush(
-                                      const UserProfile(), context);
+                                  navController.valueIncrease();
+                                  // animetedNavigationPush(
+                                  //     const UserProfile(), context);
                                 },
                                 child: const CircleAvatar(
                                   backgroundColor: AppColor.black,
@@ -296,6 +298,7 @@ class _UserHomePageState extends State<UserHomePage> {
                         },
                       );
                     }),
+                    //===========================================================chat card
                     buildActionCard(
                       imagePath: "assets/icons/user home page/massage.png",
                       label: 'Chat',
@@ -304,6 +307,7 @@ class _UserHomePageState extends State<UserHomePage> {
                         animetedNavigationPush(UserChatListPage(), context);
                       },
                     ),
+                    //==========================================================support card
                     buildActionCard(
                       imagePath: "assets/icons/user home page/support.png",
                       label: 'Support',

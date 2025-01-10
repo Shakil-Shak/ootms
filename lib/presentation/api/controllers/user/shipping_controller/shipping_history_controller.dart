@@ -28,14 +28,16 @@ class ShippinfHistoryController extends ChangeNotifier {
         if (responseData != null && responseData is Map<String, dynamic>) {
           List responseData =
               response['data']?["attributes"]?["loadRequests"] ?? [];
-              print("=======================================response data $responseData");
+          debugPrint(
+              "=======================================response data $responseData");
           shippingHistoryData = responseData
               .map((items) => ShippingHistoryModel.fromJson(items))
               .toList();
-              
-              print("=======================================shippingHistoryData data $shippingHistoryData");
+
+          debugPrint(
+              "=======================================shippingHistoryData data $shippingHistoryData");
           animetedNavigationPush(UserShippingHistoryPage(), context);
-          print("success");
+          debugPrint("success");
           isLoading = false;
           notifyListeners();
         } else {
