@@ -56,7 +56,7 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
           builder: (context, controller, child) {
             return Stack(
               children: [
-                controller.loadRequestData.isEmpty    
+                controller.loadRequestData.isEmpty
                     ? SizedBox(
                         height: Get.height,
                         child: Center(
@@ -151,154 +151,133 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                           //     width: Get.width,
                           //     child: Center(child: CircularProgressIndicator())) :
                           Expanded(
-                            child: 
-                                    ListView.separated(
-                                        separatorBuilder: (context, index) =>
-                                            const SizedBox(
-                                          height: 16,
-                                        ),
-                                        padding: const EdgeInsets.all(16.0),
-                                        itemCount:
-                                            controller.loadRequestData.length,
-                                        itemBuilder: (context, index) {
-                                          LoadRequestModel request =
-                                              controller.loadRequestData[index];
+                            child: ListView.separated(
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                height: 16,
+                              ),
+                              padding: const EdgeInsets.all(16.0),
+                              itemCount: controller.loadRequestData.length,
+                              itemBuilder: (context, index) {
+                                LoadRequestModel request =
+                                    controller.loadRequestData[index];
 
-                                          return Row(
-                                            children: [
-                                              Expanded(
-                                                child: Column(
+                                return InkWell(
+                                  onTap: () {
+                                    animetedNavigationPush(
+                                      UserLoadRequestDetailsPage(
+                                        driverName: request.driver?.fullName ??
+                                            "Unknown Driver",
+                                        driverPhone:
+                                            request.driver?.phoneNumber ??
+                                                "No Phone Number",
+                                        driverAddress:
+                                            request.driver?.address ??
+                                                "No Address",
+                                        driverEmail:
+                                            request.driver?.email ?? "No Email",
+                                        truckNumber:
+                                            request.truck?.truckNumber ??
+                                                "No Truck Number",
+                                        trailerSize: request.truck?.trailerSize
+                                                ?.toString() ??
+                                            "Unknown",
+                                        palletSpaces: request.truck?.palletSpace
+                                                ?.toString() ??
+                                            "Unknown",
+                                        availability: "Fully Available",
+                                      ),
+                                      context,
+                                    );
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                CommonImage(
+                                                  imageSrc: ApiPaths.baseUrl +
+                                                      (request.driver?.image ??
+                                                          "default_image.jpg"),
+                                                  imageType: ImageType.network,
+                                                  size: 50,
+                                                  borderRadius: 100,
+                                                ),
+                                                const SizedBox(width: 16),
+                                                Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
+                                                    commonText(
+                                                        request.driver
+                                                                ?.fullName ??
+                                                            "Unknown Driver",
+                                                        size: 16,
+                                                        isBold: true),
+                                                    const SizedBox(height: 4),
+                                                    commonText(
+                                                        "${request.load?.trailerSize ?? 'Unknown'}-foot trailer-${request.load?.palletSpace ?? 'Unknown'} pallets.",
+                                                        size: 14),
+                                                    const SizedBox(height: 4),
                                                     Row(
                                                       children: [
-                                                        CommonImage(
-                                                          imageSrc:
-                                                              ApiPaths.baseUrl +
-                                                                  request.driver
-                                                                      .image,
-                                                          imageType:
-                                                              ImageType.network,
-                                                          size: 50,
-                                                          borderRadius: 100,
-                                                        ),
+                                                        const Icon(Icons.circle,
+                                                            size: 12,
+                                                            color:
+                                                                Colors.green),
                                                         const SizedBox(
-                                                            width: 16),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            commonText(
-                                                                request.driver
-                                                                    .fullName,
-                                                                size: 16,
-                                                                isBold: true),
-                                                            const SizedBox(
-                                                              height: 4,
-                                                            ),
-                                                            commonText(
-                                                                "${request.load.trailerSize}-foot trailer-${request.load.palletSpace} pallets.",
-                                                                size: 14),
-                                                            const SizedBox(
-                                                              height: 4,
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                const Icon(
-                                                                    Icons
-                                                                        .circle,
-                                                                    size: 12,
-                                                                    color: Colors
-                                                                        .green),
-                                                                const SizedBox(
-                                                                    width: 4),
-                                                                commonText(
-                                                                    "The truck is fully available.",
-                                                                    size: 14),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        )
+                                                            width: 4),
+                                                        commonText(
+                                                            "The truck is fully available.",
+                                                            size: 14),
                                                       ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 4,
-                                                    ),
-                                                    SizedBox(
-                                                      height: 40,
-                                                      child: Row(
-                                                        children: [
-                                                          Expanded(
-                                                            child: commonButton(
-                                                              "Cancel",
-                                                              isBold: false,
-                                                              borderRadious: 10,
-                                                              onTap: () {
-                                                                // Add your cancel action
-                                                              },
-                                                              color: AppColor
-                                                                  .primaryColorLight
-                                                                  .withOpacity(
-                                                                      0.5),
-                                                              textColor:
-                                                                  AppColor
-                                                                      .black,
-                                                            ),
-                                                          ),
-                                                          Expanded(
-                                                            child: commonButton(
-                                                                "Accept Load",
-                                                                onTap: () {
-                                                              animetedNavigationPush(
-                                                                  UserLoadRequestDetailsPage(
-                                                                    driverName: request
-                                                                        .driver
-                                                                        .fullName,
-                                                                    driverPhone:
-                                                                        request
-                                                                            .driver
-                                                                            .phoneNumber,
-                                                                    driverAddress:
-                                                                        request
-                                                                            .driver
-                                                                            .address,
-                                                                    driverEmail:
-                                                                        request
-                                                                            .driver
-                                                                            .email,
-                                                                    truckNumber:
-                                                                        request
-                                                                            .truck!
-                                                                            .truckNumber,
-                                                                    trailerSize: request
-                                                                        .truck!
-                                                                        .trailerSize
-                                                                        .toString(),
-                                                                    palletSpaces: request
-                                                                        .truck!
-                                                                        .palletSpace
-                                                                        .toString(),
-                                                                    availability:
-                                                                        "Fully Available",
-                                                                  ),
-                                                                  context);
-                                                            },
-                                                                borderRadious:
-                                                                    10,
-                                                                isBold: false),
-                                                          ),
-                                                        ],
-                                                      ),
                                                     ),
                                                   ],
                                                 ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 4),
+                                            SizedBox(
+                                              height: 40,
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: commonButton(
+                                                      "Cancel",
+                                                      isBold: false,
+                                                      borderRadious: 10,
+                                                      onTap: () {
+                                                        // Add your cancel action
+                                                      },
+                                                      color: AppColor
+                                                          .primaryColorLight
+                                                          .withOpacity(0.5),
+                                                      textColor: AppColor.black,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: commonButton(
+                                                      "Accept Load",
+                                                      onTap: () {},
+                                                      borderRadious: 10,
+                                                      isBold: false,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          );
-                                        },
+                                            ),
+                                          ],
+                                        ),
                                       ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ],
                       ),
