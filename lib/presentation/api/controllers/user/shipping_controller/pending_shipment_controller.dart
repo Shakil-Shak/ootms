@@ -14,7 +14,7 @@ class PendingShipmentController extends GetxController{
   bool isLoading = false;
   bool isMoreLoading = false;
   PendingShipmentModel pendingShipmentModel = PendingShipmentModel();
-  List<PendingShipmentModel> pendingShipmentList = [];
+  List pendingShipmentList = [];
   final ScrollController scrollController = ScrollController();
   int page = 1;
   String loadId = "";
@@ -44,15 +44,19 @@ class PendingShipmentController extends GetxController{
     update();
 
     try {
-      final response = await ApiClient.getData(ApiPaths.pendingShipment);
-      log("Full Response: ${response.body}");
+      final response = await ApiClient.getData("${ApiPaths.pendingShipment}$page");
       log("Full Response: ${response.statusCode}");
 
       if (response.statusCode == int.parse("200")) {
         log("================================================successful");
-        var responseData = response.body['data'];
+        var responseData = response.body['data']['attributes']['loadRequests'];
         log("responseData: $responseData");
-        pendingShipmentList.addAll(responseData.map((items) => PendingShipmentModel.fromJson(items)).toList());
+        if(page == 1){
+          pendingShipmentList = responseData.map((items) => PendingShipmentModel.fromJson(items)).toList();
+        }else{
+          pendingShipmentList.addAll(responseData.map((items) => PendingShipmentModel.fromJson(items)).toList());
+        }
+        log("pending shipment list: $pendingShipmentList");
         update();
 
       } else {

@@ -14,13 +14,13 @@ class LoadDetailsController extends GetxController{
   bool isLoading = false;
   LoadDetailsModel loadDetailsModel = LoadDetailsModel();
 
-  Future<void> getLoadDetails({required String loadId})async {
+  Future<void>  getLoadDetails({required String loadId})async {
       isLoading = true;
       update();
 
     try {
-      final response = await ApiClient.getData("${ApiPaths.getNotification}$loadId");
-      log("Full Response: ${response.body}");
+      final response = await ApiClient.getData("${ApiPaths.loadsDetails}$loadId");
+      log("Full Response-=-=-=-=-=-=->>>>: ${response.body}");
       log("Full Response: ${response.statusCode}");
 
       if (response.statusCode == int.parse("200")) {

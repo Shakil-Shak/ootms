@@ -114,7 +114,7 @@ static String? passwordValidator(String? value) {
   static String getDate({required String serverDate}) {
     try {
       DateTime parsedDate = DateTime.parse(serverDate).toLocal(); // Convert to local time
-      return DateFormat('yyyy-MM-dd').format(parsedDate);
+      return DateFormat('dd-MM-yyyy').format(parsedDate);
     } catch (e) {
       return 'Invalid date format';
     }

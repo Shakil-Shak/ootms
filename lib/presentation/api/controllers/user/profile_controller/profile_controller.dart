@@ -1,11 +1,14 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:ootms/presentation/api/models/user_model/shiping_model/shipping_history_model.dart';
 import 'package:ootms/presentation/api/service/api_services.dart';
 import 'package:ootms/presentation/api/models/user_model/load_request_model/load_request_model.dart';
 import 'package:ootms/presentation/api/models/user_model/profile_model/get_profile_model.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
+import 'package:ootms/presentation/screens/role/user/home/user_home_page.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_shipping_history.dart';
 
 
@@ -19,6 +22,43 @@ class ProfileController extends ChangeNotifier {
   bool isLoading = false;
   ProfileModel profileData = ProfileModel();
   bool isSupportFieldClear = false;
+
+  ///=============>>> Find current location<<<==================
+  String currentLocation = "";
+  Future<String> getCurrentLocation() async {
+    bool serviceEnabled;
+
+
+    // Check if location services are enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return "Location services are disabled.";
+    }
+
+    // Check and request permissions
+    if (UserHomePage.permission == LocationPermission.denied) {
+      UserHomePage.permission = await Geolocator.requestPermission();
+      if (UserHomePage.permission == LocationPermission.denied) {
+        return "Location permissions are denied.";
+      }
+    }
+
+    if (UserHomePage.permission == LocationPermission.deniedForever) {
+      return "Location permissions are permanently denied. Enable them in settings.";
+    }
+
+    // Get current location
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    log("${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}");
+    currentLocation = "${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}";
+    notifyListeners();
+    return "";
+    "Latitude: ${position.latitude}, Longitude: ${position.longitude}";
+
+  }
   Future<void> postSupport(
       {required String title, required String content,required context}) async {
     isLoading = true;
@@ -56,6 +96,8 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
 
     final response = await _apiService.getRequest(ApiPaths.profileUrl);
+
+    log("Response: $response");
 
     if (response is Map<String, dynamic>) {
       log("================================================successfull");
