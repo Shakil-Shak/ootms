@@ -60,7 +60,7 @@ Future<dynamic> otherPostRequest(String url,data, {Options? token}) async {
       options: Options(
         headers: {
           "Authorization": "Bearer $accesstoken",
-          // 'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         },
       ),
     );
@@ -174,6 +174,9 @@ Future<dynamic> otherPostRequest(String url,data, {Options? token}) async {
         // Handle specific status codes
         if (statusCode != null) {
           switch (statusCode) {
+            
+            case 208:
+              throw ('already axist');
             case 400:
               throw ('Bad Request: The server could not understand the request.');
             case 401:

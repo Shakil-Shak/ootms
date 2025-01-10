@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:ootms/presentation/api/service/api_services.dart';
@@ -76,6 +77,7 @@ class StaticController extends ChangeNotifier {
     try {
       var response = await apiService.getRequest(
           ApiPaths.staticContent(contentType: "about-us"));
+      log(response["data"]);
       if (response["statusCode"] == "200") {
         aboutUs = response["data"];
       }

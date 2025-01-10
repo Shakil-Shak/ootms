@@ -1,28 +1,57 @@
 import 'dart:developer';
-import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:ootms/presentation/api/models/driver_model/equipment_model.dart';
+import 'package:ootms/presentation/api/models/user_model/shiping_model/shipping_history_model.dart';
 import 'package:ootms/presentation/api/service/api_services.dart';
 import 'package:ootms/presentation/api/models/user_model/load_request_model/load_request_model.dart';
 import 'package:ootms/presentation/api/models/user_model/profile_model/get_profile_model.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
+import 'package:ootms/presentation/screens/role/user/shipping/user_shipping_history.dart';
 
-import '../../../../../helpers/other_helper.dart';
+import '../../../../components/common_snackbar.dart';
 import '../../../../navigation/animeted_navigation.dart';
 import '../../../../screens/role/user/shipping/user_current_shipments.dart';
-import '../../../../screens/role/user/shipping/user_load_request.dart';
 import '../../../models/user_model/shiping_model/current_shiping_model.dart';
 
 class ProfileController extends ChangeNotifier {
   final ApiService _apiService = ApiService();
   bool isLoading = false;
   ProfileModel profileData = ProfileModel();
-
-  String? image;
-  getProfileImage() async {
-    image = await OtherHelper.openGallery();
+  bool isSupportFieldClear = false;
+  Future<void> postSupport(
+      {required String title,
+      required String content,
+      required context}) async {
+    isLoading = true;
     notifyListeners();
-    debugPrint("==============================image${File(image ?? "")}");
+    Map<String, dynamic> data = {
+      "title": title,
+      "content": content,
+    };
+
+    final response =
+        await _apiService.otherPostRequest(ApiPaths.userSupport, data);
+
+    if (response is Map<String, dynamic>) {
+      if (response['statusCode'] == "201") {
+        showCommonSnackbar(context, "Submited successful!");
+        isSupportFieldClear = true;
+        notifyListeners();
+        isLoading = false;
+        notifyListeners();
+      } else {
+        isLoading = false;
+        notifyListeners();
+      }
+    } else {
+      isLoading = false;
+      notifyListeners();
+      log("Error: Response is not a Map<String, dynamic>");
+    }
   }
+
+  //===================================================get profile data
 
   Future<void> getProfileData() async {
     isLoading = true;
@@ -72,11 +101,58 @@ class ProfileController extends ChangeNotifier {
         log("responseData: $responseData");
         if (responseData != null && responseData is Map<String, dynamic>) {
           List responseData =
-              response['data']?["attributes"]?["loadRequests"] ?? [];
+              response['data']["attributes"]["loadRequests"];
+              
+              debugPrint("=============================================responseData$responseData");
           currentShipData = responseData
               .map((items) => CurrentShippingModel.fromJson(items))
               .toList();
+              debugPrint("=============================================currentshipdata$currentShipData");
           animetedNavigationPush(UserCurrentShipmentsPage(), context);
+          print("success");
+          isLoading = false;
+          notifyListeners();
+        } else {
+          isLoading = false;
+          notifyListeners();
+          log("Error: Response data is null or not a Map<String, dynamic>");
+        }
+      } else {
+        log("Error: statusCode is not 200, received ${response['statusCode']}");
+        isLoading = false;
+        notifyListeners();
+      }
+    } else {
+      isLoading = false;
+      notifyListeners();
+      log("Error: Response is not a Map<String, dynamic>");
+    }
+  }
+
+  //================ shipping histopry data
+
+  List<ShippingHistoryModel> shippingHistoryData = [];
+
+  Future<void> getShippingHistoryData({required context}) async {
+    isLoading = true;
+    notifyListeners();
+
+    final response = await _apiService.getRequest(ApiPaths.shippingHistory);
+    log("Full Response: $response");
+
+    if (response is Map<String, dynamic>) {
+      log("================================================successfull");
+
+      if (response['statusCode'] == 200) {
+        final responseData = response['data'];
+        log("responseData: $responseData");
+        if (responseData != null && responseData is Map<String, dynamic>) {
+          List responseData =
+              response['data']?["attributes"]?["loadRequests"] ?? [];
+          shippingHistoryData = responseData
+              .map((items) => ShippingHistoryModel.fromJson(items))
+              .toList();
+          animetedNavigationPush(UserShippingHistoryPage(), context);
           print("success");
           isLoading = false;
           notifyListeners();
@@ -100,13 +176,17 @@ class ProfileController extends ChangeNotifier {
   //==================================================get load request data
   List<LoadRequestModel> loadRequestData = [];
 
-  Future<void> getLoadRequestData({required context}) async {
+  Future<void> getLoadRequestData(
+      {required context,
+      bool requestType = false,
+      bool callFromHome = false}) async {
     isLoading = true;
-    notifyListeners();
+    if (!callFromHome) {
+      notifyListeners();
+    }
     try {
       final response = await _apiService
-          .getRequest(ApiPaths.userLoadRequest(requestType: false));
-      log("Full Response: $response");
+          .getRequest(ApiPaths.userLoadRequest(requestType: requestType));
 
       if (response != null &&
           response['statusCode'] != null &&
@@ -115,62 +195,52 @@ class ProfileController extends ChangeNotifier {
         List responseData =
             response['data']?["attributes"]?["loadRequests"] ?? [];
         log("responseData: $responseData");
-
         loadRequestData = responseData
             .map((items) => LoadRequestModel.fromJson(items))
             .toList();
-        animetedNavigationPush(const UserLoadRequestPage(), context);
-        isLoading = false;
-        log("topu");
-        notifyListeners();
+        log("===========================================================loadRequestData: $loadRequestData");
       } else {
         log("Error: statusCode is not 200 or response is null");
-        isLoading = false;
-        notifyListeners();
       }
     } catch (e) {
       log("$e");
-      isLoading = false;
-      notifyListeners();
     } finally {
       isLoading = false;
       notifyListeners();
     }
   }
 
-  //===================================================update profile
-
-  Future<void> updateProfile({
-    required String name,
-    required String email,
-    required String phone,
-    required String address,
-  }) async {
+  //===========================================================================load request status
+  loadRequestStatus() {}
+  //===============================================================================get equipment data
+  List<EquipmentModel> equipmentData = [];
+  getEquipmentData() async {
+    print("topu================================================================");
     isLoading = true;
     notifyListeners();
 
-    // Data fields
-    Map<String, String> data = {
-      "fullName": name,
-      "email": email,
-      "phoneNumber": phone,
-      "address": address,
-    };
-
-    // Files to upload
-    Map<String, String> fileFields = {
-      "profileImage": image ?? "",
-    };
-    debugPrint("=======================================imagePath$image");
-    final response = await _apiService.putMultipartRequest(
-        ApiPaths.updateProfileUrl, data, fileFields);
-
     try {
-      log("===========================================Upload successful: ${response["statusCode"]}");
-    } catch (e) {
-      log("=========================Error: $e");
+      
+      print("=======================================ressdflksadflksdjfksdjf");
+      final response = await _apiService.getRequest(ApiPaths.equipment);
+      print("=======================================response$response");
 
-      log("===========================================Upload Error: ${response["statusCode"]}");
+      if (response != null &&
+          response['statusCode'] != null &&
+          response['statusCode'] == "201") {
+        log("================================================successfull");
+        List responseData =
+            response['data']["attributes"] ?? [];
+        log("responseData: $responseData");
+        equipmentData = responseData
+            .map((items) => EquipmentModel.fromJson(items))
+            .toList();
+        log("===========================================================equipmentData: $equipmentData");
+      } else {
+        log("Error: statusCode is not 200 or response is null");
+      }
+    } catch (e) {
+      log("$e");
     } finally {
       isLoading = false;
       notifyListeners();

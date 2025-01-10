@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -11,6 +12,7 @@ import 'package:ootms/presentation/screens/role/common/country_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../api/controllers/user/profile_controller/profile_controller.dart';
+import '../../../../api/controllers/user/profile_controller/update_profile_controller.dart';
 
 class DriverEditProfile extends StatefulWidget {
   const DriverEditProfile({super.key});
@@ -36,6 +38,8 @@ class _DriverEditProfileState extends State<DriverEditProfile> {
   Country? selectedCountry;
 
   TextEditingController phoneController = TextEditingController();
+    final UpdateProfileController editController =
+      Get.find<UpdateProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +66,7 @@ class _DriverEditProfileState extends State<DriverEditProfile> {
                           builder: (context, controller, child) {
                         return Stack(
                           children: [
-                            controller.image != null
+                            editController.image != null
                                 ? Container(
                                     height: 80,
                                     width: 80,
@@ -71,7 +75,7 @@ class _DriverEditProfileState extends State<DriverEditProfile> {
                                       shape: BoxShape.circle,
                                     ),
                                     child: Image.file(
-                                      File(controller.image!),
+                                      File(editController.image!),
                                       width: 128,
                                       height: 128,
                                       fit: BoxFit.fill,
@@ -94,7 +98,7 @@ class _DriverEditProfileState extends State<DriverEditProfile> {
                               right: 5,
                               child: InkWell(
                                 onTap: () {
-                                  controller.getProfileImage();
+                                  editController.getProfileImage();
                                 },
                                 child: const CircleAvatar(
                                   backgroundColor: Colors.white,
