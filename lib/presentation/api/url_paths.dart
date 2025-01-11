@@ -21,7 +21,7 @@ class ApiPaths {
   static const String updateProfileUrl = '$baseUrl/api/v1/users/';
   static const String profileUrl = '$baseUrl/api/v1/users/user-details';
   static const String createLoad = '$baseUrl/api/v1/loads/';
-  static const String preferredDriver = '$baseUrl/api/v1/preferred-driver/';
+  static const String preferredDriver = '$baseUrl/api/v1/loads-request/';
   static const String userSupport = '$baseUrl/api/v1/support/';
   static const String shipingHistory = '$baseUrl/api/v1/shipment/history';
   static String staticContent({contentType}) =>

@@ -5,10 +5,9 @@ import 'package:ootms/presentation/api/controllers/user/load_controller/load_con
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
-import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_loads.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../navigation/animeted_navigation.dart';
+
 
 class AssignPreferredDriver extends StatelessWidget {
   const AssignPreferredDriver({super.key});

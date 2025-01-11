@@ -72,15 +72,14 @@ class LoadController extends ChangeNotifier {
   bool isSuccess = false;
   final ApiService apiService = ApiService();
   Map<String, bool> hazMatItems = {
-    "'Dangerous'": false,
-    "'Flammable Gas 2'": false,
-    "'Poison 6'": false,
-    "'Corrosive'": false,
-    "'Oxygen 2'": false,
-    "'Danger'": false,
-    "'Flammable 3'": false,
-    "'Radioactive 7'": false,
-    "'Non-Flammable Gas'": false
+    "Dangerous": false,
+    "Flammable Gas 2": false,
+    "Poson 6": false,
+    "Corrosive": false,
+    "Oxygen 2": false,
+    "Flammable 3": false,
+    "Radioactive 7": false,
+    "Non-Flammable": false
   };
 
   pickPickupDate() async {
@@ -88,22 +87,26 @@ class LoadController extends ChangeNotifier {
     pickupController.value = TextEditingValue(text: pickDate);
     notifyListeners();
   }
-    pickdelivaryDate() async {
+
+  pickdelivaryDate() async {
     String pickDate = await OtherHelper.datePicker(deliveryController);
     deliveryController.value = TextEditingValue(text: pickDate);
     notifyListeners();
   }
 
   void updateHazMatItem(String key, bool value) {
-    hazMatItems[key] = value;
+    if (hazMatItems.containsKey(key)) {
+      hazMatItems[key] = value;
 
-    hazmatList = hazMatItems.entries
-        .where((entry) => entry.value) 
-        .map((entry) => entry.key)
-        .toList();
-    print("=======================================hazmat list$hazmatList");
+      hazmatList = hazMatItems.entries
+          .where((entry) => entry.value)
+          .map((entry) => entry.key)
+          .toList();
 
-    notifyListeners();
+      notifyListeners();
+    } else {
+      print("Error: Key '$key' does not exist in hazMatItems.");
+    }
   }
 
 //============================================================create load method
@@ -127,18 +130,7 @@ class LoadController extends ChangeNotifier {
         "trailerType": loadTypeController.text,
         "trailerSize": trailerSizeController.text,
         "productType": productTypeCtrl.text,
-        "Hazmat": [
-          'Hazmat',
-          'Dangerous',
-          'Flammable Gas 2',
-          'Poson 6',
-          'Corrosive',
-          'Oxygen2',
-          'Dangerous',
-          'Flamable 3',
-          'Radioactive',
-          'Non-Flammable'
-        ],
+        "Hazmat": hazmatList,
         "description": descriptionController.text,
         "shipmentPayment": paymentCtl.text,
         "receiverName": receiverNameController.text,
@@ -155,6 +147,9 @@ class LoadController extends ChangeNotifier {
         "deliveryInstruction": deliveryInstructionsController.text
       }
     ];
+    print("==========================================hazmatlist $hazmatList");
+    // print(
+    //     "==========================================hazmatlist ${jsonEncode(hazmatList)}");
 
     try {
       final response = await apiService.otherPostRequest(
@@ -162,6 +157,11 @@ class LoadController extends ChangeNotifier {
 
       log("status code before =-==================${response["statusCode"]}");
       if (response["statusCode"] == "201") {
+      
+        print(
+            "================================================data $response");
+    final id = response["data"]["attributes"][0]["id"];
+    print("================================================ Load ID: $id");
         showCommonSnackbar(context, "Create Load Successfull", isError: false);
         isSuccess = true;
         notifyListeners();
@@ -181,7 +181,10 @@ class LoadController extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    Map<String, String> data = {"driver": driverIdcontroller.text};
+    Map<String, String> data = {
+      "load": "677cbb93176e4150add24832",
+      "driver": "677a2b7d2f65914268b90421"
+    };
 
     try {
       final response = await apiService.otherPostRequest(
