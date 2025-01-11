@@ -14,6 +14,8 @@ class UpdateProfileController extends GetxController {
   RxBool isLoading = false.obs;
   List<String>? userDetails;
   String? image;
+  RxBool isUpdated = false.obs;
+
   getProfileImage() async {
     image = await OtherHelper.openGallery();
     update();
@@ -60,6 +62,7 @@ class UpdateProfileController extends GetxController {
 
       Get.snackbar("Update Profile", "Update Profile Successfull");
       isLoading.value = false;
+      isUpdated.value = true;
     } else {
       Get.snackbar("Update Profile", "Update Profile Faild");
 

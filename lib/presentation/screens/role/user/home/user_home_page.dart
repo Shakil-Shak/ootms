@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/bottom_nav_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -20,6 +22,9 @@ import 'package:ootms/presentation/screens/role/user/home/user_set_location.dart
 import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../api/controllers/user/shipping_controller/shipping_history_controller.dart';
+import '../shipping/user_shipping_history.dart';
+
 class UserHomePage extends StatefulWidget {
   const UserHomePage({super.key});
 
@@ -32,6 +37,7 @@ class UserHomePage extends StatefulWidget {
 
 class _UserHomePageState extends State<UserHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final BottomNavController navController = Get.put(BottomNavController());
 
   void _showCustomDialog(BuildContext context) {
     showDialog(
@@ -76,6 +82,8 @@ class _UserHomePageState extends State<UserHomePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<ProfileController>(context, listen: false).getLoadRequestData(context: context, callFromHome: true);
       Provider.of<ProfileController>(context, listen: false).getCurrentLocation();
+      Provider.of<ProfileController>(context, listen: false)
+          .getLoadRequestData(context: context, callFromHome: true);
     });
   }
 
@@ -158,8 +166,9 @@ class _UserHomePageState extends State<UserHomePage> {
                               // Profile avatar
                               InkWell(
                                 onTap: () {
-                                  animetedNavigationPush(
-                                      const UserProfile(), context);
+                                  navController.valueIncrease();
+                                  // animetedNavigationPush(
+                                  //     const UserProfile(), context);
                                 },
                                 child: const CircleAvatar(
                                   backgroundColor: AppColor.black,
@@ -289,7 +298,7 @@ class _UserHomePageState extends State<UserHomePage> {
                         _showCustomDialog(context);
                       },
                     ),
-                    Consumer<ProfileController>(
+                    Consumer<ShippinfHistoryController>(
                         builder: (context, controller, _) {
                       return buildActionCard(
                         imagePath: "assets/icons/user home page/history.png",
@@ -297,11 +306,12 @@ class _UserHomePageState extends State<UserHomePage> {
                         description: 'Check your previous shipping history.',
                         onTap: () {
                           controller.getShippingHistoryData(context: context);
-                          // animetedNavigationPush(
-                          //     UserShippingHistoryPage(), context);
+                          animetedNavigationPush(
+                              UserShippingHistoryPage(), context);
                         },
                       );
                     }),
+                    //===========================================================chat card
                     buildActionCard(
                       imagePath: "assets/icons/user home page/massage.png",
                       label: 'Chat',
@@ -310,6 +320,7 @@ class _UserHomePageState extends State<UserHomePage> {
                         animetedNavigationPush(UserChatListPage(), context);
                       },
                     ),
+                    //==========================================================support card
                     buildActionCard(
                       imagePath: "assets/icons/user home page/support.png",
                       label: 'Support',

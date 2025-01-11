@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/user/load_controller/load_controller.dart';
@@ -19,6 +21,7 @@ class UserCreateLoadPage extends StatefulWidget {
 class _UserCreateLoadPageState extends State<UserCreateLoadPage>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
+  String selectedValue = "";
 
   // Controls Yes/No for HazMat
 
@@ -109,6 +112,139 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
             );
           },
         ));
+  }
+
+  buildMenuItem(String value) {
+    return PopupMenuItem<String>(
+      value: value,
+      child: Text(
+        value,
+        style: TextStyle(
+          color: selectedValue == value ? Colors.blue : AppColor.black,
+        ),
+      ),
+    );
+  }
+
+  //========================================================================================load type
+  Widget loadTypePopup(BuildContext parentContext) {
+    return Consumer<LoadController>(
+      builder: (context, controller, child) {
+        return GestureDetector(
+          onTap: () {
+            RenderBox renderBox = context.findRenderObject() as RenderBox;
+            Offset offset = renderBox.localToGlobal(Offset.zero);
+            Size size = renderBox.size;
+
+            double availableHeight = MediaQuery.of(parentContext).size.height;
+
+            double iconPositionTop = offset.dy;
+            double iconPositionBottom =
+                availableHeight - (offset.dy + size.height);
+
+            double topPosition = iconPositionBottom > 200
+                ? offset.dy + size.height
+                : offset.dy - 200;
+
+            double bottomPosition = iconPositionBottom > 200
+                ? -offset.dy - size.height
+                : availableHeight - offset.dy;
+
+            showMenu<String>(
+              context: parentContext,
+              position: RelativeRect.fromLTRB(
+                  offset.dx + size.width, topPosition, 0, bottomPosition),
+              items: [
+                buildMenuItem('48 ft Dry Van'),
+                buildMenuItem('53 ft Dry Van'),
+                buildMenuItem('Refrigerated (Reefer)'),
+                buildMenuItem('Curtain-side'),
+                buildMenuItem('Open Trailers'),
+                buildMenuItem('Flatbed'),
+                buildMenuItem('Step Deck'),
+                buildMenuItem('Lowboy'),
+                buildMenuItem('RGN (Removable Gooseneck)'),
+                buildMenuItem('Specialized'),
+                buildMenuItem('Tanker'),
+                buildMenuItem('Hopper'),
+                buildMenuItem('Livestock'),
+                buildMenuItem('Roll-Off'),
+                buildMenuItem('Logging - Tree Length'),
+                buildMenuItem('Logging - Double-bunk'),
+              ],
+              elevation: 8.0,
+            ).then((value) {
+              if (value != null) {
+                selectedValue = value;
+                setState(() {});
+                controller.loadTypeController.value =
+                    TextEditingValue(text: value);
+              }
+            });
+          },
+          child: const Icon(Icons.keyboard_arrow_down),
+        );
+      },
+    );
+  }
+
+  //========================================================================================porduct type
+  Widget productTypePopup(BuildContext parentContext) {
+    return Consumer<LoadController>(
+      builder: (context, controller, child) {
+        return GestureDetector(
+          onTap: () {
+            RenderBox renderBox = context.findRenderObject() as RenderBox;
+            Offset offset = renderBox.localToGlobal(Offset.zero);
+            Size size = renderBox.size;
+
+            double availableHeight = MediaQuery.of(parentContext).size.height;
+
+            double iconPositionTop = offset.dy;
+            double iconPositionBottom =
+                availableHeight - (offset.dy + size.height);
+
+            double topPosition = iconPositionBottom > 200
+                ? offset.dy + size.height
+                : offset.dy - 200;
+
+            double bottomPosition = iconPositionBottom > 200
+                ? -offset.dy - size.height
+                : availableHeight - offset.dy;
+
+            showMenu<String>(
+              context: parentContext,
+              position: RelativeRect.fromLTRB(
+                  offset.dx + size.width, topPosition, 0, bottomPosition),
+              items: [
+                buildMenuItem('Pine Pulpwood'),
+                buildMenuItem('Pine Mulch'),
+                buildMenuItem('Pine Super Pulpwood'),
+                buildMenuItem('Pine Chip-N-Saw'),
+                buildMenuItem('Pine Sawtimber'),
+                buildMenuItem('Pine Poles'),
+                buildMenuItem('Hardwood Pulpwood'),
+                buildMenuItem('Hardwood Mulch'),
+                buildMenuItem('Hardwood Palletwood'),
+                buildMenuItem('Hardwood Crossties'),
+                buildMenuItem('Hardwood Sawtimber'),
+                buildMenuItem('Hardwood Plylogs'),
+                buildMenuItem('Hardwood Poles'),
+                buildMenuItem('Cypress Mulch'),
+              ],
+              elevation: 8.0,
+            ).then((value) {
+              if (value != null) {
+                selectedValue = value;
+                setState(() {});
+                controller.productTypeCtrl.value = TextEditingValue(text: value);
+              }
+            });
+          },
+          child: const Icon(Icons.keyboard_arrow_down),
+        );
+      },
+    );
   }
 
   Widget receiverInformationTab() {
@@ -316,14 +452,18 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
               ),
               const SizedBox(height: 16),
               commonTextfieldWithTitle(
+                readOnly: true,
                 "Trailer Type",
                 value.loadTypeController,
+                suffinxIcon: loadTypePopup(context),
                 hintText: "Trailer Type",
               ),
               const SizedBox(height: 16),
               commonTextfieldWithTitle(
+                readOnly: true,
                 "Product Type",
                 value.productTypeCtrl,
+                suffinxIcon: productTypePopup(context),
                 hintText: "Product Type",
               ),
               const SizedBox(height: 16),
@@ -333,9 +473,14 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                     child: commonTextfieldWithTitle(
                       "Pickup",
                       value.pickupController,
+                      readOnly: true,
                       hintText: "MM-DD-YYYY",
-                      suffinxIcon:
-                          const Icon(Icons.calendar_month_outlined, size: 20),
+                      suffinxIcon: InkWell(
+                          onTap: () {
+                            value.pickPickupDate();
+                          },
+                          child: const Icon(Icons.calendar_month_outlined,
+                              size: 20)),
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -343,9 +488,14 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                     child: commonTextfieldWithTitle(
                       "Delivery",
                       value.deliveryController,
+                      readOnly: true,
                       hintText: "MM-DD-YYYY",
-                      suffinxIcon:
-                          const Icon(Icons.calendar_month_outlined, size: 20),
+                      suffinxIcon: InkWell(
+                          onTap: () {
+                            value.pickdelivaryDate();
+                          },
+                          child: const Icon(Icons.calendar_month_outlined,
+                              size: 20)),
                     ),
                   ),
                 ],
@@ -457,7 +607,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
               commonButton(
                 "Create Load",
                 isLoading: value.isLoading,
-                onTap: () async{
+                onTap: () async {
                   await value.createLoad(context: context);
 
                   if (value.isSuccess == true) {

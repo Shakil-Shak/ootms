@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/assets/images_string.dart';
-import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/static_controller/static_controller.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';

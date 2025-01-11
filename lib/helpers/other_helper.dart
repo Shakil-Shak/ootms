@@ -1,12 +1,14 @@
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:ootms/core/constants/color/app_color.dart';
+
 class OtherHelper {
-  
   static const String bearerToken = "BearerToken";
-    static RegExp emailRegexp = RegExp(
+  static RegExp emailRegexp = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   static RegExp passRegExp = RegExp(r'(?=.*[a-z])(?=.*[0-9])');
 
@@ -30,26 +32,25 @@ class OtherHelper {
     }
   }
 
-static String? passwordValidator(String? value) {
-  if (value == null || value.isEmpty) {
-    return "This field is required".tr;
+  static String? passwordValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return "This field is required".tr;
+    }
+
+    if (value.length < 8) {
+      return "Password must be at least 8 characters long".tr;
+    }
+
+    final RegExp passRegExp = RegExp(
+        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+
+    if (!passRegExp.hasMatch(value)) {
+      return "Password must contain at least:\n- 1 uppercase letter\n- 1 lowercase letter\n- 1 number\n- 1 special character (@\$!%*?&)"
+          .tr;
+    }
+
+    return null;
   }
-
-
-  if (value.length < 8) {
-    return "Password must be at least 8 characters long".tr;
-  }
-
-
-  final RegExp passRegExp = RegExp(
-      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
-
-  if (!passRegExp.hasMatch(value)) {
-    return "Password must contain at least:\n- 1 uppercase letter\n- 1 lowercase letter\n- 1 number\n- 1 special character (@\$!%*?&)".tr;
-  }
-
-  return null;
-}
 
   static String? confirmPasswordValidator(value, passwordController) {
     if (value.isEmpty) {
@@ -60,8 +61,9 @@ static String? passwordValidator(String? value) {
       return null;
     }
   }
+
   //===================================pick image from gallery
-    static Future<String?> openGallery() async {
+  static Future<String?> openGallery() async {
     final ImagePicker picker = ImagePicker();
     final XFile? getImages =
         await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
@@ -73,8 +75,6 @@ static String? passwordValidator(String? value) {
 
     return getImages.path;
   }
-
-
 
   //===================================pick image from camera
 
@@ -90,10 +90,12 @@ static String? passwordValidator(String? value) {
 
     return getImages.path;
   }
-    /// Get formatted time only (e.g., 01:05 PM)
+
+  /// Get formatted time only (e.g., 01:05 PM)
   static String getTime({required String serverDate}) {
     try {
-      DateTime parsedDate = DateTime.parse(serverDate).toLocal(); // Convert to local time
+      DateTime parsedDate =
+          DateTime.parse(serverDate).toLocal(); // Convert to local time
       return DateFormat('hh:mm a').format(parsedDate);
     } catch (e) {
       return 'Invalid date format';
@@ -103,7 +105,8 @@ static String? passwordValidator(String? value) {
   /// Get formatted day only (e.g., Wednesday)
   static String getDay({required String serverDate}) {
     try {
-      DateTime parsedDate = DateTime.parse(serverDate).toLocal(); // Convert to local time
+      DateTime parsedDate =
+          DateTime.parse(serverDate).toLocal(); // Convert to local time
       return DateFormat('EEEE').format(parsedDate);
     } catch (e) {
       return 'Invalid date format';
@@ -115,6 +118,7 @@ static String? passwordValidator(String? value) {
     try {
       DateTime parsedDate = DateTime.parse(serverDate).toLocal(); // Convert to local time
       return DateFormat('dd-MM-yyyy').format(parsedDate);
+
     } catch (e) {
       return 'Invalid date format';
     }
@@ -123,7 +127,8 @@ static String? passwordValidator(String? value) {
   /// Get time and day together (e.g., 01:05 PM, Wednesday)
   static String getTimeAndDay({required String serverDate}) {
     try {
-      DateTime parsedDate = DateTime.parse(serverDate).toLocal(); // Convert to local time
+      DateTime parsedDate =
+          DateTime.parse(serverDate).toLocal(); // Convert to local time
       String formattedTime = DateFormat('hh:mm a').format(parsedDate);
       String day = DateFormat('EEEE').format(parsedDate);
       return '$day $formattedTime';
@@ -150,6 +155,39 @@ static String? passwordValidator(String? value) {
     }
   }
 
+//================================================================date picker
+  static Future<String> datePicker(
+    TextEditingController controller,
+  ) async {
+    final DateTime? picked = await showDatePicker(
+      builder: (context, child) => Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: AppColor.primaryColor,
+            ),
+          ),
+          child: child!),
+      context: Get.context!,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2101),
+    );
+    String day = "";
+    String month = "";
+    if (picked != null) {
+      if (picked.day.toInt() < 10) {
+        day = "0${picked.day}";
+      }
+      if (picked.month.toInt() < 10) {
+        month = "0${picked.month}";
+      }
+
+      return "${day.isNotEmpty ? day : picked.day}-${month.isNotEmpty ? month : picked.month}-${picked.year}";
+    }
+
+    return "";
+  }
+
   // static Future<String> openTimePicker(TextEditingController controller) async {
   //   final TimeOfDay? picked = await showTimePicker(
   //       context: Get.context!,
@@ -164,5 +202,4 @@ static String? passwordValidator(String? value) {
   //   }
   //   return '';
   // }
-
 }
