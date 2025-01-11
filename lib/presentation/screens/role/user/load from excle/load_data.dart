@@ -5,9 +5,19 @@ import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_map2.dart';
 import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_preferred_driver.dart';
+import 'package:ootms/presentation/screens/role/user/load%20from%20excle/create_load.dart';
 import 'package:ootms/presentation/screens/role/user/load%20from%20excle/load_details.dart';
 
-class LoadDataScreen extends StatelessWidget {
+class LoadDataScreen extends StatefulWidget {
+  @override
+  State<LoadDataScreen> createState() => _LoadDataScreenState();
+
+  final List<LoadData> loadDataList;
+
+  const LoadDataScreen({super.key, required this.loadDataList});
+}
+
+class _LoadDataScreenState extends State<LoadDataScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +35,7 @@ class LoadDataScreen extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: 2,
+                itemCount: widget.loadDataList.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
@@ -37,7 +47,7 @@ class LoadDataScreen extends StatelessWidget {
                           animetedNavigationPush(
                               (const LoadDetailsScreen()), context);
                         },
-                        title: commonText('4545${index + 1}',
+                        title: commonText(widget.loadDataList[index].load,
                             size: 18, isBold: true),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +68,9 @@ class LoadDataScreen extends StatelessWidget {
                                       ),
                                     )),
                                 const SizedBox(width: 8),
-                                Expanded(child: commonText('California, USA')),
+                                Expanded(
+                                    child: commonText(
+                                        widget.loadDataList[index].receiver)),
                               ],
                             ),
                             const SizedBox(height: 4),
@@ -78,7 +90,9 @@ class LoadDataScreen extends StatelessWidget {
                                       ),
                                     )),
                                 const SizedBox(width: 8),
-                                Expanded(child: commonText('Toronto, Canada')),
+                                Expanded(
+                                    child: commonText(
+                                        widget.loadDataList[index].shipper)),
                               ],
                             ),
                           ],

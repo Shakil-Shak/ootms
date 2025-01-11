@@ -2,6 +2,8 @@
 
 
 
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 import 'package:ootms/presentation/api/sharePrefarences/login_tokan.dart';
@@ -151,6 +153,7 @@ Future<dynamic> otherPostRequest(String url,data, {Options? token}) async {
       final response = await _dio.delete(url);
       return response.data;
     } on DioException catch (e) {
+      log("Error: $e");
       _handleDioError(e);
     }
   }

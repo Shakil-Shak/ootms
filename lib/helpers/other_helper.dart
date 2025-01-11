@@ -116,9 +116,9 @@ class OtherHelper {
   /// Get formatted date only (e.g., 2024-11-27)
   static String getDate({required String serverDate}) {
     try {
-      DateTime parsedDate =
-          DateTime.parse(serverDate).toLocal(); // Convert to local time
-      return DateFormat('yyyy-MM-dd').format(parsedDate);
+      DateTime parsedDate = DateTime.parse(serverDate).toLocal(); // Convert to local time
+      return DateFormat('dd-MM-yyyy').format(parsedDate);
+
     } catch (e) {
       return 'Invalid date format';
     }
@@ -134,6 +134,24 @@ class OtherHelper {
       return '$day $formattedTime';
     } catch (e) {
       return 'Invalid date format';
+    }
+  }
+
+  /// Time difference code
+  static String getTimeDifference(DateTime timestamp) {
+    final DateTime givenTime = timestamp;
+    final DateTime now = DateTime.now().toUtc();
+
+    final Duration difference = now.difference(givenTime);
+
+    if (difference.inDays > 0) {
+      return '${difference.inDays} day${difference.inDays > 1 ? 's' : ''} ago';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} hour${difference.inHours > 1 ? 's' : ''} ago';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''} ago';
+    } else {
+      return 'Just now';
     }
   }
 

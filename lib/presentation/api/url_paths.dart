@@ -32,4 +32,8 @@ class ApiPaths {
   static const String equipment = '$baseUrl/api/v1/truck-details';
   static String userLoadRequest({bool? requestType}) =>
       '$baseUrl/api/v1/loads-request?myRequests=$requestType';
+  static String getNotification = '$baseUrl/api/v1/notifications?page=';
+  static String notificationStatus = '$baseUrl/api/v1/notifications/read/';
+  static String loadsDetails = '$baseUrl/api/v1/loads/';
+  static String pendingShipment = '$baseUrl/api/v1/shipment/pending?page=';
 }

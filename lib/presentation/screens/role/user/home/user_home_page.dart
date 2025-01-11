@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/bottom_nav_controller.dart';
@@ -10,6 +14,7 @@ import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_map2.dart';
 import 'package:ootms/presentation/screens/role/user/load%20from%20excle/create_load.dart';
 import 'package:ootms/presentation/screens/role/user/notification/user_all_notifications.dart';
+import 'package:ootms/presentation/screens/role/user/profile/user_profile.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
 import 'package:ootms/presentation/screens/role/user/create_load/user_create_load.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_drawer.dart';
@@ -23,9 +28,12 @@ import '../shipping/user_shipping_history.dart';
 class UserHomePage extends StatefulWidget {
   const UserHomePage({super.key});
 
+  static LocationPermission? permission;
   @override
   State<UserHomePage> createState() => _UserHomePageState();
 }
+
+
 
 class _UserHomePageState extends State<UserHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -72,10 +80,13 @@ class _UserHomePageState extends State<UserHomePage> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ProfileController>(context, listen: false).getLoadRequestData(context: context, callFromHome: true);
+      Provider.of<ProfileController>(context, listen: false).getCurrentLocation();
       Provider.of<ProfileController>(context, listen: false)
           .getLoadRequestData(context: context, callFromHome: true);
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -189,10 +200,11 @@ class _UserHomePageState extends State<UserHomePage> {
                                       const SizedBox(
                                         width: 8,
                                       ),
-                                      commonText(
-                                          "36 East 8th Street, New York,\nNY 10003, United States.",
-                                          size: 16,
-                                          color: AppColor.white)
+                                      Expanded(
+                                        child: commonText(controller.currentLocation,
+                                            size: 16,
+                                            color: AppColor.white),
+                                      )
                                     ],
                                   ),
                                 ),
