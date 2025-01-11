@@ -18,6 +18,7 @@ import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../api/controllers/user/shipping_controller/shipping_history_controller.dart';
+import '../shipping/user_shipping_history.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({super.key});
@@ -293,8 +294,8 @@ class _UserHomePageState extends State<UserHomePage> {
                         description: 'Check your previous shipping history.',
                         onTap: () {
                           controller.getShippingHistoryData(context: context);
-                          // animetedNavigationPush(
-                          //     UserShippingHistoryPage(), context);
+                          animetedNavigationPush(
+                              UserShippingHistoryPage(), context);
                         },
                       );
                     }),

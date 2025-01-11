@@ -36,7 +36,7 @@ class ShippinfHistoryController extends ChangeNotifier {
 
           debugPrint(
               "=======================================shippingHistoryData data $shippingHistoryData");
-          animetedNavigationPush(UserShippingHistoryPage(), context);
+          // animetedNavigationPush(UserShippingHistoryPage(), context);
           debugPrint("success");
           isLoading = false;
           notifyListeners();
