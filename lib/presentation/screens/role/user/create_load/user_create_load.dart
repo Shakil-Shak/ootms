@@ -42,6 +42,22 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
     super.dispose();
   }
 
+  bool isHazMat = false;
+  int visibleItemCount = 0;
+
+  void _startItemAnimation({required List hazmatItems}) {
+    visibleItemCount = 0; // Reset the visible item count
+    Timer.periodic(Duration(milliseconds: 300), (timer) {
+      if (visibleItemCount < hazmatItems.length) {
+        setState(() {
+          visibleItemCount++;
+        });
+      } else {
+        timer.cancel(); // Stop the timer when all items are visible
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -237,7 +253,8 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
               if (value != null) {
                 selectedValue = value;
                 setState(() {});
-                controller.productTypeCtrl.value = TextEditingValue(text: value);
+                controller.productTypeCtrl.value =
+                    TextEditingValue(text: value);
               }
             });
           },
@@ -510,7 +527,11 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
 
               Card(
                 elevation: 3,
-                child: Container(
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 800),
+                  height: value.isHazMat == true
+                      ? 600
+                      : 100, // Adjust height as needed
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -544,9 +565,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                                   }
                                 },
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
+                              const SizedBox(width: 10),
                               commonText("No"),
                               Radio<bool>(
                                 value: false,
@@ -564,23 +583,30 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                         ],
                       ),
                       const SizedBox(height: 10),
-                      Column(
-                        children: value.hazMatItems.keys.map((String key) {
-                          return CheckboxListTile(
-                            title: commonText(key, isBold: true),
-                            value: value.hazMatItems[key],
-                            controlAffinity: ListTileControlAffinity.trailing,
-                            onChanged: (bool? newValue) {
-                              setState(() {
-                                value.hazMatItems[key] = newValue!;
-                              });
-                              if (newValue != null) {
-                                value.updateHazMatItem(key, newValue);
-                              }
-                            },
-                          );
-                        }).toList(),
-                      ),
+                      if (value.isHazMat == true)
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children:
+                                  value.hazMatItems.keys.map((String key) {
+                                return CheckboxListTile(
+                                  title: commonText(key, isBold: true),
+                                  value: value.hazMatItems[key],
+                                  controlAffinity:
+                                      ListTileControlAffinity.trailing,
+                                  onChanged: (bool? newValue) {
+                                    setState(() {
+                                      value.hazMatItems[key] = newValue!;
+                                    });
+                                    if (newValue != null) {
+                                      value.updateHazMatItem(key, newValue);
+                                    }
+                                  },
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),
