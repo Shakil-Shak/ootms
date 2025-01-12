@@ -3,10 +3,10 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 
 import '../../../../../helpers/other_helper.dart';
 import '../../../../components/common_snackbar.dart';
+import '../../../../navigation/animeted_navigation.dart';
 import '../../../../screens/role/user/home/user_home_page.dart';
 import '../../../service/api_services.dart';
 import '../../../url_paths.dart';
@@ -14,6 +14,7 @@ import '../../../url_paths.dart';
 class LoadController extends ChangeNotifier {
   String selectedValue = "";
   String selectedFilterItem = "";
+  String loadId = "";
   TextEditingController driverIdcontroller = TextEditingController();
   final TextEditingController receiverNameController =
       TextEditingController(text: kDebugMode ? "Topu" : "");
@@ -72,13 +73,14 @@ class LoadController extends ChangeNotifier {
   bool isSuccess = false;
   final ApiService apiService = ApiService();
   Map<String, bool> hazMatItems = {
+    "Hazmat": false,
     "Dangerous": false,
     "Flammable Gas 2": false,
     "Poson 6": false,
     "Corrosive": false,
-    "Oxygen 2": false,
-    "Flammable 3": false,
-    "Radioactive 7": false,
+    "Oxygen2": false,
+    "Flamable 3": false,
+    "Radioactive": false,
     "Non-Flammable": false
   };
 
@@ -157,11 +159,8 @@ class LoadController extends ChangeNotifier {
 
       log("status code before =-==================${response["statusCode"]}");
       if (response["statusCode"] == "201") {
-      
-        print(
-            "================================================data $response");
-    final id = response["data"]["attributes"][0]["id"];
-    print("================================================ Load ID: $id");
+        final id = response["data"]["attributes"][0]["_id"];
+        loadId = id;
         showCommonSnackbar(context, "Create Load Successfull", isError: false);
         isSuccess = true;
         notifyListeners();
@@ -181,10 +180,11 @@ class LoadController extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    Map<String, String> data = {
-      "load": "677cbb93176e4150add24832",
-      "driver": "677a2b7d2f65914268b90421"
-    };
+    List<Map<String, String>> data = [
+      {"load": loadId, "driver": driverIdcontroller.text}
+      // {"load": "67824ef8be2dc7dbb198e238", "driver": "677a2b7d2f65914268b90421"}
+    ];
+    print("=====================================data $data");
 
     try {
       final response = await apiService.otherPostRequest(
