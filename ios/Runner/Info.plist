@@ -32,6 +32,8 @@
     <string>We need your location to provide better services.</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>We need your location to provide better services.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>We need your location for background tracking.</string>
 
 	<key>UISupportedInterfaceOrientations</key>
 	<array>

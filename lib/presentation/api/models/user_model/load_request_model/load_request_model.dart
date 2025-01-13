@@ -58,7 +58,7 @@ class Driver {
   factory Driver.fromJson(Map<String, dynamic> json) {
     return Driver(
       fullName: json['fullName'] ?? 'Nasif Rahaman',
-      email: json['email'] ?? 'mailto:kelaw98401@chansd.com',
+      email: json['email'] ?? 'kelaw98401@chansd.com',
       phoneNumber: json['phoneNumber'] ?? '01798552923',
       address: json['address'] ?? 'Dhaka',
       image: json['image'] ?? '/uploads/users/images-1735992334776.jpg',
@@ -78,7 +78,7 @@ class Driver {
   factory Driver.defaultValue() {
     return Driver(
       fullName: 'Nasif Rahaman',
-      email: 'mailto:kelaw98401@chansd.com',
+      email: 'kelaw98401@chansd.com',
       phoneNumber: '01798552923',
       address: 'Dhaka',
       image: '/uploads/users/images-1735992334776.jpg',
@@ -112,7 +112,7 @@ class Load {
       trailerSize: json['trailerSize'] ?? 500,
       pickupDate: DateTime.parse(json['pickupDate'] ?? '2025-01-10T08:00:00.000Z'),
       deliveryDate: DateTime.parse(json['deliveryDate'] ?? '2025-01-12T18:00:00.000Z'),
-       hazmat: json['Hazmat'] != null
+      hazmat: json['Hazmat'] != null
           ? List<String>.from(json['Hazmat'])
           : [],
       weight: json['weight'] ?? 1500,

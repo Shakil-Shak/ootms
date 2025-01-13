@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat_details.dart';
@@ -44,7 +45,7 @@ class UserChatListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -52,12 +53,13 @@ class UserChatListPage extends StatelessWidget {
               'Current Shipments',
               size: 18,
             ),
+            const SizedBox(height: 16.0),
             Expanded(
               child: ListView.separated(
                 separatorBuilder: (context, index) => const SizedBox(
                   height: 16,
                 ),
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.only(bottom: 10.0),
                 itemCount: loadRequests.length,
                 itemBuilder: (context, index) {
                   final request = loadRequests[index];
@@ -68,9 +70,15 @@ class UserChatListPage extends StatelessWidget {
                     },
                     child: Row(
                       children: [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(request['driverImage']),
-                          radius: 24,
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            border: Border.all(color: AppColor.primaryColor, width: 4)
+                          ),
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(request['driverImage']),
+                            radius: 24,
+                          ),
                         ),
                         const SizedBox(width: 16),
                         Expanded(

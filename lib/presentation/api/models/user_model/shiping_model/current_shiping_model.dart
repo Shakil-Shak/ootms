@@ -246,7 +246,7 @@ class Load {
   int weight;
   String loadType;
   int trailerSize;
-  String hazmat;
+  List<String> hazmat;
   String receiverName;
   String receiverPhoneNumber;
   String receiverEmail;
@@ -284,7 +284,7 @@ class Load {
       weight: json['weight'] ?? 1500,
       loadType: json['loadType'] ?? 'Full Load',
       trailerSize: json['trailerSize'] ?? 500,
-      hazmat: json['Hazmat'] ?? 'Class 2',
+      hazmat: List<String>.from(json['Hazmat'] ?? []) ,
       receiverName: json['receiverName'] ?? 'Jane Doe',
       receiverPhoneNumber: json['receiverPhoneNumber'] ?? '+0987654321',
       receiverEmail: json['receiverEmail'] ?? 'receiver@example.com',
@@ -326,7 +326,7 @@ class Load {
       weight: 1500,
       loadType: 'Full Load',
       trailerSize: 500,
-      hazmat: 'Class 2',
+      hazmat: [],
       receiverName: 'Jane Doe',
       receiverPhoneNumber: '+0987654321',
       receiverEmail: 'receiver@example.com',

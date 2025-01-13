@@ -43,7 +43,9 @@ class SignInPageController extends ChangeNotifier {
       if (response != null && response['status'] == "OK") {
         final signInModel = SignInModel.fromJson(response);
 
-        saveUserAcessDetails(signInModel.data.accessToken, role);
+        if (remembeMe == true) {
+          saveUserAcessDetails(signInModel.data.accessToken, role);
+        }
 
         _isLoading = false;
         notifyListeners();

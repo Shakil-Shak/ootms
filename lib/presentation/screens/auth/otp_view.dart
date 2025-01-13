@@ -107,7 +107,7 @@ class OtpPage extends StatelessWidget {
                               final responsedata = await controller.verifyOtp(
                                   context, ApiPaths.verifyEmailUrl,
                                   token: Options(headers: {
-                                    "SignUpToken": "signUpToken ${token}",
+                                    "SignUpToken": "signUpToken $token",
                                   }));
 
                               if (responsedata == null) {

@@ -48,9 +48,13 @@ class SignupPageController extends ChangeNotifier {
           "role": user
         },
       );
+      print("============================================================response$response");
+      print("============================================================status${response["statusCode"]}");
 
       if (response != null && response['status'] == "OK") {
+        print("=============================================sign up successfull");
         final signupResponse = SignUpResponseModel.fromJson(response);
+        
         _isLoading = false;
         notifyListeners();
         print(signupResponse.data.signUpToken);

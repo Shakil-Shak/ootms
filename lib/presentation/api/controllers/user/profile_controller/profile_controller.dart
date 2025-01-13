@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -49,17 +50,28 @@ class ProfileController extends ChangeNotifier {
       return "Location permissions are permanently denied. Enable them in settings.";
     }
 
+    Timer.periodic(const Duration(seconds: 10), (timer) async {
     // Get current location
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
+
+    // Log or process the location
+    log("Location: ${position.latitude}, ${position.longitude}");
     List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
     log("${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}");
+
     currentLocation = "${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}";
     notifyListeners();
-    return "";
-    "Latitude: ${position.latitude}, Longitude: ${position.longitude}";
 
+      // Optionally, communicate with the app via the service
+      // service.invoke("update", {
+      //   "latitude": position.latitude,
+      //   "longitude": position.longitude,
+      // });
+    });
+
+    return "";
   }
   Future<void> postSupport(
       {required String title,
@@ -217,6 +229,7 @@ class ProfileController extends ChangeNotifier {
   //==================================================get load request data
   List<LoadRequestModel> loadRequestData = [];
   bool isLoadRequest = false;
+  bool isMyLoad = false;
 
   Future<void> getLoadRequestData(
       {required context,
@@ -229,6 +242,8 @@ class ProfileController extends ChangeNotifier {
     try {
       final response = await _apiService
           .getRequest(ApiPaths.userLoadRequest(requestType: requestType));
+
+      isMyLoad = requestType;
 
       if (response != null &&
           response['statusCode'] != null &&

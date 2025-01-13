@@ -41,9 +41,7 @@ class ApiService {
     try {
       final response = await _dio.post(
         url, data: data,
-        // options: Options(headers: {
-        //     "Authorization": "Bearer $accesstoken",
-        //   }),
+        options: token,
       );
       return response.data;
     } on DioException catch (e) {
