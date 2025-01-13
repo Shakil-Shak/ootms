@@ -289,6 +289,8 @@
 //   }
 // }
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
@@ -497,9 +499,9 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                                                     const SizedBox(
                                                       height: 4,
                                                     ),
+                                                    controller.isMyLoad?  const SizedBox.shrink():
                                                     Row(
                                                       children: [
-                                                        controller.isMyLoad?  const SizedBox.shrink():
                                                         Icon(Icons.circle,
                                                             size: 12,
                                                             color: request.load.palletSpace == request.availablePalletSpace? Colors.green : request.availablePalletSpace <= 0? Colors.red : Colors.yellow
@@ -517,7 +519,50 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                                               height: 4,
                                             ),
 
-                                            controller.isMyLoad? SizedBox.shrink():
+                                            controller.isMyLoad?  Padding(
+                                              padding: const EdgeInsets.only(left: 65.0),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                      MainAxisSize.min,
+                                                      children: [
+                                                        Image.asset(
+                                                          "assets/icons/arrow_up.png",
+                                                        ),
+                                                        const SizedBox(width: 4),
+                                                        SizedBox(
+                                                            width: 100,
+                                                            child: commonText(
+                                                              maxLines: 1,
+                                                              request.load.shippingAddress,
+                                                            )),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                      MainAxisSize.min,
+                                                      children: [
+                                                        Transform.rotate(
+                                                            angle: pi,
+                                                            child: Image.asset(
+                                                                "assets/icons/arrow_up.png")),
+                                                        const SizedBox(width: 4),
+                                                        SizedBox(
+                                                            width: 100,
+                                                            child: commonText(
+                                                              maxLines: 1,
+                                                              request.load.receivingAddress,
+                                                            )),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ):
                                             Padding(
                                               padding: const EdgeInsets.only(left: 50.0),
                                               child: SizedBox(

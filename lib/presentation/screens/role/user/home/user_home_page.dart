@@ -29,11 +29,10 @@ class UserHomePage extends StatefulWidget {
   const UserHomePage({super.key});
 
   static LocationPermission? permission;
+
   @override
   State<UserHomePage> createState() => _UserHomePageState();
 }
-
-
 
 class _UserHomePageState extends State<UserHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -80,13 +79,16 @@ class _UserHomePageState extends State<UserHomePage> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ProfileController>(context, listen: false).getLoadRequestData(context: context, callFromHome: true);
-      Provider.of<ProfileController>(context, listen: false).getCurrentLocation();
       Provider.of<ProfileController>(context, listen: false)
           .getLoadRequestData(context: context, callFromHome: true);
+      Provider.of<ProfileController>(context, listen: false)
+          .getCurrentLocation();
+      Provider.of<ProfileController>(context, listen: false)
+          .getLoadRequestData(context: context, callFromHome: true);
+      Provider.of<ShippinfHistoryController>(context, listen: false)
+          .getShippingHistoryData(context: context);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -111,8 +113,9 @@ class _UserHomePageState extends State<UserHomePage> {
                       height: 250,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage(
-                                'assets/images/userHomePagebg.png'), // Replace with your image asset
+                            image:
+                                AssetImage('assets/images/userHomePagebg.png'),
+                            // Replace with your image asset
                             fit: BoxFit.cover,
                             colorFilter: ColorFilter.mode(
                                 Colors.black38, BlendMode.multiply)),
@@ -173,7 +176,8 @@ class _UserHomePageState extends State<UserHomePage> {
                                 child: const CircleAvatar(
                                   backgroundColor: AppColor.black,
                                   backgroundImage: AssetImage(
-                                      'assets/icons/profile_icon_2.png'), // Replace with your image asset
+                                      'assets/icons/profile_icon_2.png'),
+                                  // Replace with your image asset
                                   radius: 18,
                                 ),
                               ),
@@ -201,7 +205,8 @@ class _UserHomePageState extends State<UserHomePage> {
                                         width: 8,
                                       ),
                                       Expanded(
-                                        child: commonText(controller.currentLocation,
+                                        child: commonText(
+                                            controller.currentLocation,
                                             size: 16,
                                             color: AppColor.white),
                                       )
@@ -338,7 +343,14 @@ class _UserHomePageState extends State<UserHomePage> {
                 child: commonText("Recently Tracking", isBold: true, size: 16),
               ),
               // Recently Tracking Section
-              trakingDesign(number: "123-456-789", address: "Banasree, Dhaka"),
+              Consumer<ShippinfHistoryController>(
+                  builder: (context, controller, _) {
+                return controller.isLoading? SizedBox(
+                  height: 100,
+                  width: MediaQuery.of(context).size.width,
+                    child: Center(child: CircularProgressIndicator())) : trakingDesign(
+                    number: controller.shippingHistoryData.first.load.bolNo, address: controller.shippingHistoryData.first.load.receivingAddress);
+              }),
               const SizedBox(height: 20),
               if (controller.isLoading)
                 const Positioned.fill(
@@ -372,9 +384,10 @@ class _UserHomePageState extends State<UserHomePage> {
           expand: false,
           builder: (context, scrollController) {
             return Container(
-              width: MediaQuery.of(context).size.width, // Full width
-              height: MediaQuery.of(context).size.height *
-                  0.9, // 70% of screen height
+              width: MediaQuery.of(context).size.width,
+              // Full width
+              height: MediaQuery.of(context).size.height * 0.9,
+              // 70% of screen height
               padding: const EdgeInsets.all(16.0),
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -666,8 +679,8 @@ class _UserHomePageState extends State<UserHomePage> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                  color: AppColor
-                      .primaryColorLight, // Light background color for details section
+                  color: AppColor.primaryColorLight,
+                  // Light background color for details section
                   borderRadius: BorderRadius.circular(16)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
