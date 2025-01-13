@@ -8,10 +8,7 @@ import 'package:ootms/presentation/components/common_button.dart';
 
 class UserCurrentShipmentDetailsPage extends StatelessWidget {
   var shipmentDetails;
-  // final String phone = "123-456-789",
-  //     name = "NR Shakib",
-  //     email = "example@gmail.com",
-  //     address = "Rupatoli, Barishal";
+
 
   UserCurrentShipmentDetailsPage({super.key, required this.shipmentDetails});
   @override
@@ -228,10 +225,14 @@ class UserCurrentShipmentDetailsPage extends StatelessWidget {
                               size: 14,
                               isBold: true,
                             ),
-                            commonText(
-                              shipmentDetails.load.hazmat,
-                              size: 14,
-                            ),
+                            Wrap(
+                              children: List.generate(shipmentDetails.load.hazmat.length, (index) {
+                                return commonText(
+                                  "${shipmentDetails.load.hazmat[index]}, ",
+                                  size: 14,
+                                );
+                              },),
+                            )
                           ],
                         ),
                       ),

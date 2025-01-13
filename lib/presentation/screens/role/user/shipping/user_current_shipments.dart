@@ -406,7 +406,6 @@ class UserCurrentShipmentsPage extends StatelessWidget {
                               padding: const EdgeInsets.all(16.0),
                               itemCount: controller.currentShipData.length,
                               itemBuilder: (context, index) {
-                                final request = loadRequests[index];
                                 var data = controller.currentShipData[index];
 
                                 return InkWell(
