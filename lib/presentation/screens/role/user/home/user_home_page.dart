@@ -322,6 +322,8 @@ class _UserHomePageState extends State<UserHomePage> {
                       label: 'Chat',
                       description: 'Easily chat with the driver.',
                       onTap: () {
+                        controller.getCurrentShipData(
+                            context: context);
                         animetedNavigationPush(UserChatListPage(), context);
                       },
                     ),
