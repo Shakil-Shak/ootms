@@ -87,10 +87,28 @@ class OtpPage extends StatelessWidget {
                         const SizedBox(
                           width: 16,
                         ),
-                        commonText("Resend",
-                            size: 14,
-                            isBold: true,
-                            decoration: TextDecoration.underline)
+                        Consumer<SignUpOtpController>(
+                          builder: (context, controller, child) {
+                            return InkWell(
+                              onTap: () {
+                                controller.resendOtp(context);
+                              },
+                              child: controller.isResend == true
+                                  ? const SizedBox(
+                                      height: 10,
+                                      width: 10,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: AppColor.primaryColor,
+                                        ),
+                                      ))
+                                  : commonText("Resend",
+                                      size: 14,
+                                      isBold: true,
+                                      decoration: TextDecoration.underline),
+                            );
+                          },
+                        )
                       ],
                     ),
                   ],

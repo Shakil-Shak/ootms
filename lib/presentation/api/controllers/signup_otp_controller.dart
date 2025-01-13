@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ootms/presentation/api/service/api_services.dart';
+import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_snackbar.dart';
 
 class SignUpOtpController extends ChangeNotifier {
@@ -39,27 +40,29 @@ class SignUpOtpController extends ChangeNotifier {
   }
 
   // Resend OTP logic
-  Future<void> resendOtp(String email) async {
+  bool isResend = false;
+  Future<void> resendOtp(context) async {
     if (!_isResendEnabled) return;
-    // try {
-    //   _isLoading = true;
-    //   notifyListeners();
-    //   // Call API to resend OTP
-    //   final response = await ApiService().postRequest(ApiPaths.verifyOtpUrl, {
-    //     "email": email, // Use the provided email for OTP resend
-    //   });
-    //   if (response != null && response['status'] == 'OK') {
-    //     startTimer();
-    //     notifyListeners();
-    //   } else {
-    //     throw Exception(response?['message'] ?? 'Failed to resend OTP.');
-    //   }
-    // } catch (e) {
-    //   print("Resend OTP Error: $e");
-    // } finally {
-    //   _isLoading = false;
-    //   notifyListeners();
-    // }
+    try {
+      isResend = true;
+      notifyListeners();
+      try {
+        final response =
+            await ApiService().otherPostRequest(ApiPaths.resendOtp, {});
+        if (response != null && response['status'] == 'OK') {
+          showCommonSnackbar(context, "Otp Resend Successfully", isError: true);
+          startTimer();
+          notifyListeners();
+        } else {
+          showCommonSnackbar(context, "Failed to resend OTP", isError: true);
+        }
+      } catch (e) {}
+    } catch (e) {
+      print("Resend OTP Error: $e");
+    } finally {
+      isResend = false;
+      notifyListeners();
+    }
   }
 
   // Verify OTP logic
@@ -89,8 +92,9 @@ class SignUpOtpController extends ChangeNotifier {
       //   requestBody["email"] = email.trim();
       // }
       print("requestBody: $requestBody");
-       print("token: $token");
-      final response = await ApiService().postRequest(url, requestBody, token: token);
+      print("token: $token");
+      final response =
+          await ApiService().postRequest(url, requestBody, token: token);
       print("======================================otpResponse${response}");
       print(
           "======================================otpResponse${response["statusCode"]}");
