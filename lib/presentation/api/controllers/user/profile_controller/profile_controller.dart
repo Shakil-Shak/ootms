@@ -229,6 +229,7 @@ class ProfileController extends ChangeNotifier {
   //==================================================get load request data
   List<LoadRequestModel> loadRequestData = [];
   bool isLoadRequest = false;
+  bool isMyLoad = false;
 
   Future<void> getLoadRequestData(
       {required context,
@@ -241,6 +242,8 @@ class ProfileController extends ChangeNotifier {
     try {
       final response = await _apiService
           .getRequest(ApiPaths.userLoadRequest(requestType: requestType));
+
+      isMyLoad = requestType;
 
       if (response != null &&
           response['statusCode'] != null &&

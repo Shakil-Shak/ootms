@@ -461,8 +461,7 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                                           palletSpaces: request
                                               .truck.palletSpace
                                               .toString(),
-                                          availability:
-                                          "Fully Available",
+                                          availability: "${request.availablePalletSpace} pallets remaining, ${request.load.palletSpace == request.availablePalletSpace? "Fully Available" : request.availablePalletSpace <= 0? "Fully loaded." : "Partially available."}"
                                         ),
                                         context);
                                   },
@@ -500,11 +499,13 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                                                     ),
                                                     Row(
                                                       children: [
-                                                        const Icon(Icons.circle,
+                                                        controller.isMyLoad?  const SizedBox.shrink():
+                                                        Icon(Icons.circle,
                                                             size: 12,
-                                                            color: Colors.green),
+                                                            color: request.load.palletSpace == request.availablePalletSpace? Colors.green : request.availablePalletSpace <= 0? Colors.red : Colors.yellow
+                                                        ),
                                                         const SizedBox(width: 4),
-                                                        commonText("The truck is fully available.",
+                                                        commonText(request.load.palletSpace == request.availablePalletSpace? "The truck is fully available." : request.availablePalletSpace <= 0? "The truck is fully loaded." : "The truck is partially available.",
                                                             size: 14),
                                                       ],
                                                     ),
@@ -515,6 +516,8 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                                             const SizedBox(
                                               height: 4,
                                             ),
+
+                                            controller.isMyLoad? SizedBox.shrink():
                                             Padding(
                                               padding: const EdgeInsets.only(left: 50.0),
                                               child: SizedBox(
