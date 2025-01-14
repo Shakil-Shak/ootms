@@ -18,6 +18,7 @@ class FeedbackScreen extends StatefulWidget {
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
   final TextEditingController msgController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   double ratingValue = 1.0;
 
   @override
@@ -105,13 +106,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           textAlign: TextAlign.start),
                     ),
                     Form(
+                        key: formKey,
                         child: commonTextfieldWithTitle(
-                      "",
-                      msgController,
-                      hintText: "Write your answer",
-                      maxLine: 3,
-                      onValidate: (value) => OtherHelper.validator(value),
-                    )),
+                          "",
+                          msgController,
+                          hintText: "Write your answer",
+                          maxLine: 3,
+                          onValidate: (value) => OtherHelper.validator(value),
+                        )),
                     const SizedBox(
                       height: 100,
                     ),
@@ -119,13 +121,15 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       isLoading: controller.isLoading,
                       "Submit",
                       onTap: () {
-                        controller.driverFeedback(
-                            ratting: ratingValue,
-                            messege: msgController.text,
-                            context: context);
-                        if (controller.isSuccess == true) {
-                          msgController.clear();
-                          controller.isSuccess = false;
+                        if (formKey.currentState!.validate()) {
+                          controller.driverFeedback(
+                              ratting: ratingValue,
+                              messege: msgController.text,
+                              context: context);
+                          if (controller.isSuccess == true) {
+                            msgController.clear();
+                            controller.isSuccess = false;
+                          }
                         }
                       },
                     ),

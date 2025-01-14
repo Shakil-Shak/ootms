@@ -31,12 +31,7 @@ class DriverSettingsPage extends StatelessWidget {
                 icon: Image.asset("assets/icons/Lock.png"),
                 text: 'Change password',
                 onTap: () {
-                  animetedNavigationPush(
-                      ChangeNotifierProvider(
-                          create: (context) =>
-                              DriverChangepasswordPageController(),
-                          child: DriverChangepasswordPage()),
-                      context);
+                  animetedNavigationPush(DriverChangepasswordPage(), context);
                 },
               ),
               const SizedBox(height: 16.0),

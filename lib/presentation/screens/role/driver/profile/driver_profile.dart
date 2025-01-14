@@ -1,5 +1,3 @@
-
-
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
@@ -12,6 +10,7 @@ import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/feedback_screen.dart';
 import 'package:ootms/presentation/screens/role/driver/home/equipment.dart';
+import 'package:ootms/presentation/screens/role/driver/settings/driver_settings.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_current_shipments.dart';
 import 'package:provider/provider.dart';
 import '../../../../api/controllers/user/profile_controller/profile_controller.dart';
@@ -164,27 +163,23 @@ class _DriverProfileState extends State<DriverProfile> {
         text: "Current Shipments",
         onTap: () {
           controller.getCurrentShipData(context: context);
-          animetedNavigationPush( DriverCurrentShipmentsPage(), context);
+          animetedNavigationPush(DriverCurrentShipmentsPage(), context);
         },
       ),
       ProfileMenuItem(
         iconPath: "assets/icons/arrow_up.png",
         text: "Load Request",
         onTap: () {
-          controller
-              .getLoadRequestData(context: context)
-              .then((value) => animetedNavigationPush(
-                  const UserLoadRequestPage(), context));
+          controller.getLoadRequestData(context: context).then((value) =>
+              animetedNavigationPush(const UserLoadRequestPage(), context));
         },
       ),
       ProfileMenuItem(
         iconPath: AppIcons.equipment,
         text: "Equipment",
         onTap: () {
-          controller
-              .getEquipmentData()
-              .then((value) => 
-                animetedNavigationPush(MyEquipmentPage(), context));
+          controller.getEquipmentData().then(
+              (value) => animetedNavigationPush(MyEquipmentPage(), context));
         },
       ),
       ProfileMenuItem(
@@ -198,7 +193,7 @@ class _DriverProfileState extends State<DriverProfile> {
         iconPath: "assets/icons/settings.png",
         text: "Settings",
         onTap: () {
-          animetedNavigationPush(const UserSettingsPage(), context);
+          animetedNavigationPush(const DriverSettingsPage(), context);
         },
       ),
       ProfileMenuItem(
