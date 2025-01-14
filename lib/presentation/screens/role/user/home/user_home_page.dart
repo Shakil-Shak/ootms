@@ -6,7 +6,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
-import 'package:ootms/presentation/api/controllers/bottom_nav_controller.dart';
+import 'package:ootms/presentation/api/controllers/common/bottom_nav_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';

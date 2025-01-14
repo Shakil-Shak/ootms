@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/helpers/other_helper.dart';
-import 'package:ootms/presentation/api/controllers/signup_controllers.dart';
+import 'package:ootms/presentation/api/controllers/common/signup_controllers.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_loading.dart';
 import 'package:ootms/presentation/components/common_snackbar.dart';

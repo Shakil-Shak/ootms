@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_map2.dart';
+import 'package:provider/provider.dart';
+
+import '../../user/chat/user_chat.dart';
 
 class DriverCurrentShipmentDetailsPage extends StatelessWidget {
   final String shipperPhone = "123-456-789",
@@ -40,21 +44,34 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
             commonText("Shipper's Information", isBold: true, size: 18),
             const Divider(),
             const SizedBox(height: 10),
-            _buildInfoRow("Shipper Name", " $shipperRating $shipperName",
-                "Shipper Phone", shipperPhone),
-            const SizedBox(height: 10),
-            _buildInfoRow("Shipper Email", shipperEmail, "Shipper Address",
-                shipperAddress),
-
-            const SizedBox(height: 20),
-
-            // Load Information Section
-            commonText("Load Information", isBold: true, size: 18),
-            const Divider(),
-            const SizedBox(height: 10),
-            _buildLoadInfoSection(),
-
-            const SizedBox(height: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildInfoRow("Shipper Name", " $shipperRating $shipperName",
+                    "Shipper Phone", shipperPhone),
+                const SizedBox(height: 10),
+                _buildInfoRow("Shipper Email", shipperEmail, "Shipper Address",
+                    shipperAddress),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            commonIconButton(onTap: () {
+              animetedNavigationPush(
+                  ChangeNotifierProvider(
+                      create: (context) => UserChatProvider(),
+                      child: const UserChatPage()),
+                  context);
+            },
+                "Chat with Shipper",
+                Image.asset(
+                  "assets/icons/user home page/massage.png",
+                  color: AppColor.white,
+                )),
+            SizedBox(
+              height: 20,
+            ),
 
             // Receiver's Information Section
             commonText("Receiver's Information", isBold: true, size: 18),
@@ -78,10 +95,36 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
                   commonText("Delivery Instructions", isBold: true, size: 16),
                   const SizedBox(height: 5),
                   commonText(deliveryInstructions),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  commonIconButton(onTap: () {
+                    animetedNavigationPush(
+                        ChangeNotifierProvider(
+                            create: (context) => UserChatProvider(),
+                            child: const UserChatPage()),
+                        context);
+                  },
+                      "Chat with Receiver",
+                      Image.asset(
+                        "assets/icons/user home page/massage.png",
+                        color: AppColor.white,
+                      )),
 
                   const SizedBox(height: 30),
+
+                  // Load Information Section
+                  commonText("Load Information", isBold: true, size: 18),
+                  const Divider(),
+                  const SizedBox(height: 10),
+                  _buildLoadInfoSection(),
+
+                  const SizedBox(height: 20),
                 ],
               ),
+            ),
+            SizedBox(
+              height: 20,
             ),
 
             // Buttons at the bottom

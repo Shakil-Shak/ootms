@@ -3,7 +3,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
-import 'package:ootms/presentation/api/controllers/signup_otp_controller.dart';
+import 'package:ootms/presentation/api/controllers/common/signup_otp_controller.dart';
 import 'package:ootms/presentation/api/models/otp_model.dart';
 import 'package:ootms/presentation/api/models/user_registration.dart';
 import 'package:ootms/presentation/api/url_paths.dart';

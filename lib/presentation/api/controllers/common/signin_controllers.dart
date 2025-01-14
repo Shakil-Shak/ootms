@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ootms/helpers/prefs_helper.dart';
 import 'package:ootms/presentation/api/service/api_services.dart';
 import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 import 'package:ootms/presentation/api/models/signin_model.dart';
@@ -42,10 +43,13 @@ class SignInPageController extends ChangeNotifier {
 
       if (response != null && response['status'] == "OK") {
         final signInModel = SignInModel.fromJson(response);
-        
-          saveUserAcessDetails(signInModel.data.accessToken, role);
+        PrefsHelper.setString("userRole", signInModel.data.attributes.id);
 
+        saveUserAcessDetails(signInModel.data.accessToken, role);
 
+        if (remembeMe == true) {
+          PrefsHelper.setBool("isRemember", true);
+        }
 
         _isLoading = false;
         notifyListeners();

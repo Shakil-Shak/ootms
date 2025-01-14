@@ -30,4 +30,5 @@ class ApiPaths {
   static String notificationStatus = '$baseUrl/api/v1/notifications/read/';
   static String loadsDetails = '$baseUrl/api/v1/loads/';
   static String pendingShipment = '$baseUrl/api/v1/shipment/pending?page=';
+  static String serviceFeedback(String userId) => '$baseUrl/api/v1/feedbacks/$userId';
 }

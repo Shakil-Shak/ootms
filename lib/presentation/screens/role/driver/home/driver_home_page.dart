@@ -215,7 +215,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
               ),
             ),
 
-            const SizedBox(height: 40), // For spacing after the header
+            // const SizedBox(height: 4), // For spacing after the header
 
             // Action Cards Section
             Padding(

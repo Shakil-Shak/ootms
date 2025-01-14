@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/helpers/other_helper.dart';
-import 'package:ootms/presentation/api/controllers/notification_controller.dart';
+import 'package:ootms/presentation/api/controllers/common/notification_controller.dart';
 import 'package:ootms/presentation/api/models/notification_model.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 
