@@ -91,6 +91,8 @@ class Load {
   int palletSpace;
   int trailerSize;
   DateTime pickupDate;
+  String receivingAddress;
+  String shippingAddress;
   DateTime deliveryDate;
   List hazmat;
   int weight;
@@ -100,6 +102,8 @@ class Load {
     required this.palletSpace,
     required this.trailerSize,
     required this.pickupDate,
+    required this.receivingAddress,
+    required this.shippingAddress,
     required this.deliveryDate,
     required this.hazmat,
     required this.weight,
@@ -111,6 +115,8 @@ class Load {
       palletSpace: json['palletSpace'] ?? 10,
       trailerSize: json['trailerSize'] ?? 500,
       pickupDate: DateTime.parse(json['pickupDate'] ?? '2025-01-10T08:00:00.000Z'),
+      receivingAddress: json['receivingAddress'] ?? "",
+      shippingAddress: json['shippingAddress'] ?? "",
       deliveryDate: DateTime.parse(json['deliveryDate'] ?? '2025-01-12T18:00:00.000Z'),
       hazmat: json['Hazmat'] != null
           ? List<String>.from(json['Hazmat'])
@@ -137,6 +143,8 @@ class Load {
       palletSpace: 10,
       trailerSize: 500,
       pickupDate: DateTime.parse('2025-01-10T08:00:00.000Z'),
+      receivingAddress: "Receiver address not found",
+      shippingAddress: "Shipper address not found",
       deliveryDate: DateTime.parse('2025-01-12T18:00:00.000Z'),
       hazmat: [],
       weight: 1500,

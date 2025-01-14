@@ -244,6 +244,7 @@ class LoadModel {
   DateTime pickupDate;
   DateTime deliveryDate;
   String deliveryInstruction;
+  String bolNo;
 
   LoadModel({
     this.id = "",
@@ -263,6 +264,7 @@ class LoadModel {
     required this.pickupDate,
     required this.deliveryDate,
     this.deliveryInstruction = "",
+    this.bolNo = "",
   });
 
   factory LoadModel.fromJson(Map<String, dynamic> json) {
@@ -287,6 +289,7 @@ class LoadModel {
       pickupDate: DateTime.parse(json['pickupDate'] ?? DateTime.now().toIso8601String()),
       deliveryDate: DateTime.parse(json['deliveryDate'] ?? DateTime.now().toIso8601String()),
       deliveryInstruction: json['deliveryInstruction'] ?? "",
+      bolNo: json['bolNo'],
     );
   }
 }
