@@ -1,21 +1,14 @@
 class ApiPaths {
-  // Base URL
-
-  // static const String baseUrl = 'http://137.184.95.36:8020';
-
-  static const String baseUrl = 'http://10.0.70.37:8020';
+  static const String baseUrl = 'http://10.0.70.87:8020';
   static const String socketUrl = 'http://10.0.70.37:8020';
-
-  // static const String baseUrl = 'https://17hm40f8-8020.asse.devtunnels.ms';
-  // static const String baseUrl = 'https://kz1131kq-8020.asse.devtunnels.ms';
-
-  // Endpoints
   static const String signinUrl = '$baseUrl/api/v1/auth/local';
   static const String signupUrl = '$baseUrl/api/v1/auth/sign-up';
   static const String verifyEmailUrl = '$baseUrl/api/v1/auth/verify-email';
+  static const String completeProfile = '$baseUrl/api/v1/users/complete';
   static const String forgetPasswordUrl =
       '$baseUrl/api/v1/auth/forget-password';
   static const String verifyOtpUrl = '$baseUrl/api/v1/auth/verify-otp';
+  static const String resendOtp = '$baseUrl/api/v1/auth/resend-otp';
   static const String resetPasswordUrl = '$baseUrl/api/v1/auth/reset-password';
   static const String changePasswordUrl =
       '$baseUrl/api/v1/auth/change-password';

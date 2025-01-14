@@ -425,6 +425,7 @@ import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/home/equipment.dart';
+import 'package:ootms/presentation/screens/role/driver/shipping/driver_current%20_shipment_details.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../api/controllers/user/profile_controller/profile_controller.dart';
@@ -479,7 +480,7 @@ class _DriverProfileState extends State<DriverProfile> {
                       controller.profileData.image?.isNotEmpty ?? false
                           ? CommonImage(
                               imageSrc: ApiPaths.baseUrl +
-                                  controller.profileData.image!,
+                                  controller.profileData.image,
                               imageType: ImageType.network,
                               size: 100,
                               borderRadius: 100,
@@ -503,9 +504,9 @@ class _DriverProfileState extends State<DriverProfile> {
                               ),
                             ),
                       const SizedBox(height: 10),
-                      commonText(controller.profileData?.fullName ?? "",
+                      commonText(controller.profileData.fullName,
                           size: 18, isBold: true),
-                      commonText(controller.profileData?.email ?? ""),
+                      commonText(controller.profileData.email),
                       const SizedBox(height: 10),
                       // Profile Menu Options
                       Container(
@@ -562,9 +563,9 @@ class _DriverProfileState extends State<DriverProfile> {
         onTap: () {
           animetedNavigationPush(
               UserEditProfile(
-                imagePath: controller.profileData.image!,
-                title: controller.profileData.fullName!,
-                email: controller.profileData.email!,
+                imagePath: controller.profileData.image,
+                title: controller.profileData.fullName,
+                email: controller.profileData.email,
                 contact: "134165415",
                 address: "Dhaka",
                 country: "Bangladesh",
@@ -577,6 +578,7 @@ class _DriverProfileState extends State<DriverProfile> {
         text: "Current Shipments",
         onTap: () {
           controller.getCurrentShipData(context: context);
+          animetedNavigationPush(const DriverCurrentShipmentDetailsPage(), context);
         },
       ),
       ProfileMenuItem(
