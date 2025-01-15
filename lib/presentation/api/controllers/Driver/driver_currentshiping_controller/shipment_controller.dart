@@ -6,9 +6,11 @@ import 'package:ootms/presentation/api/models/user_model/shiping_model/pending_s
 import 'package:ootms/presentation/api/service/get_api_service.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 
-class ShipmentController extends GetxController{
+import '../../../models/driver_model/currentship_model.dart';
 
-  static ShipmentController get instance => Get.put(ShipmentController());
+class DriverShipmentController extends GetxController {
+  static DriverShipmentController get instance =>
+      Get.put(DriverShipmentController());
 
   bool isLoading = false;
   bool isMoreLoading = false;
@@ -18,7 +20,7 @@ class ShipmentController extends GetxController{
   int page = 1;
   String loadId = "";
 
-  handleScrollController(){
+  handleScrollController() {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
@@ -32,40 +34,97 @@ class ShipmentController extends GetxController{
     page++;
     isMoreLoading = true;
     update();
-    await getPendingShipment();
+    await getDriverShipment();
     isMoreLoading = false;
     update();
   }
 
-
-  Future<void> getPendingShipment()async {
-    isLoading = true;
-    update();
+  Future<void> getDriverShipment() async {
+    if (page == 1) {
+      isLoading = true;
+      update();
+    } else {
+      isMoreLoading = true;
+      update();
+    }
 
     try {
-      final response = await ApiClient.getData("${ApiPaths.pendingShipment}$page");
+      final response =
+          await ApiClient.getData("${ApiPaths.drivercurrentShiping}$page");
       log("Full Response: ${response.statusCode}");
+      log("Response Body: ${response.body}");
 
-      if (response.statusCode == int.parse("200")) {
-        log("================================================successful");
-        var responseData = response.body['data']['attributes']['loadRequests'];
-        log("responseData: $responseData");
-        if(page == 1){
-          currentShipmentData = responseData.map((items) => PendingShipmentModel.fromJson(items)).toList();
-        }else{
-          currentShipmentData.addAll(responseData.map((items) => PendingShipmentModel.fromJson(items)).toList());
+      if (response.statusCode == 200) {
+        final responseData =
+            response.body['data']?['attributes']?['loadRequests'];
+
+        if (responseData == null) {
+          return;
         }
-        log("pending shipment list: $currentShipmentData");
-        update();
 
+        if (responseData is List) {
+          if (page == 1) {
+            currentShipmentData.clear();
+            currentShipmentData = responseData
+                .map((item) => DriverCurrentshipModel.fromJson(item))
+                .toList();
+          } else {
+            currentShipmentData.addAll(responseData
+                .map((item) => DriverCurrentshipModel.fromJson(item))
+                .toList());
+            update();
+          }
+          log("Pending shipment list: $currentShipmentData");
+        } else {
+          log("Error: responseData is not a List.");
+        }
+        update();
       } else {
         log("Error: statusCode is not 200 or response is null");
       }
     } catch (e) {
-      log("$e");
+      log("Exception: $e");
     } finally {
       isLoading = false;
       update();
+      isMoreLoading = false;
+      update();
     }
   }
+
+  // Future<void> getDriverShipment() async {
+  //   isLoading = true;
+  //   update();
+
+  //   try {
+  //     final response =
+  //         await ApiClient.getData("${ApiPaths.currentShiping}$page");
+  //     log("Full Response: ${response.statusCode}");
+
+  //     if (response.statusCode == 200) {
+  //       var responseData = response.body['data']['attributes']['loadRequests'];
+  //       print("==================================page $page");
+  //       if (page == 1) {
+  //         log("================================================successful");
+  //         currentShipmentData = responseData
+  //             .map((items) => DriverCurrentshipModel.fromJson(items))
+  //             .toList();
+
+  //         log("pending shipment list: $currentShipmentData");
+  //       } else {
+  //         currentShipmentData.addAll(responseData
+  //             .map((items) => DriverCurrentshipModel.fromJson(items))
+  //             .toList());
+  //       }
+  //       update();
+  //     } else {
+  //       log("Error: statusCode is not 200 or response is null");
+  //     }
+  //   } catch (e) {
+  //     log("$e");
+  //   } finally {
+  //     isLoading = false;
+  //     update();
+  //   }
+  // }
 }

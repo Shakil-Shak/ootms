@@ -21,6 +21,8 @@ class ApiPaths {
   static String staticContent({contentType}) =>
       '$baseUrl/api/v1/static-contents?type=$contentType';
   static const String currentShiping = '$baseUrl/api/v1/shipment/current';
+  static const String drivercurrentShiping = '$baseUrl/api/v1/shipment/current?page=';
+  static const String driverLoadRequest = '$baseUrl/api/v1/loads-request?page=';
   static const String shippingHistory = '$baseUrl/api/v1/shipment/history';
   static const String chagePassword = '$baseUrl/api/v1/auth/change-password';
   static const String equipment = '$baseUrl/api/v1/truck-details';

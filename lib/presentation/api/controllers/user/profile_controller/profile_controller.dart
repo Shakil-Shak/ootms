@@ -31,7 +31,6 @@ class ProfileController extends ChangeNotifier {
   Future<String> getCurrentLocation() async {
     bool serviceEnabled;
 
-
     // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
@@ -51,18 +50,19 @@ class ProfileController extends ChangeNotifier {
     }
 
     Timer.periodic(const Duration(seconds: 10), (timer) async {
-    // Get current location
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+      // Get current location
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
 
+      // Log or process the location
+      log("Location: ${position.latitude}, ${position.longitude}");
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+      log("${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}");
 
-    // Log or process the location
-    log("Location: ${position.latitude}, ${position.longitude}");
-    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
-    log("${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}");
-
-    currentLocation = "${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}";
-    notifyListeners();
+      currentLocation =
+          "${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}";
+      notifyListeners();
 
       // Optionally, communicate with the app via the service
       // service.invoke("update", {
@@ -73,6 +73,7 @@ class ProfileController extends ChangeNotifier {
 
     return "";
   }
+
   Future<void> postSupport(
       {required String title,
       required String content,
@@ -277,13 +278,10 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      print("=======================================ressdflksadflksdjfksdjf");
       final response = await _apiService.getRequest(ApiPaths.equipment);
       print("=======================================response$response");
 
-      if (response != null &&
-          response['statusCode'] != null &&
-          response['statusCode'] == "201") {
+      if (response['statusCode'] == "200") {
         log("================================================successfull");
         List responseData = response['data']["attributes"] ?? [];
         log("responseData: $responseData");

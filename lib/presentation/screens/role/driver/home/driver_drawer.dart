@@ -7,6 +7,9 @@ import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/common/widgets.dart';
 import 'package:ootms/presentation/screens/role/driver/home/equipment.dart';
+import 'package:ootms/presentation/screens/role/driver/settings/driver_settings.dart';
+import 'package:ootms/presentation/screens/role/driver/shipping/driver_current_shipments.dart';
+import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request.dart';
 import 'package:ootms/presentation/screens/role/driver/subsciption.dart';
 import 'package:provider/provider.dart';
 
@@ -55,11 +58,11 @@ Widget driverCustomDrawer(BuildContext context) {
                 const SizedBox(height: 16),
                 // Menu items
                 DrawerMenuItem(
-                  iconPath:
-                      'assets/icons/shipment.png', // Change to your icon path
+                  iconPath: 'assets/icons/shipment.png',
                   text: 'Current Shipment',
                   onTap: () {
-                    value.getCurrentShipData(context: context);
+                    animetedNavigationPush(
+                        DriverCurrentShipmentsPage(), context);
                   },
                 ),
                 DrawerMenuItem(
@@ -68,7 +71,7 @@ Widget driverCustomDrawer(BuildContext context) {
                   onTap: () {
                     value.getLoadRequestData(context: context).then((value) =>
                         animetedNavigationPush(
-                            const UserLoadRequestPage(), context));
+                             DriverLoadRequestPage(), context));
                   },
                 ),
                 DrawerMenuItem(
@@ -92,7 +95,7 @@ Widget driverCustomDrawer(BuildContext context) {
                   iconPath: 'assets/icons/settings.png',
                   text: 'Settings',
                   onTap: () {
-                    animetedNavigationPush(const UserSettingsPage(), context);
+                    animetedNavigationPush(const DriverSettingsPage(), context);
                   },
                 ),
                 const SizedBox(height: 20),

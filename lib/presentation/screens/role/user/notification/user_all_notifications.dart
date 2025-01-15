@@ -14,6 +14,7 @@ import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_map2.dart';
 import 'package:ootms/presentation/screens/role/driver/notification/driver_all_notifications.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request_details.dart';
+import 'package:ootms/presentation/screens/role/user/notification/notification_details.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_load_request_details.dart';
 
 class UserAllNotificationsPage extends StatelessWidget {
@@ -233,7 +234,7 @@ class UserAllNotificationsPage extends StatelessWidget {
                     animetedNavigationPush(const DriverMap2Page(), context);
                   } else {
                     DriverLoadRequestDetailsPage.loadId = notificationItem.linkId;
-                    animetedNavigationPush(DriverLoadRequestDetailsPage(), context);
+                    animetedNavigationPush(NotificationDetails(), context);
                   }
 
                   // _showBottomSheet(context);

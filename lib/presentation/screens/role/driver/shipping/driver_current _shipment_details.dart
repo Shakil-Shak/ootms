@@ -10,21 +10,46 @@ import 'package:provider/provider.dart';
 import '../../user/chat/user_chat.dart';
 
 class DriverCurrentShipmentDetailsPage extends StatelessWidget {
-  final String shipperPhone = "123-456-789",
-      shipperName = "NR Shakib",
-      shipperRating = "4.5",
-      shipperEmail = "example@gmail.com",
-      shipperAddress = "Rupatoli, Barishal",
-      reciverName = "MD. Shihabul Islam",
-      reciverPhone = "123-456-789",
-      reciverEmail = "example@gmail.com",
-      reciverAddress = "Banasree, Dhaka",
-      deliveryInstructions =
-          "Lorem ipsum dolor sit amet consectetur. Blandit auctor sit scelerisque ultricies.",
-      description =
-          "Lorem ipsum dolor sit amet consectetur. Blandit auctor sit scelerisque ultricies.";
+  String shipperPhone;
+  String shipperName;
+  String shipperRating;
+  String shipperEmail;
+  String shipperAddress;
+  String reciverName;
+  String reciverPhone;
+  String reciverEmail;
+  String reciverAddress;
+  String deliveryInstructions;
+  String description;
+  String loadType;
+  String trailerSize;
+  String pickupDate;
+  String deliveryDate;
+  String weight;
+  List<String>? hazmat;
+  String pallets;
 
-  const DriverCurrentShipmentDetailsPage({super.key});
+  DriverCurrentShipmentDetailsPage({
+    super.key,
+    required this.shipperPhone,
+    required this.shipperName,
+    required this.shipperRating,
+    required this.shipperEmail,
+    required this.shipperAddress,
+    required this.reciverName,
+    required this.reciverPhone,
+    required this.reciverEmail,
+    required this.reciverAddress,
+    required this.description,
+    required this.deliveryInstructions,
+    required this.loadType,
+    required this.trailerSize,
+    required this.pickupDate,
+    required this.deliveryDate,
+    required this.weight,
+    required this.hazmat,
+    required this.pallets,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +72,8 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _buildInfoRow("Shipper Name", " $shipperRating $shipperName",
-                    "Shipper Phone", shipperPhone),
+                _buildInfoRow("Shipper Name", "$shipperName", "Shipper Phone",
+                    shipperPhone),
                 const SizedBox(height: 10),
                 _buildInfoRow("Shipper Email", shipperEmail, "Shipper Address",
                     shipperAddress),
@@ -204,15 +229,15 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     commonText("Load Type", size: 14, isBold: true),
-                    commonText("Dry Load", size: 14),
+                    commonText(loadType, size: 14),
                     const SizedBox(height: 10),
                     commonText("Pickup", size: 14, isBold: true),
-                    commonText("12-12-2024", size: 14),
-                    commonText("Address: Rupatoli, Barishal",
+                    commonText(pickupDate, size: 14),
+                    commonText(shipperAddress,
                         size: 14, fontWeight: FontWeight.w500),
                     const SizedBox(height: 10),
                     commonText("Weight", size: 14, isBold: true),
-                    commonText("120 kg", size: 14),
+                    commonText(weight, size: 14),
                   ],
                 ),
               ),
@@ -224,15 +249,18 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     commonText("Trailer size", size: 14, isBold: true),
-                    commonText("48-foot trailer—24 pallets", size: 14),
+                    commonText("$trailerSize-foot trailer—$pallets pallets", size: 14),
                     const SizedBox(height: 10),
                     commonText("Delivery", size: 14, isBold: true),
-                    commonText("13-12-2024", size: 14),
-                    commonText("Address: Banasree, Dhaka",
+                    commonText(deliveryDate, size: 14),
+                    commonText(reciverAddress,
                         size: 14, fontWeight: FontWeight.w500),
                     const SizedBox(height: 10),
                     commonText("HazMat", size: 14, isBold: true),
-                    commonText("Flammable Gas 2, Corrosive, Danger.", size: 14),
+                    ListView.builder(itemCount: hazmat!.length,physics: NeverScrollableScrollPhysics(),shrinkWrap: true,itemBuilder:(context, index) {
+                      return commonText("${hazmat![index]},", size: 14);
+                    },)
+                    
                   ],
                 ),
               ),

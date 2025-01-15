@@ -10,16 +10,16 @@ import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/feedback_screen.dart';
 import 'package:ootms/presentation/screens/role/driver/home/equipment.dart';
+import 'package:ootms/presentation/screens/role/driver/profile/driver_edit_profile.dart';
 import 'package:ootms/presentation/screens/role/driver/settings/driver_settings.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_current_shipments.dart';
+import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request.dart';
 import 'package:provider/provider.dart';
 import '../../../../api/controllers/user/profile_controller/profile_controller.dart';
 import '../../../../api/url_paths.dart';
 import '../../../../components/common_image.dart';
 import '../../user/home/user_support.dart';
-import '../../user/profile/user_edit_profile.dart';
 import '../../user/profile/user_profile.dart';
-import '../../user/settings/user_settings.dart';
 import '../../user/shipping/user_load_request.dart';
 
 class DriverProfile extends StatefulWidget {
@@ -147,13 +147,13 @@ class _DriverProfileState extends State<DriverProfile> {
         text: "Edit Profile",
         onTap: () {
           animetedNavigationPush(
-              UserEditProfile(
+              DriverEditProfile(
                 imagePath: controller.profileData.image,
                 title: controller.profileData.fullName,
                 email: controller.profileData.email,
-                contact: "134165415",
-                address: "Dhaka",
-                country: "Bangladesh",
+                contact: controller.profileData.phoneNumber,
+                address: controller.profileData.address,
+                country: "USA",
               ),
               context);
         },
@@ -162,7 +162,7 @@ class _DriverProfileState extends State<DriverProfile> {
         iconPath: "assets/icons/shipment.png",
         text: "Current Shipments",
         onTap: () {
-          controller.getCurrentShipData(context: context);
+          // controller.getCurrentShipData(context: context);
           animetedNavigationPush(DriverCurrentShipmentsPage(), context);
         },
       ),
@@ -170,8 +170,9 @@ class _DriverProfileState extends State<DriverProfile> {
         iconPath: "assets/icons/arrow_up.png",
         text: "Load Request",
         onTap: () {
-          controller.getLoadRequestData(context: context).then((value) =>
-              animetedNavigationPush(const UserLoadRequestPage(), context));
+          //   controller.getLoadRequestData(context: context).then((value) =>
+          //       animetedNavigationPush( DriverLoadRequestPage(), context));
+          animetedNavigationPush(DriverLoadRequestPage(), context);
         },
       ),
       ProfileMenuItem(
