@@ -70,7 +70,7 @@ class Attributes {
   final String image;
   final String password;
   final bool isOnDuty;
-  final int ratings;
+  var ratings;
   final int dispatchCompleted;
   final String role;
   final String createdAt;

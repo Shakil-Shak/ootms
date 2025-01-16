@@ -162,7 +162,7 @@ class SignInPage extends StatelessWidget {
                                 signinModel.status == "OK") {
                               showCommonSnackbar(context, "Login successful!");
 
-                              if (user) {
+                              if (signinModel.data.attributes.role == "user") {
                                 animetedNavigationPush(
                                     const UserRootPage(), context);
                               } else {
