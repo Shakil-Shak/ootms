@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:developer';
-import 'dart:ui';
+
 
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
@@ -19,10 +19,6 @@ class UserLoadRequestDetailsPage extends StatelessWidget {
   String palletSpaces;
   String availability;
 
-  // String phone = "123-456-789",
-  //     name = "NR Shakib",
-  //     email = "example@gmail.com",
-  //     address = "Rupatoli, Barishal";
 
   UserLoadRequestDetailsPage({
     super.key,

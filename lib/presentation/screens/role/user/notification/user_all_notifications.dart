@@ -1,37 +1,23 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/helpers/other_helper.dart';
+import 'package:ootms/presentation/api/controllers/common/notification_controller.dart';
+import 'package:ootms/presentation/api/models/notification_model.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/driver/home/driver_map2.dart';
+import 'package:ootms/presentation/screens/role/driver/notification/driver_all_notifications.dart';
+import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request_details.dart';
+import 'package:ootms/presentation/screens/role/user/notification/notification_details.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_load_request_details.dart';
 
 class UserAllNotificationsPage extends StatelessWidget {
-  final List<Map<String, dynamic>> loadRequests = [
-    {
-      'title': 'Your Shipment is delivered by driver, please confirm it first.',
-      'time': '16 minutes ago',
-      'read': false
-    },
-    {
-      'title': 'You have a load request from driver.',
-      'time': '16 minutes ago',
-      'read': false
-    },
-    {
-      'title': 'Your Shipment is delivered by driver, please confirm it first.',
-      'time': '16 minutes ago',
-      'read': true
-    },
-    {
-      'title': 'Your Shipment is delivered by driver, please confirm it first.',
-      'time': '16 minutes ago',
-      'read': true
-    },
-  ];
 
   int rating = 4;
   final TextEditingController commentController = TextEditingController();
@@ -189,6 +175,17 @@ class UserAllNotificationsPage extends StatelessWidget {
     );
   }
 
+  NotificationController notificationController = Get.find<NotificationController>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    Future.microtask(() {
+      notificationController.getNotificationList();
+      notificationController.handleScrollController();
+    },);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -202,52 +199,50 @@ class UserAllNotificationsPage extends StatelessWidget {
             },
           ),
         ),
-        body: Center(
-            child: Column(
-          children: [
-            const SizedBox(
-              height: 50,
+        body: GetBuilder<NotificationController>(builder: (controller) {
+          return controller.isLoading? const Center(child: CircularProgressIndicator())
+              : controller.notificationList.isEmpty
+              ? const DriverEmptyNotificationPage()
+              : ListView.separated(
+            separatorBuilder: (context, index) => const SizedBox(
+              height: 4,
             ),
-            Image.asset(
-              "assets/images/empty.png",
-              height: 80,
-              width: 80,
-            ),
-            commonText("No notification found",
-                color: AppColor.black, size: 12),
-            const SizedBox(
-              height: 20,
-            )
-          ],
-        ))
-        // (loadRequests.isEmpty)
-        //     ? const UserEmptyNotificationPage()
-        //     : ListView.separated(
-        //         separatorBuilder: (context, index) => const SizedBox(
-        //           height: 4,
-        //         ),
-        //         itemCount: loadRequests.length,
-        //         itemBuilder: (context, index) {
-        //           return ListTile(
-        //             tileColor: (loadRequests[index]['read'] == false)
-        //                 ? AppColor.primaryColorLight
-        //                 : Colors.transparent,
-        //             leading: Image.asset(
-        //               "assets/icons/user home page/notify.png",
-        //             ),
-        //             title: commonText(loadRequests[index]['title'], size: 16),
-        //             subtitle: commonText(loadRequests[index]['time'], size: 14),
-        //             onTap: () {
-        //               if (index == 1) {
-        //                 animetedNavigationPush(
-        //                     UserLoadRequestDetailsPage(), context);
-        //               } else {
-        //                 _showBottomSheet(context);
-        //               }
-        //             },
-        //           );
-        //         },
-        //       ),
+            controller: controller.scrollController,
+            itemCount: controller.notificationList.length + 1,
+            itemBuilder: (context, index) {
+              if (index == controller.notificationList.length) {
+                return controller.isMoreLoading
+                    ? const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Center(child: CircularProgressIndicator()),
+                )
+                    : const SizedBox.shrink();
+              }
+              NotificationModel notificationItem = controller.notificationList[index];
+              return ListTile(
+                tileColor: notificationItem.isRead
+                    ? AppColor.primaryColorLight
+                    : Colors.transparent,
+                leading: Image.asset(
+                  "assets/icons/user home page/notify.png",
+                ),
+                title: commonText(notificationItem.message, size: 16),
+                subtitle: commonText(OtherHelper.getTimeDifference(notificationItem.createdAt), size: 14),
+                onTap: () {
+                  controller.changeNotificationStatus(notificationId: notificationItem.id, index: index);
+                  if (notificationItem.type == "map") {
+                    animetedNavigationPush(const DriverMap2Page(), context);
+                  } else {
+                    DriverLoadRequestDetailsPage.loadId = notificationItem.linkId;
+                    animetedNavigationPush(NotificationDetails(), context);
+                  }
+
+                  // _showBottomSheet(context);
+                },
+              );
+            },
+          );
+        },)
         );
   }
 }

@@ -3,7 +3,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
-import 'package:ootms/presentation/api/controllers/signup_otp_controller.dart';
+import 'package:ootms/presentation/api/controllers/common/signup_otp_controller.dart';
 import 'package:ootms/presentation/api/models/otp_model.dart';
 import 'package:ootms/presentation/api/models/user_registration.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
@@ -87,10 +87,28 @@ class OtpPage extends StatelessWidget {
                         const SizedBox(
                           width: 16,
                         ),
-                        commonText("Resend",
-                            size: 14,
-                            isBold: true,
-                            decoration: TextDecoration.underline)
+                        Consumer<SignUpOtpController>(
+                          builder: (context, controller, child) {
+                            return InkWell(
+                              onTap: () {
+                                controller.resendOtp(context);
+                              },
+                              child: controller.isResend == true
+                                  ? const SizedBox(
+                                      height: 10,
+                                      width: 10,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: AppColor.primaryColor,
+                                        ),
+                                      ))
+                                  : commonText("Resend",
+                                      size: 14,
+                                      isBold: true,
+                                      decoration: TextDecoration.underline),
+                            );
+                          },
+                        )
                       ],
                     ),
                   ],
@@ -107,7 +125,7 @@ class OtpPage extends StatelessWidget {
                               final responsedata = await controller.verifyOtp(
                                   context, ApiPaths.verifyEmailUrl,
                                   token: Options(headers: {
-                                    "SignUpToken": "signUpToken ${token}",
+                                    "SignUpToken": "signUpToken $token",
                                   }));
 
                               if (responsedata == null) {

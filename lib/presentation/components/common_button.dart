@@ -9,6 +9,8 @@ Widget commonButton(String title,
     double width = double.infinity,
     double borderRadious = 20.0,
     double height = 50,
+    double padding = 10,
+    double margin = 20,
     bool isBold = true,
     VoidCallback? onTap,
     bool isLoading = false}) {
@@ -17,14 +19,14 @@ Widget commonButton(String title,
     child: Container(
       height: height,
       width: width,
-      margin: const EdgeInsets.symmetric(horizontal: 20),
+      margin: EdgeInsets.symmetric(horizontal: margin),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(borderRadious)),
         color: color,
       ),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: padding),
           child: isLoading
               ? const CircularProgressIndicator(
                   color: Colors.white,
@@ -70,7 +72,7 @@ Widget commonIconButton(String title, Widget icon,
     {Color color = AppColor.primaryColor,
     bool isRight = false,
     Color textColor = Colors.white,
-    double textSize = 18,
+    double textSize = 15,
     double width = double.infinity,
     double height = 50,
     bool isBold = true,

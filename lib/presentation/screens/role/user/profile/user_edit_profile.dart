@@ -5,11 +5,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/helpers/other_helper.dart';
+import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/update_profile_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:ootms/presentation/screens/role/common/country_model.dart';
+import 'package:provider/provider.dart';
 import '../../../../api/url_paths.dart';
 import '../../../../components/common_image.dart';
 
@@ -40,6 +43,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
   TextEditingController phoneController = TextEditingController();
   final UpdateProfileController editController =
       Get.find<UpdateProfileController>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Country? selectedCountry;
 
@@ -115,74 +119,110 @@ class _UserEditProfileState extends State<UserEditProfile> {
                           ),
                         ],
                       )),
-                  commonTextfieldWithTitle("Full Name", fullNameController,
-                      hintText: "Full Name", keyboardType: TextInputType.text),
-                  const SizedBox(height: 20),
-                  commonTextfieldWithTitle(
-                    "Email",
-                    emailController,
-                    prifixIconWidget: Image.asset("assets/icons/emailicon.png"),
-                    hintText: "Email",
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  const SizedBox(height: 20),
-                  // ======================================phone picker
+                  Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          commonTextfieldWithTitle(
+                              "Full Name", fullNameController,
+                              onValidate: (value) =>
+                                  OtherHelper.validator(value),
+                              hintText: "Full Name",
+                              keyboardType: TextInputType.text),
+                          const SizedBox(height: 20),
+                          commonTextfieldWithTitle(
+                            readOnly: true,
+                            // enable: false,
+                            "Email",
+                            emailController,
+                            onValidate: (value) =>
+                                OtherHelper.emailValidator(value),
+                            prifixIconWidget:
+                                Image.asset("assets/icons/emailicon.png"),
+                            hintText: "Email",
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                          const SizedBox(height: 20),
+                          // ======================================phone picker
 
-                  commonTextfieldWithTitle("Phone", phoneController,
-                      prifixIconWidget:
-                          Image.asset("assets/images/usaflag.png"),
-                      hintText: "Enter your phone",
-                      keyboardType: TextInputType.number),
+                          commonTextfieldWithTitle("Phone", phoneController,
+                              prifixIconWidget:
+                                  Image.asset("assets/images/usaflag.png"),
+                              hintText: "Enter your phone",
+                              onValidate: (value) =>
+                                  OtherHelper.validator(value),
+                              keyboardType: TextInputType.number),
 
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      commonText(
-                        "Country",
-                        size: 14,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Card(
-                    elevation: 3,
-                    color: Colors.white,
-                    child: Container(
-                      height: 50,
-                      width: 361,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16)),
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: commonText("USA",
-                              size: 14,
-                              fontWeight: FontWeight.w400,
-                              color: const Color(0xFF1A1A1A))),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  commonTextfieldWithTitle(
-                    "Address",
-                    addressController,
-                    hintText: "Enter your address",
-                  ),
+                          const SizedBox(height: 20),
+                          Row(
+                            children: [
+                              commonText(
+                                "Country",
+                                size: 14,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Card(
+                            elevation: 3,
+                            color: Colors.white,
+                            child: Container(
+                              height: 50,
+                              width: 361,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16)),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: commonText("USA",
+                                      size: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color(0xFF1A1A1A))),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          commonTextfieldWithTitle(
+                            "Address",
+                            addressController,
+                            onValidate: (value) => OtherHelper.validator(value),
+                            hintText: "Enter your address",
+                          ),
+                        ],
+                      )),
                   const SizedBox(height: 50),
-                  InkWell(
-                    onTap: () {
-                      editController.updateProfile(
-                          name: fullNameController.text,
-                          email: emailController.text,
-                          phone: phoneController.text,
-                          address: addressController.text);
+                  Consumer<ProfileController>(
+                    builder: (context, value, child) {
+                      return Obx(() {
+                        return InkWell(
+                            onTap: () async {
+                              if (formKey.currentState!.validate()) {
+                                await editController.updateProfile(
+                                    name: fullNameController.text,
+                                    email: emailController.text,
+                                    phone: phoneController.text,
+                                    address: addressController.text);
+                              }
+
+                              if (editController.isUpdated.value == true) {
+                                debugPrint(
+                                    "=============================================isupdated${editController.isUpdated}");
+                                fullNameController.clear();
+                                emailController.clear();
+                                phoneController.clear();
+                                addressController.clear();
+                                value.getProfileData();
+                                editController.isUpdated.value = false;
+                                Get.back();
+                              }
+                            },
+                            child: commonButton("Submit",
+                                isLoading: editController.isLoading.value));
+                      });
                     },
-                    child: Obx(() {
-                      return commonButton("Submit",
-                          isLoading: editController.isLoading.value);
-                    }),
                   ),
                   const SizedBox(height: 10),
                 ],

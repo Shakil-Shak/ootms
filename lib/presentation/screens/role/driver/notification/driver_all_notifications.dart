@@ -1,7 +1,11 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/helpers/other_helper.dart';
+import 'package:ootms/presentation/api/controllers/common/notification_controller.dart';
+import 'package:ootms/presentation/api/models/notification_model.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 
 import 'package:ootms/presentation/components/common_text.dart';
@@ -9,8 +13,17 @@ import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_map2.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request_details.dart';
+import 'package:ootms/presentation/screens/role/user/notification/notification_details.dart';
 
-class DriverAllNotificationsPage extends StatelessWidget {
+class DriverAllNotificationsPage extends StatefulWidget {
+
+  DriverAllNotificationsPage({super.key});
+
+  @override
+  State<DriverAllNotificationsPage> createState() => _DriverAllNotificationsPageState();
+}
+
+class _DriverAllNotificationsPageState extends State<DriverAllNotificationsPage> {
   final List<Map<String, dynamic>> loadRequests = [
     {
       'title': 'You have a load request.',
@@ -35,9 +48,8 @@ class DriverAllNotificationsPage extends StatelessWidget {
   ];
 
   int rating = 4;
-  final TextEditingController commentController = TextEditingController();
 
-  DriverAllNotificationsPage({super.key});
+  final TextEditingController commentController = TextEditingController();
 
   void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -190,6 +202,17 @@ class DriverAllNotificationsPage extends StatelessWidget {
     );
   }
 
+  NotificationController notificationController = Get.find<NotificationController>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    Future.microtask(() {
+     notificationController.getNotificationList();
+     notificationController.handleScrollController();
+    },);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -203,42 +226,57 @@ class DriverAllNotificationsPage extends StatelessWidget {
           },
         ),
       ),
-      body: (loadRequests.isEmpty)
-          ? const DriverEmptyNotificationPage()
-          : ListView.separated(
-              separatorBuilder: (context, index) => const SizedBox(
-                height: 4,
+      body: GetBuilder<NotificationController>(builder: (controller) {
+        return controller.isLoading? const Center(child: CircularProgressIndicator())
+            : controller.notificationList.isEmpty
+            ? const DriverEmptyNotificationPage()
+            : ListView.separated(
+          separatorBuilder: (context, index) => const SizedBox(
+            height: 4,
+          ),
+          controller: controller.scrollController,
+          itemCount: controller.notificationList.length + 1,
+          itemBuilder: (context, index) {
+            if (index == controller.notificationList.length) {
+              return controller.isMoreLoading
+                  ? const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Center(child: CircularProgressIndicator()),
+              )
+                  : const SizedBox.shrink();
+            }
+            NotificationModel notificationItem = controller.notificationList[index];
+            return ListTile(
+              tileColor: notificationItem.isRead
+                  ? AppColor.primaryColorLight
+                  : Colors.transparent,
+              leading: Image.asset(
+                "assets/icons/user home page/notify.png",
               ),
-              itemCount: loadRequests.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  tileColor: (loadRequests[index]['read'] == false)
-                      ? AppColor.primaryColorLight
-                      : Colors.transparent,
-                  leading: Image.asset(
-                    "assets/icons/user home page/notify.png",
-                  ),
-                  title: commonText(loadRequests[index]['title'], size: 16),
-                  subtitle: commonText(loadRequests[index]['time'], size: 14),
-                  onTap: () {
-                    if (index == 1) {
-                      animetedNavigationPush(const DriverMap2Page(), context);
-                    } else {
-                      animetedNavigationPush(
-                          DriverLoadRequestDetailsPage(), context);
-                    }
+              title: commonText(notificationItem.message, size: 16),
+              subtitle: commonText(OtherHelper.getTimeDifference(notificationItem.createdAt), size: 14),
+              onTap: () {
+                controller.changeNotificationStatus(notificationId: notificationItem.id, index: index);
+                if (notificationItem.type == "map") {
+                  animetedNavigationPush(const DriverMap2Page(), context);
+                } else {
+                  DriverLoadRequestDetailsPage.loadId = notificationItem.linkId;
+                  animetedNavigationPush(NotificationDetails(), context);
+                }
 
-                    // _showBottomSheet(context);
-                  },
-                );
+                // _showBottomSheet(context);
               },
-            ),
+            );
+          },
+        );
+      },)
     );
   }
 }
 
 class DriverEmptyNotificationPage extends StatelessWidget {
   const DriverEmptyNotificationPage({super.key});
+
 
   @override
   Widget build(BuildContext context) {

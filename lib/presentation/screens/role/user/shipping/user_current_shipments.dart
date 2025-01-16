@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
@@ -203,251 +204,318 @@ class UserCurrentShipmentsPage extends StatelessWidget {
         ),
         body: Consumer<ProfileController>(
           builder: (context, controller, child) {
-            return Column(
+            return Stack(
               children: [
-                Container(
-                  height: 50,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  padding: const EdgeInsets.only(left: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        spreadRadius: 2,
-                        blurRadius: 6,
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      // Truck icon
-                      const Icon(Icons.local_shipping, color: Colors.blue),
-                      const SizedBox(width: 10),
-
-                      // Input field
-                      const Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Enter bill of lading number',
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: FittedBox(
-                          child: commonButton(
-                            "Track",
-                            width: 120,
-                            onTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                backgroundColor: Colors.white,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(20)),
+                controller.isCurrentShip == false &&
+                        controller.currentShipData.isEmpty
+                    ? SizedBox(
+                        height: Get.height,
+                        child: Center(
+                            child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "assets/images/empty.png",
+                              height: 80,
+                              width: 80,
+                            ),
+                            commonText("No Current Shipment Found",
+                                color: AppColor.black, size: 12),
+                            const SizedBox(
+                              height: 20,
+                            )
+                          ],
+                        )),
+                      )
+                    : Column(
+                        children: [
+                          Container(
+                            height: 50,
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 10),
+                            padding: const EdgeInsets.only(left: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  spreadRadius: 2,
+                                  blurRadius: 6,
                                 ),
-                                builder: (context) {
-                                  return DraggableScrollableSheet(
-                                    initialChildSize: 0.8,
-                                    expand: false,
-                                    builder: (context, scrollController) {
-                                      return Container(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width, // Full width
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.9, // 70% of screen height
-                                        padding: const EdgeInsets.all(16.0),
-                                        decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(20)),
-                                        ),
-                                        child: SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              commonText("Shipping Details",
-                                                  size: 16, isBold: true),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              loadDetailsCard(),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  commonText("Live tracking",
-                                                      size: 18, isBold: true),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      Navigator.pop(context);
-                                                      animetedNavigationPush(
-                                                          const UserMap2Page(),
-                                                          context);
-                                                    },
-                                                    child: Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8),
-                                                          border: Border.all(
-                                                              width: 1)),
-                                                      child: commonText(
-                                                          "Track on map",
-                                                          color:
-                                                              AppColor.black),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                // Truck icon
+                                const Icon(Icons.local_shipping,
+                                    color: Colors.blue),
+                                const SizedBox(width: 10),
+
+                                // Input field
+                                const Expanded(
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: 'Enter bill of lading number',
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+
+                                Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: FittedBox(
+                                    child: commonButton(
+                                      "Track",
+                                      width: 120,
+                                      onTap: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.white,
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.vertical(
+                                                top: Radius.circular(20)),
+                                          ),
+                                          builder: (context) {
+                                            return DraggableScrollableSheet(
+                                              initialChildSize: 0.8,
+                                              expand: false,
+                                              builder:
+                                                  (context, scrollController) {
+                                                return Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width, // Full width
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.9, // 70% of screen height
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.vertical(
+                                                            top:
+                                                                Radius.circular(
+                                                                    20)),
+                                                  ),
+                                                  child: SingleChildScrollView(
+                                                    controller:
+                                                        scrollController,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        commonText(
+                                                            "Shipping Details",
+                                                            size: 16,
+                                                            isBold: true),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        loadDetailsCard(),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            commonText(
+                                                                "Live tracking",
+                                                                size: 18,
+                                                                isBold: true),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                                animetedNavigationPush(
+                                                                    const UserMap2Page(),
+                                                                    context);
+                                                              },
+                                                              child: Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        8.0),
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            8),
+                                                                    border: Border.all(
+                                                                        width:
+                                                                            1)),
+                                                                child: commonText(
+                                                                    "Track on map",
+                                                                    color: AppColor
+                                                                        .black),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Card(
+                                                          elevation: 5,
+                                                          color: AppColor.white,
+                                                          child: SizedBox(
+                                                            height: 240,
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                commonText(
+                                                                    "Map",
+                                                                    size: 24,
+                                                                    isBold:
+                                                                        true),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
                                                     ),
                                                   ),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              Card(
-                                                elevation: 5,
-                                                color: AppColor.white,
-                                                child: SizedBox(
-                                                  height: 240,
+                                                );
+                                              },
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: ListView.separated(
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                height: 16,
+                              ),
+                              padding: const EdgeInsets.all(16.0),
+                              itemCount: controller.currentShipData.length,
+                              itemBuilder: (context, index) {
+                                var data = controller.currentShipData[index];
+
+                                return InkWell(
+                                  onTap: () {
+                                    animetedNavigationPush(
+                                        UserCurrentShipmentDetailsPage(
+                                          shipmentDetails: data,
+                                        ),
+                                        context);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                          height: 60,
+                                          width: 60,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.grey,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: CommonImage(
+                                            imageSrc: ApiPaths.baseUrl +
+                                                data.driver.image,
+                                            imageType: ImageType.network,
+                                            fill: BoxFit.cover,
+                                            size: 40,
+                                            borderRadius: 100,
+                                          )),
+                                      const SizedBox(width: 16),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            commonText(data.driver.fullName,
+                                                size: 16, isBold: true),
+                                            const SizedBox(
+                                              height: 4,
+                                            ),
+                                            commonText(
+                                                "${data.load.trailerSize} foot trailer - ${data.load.palletSpace} Pallets.",
+                                                size: 14),
+                                            const SizedBox(
+                                              height: 4,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Expanded(
                                                   child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
                                                     children: [
-                                                      commonText("Map",
-                                                          size: 24,
-                                                          isBold: true),
+                                                      Image.asset(
+                                                        "assets/icons/arrow_up.png",
+                                                      ),
+                                                      const SizedBox(width: 4),
+                                                      SizedBox(
+                                                          width: 100,
+                                                          child: commonText(
+                                                            maxLines: 1,
+                                                            data.load
+                                                                .shippingAddress,
+                                                          )),
                                                     ],
                                                   ),
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 16,
-                    ),
-                    padding: const EdgeInsets.all(16.0),
-                    itemCount: controller.currentShipData.length,
-                    itemBuilder: (context, index) {
-                      final request = loadRequests[index];
-                      var data = controller.currentShipData[index];
-
-                      return InkWell(
-                        onTap: () {
-                          animetedNavigationPush(
-                               UserCurrentShipmentDetailsPage(shipmentDetails:data,), context);
-                        },
-                        child: Row(
-                          children: [
-                            Container(
-                                height: 60,
-                                width: 60,
-                                decoration: const BoxDecoration(
-                                  color: Colors.grey,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: CommonImage(
-                                  imageSrc:
-                                      ApiPaths.baseUrl + data.driver.image,
-                                  imageType: ImageType.network,
-                                  fill: BoxFit.cover,
-                                  size: 40,
-                                  borderRadius: 100,
-                                )),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  commonText(data.driver.fullName,
-                                      size: 16, isBold: true),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  commonText("${data.load.trailerSize} foot trailer - ${data.load.palletSpace} Pallets.",
-                                      size: 14),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Image.asset(
-                                              "assets/icons/arrow_up.png",
-                                            ),
-                                            const SizedBox(width: 4),
-                                            SizedBox(
-                                                width: 100,
-                                                child: commonText(
-                                                  maxLines: 1,
-                                                  data.load.shippingAddress,
-                                                )),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Transform.rotate(
-                                                angle: pi,
-                                                child: Image.asset(
-                                                    "assets/icons/arrow_up.png")),
-                                            const SizedBox(width: 4),
-                                            SizedBox(
-                                                width: 100,
-                                                child: commonText(
-                                                  maxLines: 1,
-                                                  data.load.receivingAddress,
-                                                )),
+                                                Expanded(
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Transform.rotate(
+                                                          angle: pi,
+                                                          child: Image.asset(
+                                                              "assets/icons/arrow_up.png")),
+                                                      const SizedBox(width: 4),
+                                                      SizedBox(
+                                                          width: 100,
+                                                          child: commonText(
+                                                            maxLines: 1,
+                                                            data.load
+                                                                .receivingAddress,
+                                                          )),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            )
                                           ],
                                         ),
                                       ),
                                     ],
-                                  )
-                                ],
-                              ),
+                                  ),
+                                );
+                              },
                             ),
-                          ],
-                        ),
-                      );
-                    },
+                          ),
+                        ],
+                      ),
+
+                // Loading overlay
+                if (controller.isCurrentShip)
+                  const Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            AppColor.primaryColor),
+                      ),
+                    ),
                   ),
-                ),
               ],
             );
           },

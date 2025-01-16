@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/assets/icons_string.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/common/bottom_nav_controller.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_home_page.dart';
 import 'package:ootms/presentation/screens/role/user/profile/user_profile.dart';
 import 'package:ootms/presentation/screens/role/user/user_create_load_option.dart';
-
 class UserRootPage extends StatefulWidget {
   const UserRootPage({super.key});
 
@@ -14,7 +15,7 @@ class UserRootPage extends StatefulWidget {
 }
 
 class _UserRootPageState extends State<UserRootPage> {
-  int _currentIndex = 0;
+  final BottomNavController controller = Get.put(BottomNavController());
 
   final iconList = [
     CircleAvatar(
@@ -28,25 +29,17 @@ class _UserRootPageState extends State<UserRootPage> {
         )),
     const CircleAvatar(
         backgroundColor: Colors.white,
-        child: Center(
-          child: Center(
-            child: Icon(
-              Icons.add,
-              color: AppColor.primaryColor,
-              size: 30,
-            ),
-          ),
+        child: Icon(
+          Icons.add,
+          color: AppColor.primaryColor,
+          size: 30,
         )),
     const CircleAvatar(
         backgroundColor: Colors.white,
-        child: Center(
-          child: Center(
-            child: Icon(
-              FontAwesomeIcons.user,
-              color: AppColor.primaryColor,
-              size: 22,
-            ),
-          ),
+        child: Icon(
+          FontAwesomeIcons.user,
+          color: AppColor.primaryColor,
+          size: 22,
         )),
   ];
 
@@ -64,38 +57,43 @@ class _UserRootPageState extends State<UserRootPage> {
 
   @override
   Widget build(BuildContext context) {
+  
     return SafeArea(
-      child: Scaffold(
-        body: Center(
-          child: _widgetOptions.elementAt(_currentIndex),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: AppColor.primaryColor,
-          currentIndex: _currentIndex,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white70,
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: iconList[0],
-              label: 'Home',
+      child: GetBuilder<BottomNavController>(
+        builder: (controller) {
+          print("================================================current index${controller.currentIndex}");
+          return Scaffold(
+            resizeToAvoidBottomInset: true,
+            body: Center(
+              child: _widgetOptions.elementAt(controller.currentIndex),
             ),
-            BottomNavigationBarItem(
-              icon: iconList[1],
-              label: 'Create Load',
+            bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: AppColor.primaryColor,
+              currentIndex: controller.currentIndex,
+              selectedItemColor: Colors.white,
+              unselectedItemColor: Colors.white70,
+              onTap: (index) {
+                controller.updateIndex(index);
+              },
+              items: [
+                BottomNavigationBarItem(
+                  icon: iconList[0],
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: iconList[1],
+                  label: 'Create Load',
+                ),
+                BottomNavigationBarItem(
+                  icon: iconList[2],
+                  label: 'Profile',
+                ),
+              ],
+              showSelectedLabels: true,
+              showUnselectedLabels: true,
             ),
-            BottomNavigationBarItem(
-              icon: iconList[2],
-              label: 'Profile',
-            ),
-          ],
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-        ),
+          );
+        },
       ),
     );
   }

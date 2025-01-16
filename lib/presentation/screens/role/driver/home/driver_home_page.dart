@@ -12,6 +12,8 @@ import 'package:ootms/presentation/screens/role/driver/profile/driver_profile.da
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_shipping_history.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
 
+import '../../user/home/user_support.dart';
+
 class DriverHomePage extends StatefulWidget {
   const DriverHomePage({super.key});
 
@@ -56,7 +58,9 @@ class _DriverHomePageState extends State<DriverHomePage> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 10),
@@ -215,7 +219,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
               ),
             ),
 
-            const SizedBox(height: 40), // For spacing after the header
+            // const SizedBox(height: 4), // For spacing after the header
 
             // Action Cards Section
             Padding(
@@ -259,7 +263,9 @@ class _DriverHomePageState extends State<DriverHomePage> {
                     label: 'Support',
                     description: 'Take direct support from here.',
                     onTap: () {
-                      animetedNavigationPush(DriverSupportPage(), context);
+                      // animetedNavigationPush(DriverSupportPage(), context);
+
+                      animetedNavigationPush(UserSupportPage(), context);
                     },
                   ),
                 ],

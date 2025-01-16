@@ -90,6 +90,7 @@ class CommonImage extends StatelessWidget {
           }
           return Image.asset(
             defaultImage,
+            color: Colors.grey,
           );
         },
       );
