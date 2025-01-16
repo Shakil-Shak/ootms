@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ootms/presentation/api/controllers/driver/find_load_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
@@ -14,6 +16,9 @@ class DriverFindLoadPage extends StatefulWidget {
 
 class _DriverFindLoadPageState extends State<DriverFindLoadPage>
     with SingleTickerProviderStateMixin {
+
+  FindLoadController findLoadController = Get.put(FindLoadController());
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
   final TextEditingController _trailercontroller = TextEditingController();
@@ -25,6 +30,7 @@ class _DriverFindLoadPageState extends State<DriverFindLoadPage>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: null,
           title: commonText("Find Load", size: 21, isBold: true),
           centerTitle: true,
         ),
@@ -76,13 +82,16 @@ class _DriverFindLoadPageState extends State<DriverFindLoadPage>
             ),
             const SizedBox(height: 16),
             // Next Button
-            commonButton(
-              "Find Shipment",
-              onTap: () {
-                setState(() {
-                  animetedNavigationPush(DriverMap3Page(), context);
-                });
-              },
+
+            Obx(() =>
+                commonButton(
+                  isLoading: findLoadController.isLoading.value,
+                  "Find Shipment",
+                  onTap: () async {
+                    await findLoadController.findNearestLoad();
+                    animetedNavigationPush(const DriverMap3Page(), context);
+                  },
+                )
             )
           ],
         ),

@@ -1,6 +1,7 @@
 class ApiPaths {
-  static const String baseUrl = 'http://10.0.70.37:8020';
+  static const String baseUrl = 'http://10.0.70.87:8020';
   static const String socketUrl = 'http://10.0.70.37:8020';
+
   static const String signinUrl = '$baseUrl/api/v1/auth/local';
   static const String signupUrl = '$baseUrl/api/v1/auth/sign-up';
   static const String verifyEmailUrl = '$baseUrl/api/v1/auth/verify-email';
@@ -30,4 +31,5 @@ class ApiPaths {
   static String notificationStatus = '$baseUrl/api/v1/notifications/read/';
   static String loadsDetails = '$baseUrl/api/v1/loads/';
   static String pendingShipment = '$baseUrl/api/v1/shipment/pending?page=';
+  static String nearestLoad = '$baseUrl/api/v1/loads/nearest_loads';
 }
