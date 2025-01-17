@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:custom_marker/marker_icon.dart';
@@ -10,6 +11,8 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:ootms/presentation/api/models/driver_model/nearest_load_model.dart';
+import 'package:ootms/presentation/screens/role/driver/find_load/find_load_method/find_load_modal_sheet.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
@@ -41,10 +44,10 @@ class CustomMapController extends GetxController {
   }
 
   void setTargetLocation(double lat, double lng) {
-    print("++++++++++ Set Target Location+++++++++");
+    log("++++++++++ Set Target Location+++++++++");
     targetLatitude.value = lat;
     targetLongitude.value = lng;
-    print("${targetLatitude.value}, ${targetLongitude.value}");
+    log("${targetLatitude.value}, ${targetLongitude.value}");
   }
 
   CameraPosition get initialCameraPosition => CameraPosition(
@@ -87,33 +90,34 @@ class CustomMapController extends GetxController {
 
 // Load custom truck icon
 
-  Future<BitmapDescriptor> _loadTruckIcon(BuildContext context) async {
+  Future<BitmapDescriptor> _loadTruckIcon(BuildContext context, iconPath) async {
     return await BitmapDescriptor.asset(
         ImageConfiguration(
             devicePixelRatio: MediaQuery.of(context).devicePixelRatio),
-        "assets/icons/truckIcon.png",
-        height: 70, width: 40
+        iconPath,
+        height: 40, width: 40
     );
   }
 
-  ///==================== Set
-  setMyLocationMarker(LatLng latLng, String placeId,) async {
-    final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!);
+  ///==================== Set Marker with Icon =================================
+  setLocationMarker(double latitude, double longitude, String placeId, String iconPath, NearestLoadModel loadItems) async {
+    final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath);
     Marker newMarker = Marker(
       onTap: () {
+        log("place id $placeId");
+        showLocationDetails(loadItems: loadItems);
       },
-      infoWindow: const InfoWindow(title: "My current location"),
+      infoWindow: InfoWindow(title: placeId),
       icon: customMarker,
       markerId: MarkerId(placeId), // Use a unique MarkerId for each marker
-      position: LatLng(latLng.latitude, latLng.longitude),
-      // rotation: calculateBearing(LatLng(latLng.latitude, latLng.longitude), LatLng(23.776176, 90.425674)),
+      position: LatLng(latitude, longitude),
     );
 
     marker.add(newMarker);
     update();
   }
-  setMarker(LatLng latLng, LatLng endLatLng, String placeId) async {
-    final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!);
+  setMarker(LatLng latLng, LatLng endLatLng, String placeId, String iconPath) async {
+    final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath);
     Marker newMarker = Marker(
       onTap: () {
       },
@@ -160,11 +164,11 @@ class CustomMapController extends GetxController {
 
     var response = await http.get(Uri.parse(request));
 
-    print(response.body.toString());
+    log(response.body.toString());
     if (response.statusCode == 200) {
       placesList.value = jsonDecode(response.body.toString())['predictions'];
     } else {
-      print("--------------------- Error -------------------");
+      log("--------------------- Error -------------------");
       throw Exception('Failed to load data');
     }
   }
@@ -175,17 +179,17 @@ class CustomMapController extends GetxController {
     List inputDataList = searchText.value.text.split(',');
 
     double? doubleValue = double.tryParse(inputDataList.first);
-    print("+++++++++++++++++++++${searchText.value}++++++++++++++++++++");
+    log("+++++++++++++++++++++${searchText.value}++++++++++++++++++++");
 
     if (doubleValue != null) {
       placeAddress = await placemarkFromCoordinates(
           double.parse(inputDataList.first), double.parse(inputDataList.last));
       searchedCoOrdinates.addAll(inputDataList);
-      print("Coordinate to locations:...........................${placeAddress.first}");
+      log("Coordinate to locations:...........................${placeAddress.first}");
     } else {
       locationCoOrdinates = await locationFromAddress(searchText.value.text);
       searchedCoOrdinates.addAll(locationCoOrdinates);
-      print("Locations to Coordinates:...............${locationCoOrdinates.first}..............${locationCoOrdinates.last}");
+      log("Locations to Coordinates:...............${locationCoOrdinates.first}..............${locationCoOrdinates.last}");
     }
     targetLatitude.value = searchedCoOrdinates.first;
     targetLongitude.value = searchedCoOrdinates.last;
@@ -208,7 +212,7 @@ class CustomMapController extends GetxController {
     await Geolocator.requestPermission()
         .then((value) {})
         .onError((error, stackTrace) {
-      print("Error ${error.toString()}");
+      log("Error ${error.toString()}");
     });
     return await Geolocator.getCurrentPosition();
   }
@@ -216,13 +220,14 @@ class CustomMapController extends GetxController {
   getCurrentLocation() {
     getUserCurrentLocation().then((value) async {
       updateLocation(value.latitude, value.longitude);
-      print(value.floor);
-      print('My current location');
-      print(
+      log("${value.floor}");
+      log('My current location');
+      log(
           "My Current Location:^^^^^^^^^^^^^^^^^^${value.latitude}, ${value.longitude}");
 
       List<Placemark> placemarks = await placemarkFromCoordinates(value.latitude, value.longitude);
-      print("Placemarks: ============>>>>$placemarks");
+      log("Placemarks: ============>>>>$placemarks");
+
       marker.add(Marker(
           markerId: MarkerId("My location"),
           position: LatLng(value.latitude, value.longitude),

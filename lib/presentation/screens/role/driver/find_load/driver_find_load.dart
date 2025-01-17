@@ -27,6 +27,13 @@ class _DriverFindLoadPageState extends State<DriverFindLoadPage>
   final TextEditingController _availabilityController = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(

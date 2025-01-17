@@ -29,7 +29,7 @@ class NearestLoadModel {
   DateTime deliveryDate;
   String billOfLading;
   String deliveryInstruction;
-  Location location;
+  LoadLocation location;
   num distance;
   DateTime createdAt;
   DateTime updatedAt;
@@ -64,13 +64,13 @@ class NearestLoadModel {
     DateTime? deliveryDate,
     this.billOfLading = "",
     this.deliveryInstruction = "",
-    Location? location,
+    LoadLocation? location,
     this.distance = 0,
     DateTime? createdAt,
     DateTime? updatedAt,
   })  : pickupDate = pickupDate ?? DateTime.now(),
         deliveryDate = deliveryDate ?? DateTime.now(),
-        location = location ?? Location(),
+        location = location ?? LoadLocation(),
         createdAt = createdAt ?? DateTime.now(),
         updatedAt = updatedAt ?? DateTime.now();
 
@@ -107,7 +107,7 @@ class NearestLoadModel {
       deliveryDate: DateTime.tryParse(json['deliveryDate'] ?? '') ?? DateTime.now(),
       billOfLading: json['billOfLading'] ?? "",
       deliveryInstruction: json['deliveryInstruction'] ?? "",
-      location: Location.fromJson(json['location'] ?? {}),
+      location: LoadLocation.fromJson(json['location'] ?? {}),
       distance: json['distance'] ?? 0,
       createdAt: DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
       updatedAt: DateTime.tryParse(json['updatedAt'] ?? '') ?? DateTime.now(),
@@ -115,17 +115,17 @@ class NearestLoadModel {
   }
 }
 
-class Location {
+class LoadLocation {
   String type;
   List<num> coordinates;
 
-  Location({
+  LoadLocation({
     this.type = "Pikachu",
     this.coordinates = const [0.0, 0.0],
   });
 
-  factory Location.fromJson(Map<String, dynamic> json) {
-    return Location(
+  factory LoadLocation.fromJson(Map<String, dynamic> json) {
+    return LoadLocation(
       type: json['type'] ?? "Pikachu",
       coordinates: List<num>.from(json['coordinates'] ?? [0.0, 0.0]),
     );
