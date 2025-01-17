@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ootms/presentation/api/controllers/driver/google_map_controller.dart';
@@ -15,6 +16,13 @@ class FindLoadController extends GetxController {
   List nearestLoadList = [];
   RxBool isLoading = false.obs;
 
+  TextEditingController nameController = TextEditingController();
+  TextEditingController numberController = TextEditingController();
+  TextEditingController trailercontroller = TextEditingController();
+  TextEditingController palletSpacesController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+  TextEditingController availabilityController = TextEditingController();
+
   Future<void> findNearestLoad() async {
     nearestLoadList.clear();
     isLoading.value = true;
@@ -25,11 +33,11 @@ class FindLoadController extends GetxController {
     Map<String, dynamic> body = {
       // "driverName": "",
       // "truckNumber": "",
-      "trailerSize": 50,
-      "palletSpace": 30,
+      "trailerSize": int.parse(trailercontroller.text),
+      "palletSpace": int.parse(palletSpacesController.text),
       "location": [
-        90.42394897253224, // longitute
-        23.769075184598087 // lattitute
+        CustomMapController.instance.currentLongitude.value, // longitute
+        CustomMapController.instance.currentLatitude.value // lattitute
       ]
     };
 

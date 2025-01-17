@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ootms/presentation/api/models/driver_model/nearest_load_model.dart';
 import 'package:ootms/presentation/screens/role/driver/find_load/find_load_method/find_load_modal_sheet.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
@@ -35,6 +36,10 @@ class CustomMapController extends GetxController {
   RxList<Marker> marker = <Marker>[].obs;
   List<Placemark> placeAddress = [];
   List<Location> locationCoOrdinates = [];
+
+  RxString userCurrentLocation = "".obs;
+  RxDouble currentLatitude = 0.0.obs;
+  RxDouble currentLongitude = 0.0.obs;
 
   double _truckBearing = 180; // Example bearing in degrees
 
@@ -209,11 +214,16 @@ class CustomMapController extends GetxController {
   }
 
   Future<Position> getUserCurrentLocation() async {
-    await Geolocator.requestPermission()
-        .then((value) {})
-        .onError((error, stackTrace) {
-      log("Error ${error.toString()}");
-    });
+    PermissionStatus status = await Permission.location.status;
+    if (status.isGranted) {
+      print("Permission is granted");
+    } else {
+      await Geolocator.requestPermission()
+          .then((value) {})
+          .onError((error, stackTrace) {
+        log("Error ${error.toString()}");
+      });
+    }
     return await Geolocator.getCurrentPosition();
   }
 
@@ -222,18 +232,20 @@ class CustomMapController extends GetxController {
       updateLocation(value.latitude, value.longitude);
       log("${value.floor}");
       log('My current location');
-      log(
-          "My Current Location:^^^^^^^^^^^^^^^^^^${value.latitude}, ${value.longitude}");
+      log("My Current Location:^^^^${value.latitude}, ${value.longitude}");
 
       List<Placemark> placemarks = await placemarkFromCoordinates(value.latitude, value.longitude);
       log("Placemarks: ============>>>>$placemarks");
-
-      marker.add(Marker(
-          markerId: MarkerId("My location"),
-          position: LatLng(value.latitude, value.longitude),
-          infoWindow: const InfoWindow(title: 'My current location')));
-      final GoogleMapController controller = await googleMapController.future;
-      await controller.animateCamera(CameraUpdate.newCameraPosition(kRandom));
+      currentLatitude.value = value.latitude;
+      currentLongitude.value = value.longitude;
+      userCurrentLocation.value = "${placemarks.first.street}, ${placemarks.first.name}, ${placemarks.first.locality}, ${placemarks.first.country}";
+      return userCurrentLocation.value;
+      // marker.add(Marker(
+      //     markerId: MarkerId("My location"),
+      //     position: LatLng(value.latitude, value.longitude),
+      //     infoWindow: const InfoWindow(title: 'My current location')));
+      // final GoogleMapController controller = await googleMapController.future;
+      // await controller.animateCamera(CameraUpdate.newCameraPosition(kRandom));
     });
   }
 }

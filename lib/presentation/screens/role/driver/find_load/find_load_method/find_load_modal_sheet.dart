@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ootms/helpers/other_helper.dart';
 import 'package:ootms/presentation/api/models/driver_model/nearest_load_model.dart';
+import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 
@@ -154,9 +155,9 @@ void showLocationDetails({required NearestLoadModel loadItems}) {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           backgroundImage: NetworkImage(
-                            'https://i.pravatar.cc/100',
+                            '${ApiPaths.baseUrl}${loadItems.user.userImage}',
                           ),
                           radius: 24,
                         ),

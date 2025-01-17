@@ -71,7 +71,7 @@ class ProfileController extends ChangeNotifier {
       // });
     });
 
-    return "";
+    return currentLocation;
   }
   Future<void> postSupport(
       {required String title,

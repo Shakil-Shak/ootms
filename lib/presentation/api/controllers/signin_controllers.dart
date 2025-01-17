@@ -45,8 +45,6 @@ class SignInPageController extends ChangeNotifier {
         
           saveUserAcessDetails(signInModel.data.accessToken, role);
 
-
-
         _isLoading = false;
         notifyListeners();
         return signInModel;

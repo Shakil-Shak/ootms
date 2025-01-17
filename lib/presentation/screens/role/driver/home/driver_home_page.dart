@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/driver/google_map_controller.dart';
+import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/find_load/driver_find_load.dart';
@@ -11,6 +14,7 @@ import 'package:ootms/presentation/screens/role/driver/notification/driver_all_n
 import 'package:ootms/presentation/screens/role/driver/profile/driver_profile.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_shipping_history.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
+import 'package:provider/provider.dart';
 
 class DriverHomePage extends StatefulWidget {
   const DriverHomePage({super.key});
@@ -20,10 +24,20 @@ class DriverHomePage extends StatefulWidget {
 }
 
 class _DriverHomePageState extends State<DriverHomePage> {
+
+  CustomMapController customMapController = Get.find<CustomMapController>();
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool switchValue = true;
   String duty = "On-Duty";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    customMapController.getCurrentLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +67,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                               Colors.black38, BlendMode.multiply)),
                     ),
                   ),
-                  Column(
+                  Obx(() => Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const SizedBox(height: 20,),
@@ -144,10 +158,12 @@ class _DriverHomePageState extends State<DriverHomePage> {
                                     const SizedBox(
                                       width: 8,
                                     ),
-                                    commonText(
-                                        "36 East 8th Street, New York,\nNY 10003, United States.",
-                                        size: 16,
-                                        color: AppColor.white)
+                                    Expanded(
+                                      child: commonText(
+                                          customMapController.userCurrentLocation.value,
+                                          size: 16,
+                                          color: AppColor.white),
+                                    )
                                   ],
                                 ),
                               ),
@@ -210,7 +226,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                       // ),
                       // const SizedBox(),
                     ],
-                  )
+                  ))
                 ],
               ),
             ),
