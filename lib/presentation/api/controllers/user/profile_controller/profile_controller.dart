@@ -28,9 +28,9 @@ class ProfileController extends ChangeNotifier {
 
   ///=============>>> Find current location<<<==================
   String currentLocation = "";
+
   Future<String> getCurrentLocation() async {
     bool serviceEnabled;
-
 
     // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -73,6 +73,7 @@ class ProfileController extends ChangeNotifier {
 
     return currentLocation;
   }
+
   Future<void> postSupport(
       {required String title,
       required String content,
