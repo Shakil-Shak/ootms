@@ -60,7 +60,7 @@ class _UserProfileState extends State<UserProfile> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
                     children: [
-                      controller.profileData.image!.isNotEmpty
+                      controller.profileData.image.isNotEmpty
                           ? CommonImage(
                               imageSrc: ApiPaths.baseUrl +
                                   controller.profileData.image!,

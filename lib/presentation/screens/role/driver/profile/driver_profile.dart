@@ -1,9 +1,11 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/assets/icons_string.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/main.dart';
+import 'package:ootms/presentation/api/controllers/Driver/driver_profile_controller/driver_profile_controller.dart';
 import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -20,7 +22,6 @@ import '../../../../api/url_paths.dart';
 import '../../../../components/common_image.dart';
 import '../../user/home/user_support.dart';
 import '../../user/profile/user_profile.dart';
-import '../../user/shipping/user_load_request.dart';
 
 class DriverProfile extends StatefulWidget {
   const DriverProfile({super.key});
@@ -30,19 +31,21 @@ class DriverProfile extends StatefulWidget {
 }
 
 class _DriverProfileState extends State<DriverProfile> {
-  @override
-  void initState() {
-    super.initState();
+  DriverProfileController profileCtl = Get.find<DriverProfileController>();
 
-    Future.microtask(() {
-      final profileController =
-          Provider.of<ProfileController>(context, listen: false);
-      profileController.getProfileData();
-    });
-  }
+  // void initState() {
+  //   super.initState();
+
+  //   Future.microtask(() {
+  //     final profileController =
+  //         Provider.of<ProfileController>(context, listen: false);
+  //     profileController.getProfileData();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
+    profileCtl.getProfileData();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -55,17 +58,16 @@ class _DriverProfileState extends State<DriverProfile> {
         builder: (context, controller, child) {
           return Stack(
             children: [
-              // Scrollable content
               SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
                     children: [
                       const SizedBox(height: 20),
-                      controller.profileData.image?.isNotEmpty ?? false
+                      profileCtl.profileData.userDetails!.image.isNotEmpty
                           ? CommonImage(
                               imageSrc: ApiPaths.baseUrl +
-                                  controller.profileData.image,
+                                  profileCtl.profileData.userDetails!.image,
                               imageType: ImageType.network,
                               size: 100,
                               borderRadius: 100,
@@ -89,9 +91,9 @@ class _DriverProfileState extends State<DriverProfile> {
                               ),
                             ),
                       const SizedBox(height: 10),
-                      commonText(controller.profileData.fullName,
+                      commonText(profileCtl.profileData.userDetails!.fullName,
                           size: 18, isBold: true),
-                      commonText(controller.profileData.email),
+                      commonText(profileCtl.profileData.userDetails!.email),
                       const SizedBox(height: 10),
                       // Profile Menu Options
                       Container(
@@ -148,12 +150,13 @@ class _DriverProfileState extends State<DriverProfile> {
         onTap: () {
           animetedNavigationPush(
               DriverEditProfile(
-                imagePath: controller.profileData.image,
-                title: controller.profileData.fullName,
-                email: controller.profileData.email,
-                contact: controller.profileData.phoneNumber,
-                address: controller.profileData.address,
+                imagePath: profileCtl.profileData.userDetails!.image,
+                title: profileCtl.profileData.userDetails!.fullName,
+                email: profileCtl.profileData.userDetails!.email,
+                contact: profileCtl.profileData.userDetails!.phoneNumber,
+                address: profileCtl.profileData.userDetails!.address,
                 country: "USA",
+                cdlNumber: profileCtl.profileData.truckDetails![2].toString(),
               ),
               context);
         },
