@@ -28,6 +28,7 @@ class ProfileController extends ChangeNotifier {
 
   ///=============>>> Find current location<<<==================
   String currentLocation = "";
+
   Future<String> getCurrentLocation() async {
     bool serviceEnabled;
 
@@ -71,7 +72,7 @@ class ProfileController extends ChangeNotifier {
       // });
     });
 
-    return "";
+    return currentLocation;
   }
 
   Future<void> postSupport(

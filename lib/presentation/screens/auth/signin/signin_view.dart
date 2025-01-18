@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/common/facebook_auth_controller.dart';
 import 'package:ootms/presentation/api/controllers/common/signin_controllers.dart';
+import 'package:ootms/presentation/api/controllers/common/google_auth_controller.dart';
 import 'package:ootms/presentation/api/sharePrefarences/login_tokan.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_loading.dart';
@@ -23,6 +25,9 @@ class SignInPage extends StatelessWidget {
   final bool user;
 
   SignInPage({super.key, required this.user});
+
+  final GoogleAuth _googleAuth = GoogleAuth();
+  final FacebookAuthController _facebookAuth = FacebookAuthController();
 
   @override
   Widget build(BuildContext context) {
@@ -201,11 +206,18 @@ class SignInPage extends StatelessWidget {
                             border:
                                 Border.all(width: 1, color: AppColor.black)),
                         child: commonIconButton(
-                            "Sign In With Google",
-                            isBold: false,
-                            Image.asset("assets/icons/devicon_google.png"),
-                            color: Colors.transparent,
-                            textColor: AppColor.black),
+                          "Sign In With Google",
+                          isBold: false,
+                          Image.asset("assets/icons/devicon_google.png"),
+                          color: Colors.transparent,
+                          textColor: AppColor.black,
+                          onTap: () async {
+                            var user = await _googleAuth.signIn();
+                            if (user != null) {
+                              print('Signed in with Google: ${user.email}');
+                            }
+                          },
+                        ),
                       ),
                       const SizedBox(height: 20),
                       Container(
@@ -220,6 +232,13 @@ class SignInPage extends StatelessWidget {
                           isBold: false,
                           color: Colors.transparent,
                           textColor: AppColor.black,
+                          onTap: () async {
+                            var userData = await _facebookAuth.signIn();
+                            if (userData != null) {
+                              print(
+                                  'Signed in with Facebook: ${userData['name']}');
+                            }
+                          },
                         ),
                       ),
                       const SizedBox(height: 20),

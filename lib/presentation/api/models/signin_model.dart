@@ -75,7 +75,7 @@ class Attributes {
   final String role;
   final String createdAt;
   final String updatedAt;
-  final int version;
+  final num version;
 
   Attributes({
     required this.id,

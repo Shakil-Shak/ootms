@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/Driver/google_map_controller.dart';
+import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/find_load/driver_find_load.dart';
@@ -11,6 +14,7 @@ import 'package:ootms/presentation/screens/role/driver/notification/driver_all_n
 import 'package:ootms/presentation/screens/role/driver/profile/driver_profile.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_shipping_history.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
+import 'package:provider/provider.dart';
 
 import '../../user/home/user_support.dart';
 
@@ -22,10 +26,19 @@ class DriverHomePage extends StatefulWidget {
 }
 
 class _DriverHomePageState extends State<DriverHomePage> {
+  CustomMapController customMapController = Get.find<CustomMapController>();
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool switchValue = true;
   String duty = "On-Duty";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    customMapController.getCurrentLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,166 +68,169 @@ class _DriverHomePageState extends State<DriverHomePage> {
                               Colors.black38, BlendMode.multiply)),
                     ),
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: AppColor.white,
-                                  borderRadius: BorderRadius.circular(8)),
-                              child: IconButton(
-                                icon: const Icon(Icons.menu,
-                                    size: 28, color: Colors.black),
-                                onPressed: () {
-                                  _scaffoldKey.currentState!.openDrawer();
-                                },
-                              ),
-                            ),
-                            const Spacer(),
-                            // Notification bell
-                            // Image.asset(
-                            //     "assets/icons/user home page/notify.png"),
-                            commonText(duty, color: Colors.white, size: 16),
-                            const SizedBox(width: 10),
-                            Switch(
-                              value: switchValue,
-                              onChanged: (value) {
-                                setState(() {
-                                  switchValue = value;
-                                  switchValue == true
-                                      ? duty = "On-Duty"
-                                      : duty = "Off-Duty";
-                                });
-                              },
-                              activeTrackColor: Colors.green[300],
-                              activeColor: Colors.white,
-                              inactiveTrackColor: Colors.grey[300],
-                            ),
-                            const SizedBox(width: 10),
-                            InkWell(
-                              onTap: () {
-                                animetedNavigationPush(
-                                    DriverAllNotificationsPage(), context);
-                              },
-                              child: const FaIcon(
-                                FontAwesomeIcons.solidBell,
-                                color: Color.fromRGBO(255, 206, 49, 1),
-                                size: 30,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            // Profile avatar
-                            InkWell(
-                              onTap: () {
-                                animetedNavigationPush(
-                                    const DriverProfile(), context);
-                              },
-                              child: const CircleAvatar(
-                                backgroundColor: AppColor.black,
-                                backgroundImage: AssetImage(
-                                    'assets/icons/profile_icon_2.png'),
-                                radius: 18,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 10.0),
-                        child: InkWell(
-                          onTap: () {
-                            animetedNavigationPush(
-                                const DriverSetLocationPage(), context);
-                          },
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.location_on,
-                                      color: AppColor.white,
-                                    ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                    commonText(
-                                        "36 East 8th Street, New York,\nNY 10003, United States.",
-                                        size: 16,
-                                        color: AppColor.white)
-                                  ],
-                                ),
-                              ),
-                              const Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                color: AppColor.white,
-                              )
-                            ],
+                  Obx(() => Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const SizedBox(
+                            height: 20,
                           ),
-                        ),
-                      ),
-                      // Center(
-                      //   child: commonText("Track Your Shipment",
-                      //       size: 22, isBold: true, color: AppColor.white),
-                      // ),
-                      // Container(
-                      //   height: 50,
-                      //   margin: const EdgeInsets.symmetric(
-                      //       horizontal: 16, vertical: 10),
-                      //   padding: const EdgeInsets.only(left: 8),
-                      //   decoration: BoxDecoration(
-                      //     color: Colors.white,
-                      //     borderRadius: BorderRadius.circular(12),
-                      //     boxShadow: [
-                      //       BoxShadow(
-                      //         color: Colors.black.withOpacity(0.1),
-                      //         spreadRadius: 2,
-                      //         blurRadius: 6,
-                      //       ),
-                      //     ],
-                      //   ),
-                      //   child: Row(
-                      //     children: [
-                      //       // Truck icon
-                      //       const Icon(Icons.local_shipping,
-                      //           color: Colors.blue),
-                      //       const SizedBox(width: 10),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: AppColor.white,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: IconButton(
+                                    icon: const Icon(Icons.menu,
+                                        size: 28, color: Colors.black),
+                                    onPressed: () {
+                                      _scaffoldKey.currentState!.openDrawer();
+                                    },
+                                  ),
+                                ),
+                                const Spacer(),
+                                // Notification bell
+                                // Image.asset(
+                                //     "assets/icons/user home page/notify.png"),
+                                commonText(duty, color: Colors.white, size: 16),
+                                const SizedBox(width: 10),
+                                Switch(
+                                  value: switchValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      switchValue = value;
+                                      switchValue == true
+                                          ? duty = "On-Duty"
+                                          : duty = "Off-Duty";
+                                    });
+                                  },
+                                  activeTrackColor: Colors.green[300],
+                                  activeColor: Colors.white,
+                                  inactiveTrackColor: Colors.grey[300],
+                                ),
+                                const SizedBox(width: 10),
+                                InkWell(
+                                  onTap: () {
+                                    animetedNavigationPush(
+                                        DriverAllNotificationsPage(), context);
+                                  },
+                                  child: const FaIcon(
+                                    FontAwesomeIcons.solidBell,
+                                    color: Color.fromRGBO(255, 206, 49, 1),
+                                    size: 30,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                // Profile avatar
+                                InkWell(
+                                  onTap: () {
+                                    animetedNavigationPush(
+                                        const DriverProfile(), context);
+                                  },
+                                  child: const CircleAvatar(
+                                    backgroundColor: AppColor.black,
+                                    backgroundImage: AssetImage(
+                                        'assets/icons/profile_icon_2.png'),
+                                    radius: 18,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0),
+                            child: InkWell(
+                              onTap: () {
+                                animetedNavigationPush(
+                                    const DriverSetLocationPage(), context);
+                              },
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.location_on,
+                                          color: AppColor.white,
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Expanded(
+                                          child: commonText(
+                                              customMapController
+                                                  .userCurrentLocation.value,
+                                              size: 16,
+                                              color: AppColor.white),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  const Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    color: AppColor.white,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          // Center(
+                          //   child: commonText("Track Your Shipment",
+                          //       size: 22, isBold: true, color: AppColor.white),
+                          // ),
+                          // Container(
+                          //   height: 50,
+                          //   margin: const EdgeInsets.symmetric(
+                          //       horizontal: 16, vertical: 10),
+                          //   padding: const EdgeInsets.only(left: 8),
+                          //   decoration: BoxDecoration(
+                          //     color: Colors.white,
+                          //     borderRadius: BorderRadius.circular(12),
+                          //     boxShadow: [
+                          //       BoxShadow(
+                          //         color: Colors.black.withOpacity(0.1),
+                          //         spreadRadius: 2,
+                          //         blurRadius: 6,
+                          //       ),
+                          //     ],
+                          //   ),
+                          //   child: Row(
+                          //     children: [
+                          //       // Truck icon
+                          //       const Icon(Icons.local_shipping,
+                          //           color: Colors.blue),
+                          //       const SizedBox(width: 10),
 
-                      //       // Input field
-                      //       const Expanded(
-                      //         child: TextField(
-                      //           decoration: InputDecoration(
-                      //             hintText: 'Enter bill of lading number',
-                      //             border: InputBorder.none,
-                      //           ),
-                      //         ),
-                      //       ),
+                          //       // Input field
+                          //       const Expanded(
+                          //         child: TextField(
+                          //           decoration: InputDecoration(
+                          //             hintText: 'Enter bill of lading number',
+                          //             border: InputBorder.none,
+                          //           ),
+                          //         ),
+                          //       ),
 
-                      //       Container(
-                      //         padding: const EdgeInsets.symmetric(vertical: 8),
-                      //         child: FittedBox(
-                      //           child: commonButton(
-                      //             "Track",
-                      //             width: 120,
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // const SizedBox(),
-                    ],
-                  )
+                          //       Container(
+                          //         padding: const EdgeInsets.symmetric(vertical: 8),
+                          //         child: FittedBox(
+                          //           child: commonButton(
+                          //             "Track",
+                          //             width: 120,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          // const SizedBox(),
+                        ],
+                      ))
                 ],
               ),
             ),
