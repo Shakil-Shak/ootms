@@ -24,5 +24,6 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => DriverLoadRequest(), fenix: true);
     Get.lazyPut(() => FindLoadController(), fenix: true);
     Get.lazyPut(() => CustomMapController(), fenix: true);
+    Get.lazyPut(() => DriverProfileController(), fenix: true);
   }
 }

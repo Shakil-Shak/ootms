@@ -24,6 +24,7 @@ class DriverEditProfile extends StatefulWidget {
   String contact;
   String country;
   String address;
+  String cdlNumber;
   DriverEditProfile(
       {super.key,
       required this.imagePath,
@@ -31,7 +32,8 @@ class DriverEditProfile extends StatefulWidget {
       required this.email,
       required this.contact,
       required this.address,
-      required this.country});
+      required this.country,
+      required this.cdlNumber});
 
   @override
   State<DriverEditProfile> createState() => _UserEditProfileState();
@@ -42,6 +44,7 @@ class _UserEditProfileState extends State<DriverEditProfile> {
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController cdlNumberCtl = TextEditingController();
   final UpdateProfileController editController =
       Get.find<UpdateProfileController>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -55,6 +58,7 @@ class _UserEditProfileState extends State<DriverEditProfile> {
     emailController.text = widget.email;
     addressController.text = widget.address;
     phoneController.text = widget.contact;
+    cdlNumberCtl.text = widget.cdlNumber;
   }
 
   @override
@@ -130,12 +134,14 @@ class _UserEditProfileState extends State<DriverEditProfile> {
                               hintText: "Full Name",
                               keyboardType: TextInputType.text),
                           const SizedBox(height: 20),
+                          //========================================cdl controller
                           commonTextfieldWithTitle(
                             readOnly: true,
                             // enable: false,
                             "CDL Number",
-                            emailController,
-                            onValidate: (value) => OtherHelper.emailValidator(value),
+                            cdlNumberCtl,
+                            onValidate: (value) =>
+                                OtherHelper.emailValidator(value),
                             hintText: "Enter your CDL number",
                             keyboardType: TextInputType.emailAddress,
                           ),
@@ -151,7 +157,7 @@ class _UserEditProfileState extends State<DriverEditProfile> {
                             hintText: "Email",
                             keyboardType: TextInputType.emailAddress,
                           ),
-                          
+
                           const SizedBox(height: 20),
                           // ======================================phone picker
 
