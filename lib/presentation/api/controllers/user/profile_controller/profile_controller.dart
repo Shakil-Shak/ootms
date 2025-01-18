@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ootms/presentation/api/models/driver_model/equipment_model.dart';
 import 'package:ootms/presentation/api/models/user_model/shiping_model/shipping_history_model.dart';
 import 'package:ootms/presentation/api/service/api_services.dart';
@@ -15,7 +16,6 @@ import 'package:ootms/presentation/screens/role/user/shipping/user_shipping_hist
 
 import '../../../../components/common_snackbar.dart';
 import '../../../../navigation/animeted_navigation.dart';
-import '../../../../screens/role/user/shipping/user_current_shipments.dart';
 import '../../../models/user_model/shiping_model/current_shiping_model.dart';
 
 class ProfileController extends ChangeNotifier {
@@ -28,6 +28,7 @@ class ProfileController extends ChangeNotifier {
 
   ///=============>>> Find current location<<<==================
   String currentLocation = "";
+  LatLng currentLatLng = const LatLng(0.0, 0.0);
 
   Future<String> getCurrentLocation() async {
     bool serviceEnabled;
@@ -58,6 +59,8 @@ class ProfileController extends ChangeNotifier {
 
     // Log or process the location
     log("Location: ${position.latitude}, ${position.longitude}");
+    currentLatLng = LatLng(position.latitude, position.longitude);
+
     List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
     log("${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}");
 

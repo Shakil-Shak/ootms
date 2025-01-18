@@ -53,10 +53,11 @@ class SignInPageController extends ChangeNotifier {
         notifyListeners();
         return null;
       }
-    } catch (e) {
+    } catch (e, s) {
       _isLoading = false;
       notifyListeners();
       print("Error during sign in: $e");
+      print("Error during sign in: $s");
       return null;
     }
   }

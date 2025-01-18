@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/bottom_nav_controller.dart';
+import 'package:ootms/presentation/api/controllers/mapControllers/create_load_map_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_image.dart';
@@ -38,6 +39,7 @@ class UserHomePage extends StatefulWidget {
 class _UserHomePageState extends State<UserHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final BottomNavController navController = Get.put(BottomNavController());
+  CreateLoadMapController createLoadMapController = Get.find<CreateLoadMapController>();
 
   void _showCustomDialog(BuildContext context) {
     showDialog(
@@ -207,6 +209,7 @@ class _UserHomePageState extends State<UserHomePage> {
                                       ),
                                       Expanded(
                                         child: commonText(
+                                            controller.currentLocation.isEmpty? "Current Address Loading..." :
                                             controller.currentLocation,
                                             size: 16,
                                             color: AppColor.white),

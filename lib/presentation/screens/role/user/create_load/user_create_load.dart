@@ -36,27 +36,15 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
     );
   }
 
-  @override
-  void dispose() {
-    _tabController?.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _tabController?.dispose();
+  //   super.dispose();
+  // }
 
   bool isHazMat = false;
   int visibleItemCount = 0;
 
-  void _startItemAnimation({required List hazmatItems}) {
-    visibleItemCount = 0; // Reset the visible item count
-    Timer.periodic(Duration(milliseconds: 300), (timer) {
-      if (visibleItemCount < hazmatItems.length) {
-        setState(() {
-          visibleItemCount++;
-        });
-      } else {
-        timer.cancel(); // Stop the timer when all items are visible
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -294,9 +282,12 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
               ),
               const SizedBox(height: 16),
               commonTextfieldWithTitleSideButton(
+                context,
                 "Receiver Address",
                 value.receiverAddressController,
                 hintText: "Enter address",
+                isReceiver: true,
+                enable: false,
               ),
               const SizedBox(height: 16),
               Row(
@@ -435,9 +426,12 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
               ),
               const SizedBox(height: 16),
               commonTextfieldWithTitleSideButton(
+                context,
                 "Shipper Address",
                 value.shipperAddressController,
                 hintText: "Enter address",
+                isReceiver: false,
+                enable: false
               ),
               const SizedBox(height: 16),
               Row(
