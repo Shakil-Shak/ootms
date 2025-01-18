@@ -9,6 +9,7 @@ import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/bottom_nav_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
+import 'package:ootms/presentation/components/common_image.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_map2.dart';
@@ -350,7 +351,15 @@ class _UserHomePageState extends State<UserHomePage> {
                 return controller.isLoading? SizedBox(
                   height: 100,
                   width: MediaQuery.of(context).size.width,
-                    child: Center(child: CircularProgressIndicator())) : trakingDesign(
+                    child: Center(child: CircularProgressIndicator())) : controller.shippingHistoryData.isEmpty? Center(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 40),
+                          CommonImage(imageSrc: "assets/images/empty.png", imageType: ImageType.png, height: 60, width: 60,),
+                          commonText("No tracking found")
+                        ],
+                      ),
+                    ) : trakingDesign(
                     number: controller.shippingHistoryData.first.load.bolNo, address: controller.shippingHistoryData.first.load.receivingAddress);
               }),
               const SizedBox(height: 20),
