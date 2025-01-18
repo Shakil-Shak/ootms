@@ -43,7 +43,9 @@ class SignInPageController extends ChangeNotifier {
 
       if (response != null && response['status'] == "OK") {
         final signInModel = SignInModel.fromJson(response);
-        PrefsHelper.setString("userRole", signInModel.data.attributes.id);
+        // PrefsHelper.setString("userRole", signInModel.data.attributes.id);
+        
+        PrefsHelper.setString("userId", signInModel.data.attributes.id);
 
         saveUserAcessDetails(signInModel.data.accessToken, role);
 

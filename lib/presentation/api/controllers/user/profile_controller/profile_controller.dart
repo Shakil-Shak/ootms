@@ -17,17 +17,20 @@ import '../../../../components/common_snackbar.dart';
 import '../../../../navigation/animeted_navigation.dart';
 import '../../../../screens/role/user/shipping/user_current_shipments.dart';
 import '../../../models/user_model/shiping_model/current_shiping_model.dart';
+import '../../../service/get_api_service.dart';
+import '../../../sharePrefarences/local_storage_save.dart';
 
 class ProfileController extends ChangeNotifier {
   final ApiService _apiService = ApiService();
   bool isLoading = false;
   bool isSupportLoad = false;
 
-  ProfileModel profileData = ProfileModel();
+  ProfileModel? profileData;
   bool isSupportFieldClear = false;
 
   ///=============>>> Find current location<<<==================
   String currentLocation = "";
+
   Future<String> getCurrentLocation() async {
     bool serviceEnabled;
 
@@ -71,7 +74,7 @@ class ProfileController extends ChangeNotifier {
       // });
     });
 
-    return "";
+    return currentLocation;
   }
 
   Future<void> postSupport(
@@ -119,9 +122,9 @@ class ProfileController extends ChangeNotifier {
 
     if (response is Map<String, dynamic>) {
       if (response['statusCode'] == 200) {
-        final responseData = response['data'];
+        final responseData = response['data']["attributes"]["userDetails"];
         if (responseData != null && responseData is Map<String, dynamic>) {
-          profileData = ProfileModel.fromJson(responseData['attributes']);
+          profileData = ProfileModel.fromJson(responseData);
           isLoading = false;
           notifyListeners();
         }
@@ -263,6 +266,84 @@ class ProfileController extends ChangeNotifier {
       log("$e");
     } finally {
       isLoadRequest = false;
+      notifyListeners();
+    }
+  }
+
+  //======================================================================load request accept hendler
+
+  loadRequestAccept(
+      {required String loadRequestId, required int index, context}) async {
+    loadRequestData[index].isLoading = true;
+    notifyListeners();
+    loadRequestData[index].isAccept = true;
+    notifyListeners();
+    List<String>? userDetails = await getUserAcessDetails();
+    String token = userDetails![0];
+    Map<String, String> body = {"loadReqId": loadRequestId, "action": "accept"};
+
+    Map<String, String> header = {"Authorization": "Bearer $token"};
+
+    try {
+      var response = await ApiClient.patchData(ApiPaths.loadRequsetAction, body,
+          headers: header);
+      if (response.statusCode == 200) {
+        showCommonSnackbar(context, "Load Request Accept Successfull",
+            isError: false);
+        loadRequestData[index].isLoading = false;
+        notifyListeners();
+        loadRequestData[index].isAccept = false;
+        notifyListeners();
+        getLoadRequestData(context: context);
+      } else {
+        showCommonSnackbar(context, "Load Request Accepted Faild",
+            isError: true);
+      }
+    } catch (e) {
+      showCommonSnackbar(context, "Something Went Wrong", isError: true);
+    } finally {
+      loadRequestData[index].isLoading = false;
+      notifyListeners();
+      loadRequestData[index].isAccept = true;
+      notifyListeners();
+    }
+  }
+
+  //======================================================================load request reject hendler
+
+  loadRequestReject(
+      {required String loadRequestId, context, required int index}) async {
+    loadRequestData[index].isLoading = true;
+    notifyListeners();
+    loadRequestData[index].isReject = true;
+    notifyListeners();
+    List<String>? userDetails = await getUserAcessDetails();
+    String token = userDetails![0];
+    Map<String, String> body = {"loadReqId": loadRequestId, "action": "accept"};
+
+    Map<String, String> header = {"Authorization": "Bearer $token"};
+
+    try {
+      var response = await ApiClient.patchData(ApiPaths.loadRequsetAction, body,
+          headers: header);
+      if (response.statusCode == 200) {
+        showCommonSnackbar(context, "Load Request Rejected", isError: false);
+        loadRequestData[index].isLoading = false;
+        notifyListeners();
+        loadRequestData[index].isReject = false;
+        notifyListeners();
+
+        getLoadRequestData(context: context);
+      } else {
+        showCommonSnackbar(context, "Load Request Rejected Failed",
+            isError: true);
+      }
+    } catch (e) {
+      showCommonSnackbar(context, "Something went wrong", isError: true);
+    } finally {
+      loadRequestData[index].isLoading = false;
+      notifyListeners();
+      loadRequestData[index].isReject = false;
       notifyListeners();
     }
   }

@@ -150,11 +150,11 @@ class _DriverProfileState extends State<DriverProfile> {
         onTap: () {
           animetedNavigationPush(
               DriverEditProfile(
-                imagePath: profileCtl.profileData.userDetails!.image,
-                title: profileCtl.profileData.userDetails!.fullName,
-                email: profileCtl.profileData.userDetails!.email,
-                contact: profileCtl.profileData.userDetails!.phoneNumber,
-                address: profileCtl.profileData.userDetails!.address,
+                imagePath: profileCtl.profileData.userDetails.image,
+                title: profileCtl.profileData.userDetails.fullName,
+                email: profileCtl.profileData.userDetails.email,
+                contact: profileCtl.profileData.userDetails.phoneNumber,
+                address: profileCtl.profileData.userDetails.address,
                 country: "USA",
                 cdlNumber: profileCtl.profileData.truckDetails![2].toString(),
               ),

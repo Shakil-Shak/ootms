@@ -44,15 +44,17 @@ class ApiClient extends GetxService {
 //==========================================> Post Data <======================================
   static Future<Response> postData(String uri,  body,
       {Map<String, String>? headers}) async {
-    var bearerToken = await PrefsHelper.getString(OtherHelper.bearerToken);
 
-    var mainHeaders = {'Authorization': 'Bearer $bearerToken'};
+    List<String>? userDetails = await getUserAcessDetails();
+    String token = userDetails![0];
+
+    var mainHeaders = {'Authorization': 'Bearer $token'};
     try {
       debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');
       debugPrint('====> API Body: $body');
 
       http.Response response = await http
-          .post(Uri.parse(uri), body: body, headers: headers)
+          .post(Uri.parse(uri), body: body, headers: headers ?? mainHeaders)
           .timeout(const Duration(seconds: timeoutInSeconds));
       debugPrint(
           "==========> Response Post Method :------ : ${response.statusCode}");

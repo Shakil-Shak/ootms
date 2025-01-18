@@ -70,12 +70,12 @@ class Attributes {
   final String image;
   final String password;
   final bool isOnDuty;
-  var ratings;
-  final int dispatchCompleted;
+  final num ratings;
+  final num dispatchCompleted;
   final String role;
   final String createdAt;
   final String updatedAt;
-  final int version;
+  final num version;
 
   Attributes({
     required this.id,
