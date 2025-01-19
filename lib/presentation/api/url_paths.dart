@@ -30,6 +30,6 @@ class ApiPaths {
   static String getNotification = '$baseUrl/api/v1/notifications?page=';
   static String notificationStatus = '$baseUrl/api/v1/notifications/read/';
   static String loadsDetails = '$baseUrl/api/v1/loads/';
-  static String pendingShipment = '$baseUrl/api/v1/shipment/pending?page=';
+  static String pendingShipment = '$baseUrl/api/v1/loads/pending_shipment?page=';
   static String nearestLoad = '$baseUrl/api/v1/loads/nearest_loads';
 }
