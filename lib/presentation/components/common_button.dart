@@ -12,6 +12,7 @@ Widget commonButton(String title,
     double padding = 10,
     double margin = 20,
     bool isBold = true,
+    Color loadingColor = Colors.white,
     VoidCallback? onTap,
     bool isLoading = false}) {
   return GestureDetector(
@@ -28,8 +29,8 @@ Widget commonButton(String title,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: padding),
           child: isLoading
-              ? const CircularProgressIndicator(
-                  color: Colors.white,
+              ? CircularProgressIndicator(
+                  color: loadingColor,
                 )
               : FittedBox(
                   fit: BoxFit.scaleDown,

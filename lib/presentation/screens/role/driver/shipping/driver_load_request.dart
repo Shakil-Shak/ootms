@@ -11,7 +11,6 @@ import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request_details.dart';
 
 class DriverLoadRequestPage extends StatefulWidget {
-
   DriverLoadRequestPage({super.key});
 
   @override
@@ -22,7 +21,6 @@ class _DriverLoadRequestPageState extends State<DriverLoadRequestPage> {
   DriverLoadRequest driverLoadCtl = Get.find<DriverLoadRequest>();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.microtask(
       () {
@@ -137,10 +135,17 @@ class _DriverLoadRequestPageState extends State<DriverLoadRequestPage> {
                                             Expanded(
                                               child: commonButton(
                                                 "Cancel",
+                                                isLoading: data.isReject
+                                                    ? data.isLoading
+                                                    : false,
                                                 isBold: false,
                                                 borderRadious: 8,
+                                                loadingColor: AppColor.primaryColor,
                                                 onTap: () {
-                                                  // Add your cancel action
+                                                  controller.loadRequestReject(
+                                                      loadRequestId: data.id,
+                                                      context: context,
+                                                      index: index);
                                                 },
                                                 color: AppColor
                                                     .primaryColorLight
@@ -150,7 +155,14 @@ class _DriverLoadRequestPageState extends State<DriverLoadRequestPage> {
                                             ),
                                             Expanded(
                                               child: commonButton("Accept Load",
-                                                  onTap: () {},
+                                                  isLoading: data.isAccept
+                                                      ? data.isLoading
+                                                      : false, onTap: () {
+                                                controller.loadRequestAccept(
+                                                    loadRequestId: data.id,
+                                                    index: index,
+                                                    context: context);
+                                              },
                                                   borderRadious: 8,
                                                   isBold: false),
                                             ),

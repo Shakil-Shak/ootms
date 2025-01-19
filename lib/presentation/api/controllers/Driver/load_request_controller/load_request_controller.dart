@@ -6,7 +6,8 @@ import 'package:ootms/presentation/api/models/driver_model/load_request_model.da
 import 'package:ootms/presentation/api/service/get_api_service.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 
-
+import '../../../../components/common_snackbar.dart';
+import '../../../sharePrefarences/local_storage_save.dart';
 
 class DriverLoadRequest extends GetxController {
   static DriverLoadRequest get instance => Get.put(DriverLoadRequest());
@@ -14,7 +15,7 @@ class DriverLoadRequest extends GetxController {
   bool isLoading = false;
   bool isMoreLoading = false;
   DriverLoadModel driverLoadModel = DriverLoadModel();
-  List loadRequestData = [];
+  List<DriverLoadModel> loadRequestData = [];
   final ScrollController scrollController = ScrollController();
   int page = 1;
   String loadId = "";
@@ -88,6 +89,81 @@ class DriverLoadRequest extends GetxController {
       isLoading = false;
       update();
       isMoreLoading = false;
+      update();
+    }
+  }
+
+  //======================================================================load request accept hendler
+
+  loadRequestAccept(
+      {required String loadRequestId, required int index, context}) async {
+    loadRequestData[index].isLoading = true;
+    loadRequestData[index].isAccept = true;
+    update();
+    List<String>? userDetails = await getUserAcessDetails();
+    String token = userDetails![0];
+    Map<String, String> body = {"loadReqId": loadRequestId, "action": "accept"};
+
+    Map<String, String> header = {"Authorization": "Bearer $token"};
+
+    try {
+      var response = await ApiClient.patchData(ApiPaths.loadRequsetAction, body,
+          headers: header);
+      if (response.statusCode == 200) {
+        showCommonSnackbar(context, "Load Request Accept Successfull",
+            isError: false);
+        loadRequestData[index].isLoading = false;
+        loadRequestData[index].isAccept = false;
+        update();
+        getDriverLoadReg();
+      } else {
+        showCommonSnackbar(context, "Load Request Accepted Faild",
+            isError: true);
+      }
+    } catch (e) {
+      showCommonSnackbar(context, "Something Went Wrong", isError: true);
+    } finally {
+      loadRequestData[index].isLoading = false;
+      loadRequestData[index].isAccept = true;
+      update();
+    }
+  }
+
+  //======================================================================load request reject hendler
+
+  loadRequestReject(
+      {required String loadRequestId, context, required int index}) async {
+    loadRequestData[index].isLoading = true;
+    update();
+    loadRequestData[index].isReject = true;
+    update();
+    List<String>? userDetails = await getUserAcessDetails();
+    String token = userDetails![0];
+    Map<String, String> body = {"loadReqId": loadRequestId, "action": "accept"};
+
+    Map<String, String> header = {"Authorization": "Bearer $token"};
+
+    try {
+      var response = await ApiClient.patchData(ApiPaths.loadRequsetAction, body,
+          headers: header);
+      if (response.statusCode == 200) {
+        showCommonSnackbar(context, "Load Request Rejected", isError: false);
+        loadRequestData[index].isLoading = false;
+        update();
+        loadRequestData[index].isReject = false;
+        update();
+
+        getDriverLoadReg();
+      } else {
+        showCommonSnackbar(context, "Load Request Rejected Failed",
+            isError: true);
+      }
+    } catch (e) {
+      showCommonSnackbar(context, "Something went wrong", isError: true);
+    } finally {
+      loadRequestData[index].isLoading = false;
+      update();
+      loadRequestData[index].isReject = false;
       update();
     }
   }

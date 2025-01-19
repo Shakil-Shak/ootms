@@ -12,10 +12,12 @@ import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
 import 'package:ootms/presentation/screens/role/user/profile/user_edit_profile.dart';
+import 'package:ootms/presentation/screens/role/user/profile/user_feedback_screen.dart';
 import 'package:ootms/presentation/screens/role/user/settings/user_settings.dart';
 import 'package:ootms/presentation/screens/role/user/shipping/user_current_shipments.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../core/constants/assets/icons_string.dart';
 import '../shipping/user_load_request.dart';
 
 class UserProfile extends StatefulWidget {
@@ -60,10 +62,10 @@ class _UserProfileState extends State<UserProfile> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
                     children: [
-                      controller.profileData.image.isNotEmpty
+                      controller.profileData!.image.isNotEmpty
                           ? CommonImage(
                               imageSrc: ApiPaths.baseUrl +
-                                  controller.profileData.image,
+                                  controller.profileData!.image,
                               imageType: ImageType.network,
                               size: 100,
                               borderRadius: 100,
@@ -87,9 +89,9 @@ class _UserProfileState extends State<UserProfile> {
                               ),
                             ),
                       const SizedBox(height: 10),
-                      commonText(controller.profileData.fullName,
+                      commonText(controller.profileData!.fullName,
                           size: 18, isBold: true),
-                      commonText(controller.profileData.email),
+                      commonText(controller.profileData!.email),
                       const SizedBox(height: 10),
                       Container(
                         decoration: BoxDecoration(
@@ -104,15 +106,17 @@ class _UserProfileState extends State<UserProfile> {
                                 iconPath: "assets/icons/edit-profile.png",
                                 text: "Edit Profile",
                                 onTap: () {
-                                  log("controller.profileData.image : ${controller.profileData.image}");
+                                  log("controller.profileData.image : ${controller.profileData!.image}");
                                   animetedNavigationPush(
                                       UserEditProfile(
-                                        imagePath: controller.profileData.image,
-                                        title: controller.profileData.fullName,
-                                        email: controller.profileData.email,
+                                        imagePath:
+                                            controller.profileData!.image,
+                                        title: controller.profileData!.fullName,
+                                        email: controller.profileData!.email,
                                         contact:
-                                            controller.profileData.phoneNumber,
-                                        address: controller.profileData.address,
+                                            controller.profileData!.phoneNumber,
+                                        address:
+                                            controller.profileData!.address,
                                         country: "USA",
                                       ),
                                       context);
@@ -141,10 +145,22 @@ class _UserProfileState extends State<UserProfile> {
                                   controller.getLoadRequestData(
                                       context: context);
                                   animetedNavigationPush(
-                                      const UserLoadRequestPage(), context);
+                                    UserLoadRequestPage(
+                                      isFromDrawer: false,
+                                    ),
+                                    context,
+                                  );
                                 },
                               );
                             }),
+                            ProfileMenuItem(
+                              iconPath: AppIcons.feedback,
+                              text: "Feedback",
+                              onTap: () {
+                                animetedNavigationPush(
+                                    UserFeedbackScreen(), context);
+                              },
+                            ),
                             ProfileMenuItem(
                               iconPath: "assets/icons/settings.png",
                               text: "Settings",

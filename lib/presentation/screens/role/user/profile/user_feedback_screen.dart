@@ -7,16 +7,17 @@ import 'package:ootms/presentation/api/controllers/Driver/driver_profile_control
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 
-import '../../../components/common_text.dart';
+import '../../../../api/controllers/user/profile_controller/user_getx_profile_controller.dart';
+import '../../../../components/common_text.dart';
 
-class FeedbackScreen extends StatefulWidget {
-  FeedbackScreen({super.key});
+class UserFeedbackScreen extends StatefulWidget {
+  UserFeedbackScreen({super.key});
 
   @override
-  State<FeedbackScreen> createState() => _FeedbackScreenState();
+  State<UserFeedbackScreen> createState() => _UserFeedbackScreenState();
 }
 
-class _FeedbackScreenState extends State<FeedbackScreen> {
+class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
   final TextEditingController msgController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   double ratingValue = 1.0;
@@ -34,7 +35,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
             },
           ),
         ),
-        body: GetBuilder<DriverProfileController>(builder: (controller) {
+        body: GetBuilder<UserGetxProfileController>(builder: (controller) {
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
@@ -122,13 +123,13 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       "Submit",
                       onTap: () {
                         if (formKey.currentState!.validate()) {
-                          controller.driverAppFeedback(
+                          controller.userAppFeedback(
                               ratting: ratingValue,
                               messege: msgController.text,
                               context: context);
-                          if (controller.isSuccess == true) {
+                          if (controller.isFeedbackComplete == true) {
                             msgController.clear();
-                            controller.isSuccess = false;
+                            controller.isFeedbackComplete = false;
                           }
                         }
                       },

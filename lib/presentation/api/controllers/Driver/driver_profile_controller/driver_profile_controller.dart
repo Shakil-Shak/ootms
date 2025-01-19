@@ -17,23 +17,22 @@ class DriverProfileController extends GetxController {
   final ApiService apiService = ApiService();
   bool isLoading = false;
   bool isSuccess = false;
-  DriverProfileModel profileData =DriverProfileModel();
+  DriverProfileModel profileData = DriverProfileModel();
 //====================================================================driver get profile
   Future<void> getProfileData() async {
     isLoading = true;
 
-    log("================================================api heeted");
     final response = await apiService.getRequest(ApiPaths.profileUrl);
-
-    log("================================================succesdfsdfsdfsdfss${response['statusCode']}");
     try {
       if (response is Map<String, dynamic>) {
         if (response['statusCode'] == 200) {
           final responseData = response['data']["attributes"];
+          print(
+              "========================================================data $responseData");
           if (responseData != null && responseData is Map<String, dynamic>) {
             profileData = DriverProfileModel.fromJson(responseData);
             isLoading = false;
-            log("================================================success${response['statusCode']}");
+            log("================================================success$profileData");
           }
         } else {
           isLoading = false;
@@ -51,21 +50,26 @@ class DriverProfileController extends GetxController {
     }
   }
 
-  driverFeedback(
+  //==========================================================================driver feedback
+  bool isFeedbackComplete = false;
+
+  driverAppFeedback(
       {required num ratting, required String messege, context}) async {
     print("topu");
     isLoading = true;
     update();
-    String userId = await PrefsHelper.getString("userRole");
+    String userId = await PrefsHelper.getString("userId");
 
     Map<String, dynamic> body = {"comment": messege, "rating": ratting};
 
     try {
       var response = await apiService.otherPostRequest(
-          ApiPaths.serviceFeedback(userId), jsonEncode(body));
+          ApiPaths.appFeedback, jsonEncode(body));
       if (response["statusCode"] == "201") {
         showCommonSnackbar(context, "Feedback Added", isError: false);
         isSuccess = true;
+        update();
+        isLoading = false;
         update();
       } else {
         print("error");

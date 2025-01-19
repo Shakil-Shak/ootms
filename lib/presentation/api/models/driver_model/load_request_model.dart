@@ -6,6 +6,9 @@ class DriverLoadModel {
   Truck truck;
   User user;
   num availablePalletSpace;
+  bool isLoading = false;
+  bool isAccept = false;
+  bool isReject = false;
 
   DriverLoadModel({
     this.id = '',
