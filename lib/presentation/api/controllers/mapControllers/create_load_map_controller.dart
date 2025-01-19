@@ -6,6 +6,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:ootms/core/constants/assets/icons_string.dart';
+import 'package:ootms/presentation/api/controllers/user/load_controller/load_controller.dart';
+import 'package:ootms/presentation/screens/role/user/create_load/create_load_map_screen.dart';
 
 class CreateLoadMapController extends GetxController {
 
@@ -13,7 +15,11 @@ class CreateLoadMapController extends GetxController {
 
   var currentLocation = LatLng(0.0, 0.0).obs;
   var selectedLocation = LatLng(0.0, 0.0).obs;
+
   var selectedAddress = "".obs;
+  var selectedLatitude =  0.0;
+  var selectedLongitude =  0.0;
+
   List<Marker> marker = <Marker>[].obs;
 
   late GoogleMapController googleMapController;
@@ -62,6 +68,10 @@ class CreateLoadMapController extends GetxController {
 
   Future<String> onMapTapped(LatLng tappedLocation) async {
     selectedLocation.value = tappedLocation;
+    if(!CreateLoadMapScreen.isReceiver){
+      selectedLatitude = tappedLocation.latitude;
+      selectedLongitude = tappedLocation.longitude;
+    }
 
     // Animate the camera to the tapped location
     googleMapController.animateCamera(

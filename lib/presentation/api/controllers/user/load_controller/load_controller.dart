@@ -76,6 +76,8 @@ class LoadController extends ChangeNotifier {
   bool isSuccess = false;
   num shipperLatitude = 0.0;
   num shipperLongitude = 0.0;
+  String pickedUpDate = "";
+  String deliveryDate = "";
 
   final ApiService apiService = ApiService();
   Map<String, bool> hazMatItems = {
@@ -92,13 +94,29 @@ class LoadController extends ChangeNotifier {
 
   pickPickupDate() async {
     String pickDate = await OtherHelper.datePicker(pickupController);
-    pickupController.value = TextEditingValue(text: pickDate);
+    pickedUpDate = pickDate;
+    // Parse the ISO string into a DateTime object
+    DateTime dateTime = DateTime.parse(pickDate);
+
+    // Format it as `dd-MM-yyyy`
+    String day = dateTime.day < 10 ? "0${dateTime.day}" : "${dateTime.day}";
+    String month = dateTime.month < 10 ? "0${dateTime.month}" : "${dateTime.month}";
+    String formattedDate = "$day-$month-${dateTime.year}";
+    pickupController.value = TextEditingValue(text: formattedDate);
     notifyListeners();
   }
 
   pickdelivaryDate() async {
     String pickDate = await OtherHelper.datePicker(deliveryController);
-    deliveryController.value = TextEditingValue(text: pickDate);
+    deliveryDate = pickDate;
+
+    DateTime dateTime = DateTime.parse(pickDate);
+
+    // Format it as `dd-MM-yyyy`
+    String day = dateTime.day < 10 ? "0${dateTime.day}" : "${dateTime.day}";
+    String month = dateTime.month < 10 ? "0${dateTime.month}" : "${dateTime.month}";
+    String formattedDate = "$day-$month-${dateTime.year}";
+    deliveryController.value= TextEditingValue(text: formattedDate);
     notifyListeners();
   }
 
@@ -118,26 +136,7 @@ class LoadController extends ChangeNotifier {
   }
 
   updateAddresses(double latitude, double longitude) async {
-    if (CreateLoadMapScreen.isReceiver) {
-      receiverAddressController.value = TextEditingValue(
-          text: await CreateLoadMapController.instance
-              .onMapTapped(LatLng(latitude, longitude)));
-      notifyListeners();
-    } else {
-      shipperAddressController.value = TextEditingValue(
-          text: await CreateLoadMapController.instance
-              .onMapTapped(LatLng(latitude, longitude)));
-      shipperLatitude = latitude;
-      shipperLongitude = longitude;
-      notifyListeners();
-    }
-    debugPrint("<<<=======================>>>");
-    debugPrint(
-        "loadController.receiverAddressController.text: ${receiverAddressController.text}");
-    debugPrint(
-        "loadController.shipperAddressController.text: ${shipperAddressController.text}");
-    debugPrint("longitude, latitude: $longitude, $latitude");
-    notifyListeners();
+    await CreateLoadMapController.instance.onMapTapped(LatLng(latitude, longitude));
   }
 
 //============================================================create load method
@@ -172,19 +171,17 @@ class LoadController extends ChangeNotifier {
         "receiverState": receiverStateController.text,
         "receiverZip": receiverZipController.text,
         "receiverpostalCode": poController.text,
-        "pickupDate": "2025-01-10T08:00:00Z",
-        "deliveryDate": "2025-01-12T18:00:00Z",
+        "pickupDate": pickedUpDate,
+        "deliveryDate": deliveryDate,
         "billOfLading": billOfLadingController.text,
         "deliveryInstruction": deliveryInstructionsController.text,
         "location": {
           "type": "Point",
-          "coordinates": [shipperLongitude, shipperLatitude]
+          "coordinates": [CreateLoadMapController.instance.selectedLongitude, CreateLoadMapController.instance.selectedLatitude]
         }
       }
     ];
-    print("==========================================hazmatlist $hazmatList");
-    // print(
-    //     "==========================================hazmatlist ${jsonEncode(hazmatList)}");
+    log("==============>>>> $data <<<<===============");
 
     try {
       final response = await apiService.otherPostRequest(

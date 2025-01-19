@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -172,17 +174,12 @@ class OtherHelper {
       firstDate: DateTime(1900),
       lastDate: DateTime(2101),
     );
-    String day = "";
-    String month = "";
-    if (picked != null) {
-      if (picked.day.toInt() < 10) {
-        day = "0${picked.day}";
-      }
-      if (picked.month.toInt() < 10) {
-        month = "0${picked.month}";
-      }
 
-      return "${day.isNotEmpty ? day : picked.day}-${month.isNotEmpty ? month : picked.month}-${picked.year}";
+    if(picked != null){
+      String isoFormat = picked.toUtc().toIso8601String();
+
+      log("ISO Format: $isoFormat");
+      return isoFormat;
     }
 
     return "";

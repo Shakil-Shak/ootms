@@ -27,7 +27,6 @@ class CreateLoadMapScreen extends StatelessWidget {
               onMapCreated: createLoadMapController.setGoogleMapController,
               myLocationEnabled: true,
               onTap: (argument) async {
-
                 loadController.updateAddresses(argument.latitude, argument.longitude);
               },
               markers: Set<Marker>.of(createLoadMapController.marker),
@@ -36,44 +35,71 @@ class CreateLoadMapScreen extends StatelessWidget {
           Positioned(
             bottom: 20,
             left: 20,
-            right: 20,
             child: Obx(() {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Selected Address:",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+              return Container(
+                height: 120,
+                width: 200,
+                padding: EdgeInsets.only(left: 16, top: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: Colors.white,
+                    boxShadow: const [
+                    BoxShadow(
+                    color: Colors.black26,
+                    spreadRadius: 2,
+                    blurRadius: 5
+                )
+                  ]
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Selected Address:",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(createLoadMapController.selectedAddress.value),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Latitude: ${createLoadMapController.selectedLocation.value.latitude.toStringAsFixed(6)}",
+                      ),
+                      Text(
+                        "Longitude: ${createLoadMapController.selectedLocation.value.longitude.toStringAsFixed(6)}",
+                      ),
+                    ],
                   ),
-                  Text(createLoadMapController.selectedAddress.value),
-                  const SizedBox(height: 10),
-                  Text(
-                    "Latitude: ${createLoadMapController.selectedLocation.value.latitude.toStringAsFixed(6)}",
-                  ),
-                  Text(
-                    "Longitude: ${createLoadMapController.selectedLocation.value.longitude.toStringAsFixed(6)}",
-                  ),
-                ],
+                ),
               );
             }),
           ),
           Positioned(
               top: 60,
               left: 20,
-              child: Container(
-                padding: EdgeInsets.all(6),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle
-                ),
-                child: InkWell(
+              child: InkWell(
                   onTap: () {
                     String data = createLoadMapController.selectedAddress.value;
                     debugPrint("Data:======>>> $data");
                     Navigator.pop(context, data);
                   },
-                    child: Icon(Icons.arrow_back)
-                ),
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black26,
+                              spreadRadius: 2,
+                              blurRadius: 5
+                          )
+                        ]
+                    ),
+                    child: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                    ),
+                  )
               ),
           )
         ],

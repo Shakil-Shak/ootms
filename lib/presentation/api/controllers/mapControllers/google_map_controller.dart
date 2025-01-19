@@ -12,6 +12,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ootms/presentation/api/models/driver_model/nearest_load_model.dart';
+import 'package:ootms/presentation/api/models/user_model/nearest_driver_model.dart';
 import 'package:ootms/presentation/api/service/socket_service.dart';
 import 'package:ootms/presentation/screens/role/driver/find_load/find_load_method/find_load_modal_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -58,7 +59,7 @@ class CustomMapController extends GetxController {
 
   CameraPosition get initialCameraPosition => CameraPosition(
     target: LatLng(userLatitude.value, userLongitude.value),
-    zoom: 14.0,
+    zoom: 16.0,
   );
 
   CameraPosition get kRandom => CameraPosition(
@@ -69,7 +70,6 @@ class CustomMapController extends GetxController {
       tilt: 59.440717697143555,
       zoom: 15);
 
-  final List<Marker> list = [];
 
   var uuid = const Uuid();
   String sessionToken = '112233';
@@ -78,7 +78,6 @@ class CustomMapController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    marker.addAll(list);
     searchText.value.addListener(() {
       onChange();
     });
@@ -96,17 +95,36 @@ class CustomMapController extends GetxController {
 
 // Load custom truck icon
 
-  Future<BitmapDescriptor> _loadTruckIcon(BuildContext context, iconPath) async {
+  Future<BitmapDescriptor> _loadTruckIcon(BuildContext context, iconPath, {double iconHeight = 40}) async {
     return await BitmapDescriptor.asset(
         ImageConfiguration(
             devicePixelRatio: MediaQuery.of(context).devicePixelRatio),
         iconPath,
-        height: 40, width: 40
+        height: iconHeight, width: 40
     );
   }
 
-  ///==================== Set Marker with Icon =================================
-  setLocationMarker(double latitude, double longitude, String placeId, String iconPath, NearestLoadModel loadItems) async {
+  ///==================== Set Driver Marker with Icon =================================
+  setDriverLocationMarker(double latitude, double longitude, String placeId, String iconPath, NearestDriverModel loadItems) async {
+    final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath, iconHeight: 60);
+    Marker newMarker = Marker(
+      onTap: () {
+        log("place id $placeId");
+        // showLocationDetails(loadItems: loadItems);
+      },
+      infoWindow: InfoWindow(title: placeId),
+      icon: customMarker,
+      markerId: MarkerId(placeId), // Use a unique MarkerId for each marker
+      position: LatLng(latitude, longitude),
+    );
+
+    marker.add(newMarker);
+    update();
+  }
+
+  ///==================== Set Load Marker with icon ==========================
+
+  setLoadLocationMarker(double latitude, double longitude, String placeId, String iconPath, NearestLoadModel loadItems) async {
     final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath);
     Marker newMarker = Marker(
       onTap: () {
@@ -122,6 +140,8 @@ class CustomMapController extends GetxController {
     marker.add(newMarker);
     update();
   }
+
+
   setMarker(LatLng latLng, LatLng endLatLng, String placeId, String iconPath) async {
     final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath);
     Marker newMarker = Marker(

@@ -6,6 +6,7 @@ import 'package:ootms/presentation/api/controllers/Driver/driver_profile_control
 import 'package:ootms/presentation/api/controllers/Driver/load_request_controller/load_request_controller.dart';
 import 'package:ootms/presentation/api/controllers/common/load_details_controller.dart';
 import 'package:ootms/presentation/api/controllers/common/notification_controller.dart';
+import 'package:ootms/presentation/api/controllers/user/find_nearest_driver_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/update_profile_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/shipping_controller/pending_shipment_controller.dart';
 
@@ -27,5 +28,6 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => DriverLoadRequest(), fenix: true);
     Get.lazyPut(() => DriverProfileController(), fenix: true);
     Get.lazyPut(() => UserGetxProfileController(), fenix: true);
+    Get.lazyPut(() => FindNearestDriverController(), fenix: true);
   }
 }
