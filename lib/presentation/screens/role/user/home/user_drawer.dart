@@ -93,7 +93,6 @@ Widget userCustomDrawer(BuildContext context) {
                 iconPath: 'assets/icons/driverIcon.png',
                 text: 'Add Preferred Driver',
                 onTap: () {
-                  Navigator.pop(context);
                   animetedNavigationPush(
                       const AddPreferredDriverPage2(), context);
                 },

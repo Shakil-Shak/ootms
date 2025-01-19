@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/create_load_map_controller.dart';
 import 'package:ootms/presentation/screens/role/user/create_load/create_load_map_screen.dart';
@@ -13,6 +14,7 @@ import '../../../../navigation/animeted_navigation.dart';
 import '../../../../screens/role/user/home/user_home_page.dart';
 import '../../../service/api_services.dart';
 import '../../../url_paths.dart';
+import '../../common/bottom_nav_controller.dart';
 
 class LoadController extends ChangeNotifier {
   String selectedValue = "";
@@ -169,7 +171,7 @@ class LoadController extends ChangeNotifier {
         "receiverEmail": receiverEmailController.text,
         "receivingAddress": receiverAddressController.text,
         "receiverCity": receiverCityController.text,
-        "receiverState": receiverStateController.text,
+        "receiverState": receiverStateController.text, 
         "receiverZip": receiverZipController.text,
         "receiverpostalCode": poController.text,
         "pickupDate": "2025-01-10T08:00:00Z",
@@ -182,7 +184,8 @@ class LoadController extends ChangeNotifier {
         }
       }
     ];
-    print("==========================================hazmatlist $hazmatList");
+  
+    print("location==========================================hazmatlist ${shipperLongitude}${shipperLatitude}");
     // print(
     //     "==========================================hazmatlist ${jsonEncode(hazmatList)}");
 
@@ -211,13 +214,15 @@ class LoadController extends ChangeNotifier {
 
   //============================================assign a preffered driver method
   //============================================================create load method
+  
+  final BottomNavController navController = Get.put(BottomNavController());
   Future<void> assignPrefferedDriver({context}) async {
     isLoading = true;
+    
     notifyListeners();
 
     List<Map<String, String>> data = [
       {"load": loadId, "driver": driverIdcontroller.text}
-      // {"load": "67824ef8be2dc7dbb198e238", "driver": "677a2b7d2f65914268b90421"}
     ];
     print("=====================================data $data");
 
@@ -225,16 +230,15 @@ class LoadController extends ChangeNotifier {
       final response = await apiService.otherPostRequest(
           ApiPaths.preferredDriver, jsonEncode(data));
       debugPrint(
-          "44==========================================================response$response");
-
-      debugPrint(
-          "status code before =-==================${response["statusCode"]}");
+          "44==========================================================response${response["statusCode"]}");
       if (response["statusCode"] == 201) {
-        animetedNavigationPush(UserHomePage(), context);
+        driverIdcontroller.clear();
         showCommonSnackbar(context, "Assign Preffered Driver Successfull",
             isError: false);
+        navController.valueIncrease(value: 0);
         isSuccess = true;
         notifyListeners();
+
       } else if (response["statusCode"] == 208) {
         showCommonSnackbar(
           context,
