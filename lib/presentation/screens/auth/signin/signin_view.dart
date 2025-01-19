@@ -19,7 +19,7 @@ import 'package:provider/provider.dart';
 
 class SignInPage extends StatelessWidget {
   final TextEditingController emailController =
-      TextEditingController(text: "bicita3553@pofmagic.com");
+      TextEditingController(text: "driver@gmail.com");
   final TextEditingController passwordController =
       TextEditingController(text: "hello123");
   final bool user;
