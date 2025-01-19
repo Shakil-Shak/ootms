@@ -12,6 +12,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ootms/presentation/api/models/driver_model/nearest_load_model.dart';
+import 'package:ootms/presentation/api/service/socket_service.dart';
 import 'package:ootms/presentation/screens/role/driver/find_load/find_load_method/find_load_modal_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
@@ -236,10 +237,10 @@ class CustomMapController extends GetxController {
       log("My Current Location:^^^^${value.latitude}, ${value.longitude}");
 
       List<Placemark> placemarks = await placemarkFromCoordinates(value.latitude, value.longitude);
-      log("Placemarks: ============>>>>$placemarks");
       currentLatitude.value = value.latitude;
       currentLongitude.value = value.longitude;
       userCurrentLocation.value = "${placemarks.first.street}, ${placemarks.first.name}, ${placemarks.first.locality}, ${placemarks.first.country}";
+      await SocketServices.sendLocation(latitude: value.latitude, longitude: value.longitude);
       return userCurrentLocation.value;
       // marker.add(Marker(
       //     markerId: MarkerId("My location"),

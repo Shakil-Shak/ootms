@@ -1,29 +1,29 @@
 
-
 class PendingShipmentModel {
   String id;
-  String user;
+  String status;
+  User user;
   Driver driver;
   String sender;
   Load load;
   Truck truck;
-  String status;
-  int version;
+  String shippingId;
   DateTime createdAt;
   DateTime updatedAt;
 
   PendingShipmentModel({
     this.id = "",
-    this.user = "",
+    this.status = "",
+    User? user,
     Driver? driver,
     this.sender = "",
     Load? load,
     Truck? truck,
-    this.status = "Pending",
-    this.version = 0,
+    this.shippingId = "",
     DateTime? createdAt,
     DateTime? updatedAt,
-  })  : driver = driver ?? Driver(),
+  })  : user = user ?? User(),
+        driver = driver ?? Driver(),
         load = load ?? Load(),
         truck = truck ?? Truck(),
         createdAt = createdAt ?? DateTime.now(),
@@ -32,15 +32,35 @@ class PendingShipmentModel {
   factory PendingShipmentModel.fromJson(Map<String, dynamic> json) {
     return PendingShipmentModel(
       id: json['_id'] ?? "",
-      user: json['user'] ?? "",
+      status: json['status'] ?? "",
+      user: User.fromJson(json['user'] ?? {}),
       driver: Driver.fromJson(json['driver'] ?? {}),
       sender: json['sender'] ?? "",
       load: Load.fromJson(json['load'] ?? {}),
       truck: Truck.fromJson(json['truck'] ?? {}),
-      status: json['status'] ?? "Pending",
-      version: json['__v'] ?? 0,
+      shippingId: json['shippingId'] ?? "",
       createdAt: DateTime.tryParse(json['createdAt'] ?? "") ?? DateTime.now(),
       updatedAt: DateTime.tryParse(json['updatedAt'] ?? "") ?? DateTime.now(),
+    );
+  }
+}
+
+class User {
+  String id;
+  String fullName;
+  String image;
+
+  User({
+    this.id = "",
+    this.fullName = "",
+    this.image = "",
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['_id'] ?? "",
+      fullName: json['fullName'] ?? "",
+      image: json['image'] ?? "",
     );
   }
 }
@@ -75,7 +95,6 @@ class Driver {
 }
 
 class Load {
-  List<dynamic> hazmat;
   String id;
   String shipperName;
   String shipperPhoneNumber;
@@ -85,6 +104,7 @@ class Load {
   int weight;
   String loadType;
   int trailerSize;
+  List<String> hazmat;
   String receiverName;
   String receiverPhoneNumber;
   String receiverEmail;
@@ -94,7 +114,6 @@ class Load {
   String deliveryInstruction;
 
   Load({
-    this.hazmat = const [],
     this.id = "",
     this.shipperName = "",
     this.shipperPhoneNumber = "",
@@ -104,6 +123,7 @@ class Load {
     this.weight = 0,
     this.loadType = "",
     this.trailerSize = 0,
+    List<String>? hazmat,
     this.receiverName = "",
     this.receiverPhoneNumber = "",
     this.receiverEmail = "",
@@ -111,12 +131,12 @@ class Load {
     DateTime? pickupDate,
     DateTime? deliveryDate,
     this.deliveryInstruction = "",
-  })  : pickupDate = pickupDate ?? DateTime.now(),
+  })  : hazmat = hazmat ?? [],
+        pickupDate = pickupDate ?? DateTime.now(),
         deliveryDate = deliveryDate ?? DateTime.now();
 
   factory Load.fromJson(Map<String, dynamic> json) {
     return Load(
-      hazmat: json['Hazmat'] ?? [],
       id: json['_id'] ?? "",
       shipperName: json['shipperName'] ?? "",
       shipperPhoneNumber: json['shipperPhoneNumber'] ?? "",
@@ -126,6 +146,7 @@ class Load {
       weight: json['weight'] ?? 0,
       loadType: json['loadType'] ?? "",
       trailerSize: json['trailerSize'] ?? 0,
+      hazmat: List<String>.from(json['Hazmat'] ?? []),
       receiverName: json['receiverName'] ?? "",
       receiverPhoneNumber: json['receiverPhoneNumber'] ?? "",
       receiverEmail: json['receiverEmail'] ?? "",

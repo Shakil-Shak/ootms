@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/presentation/api/service/api_services.dart';
+import 'package:ootms/presentation/api/service/socket_service.dart';
 import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 import 'package:ootms/presentation/api/models/signin_model.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
@@ -43,7 +44,8 @@ class SignInPageController extends ChangeNotifier {
       if (response != null && response['status'] == "OK") {
         final signInModel = SignInModel.fromJson(response);
         
-          saveUserAcessDetails(signInModel.data.accessToken, role);
+        saveUserAcessDetails(signInModel.data.accessToken, role);
+        SocketServices.connectToSocket();
 
         _isLoading = false;
         notifyListeners();
