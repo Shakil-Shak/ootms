@@ -216,7 +216,7 @@ class CustomMapController extends GetxController {
   Future<Position> getUserCurrentLocation() async {
     PermissionStatus status = await Permission.location.status;
     if (status.isGranted) {
-      print("Permission is granted");
+      log("Permission is granted");
     } else {
       await Geolocator.requestPermission()
           .then((value) {})
@@ -228,7 +228,8 @@ class CustomMapController extends GetxController {
   }
 
   getCurrentLocation() {
-    getUserCurrentLocation().then((value) async {
+    Timer.periodic(const Duration(seconds: 03), (timer) async {
+     getUserCurrentLocation().then((value) async {
       updateLocation(value.latitude, value.longitude);
       log("${value.floor}");
       log('My current location');
@@ -246,6 +247,7 @@ class CustomMapController extends GetxController {
       //     infoWindow: const InfoWindow(title: 'My current location')));
       // final GoogleMapController controller = await googleMapController.future;
       // await controller.animateCamera(CameraUpdate.newCameraPosition(kRandom));
+    });
     });
   }
 }

@@ -1,20 +1,18 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
-import 'package:ootms/presentation/api/controllers/common/bottom_nav_controller.dart';
+import 'package:ootms/presentation/api/controllers/mapControllers/create_load_map_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
+import 'package:ootms/presentation/components/common_image.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_map2.dart';
 import 'package:ootms/presentation/screens/role/user/load%20from%20excle/create_load.dart';
 import 'package:ootms/presentation/screens/role/user/notification/user_all_notifications.dart';
-import 'package:ootms/presentation/screens/role/user/profile/user_profile.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
 import 'package:ootms/presentation/screens/role/user/create_load/user_create_load.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_drawer.dart';
@@ -22,6 +20,7 @@ import 'package:ootms/presentation/screens/role/user/home/user_set_location.dart
 import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../api/controllers/common/bottom_nav_controller.dart';
 import '../../../../api/controllers/user/shipping_controller/shipping_history_controller.dart';
 import '../shipping/user_shipping_history.dart';
 
@@ -37,6 +36,7 @@ class UserHomePage extends StatefulWidget {
 class _UserHomePageState extends State<UserHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final BottomNavController navController = Get.put(BottomNavController());
+  CreateLoadMapController createLoadMapController = Get.find<CreateLoadMapController>();
 
   void _showCustomDialog(BuildContext context) {
     showDialog(
@@ -206,6 +206,7 @@ class _UserHomePageState extends State<UserHomePage> {
                                       ),
                                       Expanded(
                                         child: commonText(
+                                            controller.currentLocation.isEmpty? "Current Address Loading..." :
                                             controller.currentLocation,
                                             size: 16,
                                             color: AppColor.white),
@@ -350,7 +351,15 @@ class _UserHomePageState extends State<UserHomePage> {
                 return controller.isLoading? SizedBox(
                   height: 100,
                   width: MediaQuery.of(context).size.width,
-                    child: Center(child: CircularProgressIndicator())) : trakingDesign(
+                    child: Center(child: CircularProgressIndicator())) : controller.shippingHistoryData.isEmpty? Center(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 40),
+                          CommonImage(imageSrc: "assets/images/empty.png", imageType: ImageType.png, height: 60, width: 60,),
+                          commonText("No tracking found")
+                        ],
+                      ),
+                    ) : trakingDesign(
                     number: controller.shippingHistoryData.first.load.bolNo, address: controller.shippingHistoryData.first.load.receivingAddress);
               }),
               const SizedBox(height: 20),

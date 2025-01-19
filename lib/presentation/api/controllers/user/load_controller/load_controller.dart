@@ -3,6 +3,9 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:ootms/presentation/api/controllers/mapControllers/create_load_map_controller.dart';
+import 'package:ootms/presentation/screens/role/user/create_load/create_load_map_screen.dart';
 
 import '../../../../../helpers/other_helper.dart';
 import '../../../../components/common_snackbar.dart';
@@ -22,8 +25,7 @@ class LoadController extends ChangeNotifier {
       TextEditingController(text: kDebugMode ? "46465454" : "");
   final TextEditingController receiverEmailController =
       TextEditingController(text: kDebugMode ? "Topu@gmail.com" : "");
-  final TextEditingController receiverAddressController =
-      TextEditingController(text: kDebugMode ? "Dhaka" : "");
+  TextEditingController receiverAddressController = TextEditingController(text: kDebugMode ? "Dhaka" : "");
   final TextEditingController receiverCityController =
       TextEditingController(text: kDebugMode ? "Thakurgaon" : "");
   final TextEditingController receiverStateController =
@@ -71,6 +73,9 @@ class LoadController extends ChangeNotifier {
   List<String> hazmatList = [];
   bool isLoading = false;
   bool isSuccess = false;
+  num shipperLatitude = 0.0;
+  num shipperLongitude = 0.0;
+
   final ApiService apiService = ApiService();
   Map<String, bool> hazMatItems = {
     "Hazmat": false,
@@ -111,6 +116,24 @@ class LoadController extends ChangeNotifier {
     }
   }
 
+  updateAddresses(double latitude, double longitude) async {
+
+    if(CreateLoadMapScreen.isReceiver){
+      receiverAddressController.value = TextEditingValue(text: await CreateLoadMapController.instance.onMapTapped(LatLng(latitude, longitude)));
+      notifyListeners();
+    }else{
+      shipperAddressController.value = TextEditingValue(text: await CreateLoadMapController.instance.onMapTapped(LatLng(latitude, longitude)));
+      shipperLatitude = latitude;
+      shipperLongitude = longitude;
+      notifyListeners();
+    }
+    debugPrint("<<<=======================>>>");
+    debugPrint("loadController.receiverAddressController.text: ${receiverAddressController.text}");
+    debugPrint( "loadController.shipperAddressController.text: ${shipperAddressController.text}");
+    debugPrint( "longitude, latitude: $longitude, $latitude");
+    notifyListeners();
+  }
+
 //============================================================create load method
   Future<void> createLoad({context}) async {
     isLoading = true;
@@ -143,10 +166,17 @@ class LoadController extends ChangeNotifier {
         "receiverState": receiverStateController.text,
         "receiverZip": receiverZipController.text,
         "receiverpostalCode": poController.text,
-        "pickupDate": pickupController.text,
-        "deliveryDate": deliveryController.text,
+        "pickupDate": "2025-01-10T08:00:00Z",
+        "deliveryDate": "2025-01-12T18:00:00Z",
         "billOfLading": billOfLadingController.text,
-        "deliveryInstruction": deliveryInstructionsController.text
+        "deliveryInstruction": deliveryInstructionsController.text,
+        "location": {
+          "type": "Point",
+          "coordinates": [
+            shipperLongitude,
+            shipperLatitude
+          ]
+        }
       }
     ];
     print("==========================================hazmatlist $hazmatList");
