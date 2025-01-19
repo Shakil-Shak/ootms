@@ -62,7 +62,6 @@ class ProfileController extends ChangeNotifier {
     currentLatLng = LatLng(position.latitude, position.longitude);
 
     List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
-    log("${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}");
 
     currentLocation = "${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}";
     notifyListeners();

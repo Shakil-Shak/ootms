@@ -160,6 +160,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                                     ),
                                     Expanded(
                                       child: commonText(
+                                          customMapController.userCurrentLocation.value.isEmpty? "Location address loading..." :
                                           customMapController.userCurrentLocation.value,
                                           size: 16,
                                           color: AppColor.white),
@@ -266,7 +267,8 @@ class _DriverHomePageState extends State<DriverHomePage> {
                     imagePath: "assets/icons/user home page/massage.png",
                     label: 'Chat',
                     description: 'Easily chat with the driver.',
-                    onTap: () {
+                    onTap: () async {
+                      await ProfileController().getCurrentShipData(context: context);
                       animetedNavigationPush(UserChatListPage(), context);
                     },
                   ),

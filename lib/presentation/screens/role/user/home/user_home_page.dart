@@ -366,16 +366,16 @@ class _UserHomePageState extends State<UserHomePage> {
                     number: controller.shippingHistoryData.first.load.bolNo, address: controller.shippingHistoryData.first.load.receivingAddress);
               }),
               const SizedBox(height: 20),
-              if (controller.isLoading)
-                const Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(AppColor.primaryColor),
-                    ),
-                  ),
-                ),
+              // if (controller.isLoading)
+              //   const Positioned.fill(
+              //     child: Align(
+              //       alignment: Alignment.center,
+              //       child: CircularProgressIndicator(
+              //         valueColor:
+              //             AlwaysStoppedAnimation<Color>(AppColor.primaryColor),
+              //       ),
+              //     ),
+              //   ),
             ],
           ),
         );

@@ -8,6 +8,7 @@ import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/common/widgets.dart';
 import 'package:ootms/presentation/screens/role/driver/home/equipment.dart';
 import 'package:ootms/presentation/screens/role/driver/subsciption.dart';
+import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/constants/color/app_color.dart';
@@ -58,8 +59,9 @@ Widget driverCustomDrawer(BuildContext context) {
                   iconPath:
                       'assets/icons/shipment.png', // Change to your icon path
                   text: 'Current Shipment',
-                  onTap: () {
-                    value.getCurrentShipData(context: context);
+                  onTap: () async {
+                    await value.getCurrentShipData(context: context);
+                    animetedNavigationPush(UserChatListPage(), context);
                   },
                 ),
                 DrawerMenuItem(
