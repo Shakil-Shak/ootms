@@ -145,7 +145,11 @@ class _UserProfileState extends State<UserProfile> {
                                   controller.getLoadRequestData(
                                       context: context);
                                   animetedNavigationPush(
-                                       UserLoadRequestPage(isFromDrawer: false,), context,);
+                                    UserLoadRequestPage(
+                                      isFromDrawer: false,
+                                    ),
+                                    context,
+                                  );
                                 },
                               );
                             }),

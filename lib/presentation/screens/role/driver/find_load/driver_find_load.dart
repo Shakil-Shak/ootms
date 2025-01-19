@@ -20,7 +20,6 @@ class DriverFindLoadPage extends StatefulWidget {
 
 class _DriverFindLoadPageState extends State<DriverFindLoadPage>
     with SingleTickerProviderStateMixin {
-
   FindLoadController findLoadController = Get.find<FindLoadController>();
 
   @override
@@ -35,7 +34,8 @@ class _DriverFindLoadPageState extends State<DriverFindLoadPage>
   }
 
   Widget informationTab() {
-    findLoadController.locationController.text = CustomMapController.instance.userCurrentLocation.value;
+    findLoadController.locationController.text =
+        CustomMapController.instance.userCurrentLocation.value;
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(
@@ -81,16 +81,14 @@ class _DriverFindLoadPageState extends State<DriverFindLoadPage>
             const SizedBox(height: 36),
             // Next Button
 
-            Obx(() =>
-                commonButton(
+            Obx(() => commonButton(
                   isLoading: findLoadController.isLoading.value,
                   "Find Shipment",
                   onTap: () async {
                     await findLoadController.findNearestLoad();
                     animetedNavigationPush(const DriverMap3Page(), context);
                   },
-                )
-            )
+                ))
           ],
         ),
       ),

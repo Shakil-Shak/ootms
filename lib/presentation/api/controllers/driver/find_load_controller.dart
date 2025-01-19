@@ -75,8 +75,7 @@ class FindLoadController extends GetxController {
               loadItems.location.coordinates.first.toDouble(),
               'marker_${count++}',
               "assets/icons/findLoadIcon.png",
-            loadItems
-          );
+              loadItems);
 
           log("CustomMapController.instance.marker ${CustomMapController.instance.marker.length}");
         }

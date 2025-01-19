@@ -25,7 +25,8 @@ class LoadController extends ChangeNotifier {
       TextEditingController(text: kDebugMode ? "46465454" : "");
   final TextEditingController receiverEmailController =
       TextEditingController(text: kDebugMode ? "Topu@gmail.com" : "");
-  TextEditingController receiverAddressController = TextEditingController(text: kDebugMode ? "Dhaka" : "");
+  TextEditingController receiverAddressController =
+      TextEditingController(text: kDebugMode ? "Dhaka" : "");
   final TextEditingController receiverCityController =
       TextEditingController(text: kDebugMode ? "Thakurgaon" : "");
   final TextEditingController receiverStateController =
@@ -117,20 +118,25 @@ class LoadController extends ChangeNotifier {
   }
 
   updateAddresses(double latitude, double longitude) async {
-
-    if(CreateLoadMapScreen.isReceiver){
-      receiverAddressController.value = TextEditingValue(text: await CreateLoadMapController.instance.onMapTapped(LatLng(latitude, longitude)));
+    if (CreateLoadMapScreen.isReceiver) {
+      receiverAddressController.value = TextEditingValue(
+          text: await CreateLoadMapController.instance
+              .onMapTapped(LatLng(latitude, longitude)));
       notifyListeners();
-    }else{
-      shipperAddressController.value = TextEditingValue(text: await CreateLoadMapController.instance.onMapTapped(LatLng(latitude, longitude)));
+    } else {
+      shipperAddressController.value = TextEditingValue(
+          text: await CreateLoadMapController.instance
+              .onMapTapped(LatLng(latitude, longitude)));
       shipperLatitude = latitude;
       shipperLongitude = longitude;
       notifyListeners();
     }
     debugPrint("<<<=======================>>>");
-    debugPrint("loadController.receiverAddressController.text: ${receiverAddressController.text}");
-    debugPrint( "loadController.shipperAddressController.text: ${shipperAddressController.text}");
-    debugPrint( "longitude, latitude: $longitude, $latitude");
+    debugPrint(
+        "loadController.receiverAddressController.text: ${receiverAddressController.text}");
+    debugPrint(
+        "loadController.shipperAddressController.text: ${shipperAddressController.text}");
+    debugPrint("longitude, latitude: $longitude, $latitude");
     notifyListeners();
   }
 
@@ -172,10 +178,7 @@ class LoadController extends ChangeNotifier {
         "deliveryInstruction": deliveryInstructionsController.text,
         "location": {
           "type": "Point",
-          "coordinates": [
-            shipperLongitude,
-            shipperLatitude
-          ]
+          "coordinates": [shipperLongitude, shipperLatitude]
         }
       }
     ];
@@ -187,17 +190,19 @@ class LoadController extends ChangeNotifier {
       final response = await apiService.otherPostRequest(
           ApiPaths.createLoad, jsonEncode(data));
 
-      log("status code before =-==================${response["statusCode"]}");
+      log("status code before =-==================${response}");
       if (response["statusCode"] == "201") {
+        log("status code after =-==================${response["statusCode"]}");
         final id = response["data"]["attributes"][0]["_id"];
         loadId = id;
         showCommonSnackbar(context, "Create Load Successfull", isError: false);
         isSuccess = true;
         notifyListeners();
       }
-    } catch (e) {
+    } catch (e, s) {
       showCommonSnackbar(context, "Create Load Failed", isError: true);
       log("failed =-==================$e");
+      log("failed =-==================$s");
     } finally {
       isLoading = false;
       notifyListeners();

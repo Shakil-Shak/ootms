@@ -18,7 +18,9 @@ class SignInModel {
       status: json["status"] ?? "",
       statusCode: json["statusCode"] ?? "",
       message: json["message"] ?? "",
-      data: json["data"] != null ? SignInData.fromJson(json["data"]) : SignInData(),
+      data: json["data"] != null
+          ? SignInData.fromJson(json["data"])
+          : SignInData(),
       errors: json["errors"] ?? [],
     );
   }
@@ -159,4 +161,3 @@ class SignInAttributes {
     };
   }
 }
-

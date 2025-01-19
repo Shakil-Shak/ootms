@@ -22,7 +22,8 @@ class ApiPaths {
   static String staticContent({contentType}) =>
       '$baseUrl/api/v1/static-contents?type=$contentType';
   static const String currentShiping = '$baseUrl/api/v1/shipment/current';
-  static const String drivercurrentShiping = '$baseUrl/api/v1/shipment/current?page=';
+  static const String drivercurrentShiping =
+      '$baseUrl/api/v1/shipment/current?page=';
   static const String driverLoadRequest = '$baseUrl/api/v1/loads-request?page=';
   static const String shippingHistory = '$baseUrl/api/v1/shipment/history';
   static const String chagePassword = '$baseUrl/api/v1/auth/change-password';
@@ -35,6 +36,7 @@ class ApiPaths {
   static String pendingShipment = '$baseUrl/api/v1/shipment/pending?page=';
   static String nearestLoad = '$baseUrl/api/v1/loads/nearest_loads';
   static String loadRequsetAction = '$baseUrl/api/v1/loads-request/action';
-  static String serviceFeedback(String userId) => '$baseUrl/api/v1/feedbacks/$userId';
+  static String serviceFeedback(String userId) =>
+      '$baseUrl/api/v1/feedbacks/$userId';
   static String appFeedback = '$baseUrl/api/v1/feedbacks/';
 }

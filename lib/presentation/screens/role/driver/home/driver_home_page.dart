@@ -3,18 +3,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
-import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/find_load/driver_find_load.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_drawer.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_set_location.dart';
-import 'package:ootms/presentation/screens/role/driver/home/driver_support.dart';
 import 'package:ootms/presentation/screens/role/driver/notification/driver_all_notifications.dart';
 import 'package:ootms/presentation/screens/role/driver/profile/driver_profile.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_shipping_history.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
-import 'package:provider/provider.dart';
 
 import '../../user/home/user_support.dart';
 
@@ -63,7 +60,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(
-                              'assets/images/userHomePagebg.png'), // Replace with your image asset
+                              'assets/images/userHomePagebg.png'),
                           fit: BoxFit.cover,
                           colorFilter: ColorFilter.mode(
                               Colors.black38, BlendMode.multiply)),
