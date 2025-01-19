@@ -1,6 +1,6 @@
 class ApiPaths {
   static const String baseUrl = 'http://10.0.70.87:8020';
-  static const String socketUrl = 'http://10.0.70.87:8020';
+  static const String socketUrl = 'http://10.0.70.112:3010';
 
   static const String signinUrl = '$baseUrl/api/v1/auth/local';
   static const String signupUrl = '$baseUrl/api/v1/auth/sign-up';

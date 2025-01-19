@@ -46,6 +46,7 @@ class ApiService {
       ).timeout(const Duration(seconds: timeOut));
       return response.data;
     } on DioException catch (e) {
+      log("=======>>> $e");
       _handleDioError(e);
     }
   }
