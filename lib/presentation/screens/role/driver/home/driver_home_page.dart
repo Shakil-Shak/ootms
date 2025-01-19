@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
-import 'package:ootms/presentation/api/controllers/Driver/google_map_controller.dart';
+import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
@@ -179,56 +179,6 @@ class _DriverHomePageState extends State<DriverHomePage> {
                               ),
                             ),
                           ),
-                          // Center(
-                          //   child: commonText("Track Your Shipment",
-                          //       size: 22, isBold: true, color: AppColor.white),
-                          // ),
-                          // Container(
-                          //   height: 50,
-                          //   margin: const EdgeInsets.symmetric(
-                          //       horizontal: 16, vertical: 10),
-                          //   padding: const EdgeInsets.only(left: 8),
-                          //   decoration: BoxDecoration(
-                          //     color: Colors.white,
-                          //     borderRadius: BorderRadius.circular(12),
-                          //     boxShadow: [
-                          //       BoxShadow(
-                          //         color: Colors.black.withOpacity(0.1),
-                          //         spreadRadius: 2,
-                          //         blurRadius: 6,
-                          //       ),
-                          //     ],
-                          //   ),
-                          //   child: Row(
-                          //     children: [
-                          //       // Truck icon
-                          //       const Icon(Icons.local_shipping,
-                          //           color: Colors.blue),
-                          //       const SizedBox(width: 10),
-
-                          //       // Input field
-                          //       const Expanded(
-                          //         child: TextField(
-                          //           decoration: InputDecoration(
-                          //             hintText: 'Enter bill of lading number',
-                          //             border: InputBorder.none,
-                          //           ),
-                          //         ),
-                          //       ),
-
-                          //       Container(
-                          //         padding: const EdgeInsets.symmetric(vertical: 8),
-                          //         child: FittedBox(
-                          //           child: commonButton(
-                          //             "Track",
-                          //             width: 120,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
-                          // const SizedBox(),
                         ],
                       ))
                 ],

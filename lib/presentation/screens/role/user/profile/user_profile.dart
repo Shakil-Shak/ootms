@@ -63,7 +63,7 @@ class _UserProfileState extends State<UserProfile> {
                       controller.profileData.image.isNotEmpty
                           ? CommonImage(
                               imageSrc: ApiPaths.baseUrl +
-                                  controller.profileData.image!,
+                                  controller.profileData.image,
                               imageType: ImageType.network,
                               size: 100,
                               borderRadius: 100,

@@ -1,131 +1,163 @@
 class SignInModel {
-  final String status;
-  final String statusCode;
-  final String message;
-  final SignInData data;
-  final List<dynamic> errors;
+  String status;
+  String statusCode;
+  String message;
+  SignInData data;
+  List<dynamic> errors;
 
   SignInModel({
-    required this.status,
-    required this.statusCode,
-    required this.message,
-    required this.data,
-    required this.errors,
-  });
+    this.status = "",
+    this.statusCode = "",
+    this.message = "",
+    SignInData? data,
+    this.errors = const [],
+  }) : data = data ?? SignInData();
 
   factory SignInModel.fromJson(Map<String, dynamic> json) {
     return SignInModel(
-      status: json['status'],
-      statusCode: json['statusCode'],
-      message: json['message'],
-      data: SignInData.fromJson(json['data']),
-      errors: json['errors'] ?? [],
+      status: json["status"] ?? "",
+      statusCode: json["statusCode"] ?? "",
+      message: json["message"] ?? "",
+      data: json["data"] != null
+          ? SignInData.fromJson(json["data"])
+          : SignInData(),
+      errors: json["errors"] ?? [],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'status': status,
-      'statusCode': statusCode,
-      'message': message,
-      'data': data.toJson(),
-      'errors': errors,
+      "status": status,
+      "statusCode": statusCode,
+      "message": message,
+      "data": data.toJson(),
+      "errors": errors,
     };
   }
 }
 
 class SignInData {
-  final String type;
-  final Attributes attributes;
-  final String accessToken;
+  String type;
+  SignInAttributes attributes;
+  String accessToken;
 
   SignInData({
-    required this.type,
-    required this.attributes,
-    required this.accessToken,
-  });
+    this.type = "",
+    SignInAttributes? attributes,
+    this.accessToken = "",
+  }) : attributes = attributes ?? SignInAttributes();
 
   factory SignInData.fromJson(Map<String, dynamic> json) {
     return SignInData(
-      type: json['type'],
-      attributes: Attributes.fromJson(json['attributes']),
-      accessToken: json['accessToken'],
+      type: json["type"] ?? "",
+      attributes: json["attributes"] != null
+          ? SignInAttributes.fromJson(json["attributes"])
+          : SignInAttributes(),
+      accessToken: json["accessToken"] ?? "",
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'type': type,
-      'attributes': attributes.toJson(),
-      'accessToken': accessToken,
+      "type": type,
+      "attributes": attributes.toJson(),
+      "accessToken": accessToken,
     };
   }
 }
 
-class Attributes {
-  final String id;
-  final String userId;
-  final String fullName;
-  final String email;
-  final String image;
-  final String password;
-  final bool isOnDuty;
-  var ratings;
-  final int dispatchCompleted;
-  final String role;
-  final String createdAt;
-  final String updatedAt;
-  final num version;
+class SignInAttributes {
+  bool isSocialLogin;
+  String id;
+  String userId;
+  String fullName;
+  String email;
+  String password;
+  bool isOnDuty;
+  bool isComplete;
+  bool validDriver;
+  bool isDeleted;
+  double ratings;
+  num remainingDispatch;
+  String role;
+  String createdAt;
+  String updatedAt;
+  num version;
+  String address;
+  String document;
+  String image;
+  String phoneNumber;
 
-  Attributes({
-    required this.id,
-    required this.userId,
-    required this.fullName,
-    required this.email,
-    required this.image,
-    required this.password,
-    required this.isOnDuty,
-    required this.ratings,
-    required this.dispatchCompleted,
-    required this.role,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.version,
+  SignInAttributes({
+    this.isSocialLogin = false,
+    this.id = "",
+    this.userId = "",
+    this.fullName = "",
+    this.email = "",
+    this.password = "",
+    this.isOnDuty = false,
+    this.isComplete = false,
+    this.validDriver = false,
+    this.isDeleted = false,
+    this.ratings = 0.0,
+    this.remainingDispatch = 0,
+    this.role = "",
+    this.createdAt = "",
+    this.updatedAt = "",
+    this.version = 0,
+    this.address = "",
+    this.document = "",
+    this.image = "",
+    this.phoneNumber = "",
   });
 
-  factory Attributes.fromJson(Map<String, dynamic> json) {
-    return Attributes(
-      id: json['_id'],
-      userId: json['userId'],
-      fullName: json['fullName'],
-      email: json['email'],
-      image: json['image'],
-      password: json['password'],
-      isOnDuty: json['isOnDuty'],
-      ratings: json['ratings'],
-      dispatchCompleted: json['dispatchCompleted'],
-      role: json['role'],
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-      version: json['__v'],
+  factory SignInAttributes.fromJson(Map<String, dynamic> json) {
+    return SignInAttributes(
+      isSocialLogin: json["isSocialLogin"] ?? false,
+      id: json["_id"] ?? "",
+      userId: json["userId"] ?? "",
+      fullName: json["fullName"] ?? "",
+      email: json["email"] ?? "",
+      password: json["password"] ?? "",
+      isOnDuty: json["isOnDuty"] ?? false,
+      isComplete: json["isComplete"] ?? false,
+      validDriver: json["validDriver"] ?? false,
+      isDeleted: json["isDeleted"] ?? false,
+      ratings: (json["ratings"] ?? 0).toDouble(),
+      remainingDispatch: json["remainingDispatch"] ?? 0,
+      role: json["role"] ?? "",
+      createdAt: json["createdAt"] ?? "",
+      updatedAt: json["updatedAt"] ?? "",
+      version: json["__v"] ?? 0,
+      address: json["address"] ?? "",
+      document: json["document"] ?? "",
+      image: json["image"] ?? "",
+      phoneNumber: json["phoneNumber"] ?? "",
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      '_id': id,
-      'userId': userId,
-      'fullName': fullName,
-      'email': email,
-      'image': image,
-      'password': password,
-      'isOnDuty': isOnDuty,
-      'ratings': ratings,
-      'dispatchCompleted': dispatchCompleted,
-      'role': role,
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
-      '__v': version,
+      "isSocialLogin": isSocialLogin,
+      "_id": id,
+      "userId": userId,
+      "fullName": fullName,
+      "email": email,
+      "password": password,
+      "isOnDuty": isOnDuty,
+      "isComplete": isComplete,
+      "validDriver": validDriver,
+      "isDeleted": isDeleted,
+      "ratings": ratings,
+      "remainingDispatch": remainingDispatch,
+      "role": role,
+      "createdAt": createdAt,
+      "updatedAt": updatedAt,
+      "__v": version,
+      "address": address,
+      "document": document,
+      "image": image,
+      "phoneNumber": phoneNumber,
     };
   }
 }

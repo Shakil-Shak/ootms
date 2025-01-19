@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/common/bottom_nav_controller.dart';
+import 'package:ootms/presentation/api/controllers/mapControllers/create_load_map_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_image.dart';
@@ -38,6 +39,8 @@ class UserHomePage extends StatefulWidget {
 class _UserHomePageState extends State<UserHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final BottomNavController navController = Get.put(BottomNavController());
+  CreateLoadMapController createLoadMapController =
+      Get.find<CreateLoadMapController>();
 
   void _showCustomDialog(BuildContext context) {
     showDialog(
@@ -207,7 +210,9 @@ class _UserHomePageState extends State<UserHomePage> {
                                       ),
                                       Expanded(
                                         child: commonText(
-                                            controller.currentLocation,
+                                            controller.currentLocation.isEmpty
+                                                ? "Current Address Loading..."
+                                                : controller.currentLocation,
                                             size: 16,
                                             color: AppColor.white),
                                       )
@@ -323,8 +328,7 @@ class _UserHomePageState extends State<UserHomePage> {
                       label: 'Chat',
                       description: 'Easily chat with the driver.',
                       onTap: () {
-                        controller.getCurrentShipData(
-                            context: context);
+                        controller.getCurrentShipData(context: context);
                         animetedNavigationPush(UserChatListPage(), context);
                       },
                     ),
@@ -348,31 +352,43 @@ class _UserHomePageState extends State<UserHomePage> {
               // Recently Tracking Section
               Consumer<ShippinfHistoryController>(
                   builder: (context, controller, _) {
-                return controller.isLoading? SizedBox(
-                  height: 100,
-                  width: MediaQuery.of(context).size.width,
-                    child: Center(child: CircularProgressIndicator())) : controller.shippingHistoryData.isEmpty? Center(
-                      child: Column(
-                        children: [
-                          SizedBox(height: 40),
-                          CommonImage(imageSrc: "assets/images/empty.png", imageType: ImageType.png, height: 60, width: 60,),
-                          commonText("No tracking found")
-                        ],
-                      ),
-                    ) : trakingDesign(
-                    number: controller.shippingHistoryData.first.load.bolNo, address: controller.shippingHistoryData.first.load.receivingAddress);
+                return controller.isLoading
+                    ? SizedBox(
+                        height: 100,
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(child: CircularProgressIndicator()))
+                    : controller.shippingHistoryData.isEmpty
+                        ? Center(
+                            child: Column(
+                              children: [
+                                SizedBox(height: 40),
+                                CommonImage(
+                                  imageSrc: "assets/images/empty.png",
+                                  imageType: ImageType.png,
+                                  height: 60,
+                                  width: 60,
+                                ),
+                                commonText("No tracking found")
+                              ],
+                            ),
+                          )
+                        : trakingDesign(
+                            number:
+                                controller.shippingHistoryData.first.load.bolNo,
+                            address: controller.shippingHistoryData.first.load
+                                .receivingAddress);
               }),
               const SizedBox(height: 20),
-              if (controller.isLoading)
-                const Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(AppColor.primaryColor),
-                    ),
-                  ),
-                ),
+              // if (controller.isLoading)
+              //   const Positioned.fill(
+              //     child: Align(
+              //       alignment: Alignment.center,
+              //       child: CircularProgressIndicator(
+              //         valueColor:
+              //             AlwaysStoppedAnimation<Color>(AppColor.primaryColor),
+              //       ),
+              //     ),
+              //   ),
             ],
           ),
         );

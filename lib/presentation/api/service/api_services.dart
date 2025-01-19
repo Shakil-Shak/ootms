@@ -14,6 +14,7 @@ class ApiService {
 
   // SharedPreferencesService service = SharedPreferencesService();
   List<String>? userDetails;
+  static const int timeOut = 30;
 
   // Generic GET Request
   Future<dynamic> getRequest(String url) async {
@@ -26,7 +27,7 @@ class ApiService {
         options: Options(headers: {
           "Authorization": "Bearer $token",
         }),
-      );
+      ).timeout(const Duration(seconds: timeOut));
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -42,7 +43,7 @@ class ApiService {
       final response = await _dio.post(
         url, data: data,
         options: token,
-      );
+      ).timeout(const Duration(seconds: timeOut));
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -63,7 +64,7 @@ Future<dynamic> otherPostRequest(String url,data, {Options? token}) async {
           'Content-Type': 'application/json',
         },
       ),
-    );
+    ).timeout(const Duration(seconds: timeOut));
     return response.data;
   } on DioException catch (e) {
     _handleDioError(e);
@@ -84,7 +85,7 @@ Future<dynamic> otherPostRequest(String url,data, {Options? token}) async {
         options: Options(headers: {
           "Authorization": "Bearer $token",
         }),
-      );
+      ).timeout(const Duration(seconds: timeOut));
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -94,7 +95,7 @@ Future<dynamic> otherPostRequest(String url,data, {Options? token}) async {
   // Generic PUT Request
   Future<dynamic> putRequest(String url, Map<String, dynamic> data) async {
     try {
-      final response = await _dio.put(url, data: data);
+      final response = await _dio.put(url, data: data).timeout(const Duration(seconds: timeOut));
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -136,7 +137,7 @@ Future<dynamic> otherPostRequest(String url,data, {Options? token}) async {
             // "Content-Type": "multipart/form-data",
           },
         ),
-      );
+      ).timeout(const Duration(seconds: timeOut));
 
       return response.data;
     } on DioException catch (e) {
@@ -148,7 +149,7 @@ Future<dynamic> otherPostRequest(String url,data, {Options? token}) async {
   // Generic DELETE Request
   Future<dynamic> deleteRequest(String url) async {
     try {
-      final response = await _dio.delete(url);
+      final response = await _dio.delete(url).timeout(const Duration(seconds: timeOut));
       return response.data;
     } on DioException catch (e) {
       log("Error: $e");

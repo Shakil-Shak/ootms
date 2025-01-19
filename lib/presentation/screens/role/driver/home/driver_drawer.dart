@@ -11,6 +11,7 @@ import 'package:ootms/presentation/screens/role/driver/settings/driver_settings.
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_current_shipments.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request.dart';
 import 'package:ootms/presentation/screens/role/driver/subsciption.dart';
+import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/constants/color/app_color.dart';
@@ -60,9 +61,9 @@ Widget driverCustomDrawer(BuildContext context) {
                 DrawerMenuItem(
                   iconPath: 'assets/icons/shipment.png',
                   text: 'Current Shipment',
-                  onTap: () {
-                    animetedNavigationPush(
-                        DriverCurrentShipmentsPage(), context);
+                  onTap: () async {
+                    await value.getCurrentShipData(context: context);
+                    animetedNavigationPush(UserChatListPage(), context);
                   },
                 ),
                 DrawerMenuItem(
@@ -71,7 +72,7 @@ Widget driverCustomDrawer(BuildContext context) {
                   onTap: () {
                     value.getLoadRequestData(context: context).then((value) =>
                         animetedNavigationPush(
-                             DriverLoadRequestPage(), context));
+                            DriverLoadRequestPage(), context));
                   },
                 ),
                 DrawerMenuItem(

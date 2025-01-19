@@ -15,24 +15,6 @@ import 'package:ootms/presentation/screens/role/user/shipping/user_current%20_sh
 import 'package:provider/provider.dart';
 
 class UserCurrentShipmentsPage extends StatelessWidget {
-  final List<Map<String, dynamic>> loadRequests = [
-    {
-      'driverName': 'Ramandeep',
-      'truckInfo': '48-foot trailer—24 pallets.',
-      'from': 'California, USA',
-      'to': 'Banasree, Dhaka',
-      'driverImage':
-          'https://images.mykhel.com/webp/images/cricket/players/1/13671.jpg',
-    },
-    {
-      'driverName': 'Devid',
-      'truckInfo': '48-foot trailer—24 pallets.',
-      'from': 'Toronto, Canada',
-      'to': 'Banasree, Dhaka',
-      'driverImage':
-          'https://i1.sndcdn.com/avatars-AXMZovCgD2mPbyQy-jqf2Tw-t240x240.jpg',
-    },
-  ];
 
   UserCurrentShipmentsPage({super.key});
 

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/mapControllers/create_load_map_controller.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/driver/shipping/driver_current_shipments.dart';
+import 'package:ootms/presentation/screens/role/user/create_load/create_load_map_screen.dart';
 
 Widget commonTextfield(TextEditingController controller,
     {String hintText = "",
@@ -137,6 +142,7 @@ Widget commonTextfieldWithTitle(String title, TextEditingController controller,
 }
 
 Widget commonTextfieldWithTitleSideButton(
+    BuildContext context,
     String title, TextEditingController controller,
     {FocusNode? focusNode,
     String hintText = "",
@@ -157,7 +163,9 @@ Widget commonTextfieldWithTitleSideButton(
     Color borderColor = Colors.grey,
     int maxLine = 1,
     String? Function(String?)? onValidate,
-    Function(String?)? onFieldSubmit}) {
+    Function(String?)? onFieldSubmit,
+    bool isReceiver = false,
+    }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -186,7 +194,21 @@ Widget commonTextfieldWithTitleSideButton(
                   const SizedBox(
                     width: 5,
                   ),
-                  commonText("Select from map"),
+                  InkWell(
+                    onTap: () async {
+                      CreateLoadMapScreen.isReceiver = isReceiver;
+                      CreateLoadMapController.instance.marker.clear();
+                      // animetedNavigationPush(CreateLoadMapScreen(), Get.context!);
+                      String data = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CreateLoadMapScreen(), // Show the LocationScreen
+                        ),
+                      );
+                      controller.text = data;
+                    },
+                      child: commonText("Select from map")
+                  ),
                 ],
               ),
             ),
@@ -202,7 +224,7 @@ Widget commonTextfieldWithTitleSideButton(
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
           child: TextFormField(
-            controller: controller,
+             controller: controller,
             enabled: enable,
             focusNode: focusNode,
             validator: onValidate,
