@@ -70,7 +70,7 @@ class FindLoadController extends GetxController {
         for (NearestLoadModel loadItems in nearestLoadList) {
           log("Set Marker${loadItems.location.coordinates.first}, ${loadItems.location.coordinates.last}");
 
-          CustomMapController.instance.setLocationMarker(
+          CustomMapController.instance.setLoadLocationMarker(
               loadItems.location.coordinates.last.toDouble(),
               loadItems.location.coordinates.first.toDouble(),
               'marker_${count++}',

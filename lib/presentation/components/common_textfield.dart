@@ -198,7 +198,6 @@ Widget commonTextfieldWithTitleSideButton(
                     onTap: () async {
                       CreateLoadMapScreen.isReceiver = isReceiver;
                       CreateLoadMapController.instance.marker.clear();
-                      // animetedNavigationPush(CreateLoadMapScreen(), Get.context!);
                       String data = await Navigator.push(
                         context,
                         MaterialPageRoute(

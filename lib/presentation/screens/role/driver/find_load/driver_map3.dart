@@ -62,26 +62,26 @@ class _DriverMap3PageState extends State<DriverMap3Page> {
                   position.target.latitude, position.target.longitude
               );
             },
-            onTap: (LatLng latlng) async{
-              mapController.isTapped.value = true;
-              mapController.setTargetLocation(latlng.latitude, latlng.longitude);
-              mapController.placeAddress = await placemarkFromCoordinates(latlng.latitude, latlng.longitude);
-
-              mapController.list.add(
-                  Marker(
-                    markerId: MarkerId('tapped place'),
-                    position: LatLng(latlng.latitude, latlng.longitude),
-                    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-                    infoWindow: InfoWindow(
-                        title: "${mapController.placeAddress.first.subLocality}: ${latlng.latitude}, ${latlng.longitude}"
-                    ),
-                  )
-              );
-              final GoogleMapController controller = await mapController.googleMapController.future;
-              await controller.animateCamera(CameraUpdate.newCameraPosition(mapController.kRandom));
-              log("==============Map Tapped Here: ${mapController.placeAddress} ====================");
-              mapController.isTapped.value = false;
-            },
+            // onTap: (LatLng latlng) async{
+            //   mapController.isTapped.value = true;
+            //   mapController.setTargetLocation(latlng.latitude, latlng.longitude);
+            //   mapController.placeAddress = await placemarkFromCoordinates(latlng.latitude, latlng.longitude);
+            //
+            //   mapController.list.add(
+            //       Marker(
+            //         markerId: MarkerId('tapped place'),
+            //         position: LatLng(latlng.latitude, latlng.longitude),
+            //         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+            //         infoWindow: InfoWindow(
+            //             title: "${mapController.placeAddress.first.subLocality}: ${latlng.latitude}, ${latlng.longitude}"
+            //         ),
+            //       )
+            //   );
+            //   final GoogleMapController controller = await mapController.googleMapController.future;
+            //   await controller.animateCamera(CameraUpdate.newCameraPosition(mapController.kRandom));
+            //   log("==============Map Tapped Here: ${mapController.placeAddress} ====================");
+            //   mapController.isTapped.value = false;
+            // },
 
             // polylines: _polylines,
           )),
@@ -147,7 +147,7 @@ class _DriverMap3PageState extends State<DriverMap3Page> {
           // ),
 
           Positioned(
-            top: 30,
+            top: 60,
             left: 16,
             child: InkWell(
               onTap: () {

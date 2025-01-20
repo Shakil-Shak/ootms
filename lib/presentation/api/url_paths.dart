@@ -39,5 +39,6 @@ class ApiPaths {
   static String serviceFeedback(String userId) =>
       '$baseUrl/api/v1/feedbacks/$userId';
   static String appFeedback = '$baseUrl/api/v1/feedbacks/';
+  static String nearestDriver = '$baseUrl/api/v1/loads/get_nearest_driver?lastLoadId=';
   static String getPreferedDriver(String?search) => '$baseUrl/api/v1/preferred-driver?searchQuery=$search&limit=1000000000000000000000';
 }

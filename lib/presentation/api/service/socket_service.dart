@@ -13,15 +13,16 @@ class SocketServices {
   ///<<<============ Connect with socket ====================>>>
   static Future<void> connectToSocket() async {
     List<String>? userDetails = await getUserAcessDetails();
-    String token = userDetails![0];
-
-    socket = io.io(
-        ApiPaths.socketUrl,
-        io.OptionBuilder()
-            .setTransports(['websocket'])
-            .enableAutoConnect()
-            .setExtraHeaders({'authorization': token}) // optional
-            .build());
+    if(userDetails != null && userDetails.isNotEmpty){
+      String token = userDetails[0];
+      socket = io.io(
+          ApiPaths.socketUrl,
+          io.OptionBuilder()
+              .setTransports(['websocket'])
+              .enableAutoConnect()
+              .setExtraHeaders({'authorization': token}) // optional
+              .build());
+    }
 
     socket.onConnect((data) {
       log("=============================> Connection $data");
