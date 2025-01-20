@@ -661,7 +661,6 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                                   TextButton(
                                     onPressed: () async {
                                       await nearestDriverController.findNearestDriver(createdLoadId: value.loadId);
-                                      Navigator.pop(context);
                                       animetedNavigationPush(
                                           const UserMap2Page(), context);
                                     },
