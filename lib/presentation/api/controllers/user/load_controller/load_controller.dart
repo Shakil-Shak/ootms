@@ -102,7 +102,8 @@ class LoadController extends ChangeNotifier {
 
     // Format it as `dd-MM-yyyy`
     String day = dateTime.day < 10 ? "0${dateTime.day}" : "${dateTime.day}";
-    String month = dateTime.month < 10 ? "0${dateTime.month}" : "${dateTime.month}";
+    String month =
+        dateTime.month < 10 ? "0${dateTime.month}" : "${dateTime.month}";
     String formattedDate = "$day-$month-${dateTime.year}";
     pickupController.value = TextEditingValue(text: formattedDate);
     notifyListeners();
@@ -116,9 +117,10 @@ class LoadController extends ChangeNotifier {
 
     // Format it as `dd-MM-yyyy`
     String day = dateTime.day < 10 ? "0${dateTime.day}" : "${dateTime.day}";
-    String month = dateTime.month < 10 ? "0${dateTime.month}" : "${dateTime.month}";
+    String month =
+        dateTime.month < 10 ? "0${dateTime.month}" : "${dateTime.month}";
     String formattedDate = "$day-$month-${dateTime.year}";
-    deliveryController.value= TextEditingValue(text: formattedDate);
+    deliveryController.value = TextEditingValue(text: formattedDate);
     notifyListeners();
   }
 
@@ -138,7 +140,8 @@ class LoadController extends ChangeNotifier {
   }
 
   updateAddresses(double latitude, double longitude) async {
-    await CreateLoadMapController.instance.onMapTapped(LatLng(latitude, longitude));
+    await CreateLoadMapController.instance
+        .onMapTapped(LatLng(latitude, longitude));
   }
 
 //============================================================create load method
@@ -170,7 +173,7 @@ class LoadController extends ChangeNotifier {
         "receiverEmail": receiverEmailController.text,
         "receivingAddress": receiverAddressController.text,
         "receiverCity": receiverCityController.text,
-        "receiverState": receiverStateController.text, 
+        "receiverState": receiverStateController.text,
         "receiverZip": receiverZipController.text,
         "receiverpostalCode": poController.text,
         "pickupDate": pickedUpDate,
@@ -179,7 +182,10 @@ class LoadController extends ChangeNotifier {
         "deliveryInstruction": deliveryInstructionsController.text,
         "location": {
           "type": "Point",
-          "coordinates": [CreateLoadMapController.instance.selectedLongitude, CreateLoadMapController.instance.selectedLatitude]
+          "coordinates": [
+            CreateLoadMapController.instance.selectedLongitude,
+            CreateLoadMapController.instance.selectedLatitude
+          ]
         }
       }
     ];
@@ -194,6 +200,7 @@ class LoadController extends ChangeNotifier {
         log("status code after =-==================${response["statusCode"]}");
         final id = response["data"]["attributes"][0]["_id"];
         loadId = id;
+        print("===============================================================loadid ------$loadId");
         showCommonSnackbar(context, "Create Load Successfull", isError: false);
         isSuccess = true;
         notifyListeners();
@@ -210,32 +217,31 @@ class LoadController extends ChangeNotifier {
 
   //============================================assign a preffered driver method
   //============================================================create load method
-  
+
   final BottomNavController navController = Get.put(BottomNavController());
   Future<void> assignPrefferedDriver({context}) async {
     isLoading = true;
-    
+
     notifyListeners();
 
     List<Map<String, String>> data = [
-      {"load": loadId, "driver": driverIdcontroller.text}
+      {"load":loadId, "driver": driverIdcontroller.text}
     ];
-    print("=====================================data $data");
+
+
 
     try {
-      final response = await apiService.otherPostRequest(
-          ApiPaths.preferredDriver, jsonEncode(data));
-      debugPrint(
-          "44==========================================================response${response["statusCode"]}");
+          final response = await apiService.otherPostRequest(
+        ApiPaths.preferredDriver, jsonEncode(data));
+        print("===================================================statuscode${response["statusCode"]}");
       if (response["statusCode"] == 201) {
         driverIdcontroller.clear();
-        showCommonSnackbar(context, "Assign Preffered Driver Successfull",
+        showCommonSnackbar(context, response["message"],
             isError: false);
         navController.valueIncrease(value: 0);
         isSuccess = true;
         notifyListeners();
-
-      } else if (response["statusCode"] == 208) {
+      } else if (response["statusCode"] == "208") {
         showCommonSnackbar(
           context,
           response["message"],
@@ -243,10 +249,11 @@ class LoadController extends ChangeNotifier {
       } else {
         showCommonSnackbar(context, "Something Went wrong", isError: true);
       }
-    } catch (e) {
-      showCommonSnackbar(context, "Assign Preffered Driver Failed",
+    } catch (e, s) {
+      showCommonSnackbar(context, "faild $e",
           isError: true);
       debugPrint("failed =-==================$e");
+      debugPrint("failed =-==================$s");
     } finally {
       isLoading = false;
       notifyListeners();

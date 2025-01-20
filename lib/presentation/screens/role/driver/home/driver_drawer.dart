@@ -6,7 +6,7 @@ import 'package:ootms/presentation/api/controllers/user/static_controller/static
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/common/widgets.dart';
-import 'package:ootms/presentation/screens/role/driver/home/equipment.dart';
+import 'package:ootms/presentation/screens/role/driver/equipment_screen/equipment.dart';
 import 'package:ootms/presentation/screens/role/driver/settings/driver_settings.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_current_shipments.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request.dart';

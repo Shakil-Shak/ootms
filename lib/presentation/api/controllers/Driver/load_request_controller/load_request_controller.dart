@@ -110,12 +110,13 @@ class DriverLoadRequest extends GetxController {
       var response = await ApiClient.patchData(ApiPaths.loadRequsetAction, body,
           headers: header);
       if (response.statusCode == 200) {
+        print("load accept================================================================");
+        getDriverLoadReg();
         showCommonSnackbar(context, "Load Request Accept Successfull",
             isError: false);
         loadRequestData[index].isLoading = false;
         loadRequestData[index].isAccept = false;
         update();
-        getDriverLoadReg();
       } else {
         showCommonSnackbar(context, "Load Request Accepted Faild",
             isError: true);
@@ -147,13 +148,12 @@ class DriverLoadRequest extends GetxController {
       var response = await ApiClient.patchData(ApiPaths.loadRequsetAction, body,
           headers: header);
       if (response.statusCode == 200) {
+        getDriverLoadReg();
         showCommonSnackbar(context, "Load Request Rejected", isError: false);
         loadRequestData[index].isLoading = false;
         update();
         loadRequestData[index].isReject = false;
         update();
-
-        getDriverLoadReg();
       } else {
         showCommonSnackbar(context, "Load Request Rejected Failed",
             isError: true);

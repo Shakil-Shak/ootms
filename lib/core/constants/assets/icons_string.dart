@@ -6,4 +6,7 @@ class AppIcons {
   static const feedback = "assets/icons/feedbacks.png";
   static const locationMarker = "assets/icons/locationMarker.png";
   static const greenTruck = "assets/icons/greenTruck.png";
+  static const call = "assets/icons/call.svg";
+  static const truck = "assets/icons/track.svg";
+  static const trailer = "assets/icons/trailer.svg";
 }
