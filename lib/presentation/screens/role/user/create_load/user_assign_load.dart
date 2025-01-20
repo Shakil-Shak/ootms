@@ -4,15 +4,14 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/models/user_model/nearest_driver_model.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UserAssignLoadPage extends StatelessWidget {
-  String phone = "123-456-789",
-      name = "NR Shakib",
-      email = "example@gmail.com",
-      address = "Rupatoli, Barishal";
+
+  static NearestDriverModel loadDetails = NearestDriverModel();
 
   UserAssignLoadPage({super.key});
   @override
@@ -39,7 +38,7 @@ class UserAssignLoadPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText("Driver Name", isBold: true),
-                      commonText(name),
+                      commonText(loadDetails.fullName),
                     ],
                   ),
                 ),
@@ -48,7 +47,7 @@ class UserAssignLoadPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText("Driver Phone", isBold: true),
-                      commonText(phone),
+                      commonText(loadDetails.phoneNumber),
                     ],
                   ),
                 ),
@@ -63,7 +62,7 @@ class UserAssignLoadPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText("Driver Email", isBold: true),
-                      commonText(email),
+                      commonText(loadDetails.email),
                     ],
                   ),
                 ),
@@ -72,7 +71,7 @@ class UserAssignLoadPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText("Driver Address", isBold: true),
-                      commonText(address),
+                      commonText(loadDetails.address),
                     ],
                   ),
                 ),
@@ -134,57 +133,6 @@ class UserAssignLoadPage extends StatelessWidget {
             const SizedBox(height: 20),
 
             // Message Input with Call Button
-            Row(
-              children: [
-                // Message input field
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: Colors.grey, width: 1),
-                    ),
-                    child: const Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12.0),
-                          child: Icon(
-                            Icons.message,
-                            color: AppColor.black,
-                          ),
-                        ),
-                        Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: "Send a message",
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                // Phone icon button
-                InkWell(
-                  onTap: () {
-                    _launchDialer(phone);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        color: AppColor.white,
-                        shape: BoxShape.circle,
-                        border: Border.all(width: 1)),
-                    child: const Icon(
-                      Icons.phone,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ],
-            ),
             const SizedBox(height: 20),
 
             // Cancel and Assign Load Buttons

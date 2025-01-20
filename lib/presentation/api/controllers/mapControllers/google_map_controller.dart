@@ -105,13 +105,10 @@ class CustomMapController extends GetxController {
   }
 
   ///==================== Set Driver Marker with Icon =================================
-  setDriverLocationMarker(double latitude, double longitude, String placeId, String iconPath, NearestDriverModel loadItems) async {
+  setDriverLocationMarker(double latitude, double longitude, String placeId, String iconPath, NearestDriverModel loadItems, {VoidCallback? onTap}) async {
     final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath, iconHeight: 60);
     Marker newMarker = Marker(
-      onTap: () {
-        log("place id $placeId");
-        // showLocationDetails(loadItems: loadItems);
-      },
+      onTap: onTap,
       infoWindow: InfoWindow(title: placeId),
       icon: customMarker,
       markerId: MarkerId(placeId), // Use a unique MarkerId for each marker
@@ -142,12 +139,12 @@ class CustomMapController extends GetxController {
   }
 
 
-  setMarker(LatLng latLng, LatLng endLatLng, String placeId, String iconPath) async {
-    final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath);
+  setMarker(LatLng latLng, String placeId, String iconPath, {double iconHeight = 50}) async {
+    final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath, iconHeight: iconHeight);
     Marker newMarker = Marker(
       onTap: () {
       },
-      infoWindow: InfoWindow(title: placeId),
+      infoWindow: InfoWindow(title: "Load Location"),
       icon: customMarker,
       markerId: MarkerId(placeId), // Use a unique MarkerId for each marker
       position: LatLng(latLng.latitude, latLng.longitude),

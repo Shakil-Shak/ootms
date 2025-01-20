@@ -14,6 +14,12 @@ class NearestDriverModel {
   DateTime updatedAt;
   double distance;
   DriverLocation location;
+  String document;
+  bool isComplete;
+  bool isSocialLogin;
+  int remainingDispatch;
+  String address;
+  String phoneNumber;
 
   NearestDriverModel({
     this.id = "",
@@ -30,6 +36,12 @@ class NearestDriverModel {
     DateTime? updatedAt,
     this.distance = 0.0,
     DriverLocation? location,
+    this.document = "",
+    this.isComplete = false,
+    this.isSocialLogin = false,
+    this.remainingDispatch = 0,
+    this.address = "",
+    this.phoneNumber = "",
   })  : createdAt = createdAt ?? DateTime.now(),
         updatedAt = updatedAt ?? DateTime.now(),
         location = location ?? DriverLocation();
@@ -50,6 +62,12 @@ class NearestDriverModel {
       updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
       distance: (json['distance'] ?? 0).toDouble(),
       location: json['location'] != null ? DriverLocation.fromJson(json['location']) : null,
+      document: json['document'] ?? "",
+      isComplete: json['isComplete'] ?? false,
+      isSocialLogin: json['isSocialLogin'] ?? false,
+      remainingDispatch: json['remainingDispatch'] ?? 0,
+      address: json['address'] ?? "",
+      phoneNumber: json['phoneNumber'] ?? "",
     );
   }
 }
@@ -59,16 +77,38 @@ class DriverLocation {
   List<double> coordinates;
 
   DriverLocation({
-    this.type = "",
+    this.type = "Point",
     List<double>? coordinates,
   }) : coordinates = coordinates ?? [];
 
   factory DriverLocation.fromJson(Map<String, dynamic> json) {
     return DriverLocation(
-      type: json['type'] ?? "",
-      coordinates: json['coordinates'] != null
-          ? List<double>.from(json['coordinates'].map((x) => x.toDouble()))
-          : [],
+      type: json['type'] ?? "Point",
+      coordinates: (json['coordinates'] as List?)?.map((e) => (e as num).toDouble()).toList() ?? [],
     );
+  }
+}
+
+class LoadLocationModel {
+  String type;
+  List<double> coordinates;
+
+  LoadLocationModel({
+    this.type = "",
+    List<double>? coordinates,
+  }) : coordinates = coordinates ?? [];
+
+  factory LoadLocationModel.fromJson(Map<String, dynamic> json) {
+    return LoadLocationModel(
+      type: json['type'] ?? "",
+      coordinates: List<double>.from(json['coordinates'] ?? []),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'type': type,
+      'coordinates': coordinates,
+    };
   }
 }
