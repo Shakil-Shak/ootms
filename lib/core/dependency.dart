@@ -6,6 +6,7 @@ import 'package:ootms/presentation/api/controllers/Driver/driver_profile_control
 import 'package:ootms/presentation/api/controllers/Driver/load_request_controller/load_request_controller.dart';
 import 'package:ootms/presentation/api/controllers/common/load_details_controller.dart';
 import 'package:ootms/presentation/api/controllers/common/notification_controller.dart';
+import 'package:ootms/presentation/api/controllers/mapControllers/live_tracking_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/load_controller/assign_load_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/nearest_driver_controller/find_nearest_driver_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/prefered_driver_controller/prefered_driver_controller.dart';
@@ -33,5 +34,6 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => FindNearestDriverController(), fenix: true);
     Get.lazyPut(() => PreferedDriverController(), fenix: true);
     Get.lazyPut(() => AssignLoadController(), fenix: true);
+    Get.lazyPut(() => LiveTrackingController(), fenix: true);
   }
 }

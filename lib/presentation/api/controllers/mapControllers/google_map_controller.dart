@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:math' as Math;
 
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:custom_marker/marker_icon.dart';
@@ -12,6 +13,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ootms/presentation/api/models/driver_model/nearest_load_model.dart';
+import 'package:ootms/presentation/api/models/user_model/bol_tracking_model.dart';
 import 'package:ootms/presentation/api/models/user_model/nearest_driver_model.dart';
 import 'package:ootms/presentation/api/service/socket_service.dart';
 import 'package:ootms/presentation/screens/role/driver/find_load/find_load_method/find_load_modal_sheet.dart';
@@ -104,7 +106,36 @@ class CustomMapController extends GetxController {
     );
   }
 
-  ///==================== Set Driver Marker with Icon =================================
+  ///==================== Set Driver Marker For Live Tracking===================
+
+  double calculateBearing(LatLng start, LatLng end) {
+    double deltaLongitude = end.longitude - start.longitude;
+    double y = Math.sin(deltaLongitude) * Math.cos(end.latitude);
+    double x = Math.cos(start.latitude) * Math.sin(end.latitude) -
+        Math.sin(start.latitude) * Math.cos(end.latitude) * Math.cos(deltaLongitude);
+    double initialBearing = Math.atan2(y, x);
+    return (initialBearing * 180 / Math.pi) % 360;
+  }
+
+  setDriverLocationTrackingMarker(LatLng driverLatLang, LatLng destinationLatLang, String placeId, String iconPath, BOLTrackingModel loadItems, {VoidCallback? onTap}) async {
+    final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath, iconHeight: 60);
+    Marker newMarker = Marker(
+      onTap: onTap,
+      infoWindow: InfoWindow(title: placeId),
+      icon: customMarker,
+      markerId: MarkerId(placeId), // Use a unique MarkerId for each marker
+      position: LatLng(driverLatLang.latitude, driverLatLang.longitude),
+      rotation: calculateBearing(driverLatLang, destinationLatLang)
+    );
+    origin = driverLatLang;
+    destination = destinationLatLang;
+
+    getRoute();
+    marker.add(newMarker);
+    update();
+  }
+
+  ///==================== Set Driver Marker with Icon ==========================
   setDriverLocationMarker(double latitude, double longitude, String placeId, String iconPath, NearestDriverModel loadItems, {VoidCallback? onTap}) async {
     final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath, iconHeight: 60);
     Marker newMarker = Marker(
@@ -144,7 +175,7 @@ class CustomMapController extends GetxController {
     Marker newMarker = Marker(
       onTap: () {
       },
-      infoWindow: InfoWindow(title: "Load Location"),
+      infoWindow: const InfoWindow(title: "Load Location"),
       icon: customMarker,
       markerId: MarkerId(placeId), // Use a unique MarkerId for each marker
       position: LatLng(latLng.latitude, latLng.longitude),
@@ -268,4 +299,80 @@ class CustomMapController extends GetxController {
     });
     });
   }
+
+
+  ///=================>>>> Polyline Methods <<<<<<==============================
+
+  final RxSet<Polyline> polyLines = <Polyline>{}.obs;
+  LatLng origin = LatLng(23.776176, 90.425674); // San Francisco
+  LatLng destination = LatLng(23.3999373281255, 90.4387651926279); // Los Angeles
+  final String apiKey = "AIzaSyCZ6YIiEkZnGVCQUyFIKsu3RdOJ49GVeLU"; // Replace with your API key
+  double firstStepEndLat = 0.0;
+  double firstStepEndLng = 0.0;
+
+
+
+  Future<void> getRoute() async {
+    final response = await http.get(Uri.parse(
+        'https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${destination.latitude},${destination.longitude}&key=$apiKey'));
+
+    log("${response.statusCode}");
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+
+      if (data["routes"].isNotEmpty) {
+        final route = data["routes"][0]["overview_polyline"]["points"];
+        final points = decodePolyline(route);
+
+        var firstStepEndLocation = data['routes'][0]['legs'][0]['steps'][0]['end_location'];
+        firstStepEndLat = firstStepEndLocation['lat'];
+        firstStepEndLng = firstStepEndLocation['lng'];
+
+        polyLines.add(
+          Polyline(
+            polylineId: PolylineId("route"),
+            points: points,
+            color: Colors.red,
+            width: 5,
+          ),
+        );
+        polyLines.refresh(); // Notify listeners
+      }
+    } else {
+      log("Failed to fetch route: ${response.body}");
+    }
+  }
+
+
+  List<LatLng> decodePolyline(String encoded) {
+    List<LatLng> points = [];
+    int index = 0, len = encoded.length;
+    int lat = 0, lng = 0;
+
+    while (index < len) {
+      int shift = 0, result = 0;
+      int b;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+      lat += dlat;
+
+      shift = 0;
+      result = 0;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+      lng += dlng;
+
+      points.add(LatLng(lat / 1E5, lng / 1E5));
+    }
+    return points;
+  }
+
 }

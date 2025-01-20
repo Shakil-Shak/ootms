@@ -35,8 +35,8 @@ class FindNearestDriverController extends GetxController{
 
     try {
       final response = await ApiClient.getData(
-          // "${ApiPaths.nearestDriver}$createdLoadId",
-          "${ApiPaths.nearestDriver}678cde18204e2a0eb328f4ad",
+          "${ApiPaths.nearestDriver}$createdLoadId",
+          // "${ApiPaths.nearestDriver}678cde18204e2a0eb328f4ad",
           headers: mainHeaders);
 
       var responseBody = response.body;

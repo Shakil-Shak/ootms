@@ -1,16 +1,23 @@
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/create_load_map_controller.dart';
+import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
+import 'package:ootms/presentation/api/controllers/mapControllers/live_tracking_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_image.dart';
+import 'package:ootms/presentation/components/common_snackbar.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_map2.dart';
+import 'package:ootms/presentation/screens/role/user/home/user_map_with_polyline.dart';
 import 'package:ootms/presentation/screens/role/user/load%20from%20excle/create_load.dart';
 import 'package:ootms/presentation/screens/role/user/notification/user_all_notifications.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
@@ -36,7 +43,9 @@ class UserHomePage extends StatefulWidget {
 class _UserHomePageState extends State<UserHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final BottomNavController navController = Get.put(BottomNavController());
+
   CreateLoadMapController createLoadMapController = Get.find<CreateLoadMapController>();
+  LiveTrackingController liveTrackingController = Get.find<LiveTrackingController>();
 
   void _showCustomDialog(BuildContext context) {
     showDialog(
@@ -250,28 +259,35 @@ class _UserHomePageState extends State<UserHomePage> {
                               const SizedBox(width: 10),
 
                               // Input field
-                              const Expanded(
+                              Expanded(
                                 child: TextField(
-                                  decoration: InputDecoration(
+                                  controller: liveTrackingController.bolTextController,
+                                  decoration: const InputDecoration(
                                     hintText: 'Enter bill of lading number',
                                     border: InputBorder.none,
                                   ),
                                 ),
                               ),
                               //========================================================================track
-                              Container(
+                              Obx(() => Container(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 8),
+                                const EdgeInsets.symmetric(vertical: 8),
                                 child: FittedBox(
                                   child: commonButton(
+                                    isLoading: liveTrackingController.isLoading.value,
                                     "Track",
                                     width: 120,
-                                    onTap: () {
-                                      trackBottomSheet();
+                                    onTap: () async {
+                                      if(liveTrackingController.bolTextController.text != ""){
+                                        await liveTrackingController.findTrackingLoad();
+                                        trackBottomSheet();
+                                      }else{
+                                       showCommonSnackbar(context, "Please enter BOL number", isError: true);
+                                      }
                                     },
                                   ),
                                 ),
-                              ),
+                              ),)
                             ],
                           ),
                         ),
@@ -390,79 +406,82 @@ class _UserHomePageState extends State<UserHomePage> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return DraggableScrollableSheet(
-          initialChildSize: 0.8,
-          expand: false,
-          builder: (context, scrollController) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              // Full width
-              height: MediaQuery.of(context).size.height * 0.9,
-              // 70% of screen height
-              padding: const EdgeInsets.all(16.0),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-              ),
-              child: SingleChildScrollView(
-                controller: scrollController,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          // Full width
+          height: 700,
+          // 90% of screen height
+          padding: const EdgeInsets.all(16.0),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                commonText("Shipping Details", size: 16, isBold: true),
+                const SizedBox(height: 10),
+                loadDetailsCard(),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    commonText("Shipping Details", size: 16, isBold: true),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    loadDetailsCard(),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        commonText("Live tracking", size: 18, isBold: true),
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                            animetedNavigationPush(
-                                const UserMap2Page(), context);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(width: 1)),
-                            child: commonText("Track on map",
-                                color: AppColor.black),
-                          ),
+                    commonText("Live tracking", size: 18, isBold: true),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                        animetedNavigationPush(const UserMapWithPolyline(), context);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(width: 1),
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Card(
-                      elevation: 5,
-                      color: AppColor.white,
-                      child: SizedBox(
-                        height: 240,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            commonText("Map", size: 24, isBold: true),
-                          ],
-                        ),
+                        child: commonText("Track on map", color: AppColor.black),
                       ),
-                    )
+                    ),
                   ],
                 ),
-              ),
-            );
-          },
+                const SizedBox(height: 10),
+                Card(
+                  elevation: 5,
+                  color: AppColor.white,
+                  clipBehavior: Clip.antiAlias, // Ensure the map is not clipped unnecessarily
+                  child: SizedBox(
+                    height: 240,
+                    child: Obx(
+                          () => Stack(
+                        children: [
+                          GoogleMap(
+                            initialCameraPosition: CustomMapController.instance.initialCameraPosition,
+                            compassEnabled: true,
+                            myLocationEnabled: true,
+                            myLocationButtonEnabled: true,
+                            zoomControlsEnabled: true,
+                            scrollGesturesEnabled: true,
+                            zoomGesturesEnabled: true,
+                            rotateGesturesEnabled: true,
+                            markers: Set<Marker>.from(CustomMapController.instance.marker),
+                            onMapCreated: (GoogleMapController controller) {
+                              CustomMapController.instance.googleMapController.complete(controller);
+                            },
+                            polylines: Set<Polyline>.from(CustomMapController.instance.polyLines),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
   }
+
 
   Widget loadDetailsCard() {
     return Card(
@@ -480,7 +499,7 @@ class _UserHomePageState extends State<UserHomePage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                commonText("John Doe's Load", size: 16, isBold: true),
+                commonText("", size: 16, isBold: true),
                 const SizedBox(height: 4),
                 commonText(
                   '7421477-475645',
@@ -553,15 +572,16 @@ class _UserHomePageState extends State<UserHomePage> {
             const SizedBox(height: 10),
 
             // Shipment progress
-            shipmentStep(
-              title: 'In transit at sorting center',
-              location: 'Dhaka',
-              dateTime: '2024-07-16 | 08:00 AM',
-            ),
+
             shipmentStep(
               title: 'Dispatched',
               location: 'London',
               dateTime: '2024-07-15 | 02:30 PM',
+            ),
+            shipmentStep(
+              title: 'In transit at sorting center',
+              location: 'Dhaka',
+              dateTime: '2024-07-16 | 08:00 AM',
             ),
             shipmentStep(
               title: 'Picked up',
