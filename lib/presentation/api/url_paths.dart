@@ -16,7 +16,7 @@ class ApiPaths {
   static const String updateProfileUrl = '$baseUrl/api/v1/users/';
   static const String profileUrl = '$baseUrl/api/v1/users/user-details';
   static const String createLoad = '$baseUrl/api/v1/loads/';
-  static const String preferredDriver = '$baseUrl/api/v1/loads-request/';
+  static const String preferredDriver = '$baseUrl/api/v1/loads-request';
   static const String userSupport = '$baseUrl/api/v1/support/';
   static const String shipingHistory = '$baseUrl/api/v1/shipment/history';
   static String staticContent({contentType}) =>
@@ -40,4 +40,5 @@ class ApiPaths {
       '$baseUrl/api/v1/feedbacks/$userId';
   static String appFeedback = '$baseUrl/api/v1/feedbacks/';
   static String nearestDriver = '$baseUrl/api/v1/loads/get_nearest_driver?lastLoadId=';
+  static String getPreferedDriver(String?search) => '$baseUrl/api/v1/preferred-driver?searchQuery=$search&limit=1000000000000000000000';
 }
