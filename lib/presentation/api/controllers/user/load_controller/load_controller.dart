@@ -194,7 +194,7 @@ class LoadController extends ChangeNotifier {
         log("status code after =-==================${response["statusCode"]}");
         final id = response["data"]["attributes"][0]["_id"];
         loadId = id;
-        showCommonSnackbar(context, "Create Load Successfull", isError: false);
+        showCommonSnackbar(context, "Create Load Successful", isError: false);
         isSuccess = true;
         notifyListeners();
       }

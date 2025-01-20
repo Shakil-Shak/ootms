@@ -3,7 +3,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/user/load_controller/assign_load_controller.dart';
 import 'package:ootms/presentation/api/models/user_model/nearest_driver_model.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_button.dart';
@@ -12,6 +14,8 @@ import 'package:url_launcher/url_launcher.dart';
 class UserAssignLoadPage extends StatelessWidget {
 
   static NearestDriverModel loadDetails = NearestDriverModel();
+  static String createdLoadId = "";
+  AssignLoadController assignLoadController = Get.find<AssignLoadController>();
 
   UserAssignLoadPage({super.key});
   @override
@@ -130,8 +134,32 @@ class UserAssignLoadPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-
+            const SizedBox(height: 40),
+            InkWell(
+              onTap: () {
+                _launchDialer(loadDetails.phoneNumber);
+              },
+              child: Container(
+                width: Get.width,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                    color: AppColor.white,
+                    border: Border.all(width: 1, color: Colors.black26),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      spreadRadius: 1,
+                      blurRadius: 3
+                    )
+                  ]
+                ),
+                child: const Icon(
+                  Icons.phone,
+                  color: Colors.black,
+                ),
+              ),
+            ),
             // Message Input with Call Button
             const SizedBox(height: 20),
 
@@ -141,17 +169,26 @@ class UserAssignLoadPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: commonButton("Cancel",
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
                       borderRadious: 10,
                       color: const Color(0xFFDDDDDD),
                       textColor: AppColor.black),
                 ),
                 const SizedBox(width: 16),
-                Expanded(
-                  child: commonButton(
-                    borderRadious: 10,
-                    "Assign Load",
-                    textColor: Colors.white,
-                  ),
+                Obx(() =>
+                    Expanded(
+                      child: commonButton(
+                        isLoading: assignLoadController.isLoading.value,
+                        onTap: () {
+                          assignLoadController.assignLoadDriver(context: context, driverId: loadDetails.id, loadId: createdLoadId);
+                        },
+                        borderRadious: 10,
+                        "Assign Load",
+                        textColor: Colors.white,
+                      ),
+                    )
                 ),
               ],
             ),

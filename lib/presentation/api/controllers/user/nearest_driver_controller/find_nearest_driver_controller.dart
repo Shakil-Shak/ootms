@@ -76,6 +76,7 @@ class FindNearestDriverController extends GetxController{
               loadItems,
             onTap: () {
               UserAssignLoadPage.loadDetails = loadItems;
+              UserAssignLoadPage.createdLoadId = createdLoadId;
               animetedNavigationPush(UserAssignLoadPage(), Get.context!);
             },
           );
