@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleAuth {
@@ -5,15 +6,30 @@ class GoogleAuth {
 
   Future<GoogleSignInAccount?> signIn() async {
     try {
-      return await _googleSignIn.signIn();
+      final GoogleSignInAccount? account = await _googleSignIn.signIn();
+      if (account != null) {
+        final String? name = account.displayName;
+        final String? email = account.email;
+        final String? photoUrl = account.photoUrl;
+
+        log('User signed in:');
+        log('Name: $name');
+        log('Email: $email');
+        log('Photo URL: $photoUrl');
+
+        return account;
+      } else {
+        log('User canceled the sign-in');
+        return null;
+      }
     } catch (error) {
-      print('Google sign-in error: $error');
+      log('Google sign-in error: $error');
       return null;
     }
   }
 
   Future<void> signOut() async {
     await _googleSignIn.signOut();
-    print('User Signed Out');
+    log('User Signed Out');
   }
 }

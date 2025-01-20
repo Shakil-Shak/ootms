@@ -3,6 +3,7 @@ class ApiPaths {
   static const String socketUrl = 'http://10.0.70.87:8020';
 
   static const String signinUrl = '$baseUrl/api/v1/auth/local';
+  static const String socialSigninUrl = '$baseUrl/api/v1/auth/social_login';
   static const String signupUrl = '$baseUrl/api/v1/auth/sign-up';
   static const String verifyEmailUrl = '$baseUrl/api/v1/auth/verify-email';
   static const String completeProfile = '$baseUrl/api/v1/users/complete';

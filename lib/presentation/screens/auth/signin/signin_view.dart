@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/common/facebook_auth_controller.dart';
@@ -205,19 +207,46 @@ class SignInPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             border:
                                 Border.all(width: 1, color: AppColor.black)),
-                        child: commonIconButton(
-                          "Sign In With Google",
-                          isBold: false,
-                          Image.asset("assets/icons/devicon_google.png"),
-                          color: Colors.transparent,
-                          textColor: AppColor.black,
-                          onTap: () async {
-                            var user = await _googleAuth.signIn();
-                            if (user != null) {
-                              print('Signed in with Google: ${user.email}');
-                            }
-                          },
-                        ),
+                        child: Consumer<SignInPageController>(
+                            builder: (context, controller, _) {
+                          return commonIconButton(
+                            "Sign In With Google",
+                            isBold: false,
+                            Image.asset("assets/icons/devicon_google.png"),
+                            color: Colors.transparent,
+                            textColor: AppColor.black,
+                            onTap: () async {
+                              var guser = await _googleAuth.signIn();
+                              if (user != null) {
+                                log('Signed in with Google: ${guser!.email}');
+                                final signinModel =
+                                    await controller.socialSignIn(
+                                        email: guser!.email,
+                                        fullName: guser!.displayName.toString(),
+                                        role: user ? userString : driverString);
+
+                                if (signinModel != null &&
+                                    signinModel.status == "OK") {
+                                  showCommonSnackbar(
+                                      context, "Login successful!");
+
+                                  if (signinModel.data.attributes.role ==
+                                      "user") {
+                                    animetedNavigationPush(
+                                        const UserRootPage(), context);
+                                  } else {
+                                    animetedNavigationPush(
+                                        const DriverRootPage(), context);
+                                  }
+                                } else {
+                                  showCommonSnackbar(context,
+                                      "Login failed. Please try again.",
+                                      isError: true);
+                                }
+                              }
+                            },
+                          );
+                        }),
                       ),
                       const SizedBox(height: 20),
                       Container(

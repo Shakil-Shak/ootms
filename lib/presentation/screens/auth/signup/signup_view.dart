@@ -120,7 +120,8 @@ class _SignupPageState extends State<SignupPage> {
                                     if (passwordController.text !=
                                         confirmPasswordController.text) {
                                       return "Password don't match";
-                                    } else if(confirmPasswordController.text.isEmpty) {
+                                    } else if (confirmPasswordController
+                                        .text.isEmpty) {
                                       return "This field is required";
                                     }
                                   },
@@ -181,6 +182,7 @@ class _SignupPageState extends State<SignupPage> {
                                     animetedNavigationPush(
                                       OtpPage(
                                         user: widget.user,
+                                        email: emailController.text,
                                         fromSignUp: true,
                                         token: signupResponse.data.signUpToken,
                                       ),
@@ -236,7 +238,6 @@ class _SignupPageState extends State<SignupPage> {
                                 Border.all(width: 1, color: AppColor.black)),
                         child: commonIconButton(
                             "Sign Up With Facebook",
-                            
                             isBold: false,
                             Image.asset("assets/icons/logos_facebook.png"),
                             color: Colors.transparent,

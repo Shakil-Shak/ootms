@@ -53,8 +53,8 @@ class DriverChangepasswordPage extends StatelessWidget {
                           prifixIconWidget:
                               Image.asset("assets/icons/lockicon.png"),
                           isPasswordVisible: controller.isoldPasswordVisible,
-                          onValidate: (value) =>
-                              OtherHelper.passwordValidator(value),
+                          // onValidate: (value) =>
+                          //     OtherHelper.passwordValidator(value),
                           changePasswordVisibility: () {
                             controller.toggleOldPasswordVisibility();
                           },

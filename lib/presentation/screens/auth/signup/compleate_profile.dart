@@ -7,14 +7,8 @@ import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
-import 'package:ootms/presentation/navigation/animeted_navigation.dart';
-import 'package:ootms/presentation/screens/role/driver/driver_bottom_navigation.dart';
-import 'package:ootms/presentation/screens/role/user/user_bottom_navigation.dart';
-
 import '../../../../helpers/other_helper.dart';
 import '../../../api/controllers/user/profile_controller/update_profile_controller.dart';
-import '../../../api/url_paths.dart';
-import '../../../components/common_image.dart';
 import '../../role/common/country_model.dart';
 
 class CompleateProfilePage extends StatefulWidget {

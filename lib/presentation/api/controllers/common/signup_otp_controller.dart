@@ -87,14 +87,17 @@ class SignUpOtpController extends ChangeNotifier {
       }
 
       // Construct the request body
-      final Map<String, String> requestBody = {"otp": otp};
+      final Map<String, String> requestBody = {
+        "otp": otp,
+        // "email": email.toString(),
+      };
       // if (email != null && email.trim().isNotEmpty) {
       //   requestBody["email"] = email.trim();
       // }
       print("requestBody: $requestBody");
       print("token: $token");
       final response =
-          await ApiService().postRequest(url, requestBody, token: token);
+          await ApiService().otherPostRequest(url, requestBody, token: token);
       print("======================================otpResponse${response}");
       print(
           "======================================otpResponse${response["statusCode"]}");
