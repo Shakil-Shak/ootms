@@ -229,20 +229,20 @@ class _SignupPageState extends State<SignupPage> {
                             isBold: false,
                             textColor: AppColor.black),
                       ),
-                      const SizedBox(height: 20),
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border:
-                                Border.all(width: 1, color: AppColor.black)),
-                        child: commonIconButton(
-                            "Sign Up With Facebook",
-                            isBold: false,
-                            Image.asset("assets/icons/logos_facebook.png"),
-                            color: Colors.transparent,
-                            textColor: AppColor.black),
-                      ),
+                      // const SizedBox(height: 20),
+                      // Container(
+                      //   margin: const EdgeInsets.symmetric(horizontal: 20),
+                      //   decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(10),
+                      //       border:
+                      //           Border.all(width: 1, color: AppColor.black)),
+                      //   child: commonIconButton(
+                      //       "Sign Up With Facebook",
+                      //       isBold: false,
+                      //       Image.asset("assets/icons/logos_facebook.png"),
+                      //       color: Colors.transparent,
+                      //       textColor: AppColor.black),
+                      // ),
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

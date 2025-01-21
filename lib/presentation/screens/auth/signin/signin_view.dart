@@ -259,29 +259,29 @@ class SignInPage extends StatelessWidget {
                           );
                         }),
                       ),
-                      const SizedBox(height: 20),
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border:
-                                Border.all(width: 1, color: AppColor.black)),
-                        child: commonIconButton(
-                          "Sign In With Facebook",
-                          Image.asset("assets/icons/logos_facebook.png"),
-                          isBold: false,
-                          color: Colors.transparent,
-                          textColor: AppColor.black,
-                          onTap: () async {
-                            var userData = await _facebookAuth.signIn();
-                            if (userData != null) {
-                              print(
-                                  'Signed in with Facebook: ${userData['name']}');
-                            }
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 20),
+                      // const SizedBox(height: 20),
+                      // Container(
+                      //   margin: const EdgeInsets.symmetric(horizontal: 20),
+                      //   decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(10),
+                      //       border:
+                      //           Border.all(width: 1, color: AppColor.black)),
+                      //   child: commonIconButton(
+                      //     "Sign In With Facebook",
+                      //     Image.asset("assets/icons/logos_facebook.png"),
+                      //     isBold: false,
+                      //     color: Colors.transparent,
+                      //     textColor: AppColor.black,
+                      //     onTap: () async {
+                      //       var userData = await _facebookAuth.signIn();
+                      //       if (userData != null) {
+                      //         print(
+                      //             'Signed in with Facebook: ${userData['name']}');
+                      //       }
+                      //     },
+                      //   ),
+                      // ),
+                      // const SizedBox(height: 20),
 
                       // Sign Up Link
                       Row(
