@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -80,6 +81,10 @@ class UpdateProfileController extends GetxController {
     required String phone,
     required String taxId,
     required String address,
+    required String cdlNumber,
+    required String truckNumber,
+    required String trailerSize,
+    required String palletSpaces,
     required bool user,
     required context,
   }) async {
@@ -93,6 +98,10 @@ class UpdateProfileController extends GetxController {
       "phoneNumber": phone,
       "taxid": taxId,
       "address": address,
+      "palletSpace": palletSpaces,
+      "trailerSize": trailerSize,
+      "truckNumber": truckNumber,
+      "cdlNumber": cdlNumber,
     };
     Map<String, String> header = {"Authorization": "Bearer $accesstoken"};
 
@@ -100,16 +109,11 @@ class UpdateProfileController extends GetxController {
       MultipartBody("profileImage", File(image!)),
     ];
     try {
-      var response = await ApiClient.putMultipartData(
-          method: "PUT",
-          ApiPaths.completeProfile,
-          body,
-          multipartBody: multipartBody,
-          headers: header);
-      debugPrint(
-          "=======================================================body $body");
-      debugPrint(
-          "=======================================================header $header");
+      var response = await ApiClient.postMultipartData(
+          ApiPaths.completeProfile, body,
+          multipartBody: multipartBody, headers: header);
+      log("=======================================================body $body");
+      log("=======================================================header $header");
       if (response.statusCode == 201) {
         // var responseData = response.body is String
         //     ? jsonDecode(response.body)["data"]

@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ootms/presentation/api/service/api_services.dart';
+import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/api/models/signup_model.dart';
 
@@ -48,16 +51,21 @@ class SignupPageController extends ChangeNotifier {
           "role": user
         },
       );
-      print("============================================================response$response");
-      print("============================================================status${response["statusCode"]}");
+      print(
+          "============================================================response$response");
+      print(
+          "============================================================status${response["statusCode"]}");
 
       if (response != null && response['status'] == "OK") {
-        print("=============================================sign up successfull");
+        print(
+            "=============================================sign up successfull");
         final signupResponse = SignUpResponseModel.fromJson(response);
-        
+
+        saveUserAcessDetails(signupResponse.data.signUpToken, "");
+
         _isLoading = false;
         notifyListeners();
-        print(signupResponse.data.signUpToken);
+        log(signupResponse.data.signUpToken);
         return signupResponse;
       } else {
         _isLoading = false;

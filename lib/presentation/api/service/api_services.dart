@@ -1,7 +1,3 @@
-
-
-
-
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -20,12 +16,14 @@ class ApiService {
     String token = userDetails![0];
     // String token = service.getString(ootmsUserAccessToken)!;
     try {
-      final response = await _dio.get(
-        url,
-        options: Options(headers: {
-          "Authorization": "Bearer $token",
-        }),
-      ).timeout(const Duration(seconds: timeOut));
+      final response = await _dio
+          .get(
+            url,
+            options: Options(headers: {
+              "Authorization": "Bearer $token",
+            }),
+          )
+          .timeout(const Duration(seconds: timeOut));
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -38,37 +36,44 @@ class ApiService {
     // userDetails = await getUserAcessDetails();
     //  String accesstoken = userDetails![0]?? "";
     try {
-      final response = await _dio.post(
-        url, data: data,
-        options: token,
-      ).timeout(const Duration(seconds: timeOut));
+      final response = await _dio
+          .post(
+            url,
+            data: data,
+            options: token,
+          )
+          .timeout(const Duration(seconds: timeOut));
       return response.data;
     } on DioException catch (e) {
       log("=======>>> $e");
       _handleDioError(e);
     }
   }
-  //=======================================other post request
-Future<dynamic>  otherPostRequest(String url,data, {Options? token}) async {
-  userDetails = await getUserAcessDetails();
-  String accesstoken = userDetails![0] ?? "";
 
-  try {
-    final response = await _dio.post(
-      url,
-      data: data,
-      options: Options(
-        headers: {
-          "Authorization": "Bearer $accesstoken",
-          'Content-Type': 'application/json',
-        },
-      ),
-    ).timeout(const Duration(seconds: timeOut));
-    return response.data;
-  } on DioException catch (e) {
-    _handleDioError(e);
+  //=======================================other post request
+  Future<dynamic> otherPostRequest(String url, data, {Options? token}) async {
+    userDetails = await getUserAcessDetails();
+    String accesstoken = userDetails![0] ?? "";
+
+    try {
+      final response = await _dio
+          .post(
+            url,
+            data: data,
+            options: Options(
+              headers: {
+                "Authorization": "Bearer $accesstoken",
+                'Content-Type': 'application/json',
+                "SignUpToken": "signUpToken $accesstoken",
+              },
+            ),
+          )
+          .timeout(const Duration(seconds: timeOut));
+      return response.data;
+    } on DioException catch (e) {
+      _handleDioError(e);
+    }
   }
-}
 
   //==========================patch service
   Future<dynamic> patchRequest(
@@ -78,13 +83,15 @@ Future<dynamic>  otherPostRequest(String url,data, {Options? token}) async {
     userDetails = await getUserAcessDetails();
     String token = userDetails![0];
     try {
-      final response = await _dio.patch(
-        url,
-        data: data,
-        options: Options(headers: {
-          "Authorization": "Bearer $token",
-        }),
-      ).timeout(const Duration(seconds: timeOut));
+      final response = await _dio
+          .patch(
+            url,
+            data: data,
+            options: Options(headers: {
+              "Authorization": "Bearer $token",
+            }),
+          )
+          .timeout(const Duration(seconds: timeOut));
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -94,7 +101,9 @@ Future<dynamic>  otherPostRequest(String url,data, {Options? token}) async {
   // Generic PUT Request
   Future<dynamic> putRequest(String url, Map<String, dynamic> data) async {
     try {
-      final response = await _dio.put(url, data: data).timeout(const Duration(seconds: timeOut));
+      final response = await _dio
+          .put(url, data: data)
+          .timeout(const Duration(seconds: timeOut));
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -127,16 +136,18 @@ Future<dynamic>  otherPostRequest(String url,data, {Options? token}) async {
       }
 
       // Perform the PUT request
-      final response = await _dio.put(
-        url,
-        data: formData,
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $token",
-            // "Content-Type": "multipart/form-data",
-          },
-        ),
-      ).timeout(const Duration(seconds: timeOut));
+      final response = await _dio
+          .put(
+            url,
+            data: formData,
+            options: Options(
+              headers: {
+                "Authorization": "Bearer $token",
+                // "Content-Type": "multipart/form-data",
+              },
+            ),
+          )
+          .timeout(const Duration(seconds: timeOut));
 
       return response.data;
     } on DioException catch (e) {
@@ -148,7 +159,8 @@ Future<dynamic>  otherPostRequest(String url,data, {Options? token}) async {
   // Generic DELETE Request
   Future<dynamic> deleteRequest(String url) async {
     try {
-      final response = await _dio.delete(url).timeout(const Duration(seconds: timeOut));
+      final response =
+          await _dio.delete(url).timeout(const Duration(seconds: timeOut));
       return response.data;
     } on DioException catch (e) {
       log("Error: $e");
@@ -175,7 +187,6 @@ Future<dynamic>  otherPostRequest(String url,data, {Options? token}) async {
         // Handle specific status codes
         if (statusCode != null) {
           switch (statusCode) {
-            
             case 208:
               throw ('already axist');
             case 400:

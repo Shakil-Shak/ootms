@@ -54,9 +54,7 @@ class _UserProfileState extends State<UserProfile> {
       body: Consumer<ProfileController>(
         builder: (context, controller, child) {
           return Stack(
-            // Use a Stack as the root widget here
             children: [
-              // Main content of the page
               Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
