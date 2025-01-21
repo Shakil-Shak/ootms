@@ -3,8 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/Driver/equipment_controller/equipment_controller.dart';
+import 'package:ootms/presentation/api/controllers/Driver/on_duity_controller/on_duity_controller.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
-import 'package:ootms/presentation/api/models/driver_model/equipment_model.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/find_load/driver_find_load.dart';
@@ -28,21 +28,24 @@ class DriverHomePage extends StatefulWidget {
 
 class _DriverHomePageState extends State<DriverHomePage> {
   CustomMapController customMapController = Get.find<CustomMapController>();
+  OnduityController onduityController = Get.find<OnduityController>();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final EquipmentController equipmentController =
       Get.find<EquipmentController>();
 
-  bool switchValue = false;
+  // bool switchValue = false;
   String duty = "On-Duty";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.microtask(() {
-      customMapController.getCurrentLocation();
-    },);
+    Future.microtask(
+      () {
+        customMapController.getCurrentLocation(isOnDuty: false);
+      },
+    );
   }
 
   @override
@@ -52,211 +55,229 @@ class _DriverHomePageState extends State<DriverHomePage> {
       drawer: driverCustomDrawer(context),
       backgroundColor: AppColor.white,
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(16),
-                  bottomRight: Radius.circular(16)),
-              child: Stack(
-                children: [
-                  // Background image
-                  Container(
-                    height: 250,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/userHomePagebg.png'),
-                          fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                              Colors.black38, BlendMode.multiply)),
+        child: GetBuilder<EquipmentController>(builder: (controller) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16)),
+                child: Stack(
+                  children: [
+                    // Background image
+                    Container(
+                      height: 250,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image:
+                                AssetImage('assets/images/userHomePagebg.png'),
+                            fit: BoxFit.cover,
+                            colorFilter: ColorFilter.mode(
+                                Colors.black38, BlendMode.multiply)),
+                      ),
                     ),
-                  ),
-                  Obx(() => Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: AppColor.white,
-                                      borderRadius: BorderRadius.circular(8)),
-                                  child: IconButton(
-                                    icon: const Icon(Icons.menu,
-                                        size: 28, color: Colors.black),
-                                    onPressed: () {
-                                      _scaffoldKey.currentState!.openDrawer();
-                                    },
-                                  ),
-                                ),
-                                const Spacer(),
-                                // Notification bell
-                                // Image.asset(
-                                //     "assets/icons/user home page/notify.png"),
-                                commonText(duty, color: Colors.white, size: 16),
-                                const SizedBox(width: 10),
-                                Switch(
-                                  value: switchValue,
-                                  onChanged: (value) {
-                                    if (switchValue == false) {
-                                      equipmentController.getEquipmentData();
-                                      showOnDutyDialog(context);
-                                    }
-
-                                    // setState(() {
-                                    //   switchValue = value;
-                                    //   switchValue == true
-                                    //       ? duty = "On-Duty"
-                                    //       : duty = "Off-Duty";
-                                    // });
-                                  },
-                                  activeTrackColor: Colors.green[300],
-                                  activeColor: Colors.white,
-                                  inactiveTrackColor: Colors.grey[300],
-                                ),
-                                const SizedBox(width: 10),
-                                InkWell(
-                                  onTap: () {
-                                    animetedNavigationPush(
-                                        DriverAllNotificationsPage(), context);
-                                  },
-                                  child: const FaIcon(
-                                    FontAwesomeIcons.solidBell,
-                                    color: Color.fromRGBO(255, 206, 49, 1),
-                                    size: 30,
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                // Profile avatar
-                                InkWell(
-                                  onTap: () {
-                                    animetedNavigationPush(
-                                        const DriverProfile(), context);
-                                  },
-                                  child: const CircleAvatar(
-                                    backgroundColor: AppColor.black,
-                                    backgroundImage: AssetImage(
-                                        'assets/icons/profile_icon_2.png'),
-                                    radius: 18,
-                                  ),
-                                ),
-                              ],
+                    Obx(() => Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SizedBox(
+                              height: 20,
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 10.0),
-                            child: InkWell(
-                              onTap: () {
-                                animetedNavigationPush(
-                                    const DriverSetLocationPage(), context);
-                              },
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 10),
                               child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Expanded(
-                                    child: Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.location_on,
-                                          color: AppColor.white,
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        Expanded(
-                                          child: commonText(
-                                              customMapController
-                                                  .userCurrentLocation.value,
-                                              size: 16,
-                                              color: AppColor.white),
-                                        )
-                                      ],
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: AppColor.white,
+                                        borderRadius: BorderRadius.circular(8)),
+                                    child: IconButton(
+                                      icon: const Icon(Icons.menu,
+                                          size: 28, color: Colors.black),
+                                      onPressed: () {
+                                        _scaffoldKey.currentState!.openDrawer();
+                                      },
                                     ),
                                   ),
-                                  const Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    color: AppColor.white,
-                                  )
+                                  const Spacer(),
+                                  // Notification bell
+                                  // Image.asset(
+                                  //     "assets/icons/user home page/notify.png"),
+                                  commonText(duty,
+                                      color: Colors.white, size: 16),
+                                  const SizedBox(width: 10),
+
+                                  Obx(() {
+                                    return controller.isLoading == true &&
+                                            onduityController
+                                                    .isOffDuityLoad.value ==
+                                                true
+                                        ? CircularProgressIndicator(
+                                            color: Colors.blue,
+                                          )
+                                        : Switch(
+                                            value: onduityController
+                                                .isONDuity.value,
+                                            onChanged: (value) {
+                                              if (onduityController
+                                                      .isONDuity.value ==
+                                                  false) {
+                                                equipmentController
+                                                    .getEquipmentData();
+                                                showOnDutyDialog(context);
+                                              } else if (onduityController
+                                                      .isONDuity.value ==
+                                                  true) {
+                                                onduityController.offDuity(context: context);
+                                              }
+                                            },
+                                            activeTrackColor: Colors.green[300],
+                                            activeColor: Colors.white,
+                                            inactiveTrackColor:
+                                                Colors.grey[300],
+                                          );
+                                  }),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      animetedNavigationPush(
+                                          DriverAllNotificationsPage(),
+                                          context);
+                                    },
+                                    child: const FaIcon(
+                                      FontAwesomeIcons.solidBell,
+                                      color: Color.fromRGBO(255, 206, 49, 1),
+                                      size: 30,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  // Profile avatar
+                                  InkWell(
+                                    onTap: () {
+                                      animetedNavigationPush(
+                                          const DriverProfile(), context);
+                                    },
+                                    child: const CircleAvatar(
+                                      backgroundColor: AppColor.black,
+                                      backgroundImage: AssetImage(
+                                          'assets/icons/profile_icon_2.png'),
+                                      radius: 18,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
-                          ),
-                        ],
-                      ))
-                ],
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 10.0),
+                              child: InkWell(
+                                onTap: () {
+                                  animetedNavigationPush(
+                                      const DriverSetLocationPage(), context);
+                                },
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.location_on,
+                                            color: AppColor.white,
+                                          ),
+                                          const SizedBox(
+                                            width: 8,
+                                          ),
+                                          Expanded(
+                                            child: commonText(
+                                                customMapController
+                                                    .userCurrentLocation.value,
+                                                size: 16,
+                                                color: AppColor.white),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    const Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      color: AppColor.white,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ))
+                  ],
+                ),
               ),
-            ),
 
-            // const SizedBox(height: 4), // For spacing after the header
+              // const SizedBox(height: 4), // For spacing after the header
 
-            // Action Cards Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: GridView.count(
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                childAspectRatio: 1.3,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  buildActionCard(
-                    imagePath: "assets/icons/user home page/picup2.png",
-                    label: 'Search for Load',
-                    description: 'Take your loads with us in just few steps.',
-                    onTap: () {
-                      animetedNavigationPush(
-                          const DriverFindLoadPage(), context);
-                    },
-                  ),
-                  buildActionCard(
-                    imagePath: "assets/icons/user home page/history.png",
-                    label: 'Shipping History',
-                    description: 'Check your previous shipping history.',
-                    onTap: () {
-                      animetedNavigationPush(
-                          DriverShippingHistoryPage(), context);
-                    },
-                  ),
-                  buildActionCard(
-                    imagePath: "assets/icons/user home page/massage.png",
-                    label: 'Chat',
-                    description: 'Easily chat with the driver.',
-                    onTap: () {
-                      animetedNavigationPush(UserChatListPage(), context);
-                    },
-                  ),
-                  buildActionCard(
-                    imagePath: "assets/icons/user home page/support.png",
-                    label: 'Support',
-                    description: 'Take direct support from here.',
-                    onTap: () {
-                      // animetedNavigationPush(DriverSupportPage(), context);
+              // Action Cards Section
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.3,
+                  mainAxisSpacing: 5,
+                  crossAxisSpacing: 5,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    buildActionCard(
+                      imagePath: "assets/icons/user home page/picup2.png",
+                      label: 'Search for Load',
+                      description: 'Take your loads with us in just few steps.',
+                      onTap: () {
+                        animetedNavigationPush(
+                            const DriverFindLoadPage(), context);
+                      },
+                    ),
+                    buildActionCard(
+                      imagePath: "assets/icons/user home page/history.png",
+                      label: 'Shipping History',
+                      description: 'Check your previous shipping history.',
+                      onTap: () {
+                        animetedNavigationPush(
+                            DriverShippingHistoryPage(), context);
+                      },
+                    ),
+                    buildActionCard(
+                      imagePath: "assets/icons/user home page/massage.png",
+                      label: 'Chat',
+                      description: 'Easily chat with the driver.',
+                      onTap: () {
+                        animetedNavigationPush(UserChatListPage(), context);
+                      },
+                    ),
+                    buildActionCard(
+                      imagePath: "assets/icons/user home page/support.png",
+                      label: 'Support',
+                      description: 'Take direct support from here.',
+                      onTap: () {
+                        // animetedNavigationPush(DriverSupportPage(), context);
 
-                      animetedNavigationPush(UserSupportPage(), context);
-                    },
-                  ),
-                ],
+                        animetedNavigationPush(UserSupportPage(), context);
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: commonText("Shipping History", isBold: true, size: 16),
-            ),
-            // Recently Tracking Section
-            trakingDesign(number: "123-456-789", address: "Banasree, Dhaka"),
-            trakingDesign(number: "123-456-789", address: "Banasree, Dhaka"),
-            const SizedBox(height: 20),
-          ],
-        ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: commonText("Shipping History", isBold: true, size: 16),
+              ),
+              // Recently Tracking Section
+              trakingDesign(number: "123-456-789", address: "Banasree, Dhaka"),
+              trakingDesign(number: "123-456-789", address: "Banasree, Dhaka"),
+              const SizedBox(height: 20),
+            ],
+          );
+        }),
       ),
     );
   }
@@ -423,7 +444,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                 commonTextfieldWithTitle(
                   readOnly: true,
                   "Truck Id",
-                  TextEditingController(),
+                  onduityController.truckIdController.value,
                   suffinxIcon: truckIdDropdown(context),
                   hintText: "Select Truck Id",
                 ),
@@ -431,14 +452,23 @@ class _DriverHomePageState extends State<DriverHomePage> {
                 commonTextfieldWithTitle(
                   readOnly: true,
                   "Trailer Id",
-                  TextEditingController(),
+                  onduityController.trailerIdController.value,
                   suffinxIcon: trailerIdDropdown(context),
                   hintText: "Select Trailer Id",
                 ),
                 const SizedBox(height: 10),
-                commonButton(
-                  "Start",
-                ),
+                Obx(() {
+                  return commonButton(
+                    isLoading: onduityController.isLoading.value,
+                    "Start",
+                    onTap: () {
+                      onduityController.onDuity(
+                          lan: customMapController.currentLongitude.value,
+                          lat: customMapController.currentLatitude.value,context: context);
+                    },
+                  );
+                }),
+
                 const SizedBox(height: 20),
               ],
             ),
@@ -447,140 +477,141 @@ class _DriverHomePageState extends State<DriverHomePage> {
       },
     );
   }
-//=====================================================================truck details popup
-Widget truckIdDropdown(BuildContext parentContext) {
-  String truckId = ""; // Variable to store the selected truck ID
-  // List of items to display in the menu
-  List<PopupMenuEntry<String>> truckIdList = [];
 
-  for (var i = 0; i < equipmentController.truckList.length; i++) {
-    var truckData = equipmentController.equipmentData.truck[i];
-    truckIdList.add(
-      PopupMenuItem<String>(
-        value: truckData.id, // Assign truckId as the value
-        child: Container(
-          width: 300,
-          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-          margin: EdgeInsets.symmetric(vertical: 5),
-          decoration: BoxDecoration(
-            border: Border.all(color: AppColor.black),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(truckData.truckNumber),
-              Text(truckData.id),
-            ],
+//=====================================================================truck details popup
+  Widget truckIdDropdown(BuildContext parentContext) {
+    String truckId = ""; // Variable to store the selected truck ID
+    // List of items to display in the menu
+    List<PopupMenuEntry<String>> truckIdList = [];
+
+    for (var i = 0; i < equipmentController.truckList.length; i++) {
+      var truckData = equipmentController.equipmentData.truck[i];
+      truckIdList.add(
+        PopupMenuItem<String>(
+          value: truckData.id, // Assign truckId as the value
+          child: Container(
+            width: 300,
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+            margin: EdgeInsets.symmetric(vertical: 5),
+            decoration: BoxDecoration(
+              border: Border.all(color: AppColor.black),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(truckData.truckNumber),
+                Text(truckData.id),
+              ],
+            ),
           ),
         ),
-      ),
+      );
+    }
+    return GestureDetector(
+      onTap: () {
+        RenderBox renderBox = parentContext.findRenderObject() as RenderBox;
+        Offset offset = renderBox.localToGlobal(Offset.zero);
+        Size size = renderBox.size;
+
+        double availableHeight = MediaQuery.of(parentContext).size.height;
+
+        double iconPositionTop = offset.dy;
+        double iconPositionBottom = availableHeight - (offset.dy + size.height);
+
+        double topPosition = iconPositionBottom > 200
+            ? offset.dy + size.height
+            : offset.dy - 200;
+
+        double bottomPosition = iconPositionBottom > 200
+            ? -offset.dy - size.height
+            : availableHeight - offset.dy;
+
+        // Show a ListView in a Dialog
+        showMenu<String>(
+          context: parentContext,
+          position: RelativeRect.fromLTRB(
+              offset.dx + size.width, topPosition, 0, bottomPosition),
+          items: truckIdList,
+          elevation: 8.0,
+        ).then((value) {
+          if (value != null) {
+            onduityController.truckIdController.value.text = value;
+            print(
+                "Selected Truck ID:==================================== $truckId"); // Debugging
+          }
+        });
+      },
+      child: const Icon(Icons.keyboard_arrow_down),
     );
   }
-  return GestureDetector(
-    onTap: () {
-      RenderBox renderBox = parentContext.findRenderObject() as RenderBox;
-      Offset offset = renderBox.localToGlobal(Offset.zero);
-      Size size = renderBox.size;
-
-      double availableHeight = MediaQuery.of(parentContext).size.height;
-
-      double iconPositionTop = offset.dy;
-      double iconPositionBottom = availableHeight - (offset.dy + size.height);
-
-      double topPosition = iconPositionBottom > 200
-          ? offset.dy + size.height
-          : offset.dy - 200;
-
-      double bottomPosition = iconPositionBottom > 200
-          ? -offset.dy - size.height
-          : availableHeight - offset.dy;
-
-      // Show a ListView in a Dialog
-      showMenu<String>(
-        context: parentContext,
-        position: RelativeRect.fromLTRB(
-            offset.dx + size.width, topPosition, 0, bottomPosition),
-        items: truckIdList,
-        elevation: 8.0,
-      ).then((value) {
-        if (value != null) {
-          truckId = value;
-          print("Selected Truck ID:==================================== $truckId"); // Debugging
-        }
-      });
-    },
-    child: const Icon(Icons.keyboard_arrow_down),
-  );
-}
 
 //=====================================================================trailer details popup
-Widget trailerIdDropdown(BuildContext parentContext) {
-  String trailerId = "";
-  List<PopupMenuEntry<String>> trailerIdList = [];
+  Widget trailerIdDropdown(BuildContext parentContext) {
+    String trailerId = "";
+    List<PopupMenuEntry<String>> trailerIdList = [];
 
-  for (var i = 0; i < equipmentController.trailerList.length; i++) {
-    var trailerData = equipmentController.equipmentData.trailer[i];
-    trailerIdList.add(
-      PopupMenuItem<String>(
-        value: trailerData.id, 
-        child: Container(
-          width: 300,
-          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-          margin: EdgeInsets.symmetric(vertical: 5),
-          decoration: BoxDecoration(
-            border: Border.all(color: AppColor.black),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("${trailerData.trailerSize.toString()}-Foot Trailer, ${trailerData.palletSpace.toString()}-Pallets"),
-              Text(trailerData.id),
-            ],
+    for (var i = 0; i < equipmentController.trailerList.length; i++) {
+      var trailerData = equipmentController.equipmentData.trailer[i];
+      trailerIdList.add(
+        PopupMenuItem<String>(
+          value: trailerData.id,
+          child: Container(
+            width: 300,
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+            margin: EdgeInsets.symmetric(vertical: 5),
+            decoration: BoxDecoration(
+              border: Border.all(color: AppColor.black),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                    "${trailerData.trailerSize.toString()}-Foot Trailer, ${trailerData.palletSpace.toString()}-Pallets"),
+                Text(trailerData.id),
+              ],
+            ),
           ),
         ),
-      ),
+      );
+    }
+    return GestureDetector(
+      onTap: () {
+        RenderBox renderBox = parentContext.findRenderObject() as RenderBox;
+        Offset offset = renderBox.localToGlobal(Offset.zero);
+        Size size = renderBox.size;
+
+        double availableHeight = MediaQuery.of(parentContext).size.height;
+
+        double iconPositionTop = offset.dy;
+        double iconPositionBottom = availableHeight - (offset.dy + size.height);
+
+        double topPosition = iconPositionBottom > 200
+            ? offset.dy + size.height
+            : offset.dy - 200;
+
+        double bottomPosition = iconPositionBottom > 200
+            ? -offset.dy - size.height
+            : availableHeight - offset.dy;
+
+        // Show a ListView in a Dialog
+        showMenu<String>(
+          context: parentContext,
+          position: RelativeRect.fromLTRB(
+              offset.dx + size.width, topPosition, 0, bottomPosition),
+          items: trailerIdList,
+          elevation: 8.0,
+        ).then((value) {
+          if (value != null) {
+            onduityController.trailerIdController.value.text = value;
+            trailerId = value;
+          }
+        });
+      },
+      child: const Icon(Icons.keyboard_arrow_down),
     );
   }
-  return GestureDetector(
-    onTap: () {
-      RenderBox renderBox = parentContext.findRenderObject() as RenderBox;
-      Offset offset = renderBox.localToGlobal(Offset.zero);
-      Size size = renderBox.size;
-
-      double availableHeight = MediaQuery.of(parentContext).size.height;
-
-      double iconPositionTop = offset.dy;
-      double iconPositionBottom = availableHeight - (offset.dy + size.height);
-
-      double topPosition = iconPositionBottom > 200
-          ? offset.dy + size.height
-          : offset.dy - 200;
-
-      double bottomPosition = iconPositionBottom > 200
-          ? -offset.dy - size.height
-          : availableHeight - offset.dy;
-
-      // Show a ListView in a Dialog
-      showMenu<String>(
-        context: parentContext,
-        position: RelativeRect.fromLTRB(
-            offset.dx + size.width, topPosition, 0, bottomPosition),
-        items: trailerIdList,
-        elevation: 8.0,
-      ).then((value) {
-        if (value != null) {
-          trailerId = value;
-        }
-      });
-    },
-    child: const Icon(Icons.keyboard_arrow_down),
-  );
-}
-
-
-
 }

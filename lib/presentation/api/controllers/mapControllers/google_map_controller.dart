@@ -274,28 +274,24 @@ class CustomMapController extends GetxController {
     return await Geolocator.getCurrentPosition();
   }
 
-  getCurrentLocation() {
-    Timer.periodic(const Duration(seconds: 01), (timer) async {
+  getCurrentLocation({bool isOnDuty = false}) async {
+    
+    Timer.periodic(const Duration(seconds: 03), (timer) async {
      getUserCurrentLocation().then((value) async {
       updateLocation(value.latitude, value.longitude);
-      log("${value.floor}");
-      log('My current location');
       log("My Current Location:^^^^${value.latitude}, ${value.longitude}");
-
       List<Placemark> placemarks = await placemarkFromCoordinates(value.latitude, value.longitude);
       currentLatitude.value = value.latitude;
       currentLongitude.value = value.longitude;
       userCurrentLocation.value = "${placemarks.first.street}, ${placemarks.first.name}, ${placemarks.first.locality}, ${placemarks.first.country}";
-      await SocketServices.sendLocation(latitude: value.latitude, longitude: value.longitude);
       return userCurrentLocation.value;
-      // marker.add(Marker(
-      //     markerId: MarkerId("My location"),
-      //     position: LatLng(value.latitude, value.longitude),
-      //     infoWindow: const InfoWindow(title: 'My current location')));
-      // final GoogleMapController controller = await googleMapController.future;
-      // await controller.animateCamera(CameraUpdate.newCameraPosition(kRandom));
     });
     });
+       if(isOnDuty == true){
+         debugPrint("===isonduity ==$isOnDuty");
+        await SocketServices.sendLocation(latitude: currentLatitude.value, longitude: currentLongitude.value);
+        print("======================socket on");
+      }
   }
 
 
