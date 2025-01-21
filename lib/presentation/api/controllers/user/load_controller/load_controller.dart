@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/create_load_map_controller.dart';
 import 'package:ootms/presentation/screens/role/user/create_load/create_load_map_screen.dart';
@@ -13,6 +14,7 @@ import '../../../../navigation/animeted_navigation.dart';
 import '../../../../screens/role/user/home/user_home_page.dart';
 import '../../../service/api_services.dart';
 import '../../../url_paths.dart';
+import '../../common/bottom_nav_controller.dart';
 
 class LoadController extends ChangeNotifier {
   String selectedValue = "";
@@ -25,7 +27,8 @@ class LoadController extends ChangeNotifier {
       TextEditingController(text: kDebugMode ? "46465454" : "");
   final TextEditingController receiverEmailController =
       TextEditingController(text: kDebugMode ? "Topu@gmail.com" : "");
-  TextEditingController receiverAddressController = TextEditingController(text: kDebugMode ? "Dhaka" : "");
+  TextEditingController receiverAddressController =
+      TextEditingController(text: kDebugMode ? "Dhaka" : "");
   final TextEditingController receiverCityController =
       TextEditingController(text: kDebugMode ? "Thakurgaon" : "");
   final TextEditingController receiverStateController =
@@ -75,6 +78,8 @@ class LoadController extends ChangeNotifier {
   bool isSuccess = false;
   num shipperLatitude = 0.0;
   num shipperLongitude = 0.0;
+  String pickedUpDate = "";
+  String deliveryDate = "";
 
   final ApiService apiService = ApiService();
   Map<String, bool> hazMatItems = {
@@ -91,13 +96,29 @@ class LoadController extends ChangeNotifier {
 
   pickPickupDate() async {
     String pickDate = await OtherHelper.datePicker(pickupController);
-    pickupController.value = TextEditingValue(text: pickDate);
+    pickedUpDate = pickDate;
+    // Parse the ISO string into a DateTime object
+    DateTime dateTime = DateTime.parse(pickDate);
+
+    // Format it as `dd-MM-yyyy`
+    String day = dateTime.day < 10 ? "0${dateTime.day}" : "${dateTime.day}";
+    String month = dateTime.month < 10 ? "0${dateTime.month}" : "${dateTime.month}";
+    String formattedDate = "$day-$month-${dateTime.year}";
+    pickupController.value = TextEditingValue(text: formattedDate);
     notifyListeners();
   }
 
   pickdelivaryDate() async {
     String pickDate = await OtherHelper.datePicker(deliveryController);
-    deliveryController.value = TextEditingValue(text: pickDate);
+    deliveryDate = pickDate;
+
+    DateTime dateTime = DateTime.parse(pickDate);
+
+    // Format it as `dd-MM-yyyy`
+    String day = dateTime.day < 10 ? "0${dateTime.day}" : "${dateTime.day}";
+    String month = dateTime.month < 10 ? "0${dateTime.month}" : "${dateTime.month}";
+    String formattedDate = "$day-$month-${dateTime.year}";
+    deliveryController.value= TextEditingValue(text: formattedDate);
     notifyListeners();
   }
 
@@ -117,21 +138,7 @@ class LoadController extends ChangeNotifier {
   }
 
   updateAddresses(double latitude, double longitude) async {
-
-    if(CreateLoadMapScreen.isReceiver){
-      receiverAddressController.value = TextEditingValue(text: await CreateLoadMapController.instance.onMapTapped(LatLng(latitude, longitude)));
-      notifyListeners();
-    }else{
-      shipperAddressController.value = TextEditingValue(text: await CreateLoadMapController.instance.onMapTapped(LatLng(latitude, longitude)));
-      shipperLatitude = latitude;
-      shipperLongitude = longitude;
-      notifyListeners();
-    }
-    debugPrint("<<<=======================>>>");
-    debugPrint("loadController.receiverAddressController.text: ${receiverAddressController.text}");
-    debugPrint( "loadController.shipperAddressController.text: ${shipperAddressController.text}");
-    debugPrint( "longitude, latitude: $longitude, $latitude");
-    notifyListeners();
+    await CreateLoadMapController.instance.onMapTapped(LatLng(latitude, longitude));
   }
 
 //============================================================create load method
@@ -163,41 +170,41 @@ class LoadController extends ChangeNotifier {
         "receiverEmail": receiverEmailController.text,
         "receivingAddress": receiverAddressController.text,
         "receiverCity": receiverCityController.text,
-        "receiverState": receiverStateController.text,
+        "receiverState": receiverStateController.text, 
         "receiverZip": receiverZipController.text,
         "receiverpostalCode": poController.text,
-        "pickupDate": "2025-01-10T08:00:00Z",
-        "deliveryDate": "2025-01-12T18:00:00Z",
+        "pickupDate": pickedUpDate,
+        "deliveryDate": deliveryDate,
         "billOfLading": billOfLadingController.text,
         "deliveryInstruction": deliveryInstructionsController.text,
         "location": {
           "type": "Point",
           "coordinates": [
-            shipperLongitude,
-            shipperLatitude
+            CreateLoadMapController.instance.selectedLongitude,
+            CreateLoadMapController.instance.selectedLatitude
           ]
         }
       }
     ];
-    print("==========================================hazmatlist $hazmatList");
-    // print(
-    //     "==========================================hazmatlist ${jsonEncode(hazmatList)}");
+    log("==============>>>> $data <<<<===============");
 
     try {
       final response = await apiService.otherPostRequest(
           ApiPaths.createLoad, jsonEncode(data));
 
-      log("status code before =-==================${response["statusCode"]}");
+      log("status code before =-==================${response}");
       if (response["statusCode"] == "201") {
+        log("status code after =-==================${response["statusCode"]}");
         final id = response["data"]["attributes"][0]["_id"];
         loadId = id;
-        showCommonSnackbar(context, "Create Load Successfull", isError: false);
+        showCommonSnackbar(context, "Create Load Successful", isError: false);
         isSuccess = true;
         notifyListeners();
       }
-    } catch (e) {
+    } catch (e, s) {
       showCommonSnackbar(context, "Create Load Failed", isError: true);
       log("failed =-==================$e");
+      log("failed =-==================$s");
     } finally {
       isLoading = false;
       notifyListeners();
@@ -206,31 +213,30 @@ class LoadController extends ChangeNotifier {
 
   //============================================assign a preffered driver method
   //============================================================create load method
+  
+  final BottomNavController navController = Get.put(BottomNavController());
   Future<void> assignPrefferedDriver({context}) async {
     isLoading = true;
+    
     notifyListeners();
 
     List<Map<String, String>> data = [
       {"load": loadId, "driver": driverIdcontroller.text}
-      // {"load": "67824ef8be2dc7dbb198e238", "driver": "677a2b7d2f65914268b90421"}
     ];
     print("=====================================data $data");
 
     try {
-      final response = await apiService.otherPostRequest(
-          ApiPaths.preferredDriver, jsonEncode(data));
-      debugPrint(
-          "44==========================================================response$response");
-
-      debugPrint(
-          "status code before =-==================${response["statusCode"]}");
+          final response = await apiService.otherPostRequest(
+        ApiPaths.preferredDriver, jsonEncode(data));
+        print("===================================================statuscode${response["statusCode"]}");
       if (response["statusCode"] == 201) {
-        animetedNavigationPush(UserHomePage(), context);
-        showCommonSnackbar(context, "Assign Preffered Driver Successfull",
+        driverIdcontroller.clear();
+        showCommonSnackbar(context, response["message"],
             isError: false);
+        navController.valueIncrease(value: 0);
         isSuccess = true;
         notifyListeners();
-      } else if (response["statusCode"] == 208) {
+      } else if (response["statusCode"] == "208") {
         showCommonSnackbar(
           context,
           response["message"],
@@ -238,10 +244,11 @@ class LoadController extends ChangeNotifier {
       } else {
         showCommonSnackbar(context, "Something Went wrong", isError: true);
       }
-    } catch (e) {
-      showCommonSnackbar(context, "Assign Preffered Driver Failed",
+    } catch (e, s) {
+      showCommonSnackbar(context, "Failed: $e",
           isError: true);
       debugPrint("failed =-==================$e");
+      debugPrint("failed =-==================$s");
     } finally {
       isLoading = false;
       notifyListeners();

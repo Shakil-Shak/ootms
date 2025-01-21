@@ -131,7 +131,7 @@ class _DriverCurrentShipmentsPageState
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            commonText(data.driver!.fullName!,
+                                            commonText(data.load!.shipperName!,
                                                 size: 16, isBold: true),
                                             const SizedBox(
                                               height: 4,

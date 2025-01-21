@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 
 class LoadDetailsScreen extends StatelessWidget {
@@ -20,21 +18,21 @@ class LoadDetailsScreen extends StatelessWidget {
       description =
           "Lorem ipsum dolor sit amet consectetur. Blandit auctor sit scelerisque ultricies.";
 
-  Widget editButton() {
-    return TextButton.icon(
-      onPressed: () {},
-      icon: const Icon(Icons.edit, size: 16, color: Colors.black),
-      label: commonText(
-        'Edit Details',
-        size: 12,
-      ),
-      style: TextButton.styleFrom(
-        backgroundColor: AppColor.primaryColorLight.withOpacity(0.5),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      ),
-    );
-  }
+  // Widget editButton() {
+  //   return TextButton.icon(
+  //     onPressed: () {},
+  //     icon: const Icon(Icons.edit, size: 16, color: Colors.black),
+  //     label: commonText(
+  //       'Edit Details',
+  //       size: 12,
+  //     ),
+  //     style: TextButton.styleFrom(
+  //       backgroundColor: AppColor.primaryColorLight.withOpacity(0.5),
+  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+  //       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -108,10 +106,7 @@ class LoadDetailsScreen extends StatelessWidget {
         horizontal: 16.0,
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [editButton()],
-        ),
+        
         const SizedBox(height: 10),
         _buildInfoRow("Shipper Name", " $shipperRating $shipperName",
             "Shipper Phone", shipperPhone),
@@ -129,10 +124,7 @@ class LoadDetailsScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [editButton()],
-        ),
+        
         const SizedBox(height: 10),
         _buildLoadInfoSection(),
       ],
@@ -145,10 +137,7 @@ class LoadDetailsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [editButton()],
-          ),
+          
           const SizedBox(height: 10),
           _buildInfoRow(
               "Receiver Name", reciverName, "Receiver Phone", reciverPhone),

@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:math' as Math;
 
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:custom_marker/marker_icon.dart';
@@ -12,6 +13,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ootms/presentation/api/models/driver_model/nearest_load_model.dart';
+import 'package:ootms/presentation/api/models/user_model/bol_tracking_model.dart';
+import 'package:ootms/presentation/api/models/user_model/nearest_driver_model.dart';
+import 'package:ootms/presentation/api/service/socket_service.dart';
 import 'package:ootms/presentation/screens/role/driver/find_load/find_load_method/find_load_modal_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
@@ -57,7 +61,7 @@ class CustomMapController extends GetxController {
 
   CameraPosition get initialCameraPosition => CameraPosition(
     target: LatLng(userLatitude.value, userLongitude.value),
-    zoom: 14.0,
+    zoom: 16.0,
   );
 
   CameraPosition get kRandom => CameraPosition(
@@ -68,7 +72,6 @@ class CustomMapController extends GetxController {
       tilt: 59.440717697143555,
       zoom: 15);
 
-  final List<Marker> list = [];
 
   var uuid = const Uuid();
   String sessionToken = '112233';
@@ -77,7 +80,6 @@ class CustomMapController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    marker.addAll(list);
     searchText.value.addListener(() {
       onChange();
     });
@@ -95,17 +97,60 @@ class CustomMapController extends GetxController {
 
 // Load custom truck icon
 
-  Future<BitmapDescriptor> _loadTruckIcon(BuildContext context, iconPath) async {
+  Future<BitmapDescriptor> _loadTruckIcon(BuildContext context, iconPath, {double iconHeight = 40}) async {
     return await BitmapDescriptor.asset(
         ImageConfiguration(
             devicePixelRatio: MediaQuery.of(context).devicePixelRatio),
         iconPath,
-        height: 40, width: 40
+        height: iconHeight, width: 40
     );
   }
 
-  ///==================== Set Marker with Icon =================================
-  setLocationMarker(double latitude, double longitude, String placeId, String iconPath, NearestLoadModel loadItems) async {
+  ///==================== Set Driver Marker For Live Tracking===================
+
+  double calculateBearing(LatLng start, LatLng end) {
+    double deltaLongitude = end.longitude - start.longitude;
+    double y = Math.sin(deltaLongitude) * Math.cos(end.latitude);
+    double x = Math.cos(start.latitude) * Math.sin(end.latitude) -
+        Math.sin(start.latitude) * Math.cos(end.latitude) * Math.cos(deltaLongitude);
+    double initialBearing = Math.atan2(y, x);
+    return (initialBearing * 180 / Math.pi) % 360;
+  }
+
+  setDriverLocationTrackingMarker(LatLng driverLatLang, LatLng destinationLatLang, String placeId, String iconPath, BOLTrackingModel loadItems, {VoidCallback? onTap}) async {
+    final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath, iconHeight: 60);
+    Marker newMarker = Marker(
+      onTap: onTap,
+      infoWindow: InfoWindow(title: placeId),
+      icon: customMarker,
+      markerId: MarkerId(placeId), // Use a unique MarkerId for each marker
+      position: LatLng(driverLatLang.latitude, driverLatLang.longitude),
+      rotation: calculateBearing(driverLatLang, destinationLatLang)
+    );
+
+    getRoute(origin: driverLatLang, destination: destinationLatLang);
+    marker.add(newMarker);
+    update();
+  }
+
+  ///==================== Set Driver Marker with Icon ==========================
+  setDriverLocationMarker(double latitude, double longitude, String placeId, String iconPath, NearestDriverModel loadItems, {VoidCallback? onTap}) async {
+    final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath, iconHeight: 60);
+    Marker newMarker = Marker(
+      onTap: onTap,
+      infoWindow: InfoWindow(title: placeId),
+      icon: customMarker,
+      markerId: MarkerId(placeId), // Use a unique MarkerId for each marker
+      position: LatLng(latitude, longitude),
+    );
+
+    marker.add(newMarker);
+    update();
+  }
+
+  ///==================== Set Load Marker with icon ==========================
+
+  setLoadLocationMarker(double latitude, double longitude, String placeId, String iconPath, NearestLoadModel loadItems) async {
     final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath);
     Marker newMarker = Marker(
       onTap: () {
@@ -121,12 +166,14 @@ class CustomMapController extends GetxController {
     marker.add(newMarker);
     update();
   }
-  setMarker(LatLng latLng, LatLng endLatLng, String placeId, String iconPath) async {
-    final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath);
+
+
+  setMarker(LatLng latLng, String placeId, String iconPath, {double iconHeight = 50}) async {
+    final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath, iconHeight: iconHeight);
     Marker newMarker = Marker(
       onTap: () {
       },
-      infoWindow: InfoWindow(title: placeId),
+      infoWindow: const InfoWindow(title: "Load Location"),
       icon: customMarker,
       markerId: MarkerId(placeId), // Use a unique MarkerId for each marker
       position: LatLng(latLng.latitude, latLng.longitude),
@@ -227,27 +274,101 @@ class CustomMapController extends GetxController {
     return await Geolocator.getCurrentPosition();
   }
 
-  getCurrentLocation() {
+  getCurrentLocation({bool isOnDuty = false}) async {
+    
     Timer.periodic(const Duration(seconds: 03), (timer) async {
      getUserCurrentLocation().then((value) async {
       updateLocation(value.latitude, value.longitude);
-      log("${value.floor}");
-      log('My current location');
       log("My Current Location:^^^^${value.latitude}, ${value.longitude}");
-
       List<Placemark> placemarks = await placemarkFromCoordinates(value.latitude, value.longitude);
-      log("Placemarks: ============>>>>$placemarks");
       currentLatitude.value = value.latitude;
       currentLongitude.value = value.longitude;
       userCurrentLocation.value = "${placemarks.first.street}, ${placemarks.first.name}, ${placemarks.first.locality}, ${placemarks.first.country}";
       return userCurrentLocation.value;
-      // marker.add(Marker(
-      //     markerId: MarkerId("My location"),
-      //     position: LatLng(value.latitude, value.longitude),
-      //     infoWindow: const InfoWindow(title: 'My current location')));
-      // final GoogleMapController controller = await googleMapController.future;
-      // await controller.animateCamera(CameraUpdate.newCameraPosition(kRandom));
     });
     });
+       if(isOnDuty == true){
+         debugPrint("===isonduity ==$isOnDuty");
+        await SocketServices.sendLocation(latitude: currentLatitude.value, longitude: currentLongitude.value);
+        print("======================socket on");
+      }
   }
+
+
+  ///=================>>>> Polyline Methods <<<<<<==============================
+
+  final RxSet<Polyline> polyLines = <Polyline>{}.obs;
+  // LatLng origin = LatLng(23.776176, 90.425674); // San Francisco
+  // LatLng destination = LatLng(23.3999373281255, 90.4387651926279); // Los Angeles
+  final String apiKey = "AIzaSyCZ6YIiEkZnGVCQUyFIKsu3RdOJ49GVeLU"; // Replace with your API key
+  double firstStepEndLat = 0.0;
+  double firstStepEndLng = 0.0;
+
+
+
+  Future<void> getRoute({required LatLng origin, required LatLng destination}) async {
+    final response = await http.get(Uri.parse(
+        'https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${destination.latitude},${destination.longitude}&key=$apiKey'));
+
+    log("${response.statusCode}");
+    log("Response ========>>>> ${response.body}");
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+
+      if (data["routes"].isNotEmpty) {
+        final route = data["routes"][0]["overview_polyline"]["points"];
+        final points = decodePolyline(route);
+
+        var firstStepEndLocation = data['routes'][0]['legs'][0]['steps'][0]['end_location'];
+        firstStepEndLat = firstStepEndLocation['lat'];
+        firstStepEndLng = firstStepEndLocation['lng'];
+
+        polyLines.add(
+          Polyline(
+            polylineId: PolylineId("route"),
+            points: points,
+            color: Colors.red,
+            width: 5,
+          ),
+        );
+        polyLines.refresh(); // Notify listeners
+      }
+    } else {
+      log("Failed to fetch route: ${response.body}");
+    }
+  }
+
+
+  List<LatLng> decodePolyline(String encoded) {
+    List<LatLng> points = [];
+    int index = 0, len = encoded.length;
+    int lat = 0, lng = 0;
+
+    while (index < len) {
+      int shift = 0, result = 0;
+      int b;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+      lat += dlat;
+
+      shift = 0;
+      result = 0;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+      lng += dlng;
+
+      points.add(LatLng(lat / 1E5, lng / 1E5));
+    }
+    return points;
+  }
+
 }

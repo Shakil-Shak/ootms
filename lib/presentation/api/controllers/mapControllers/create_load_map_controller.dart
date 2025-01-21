@@ -6,6 +6,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:ootms/core/constants/assets/icons_string.dart';
+import 'package:ootms/presentation/api/controllers/user/load_controller/load_controller.dart';
+import 'package:ootms/presentation/screens/role/user/create_load/create_load_map_screen.dart';
 
 class CreateLoadMapController extends GetxController {
 
@@ -13,7 +15,11 @@ class CreateLoadMapController extends GetxController {
 
   var currentLocation = LatLng(0.0, 0.0).obs;
   var selectedLocation = LatLng(0.0, 0.0).obs;
+
   var selectedAddress = "".obs;
+  var selectedLatitude =  0.0;
+  var selectedLongitude =  0.0;
+
   List<Marker> marker = <Marker>[].obs;
 
   late GoogleMapController googleMapController;
@@ -47,7 +53,44 @@ class CreateLoadMapController extends GetxController {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     currentLocation.value = LatLng(position.latitude, position.longitude);
+
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude, position.longitude);
+    if (placemarks.isNotEmpty) {
+      selectedAddress.value =
+      "${placemarks.first.street}, ${placemarks.first.locality}";
+    }
+    selectedLatitude = position.latitude;
+    selectedLongitude = position.longitude;
+    selectedLocation.value = LatLng(position.latitude, position.longitude);
+    addMarker(currentLocation.value);
   }
+
+  void addMarker(LatLng position) {
+    marker.add(
+      Marker(
+        markerId: const MarkerId('current_location'),
+        position: position,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+        infoWindow: InfoWindow(
+          title: 'Your Location',
+          snippet: '${position.latitude}, ${position.longitude}',
+        ),
+      ),
+    );
+  }
+
+
+  void updateLocation(double lat, double lng) {
+    googleMapController.animateCamera(
+      CameraUpdate.newLatLng(LatLng(lat, lng)),
+    );
+    selectedLatitude = lat;
+    selectedLongitude = lng;
+    selectedLocation.value = LatLng(lat, lng);
+    setMyLocationMarker(LatLng(lat, lng), "Selected Location");
+  }
+
 
   void setGoogleMapController(GoogleMapController controller) {
     googleMapController = controller;
@@ -62,6 +105,10 @@ class CreateLoadMapController extends GetxController {
 
   Future<String> onMapTapped(LatLng tappedLocation) async {
     selectedLocation.value = tappedLocation;
+    if(!CreateLoadMapScreen.isReceiver){
+      selectedLatitude = tappedLocation.latitude;
+      selectedLongitude = tappedLocation.longitude;
+    }
 
     // Animate the camera to the tapped location
     googleMapController.animateCamera(

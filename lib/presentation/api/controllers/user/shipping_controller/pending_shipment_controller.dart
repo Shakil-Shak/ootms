@@ -49,21 +49,21 @@ class PendingShipmentController extends GetxController{
 
       if (response.statusCode == int.parse("200")) {
         log("================================================successful");
-        var responseData = response.body['data']['attributes']['loadRequests'];
+        var responseData = response.body['data']['results'];
         log("responseData: $responseData");
         if(page == 1){
           pendingShipmentList = responseData.map((items) => PendingShipmentModel.fromJson(items)).toList();
         }else{
           pendingShipmentList.addAll(responseData.map((items) => PendingShipmentModel.fromJson(items)).toList());
         }
-        log("pending shipment list: $pendingShipmentList");
         update();
 
       } else {
         log("Error: statusCode is not 200 or response is null");
       }
-    } catch (e) {
+    } catch (e, s) {
       log("$e");
+      log("$s");
     } finally {
       isLoading = false;
       update();

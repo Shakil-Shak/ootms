@@ -79,6 +79,9 @@ class _DriverLoadRequestPageState extends State<DriverLoadRequestPage> {
                                     reciverAddress: data.load.receivingAddress,
                                     rating: data.user.ratings.toString(),
                                     description: data.load.description,
+                                    index: index,
+                                    data: data,
+                                    loadReqId: data.id,
                                     deliveryInstructions:
                                         data.load.deliveryInstruction,
                                     loadType: data.load.loadType,

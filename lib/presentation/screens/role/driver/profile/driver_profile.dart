@@ -11,7 +11,7 @@ import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/feedback_screen.dart';
-import 'package:ootms/presentation/screens/role/driver/home/equipment.dart';
+import 'package:ootms/presentation/screens/role/driver/equipment_screen/equipment.dart';
 import 'package:ootms/presentation/screens/role/driver/profile/driver_edit_profile.dart';
 import 'package:ootms/presentation/screens/role/driver/settings/driver_settings.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_current_shipments.dart';
@@ -182,8 +182,7 @@ class _DriverProfileState extends State<DriverProfile> {
         iconPath: AppIcons.equipment,
         text: "Equipment",
         onTap: () {
-          controller.getEquipmentData().then(
-              (value) => animetedNavigationPush(MyEquipmentPage(), context));
+          animetedNavigationPush(MyEquipmentPage(), context);
         },
       ),
       ProfileMenuItem(

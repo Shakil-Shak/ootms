@@ -58,11 +58,14 @@ class ProfileController extends ChangeNotifier {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
 
-      // Log or process the location
-      log("Location: ${position.latitude}, ${position.longitude}");
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(position.latitude, position.longitude);
-      log("${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}");
+
+    // Log or process the location
+    log("Location: ${position.latitude}, ${position.longitude}");
+    currentLatLng = LatLng(position.latitude, position.longitude);
+
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    log("${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}");
+  
 
       currentLocation =
           "${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}";
