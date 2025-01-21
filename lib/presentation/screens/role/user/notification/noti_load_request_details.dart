@@ -1,11 +1,10 @@
+
 // ignore_for_file: must_be_immutable
 
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:ootms/core/constants/assets/icons_string.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/helpers/other_helper.dart';
 import 'package:ootms/presentation/api/controllers/common/load_details_controller.dart';
@@ -14,11 +13,8 @@ import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../api/controllers/Driver/load_request_controller/load_request_controller.dart';
-import '../../../../api/models/driver_model/load_request_model.dart';
-
-class DriverLoadRequestDetailsPage extends StatelessWidget {
-  DriverLoadRequestDetailsPage({
+class NotiLoadRequestDetails extends StatelessWidget {
+  NotiLoadRequestDetails({
     super.key,
     required this.shipperPhone,
     required this.shipperName,
@@ -40,7 +36,6 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
     required this.rating,
     required this.loadReqId,
     required this.index,
-    required this.data,
   });
 
   static String loadId = "";
@@ -68,7 +63,6 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
   String rating;
   String loadReqId;
   int index;
-  DriverLoadModel data;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +73,7 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: AppColor.white,
       ),
-      body: GetBuilder<DriverLoadRequest>(
+      body: GetBuilder<LoadDetailsController>(
         builder: (controller) {
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
@@ -90,8 +84,8 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
                 commonText("Shipper's Information", isBold: true, size: 18),
                 const Divider(),
                 const SizedBox(height: 10),
-                _buildInfoRow("Shipper Name", " ${rating + " " + shipperName}",
-                    "Shipper Phone", shipperPhone),
+                _buildInfoRow("Shipper Name", " ${rating+" "+shipperName}", "Shipper Phone",
+                    shipperPhone),
                 const SizedBox(height: 10),
                 _buildInfoRow("Shipper Email", shipperEmail, "Shipper Address",
                     shipperAddress),
@@ -147,22 +141,15 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
                                     size: 14, fontWeight: FontWeight.w500),
                                 const SizedBox(height: 10),
                                 commonText("HazMat", size: 14, isBold: true),
-                                Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      ListView.builder(
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          itemCount: hazmat.length,
-                                          itemBuilder: (context, index) {
-                                            return commonText(
-                                                "${hazmat[index]}",
-                                                maxLines: hazmat.length,
-                                                size: 14);
-                                          })
-                                    ]),
+                                Row(
+                                  children: List.generate(
+                                    hazmat.length,
+                                    (index) {
+                                      return commonText(hazmat[index],
+                                          size: 14);
+                                    },
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -211,91 +198,57 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
                 ),
 
                 // Message Input with Call Button
-                Align(
-                  alignment: Alignment.center,
-                  child: GestureDetector(
-                    onTap: () {
-                      _launchDialer(shipperPhone);
-                    },
-                    child: Container(
-                      width: 300,
-                      height: 54,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 73, vertical: 10),
-                      decoration: ShapeDecoration(
-                        color: const Color(0xFFF3F3F3),
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                              width: 1.50, color: Color(0xFFA8A8A8)),
-                          borderRadius: BorderRadius.circular(16),
+                Row(
+                  children: [
+                    // Message input field
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          border: Border.all(color: Colors.grey, width: 1),
                         ),
-                        shadows: const [
-                          BoxShadow(
-                            color: Color(0x3F000000),
-                            blurRadius: 6,
-                            offset: Offset(0, 1),
-                            spreadRadius: 0,
-                          )
-                        ],
+                        child: const Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 12.0),
+                              child: Icon(
+                                Icons.message,
+                                color: AppColor.black,
+                              ),
+                            ),
+                            Expanded(
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText: "Send a message",
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      child: SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: SvgPicture.asset(AppIcons.call)),
                     ),
-                  ),
+                    const SizedBox(width: 10),
+                    // Phone icon button
+                    InkWell(
+                      onTap: () {
+                        _launchDialer(shipperPhone);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            color: AppColor.white,
+                            shape: BoxShape.circle,
+                            border: Border.all(width: 1)),
+                        child: const Icon(
+                          Icons.phone,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                // Row(
-                //   children: [
-                //     // Message input field
-                //     Expanded(
-                //       child: Container(
-                //         decoration: BoxDecoration(
-                //           borderRadius: BorderRadius.circular(25),
-                //           border: Border.all(color: Colors.grey, width: 1),
-                //         ),
-                //         child: const Row(
-                //           children: [
-                //             Padding(
-                //               padding: EdgeInsets.symmetric(horizontal: 12.0),
-                //               child: Icon(
-                //                 Icons.message,
-                //                 color: AppColor.black,
-                //               ),
-                //             ),
-                //             Expanded(
-                //               child: TextField(
-                //                 decoration: InputDecoration(
-                //                   hintText: "Send a message",
-                //                   border: InputBorder.none,
-                //                   hintStyle: TextStyle(color: Colors.grey),
-                //                 ),
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //     ),
-                //     const SizedBox(width: 10),
-                //     // Phone icon button
-                //     InkWell(
-                //       onTap: () {
-                //         _launchDialer(shipperPhone);
-                //       },
-                //       child: Container(
-                //         padding: const EdgeInsets.all(8),
-                //         decoration: BoxDecoration(
-                //             color: AppColor.white,
-                //             shape: BoxShape.circle,
-                //             border: Border.all(width: 1)),
-                //         child: const Icon(
-                //           Icons.phone,
-                //           color: Colors.black,
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
                 const SizedBox(height: 20),
 
                 // Cancel and Assign Load Buttons
@@ -303,14 +256,7 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: commonButton(
-                          isLoading: data.isReject ? data.isLoading : false,
-                          onTap: () {
-                        controller.loadRequestReject(
-                            loadRequestId: loadReqId,
-                            index: index,
-                            context: context);
-                      }, "Cancel",
+                      child: commonButton("Cancel",
                           borderRadious: 10,
                           color: const Color(0xFFDDDDDD),
                           textColor: AppColor.black),
@@ -318,13 +264,8 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: commonButton(
-                        isLoading: data.isAccept ? data.isLoading : false,
-                        onTap: () async{
-                          await controller.loadRequestAccept(
-                              loadRequestId: loadReqId,
-                              index: index,
-                              context: context);
-                          
+                        onTap: () {
+              
                         },
                         borderRadious: 10,
                         "Accept Load",

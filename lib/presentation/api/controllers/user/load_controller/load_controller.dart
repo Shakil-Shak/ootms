@@ -179,7 +179,10 @@ class LoadController extends ChangeNotifier {
         "deliveryInstruction": deliveryInstructionsController.text,
         "location": {
           "type": "Point",
-          "coordinates": [CreateLoadMapController.instance.selectedLongitude, CreateLoadMapController.instance.selectedLatitude]
+          "coordinates": [
+            CreateLoadMapController.instance.selectedLongitude,
+            CreateLoadMapController.instance.selectedLatitude
+          ]
         }
       }
     ];
@@ -223,19 +226,17 @@ class LoadController extends ChangeNotifier {
     print("=====================================data $data");
 
     try {
-      final response = await apiService.otherPostRequest(
-          ApiPaths.preferredDriver, jsonEncode(data));
-      debugPrint(
-          "44==========================================================response${response["statusCode"]}");
+          final response = await apiService.otherPostRequest(
+        ApiPaths.preferredDriver, jsonEncode(data));
+        print("===================================================statuscode${response["statusCode"]}");
       if (response["statusCode"] == 201) {
         driverIdcontroller.clear();
-        showCommonSnackbar(context, "Assign Preffered Driver Successfull",
+        showCommonSnackbar(context, response["message"],
             isError: false);
         navController.valueIncrease(value: 0);
         isSuccess = true;
         notifyListeners();
-
-      } else if (response["statusCode"] == 208) {
+      } else if (response["statusCode"] == "208") {
         showCommonSnackbar(
           context,
           response["message"],
@@ -243,10 +244,11 @@ class LoadController extends ChangeNotifier {
       } else {
         showCommonSnackbar(context, "Something Went wrong", isError: true);
       }
-    } catch (e) {
-      showCommonSnackbar(context, "Assign Preffered Driver Failed",
+    } catch (e, s) {
+      showCommonSnackbar(context, "Failed: $e",
           isError: true);
       debugPrint("failed =-==================$e");
+      debugPrint("failed =-==================$s");
     } finally {
       isLoading = false;
       notifyListeners();
