@@ -27,8 +27,8 @@ class _UserMapWithPolylineState extends State<UserMapWithPolyline> {
           Obx(() => GoogleMap(
             initialCameraPosition: customMapController.initialCameraPosition,
             compassEnabled: true,
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
+            myLocationEnabled: false,
+            myLocationButtonEnabled: false,
             markers: Set<Marker>.of(customMapController.marker),
             onMapCreated: (GoogleMapController controller) {
               customMapController.googleMapController.complete(controller);

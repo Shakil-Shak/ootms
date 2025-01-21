@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:developer';
 
@@ -12,11 +11,12 @@ import 'package:ootms/presentation/api/service/get_api_service.dart';
 import 'package:ootms/presentation/api/service/socket_service.dart';
 import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
-import 'package:ootms/presentation/screens/role/user/home/user_home_page.dart';
 
-class LiveTrackingController extends GetxController{
+class LiveTrackingController extends GetxController {
+  static LiveTrackingController get instance =>
+      Get.find<LiveTrackingController>();
 
-  RxBool isLoading =  false.obs;
+  RxBool isLoading = false.obs;
   BOLTrackingModel bolTrackingModel = BOLTrackingModel();
   List trackingItemsList = [];
 
@@ -27,7 +27,6 @@ class LiveTrackingController extends GetxController{
 
     List<String>? userDetails = await getUserAcessDetails();
     String token = userDetails![0];
-
 
     var mainHeaders = {
       'Authorization': 'Bearer $token',
@@ -41,30 +40,43 @@ class LiveTrackingController extends GetxController{
       var responseBody = response.body;
 
       if (response.statusCode == 200) {
-        
-        CustomMapController.instance.marker.clear();
         final List trackingLoadInfo = responseBody['data'];
 
-        trackingItemsList = trackingLoadInfo.map((item) => BOLTrackingModel.fromJson(item as Map<String, dynamic>)).toList();
+        trackingItemsList = trackingLoadInfo
+            .map((item) =>
+                BOLTrackingModel.fromJson(item as Map<String, dynamic>))
+            .toList();
 
-        int count = 0;
         for (BOLTrackingModel loadItems in trackingItemsList) {
           LatLng? driverLiveLocation = await SocketServices.getLocation(userId: loadItems.user);
-          LatLng driverLocation = LatLng(loadItems.driver.location.coordinates.last.toDouble(), loadItems.driver.location.coordinates.first.toDouble());
+          LatLng driverLocation = LatLng(
+              loadItems.driver.location.coordinates.last.toDouble(),
+              loadItems.driver.location.coordinates.first.toDouble());
 
-          Timer.periodic(const Duration(seconds: 01), (timer) async {
-            CustomMapController.instance.updateLocation(loadItems.driver.location.coordinates.last.toDouble(), loadItems.driver.location.coordinates.first.toDouble());
+          Timer.periodic(const Duration(seconds: 03), (timer) async {
+            CustomMapController.instance.marker.clear();
 
-            CustomMapController.instance.setDriverLocationTrackingMarker(
-              (driverLiveLocation != null)? driverLiveLocation : driverLocation,
-              LatLng(loadItems.location.coordinates.last.toDouble(), loadItems.location.coordinates.first.toDouble()),
-              'marker_${count++}',
-              AppIcons.redTruck,
-              loadItems,
-            );
+            CustomMapController.instance.setMarker(
+                LatLng(loadItems.location.coordinates.last,
+                    loadItems.location.coordinates.first),
+                "Load Location",
+                AppIcons.locationMarker);
+
+            if(driverLiveLocation != null){
+              CustomMapController.instance.updateLocation(driverLiveLocation.latitude.toDouble(), driverLiveLocation.longitude.toDouble());
+            }else{
+              CustomMapController.instance.updateLocation(driverLocation.latitude.toDouble(), driverLocation.longitude.toDouble());
+            }
+
+            CustomMapController.instance.getRoute(
+                origin: (driverLiveLocation != null)
+                    ? driverLiveLocation
+                    : driverLocation,
+                destination: LatLng(
+                    loadItems.location.coordinates.last.toDouble(),
+                    loadItems.location.coordinates.first.toDouble()));
+            log("Marker Length: ${CustomMapController.instance.marker.length}, ${CustomMapController.instance.marker}");
           });
-
-          CustomMapController.instance.setMarker(LatLng(loadItems.location.coordinates.last, loadItems.location.coordinates.first), "Load Location", AppIcons.locationMarker);
 
           log("CustomMapController.instance.marker ${CustomMapController.instance.marker.length}");
         }

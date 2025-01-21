@@ -177,11 +177,18 @@ class LoadController extends ChangeNotifier {
         "deliveryDate": deliveryDate,
         "billOfLading": billOfLadingController.text,
         "deliveryInstruction": deliveryInstructionsController.text,
-        "location": {
+        "receiverLocation": {
           "type": "Point",
           "coordinates": [
-            CreateLoadMapController.instance.selectedLongitude,
-            CreateLoadMapController.instance.selectedLatitude
+            CreateLoadMapController.instance.receiverLongitude,
+            CreateLoadMapController.instance.receiverLatitude
+          ]
+        },
+        "shipperLocation": {
+          "type": "Point",
+          "coordinates": [
+            CreateLoadMapController.instance.shipperLongitude,
+            CreateLoadMapController.instance.shipperLatitude
           ]
         }
       }

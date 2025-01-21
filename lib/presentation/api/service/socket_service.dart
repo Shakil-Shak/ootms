@@ -70,6 +70,7 @@ class SocketServices {
 
   /// Get Location Method
 
+
   static Future<LatLng?> getLocation({required String userId}) async {
     try {
       log('Get Location is being called');
