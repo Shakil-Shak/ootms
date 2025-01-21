@@ -94,7 +94,7 @@ class UpdateProfileController extends GetxController {
     String accesstoken = userDetails![0] ?? "";
 
     // Data fields
-    Map<String, String> body = {
+    Map<String, String> driverBody = {
       "phoneNumber": phone,
       "taxid": taxId,
       "address": address,
@@ -103,33 +103,44 @@ class UpdateProfileController extends GetxController {
       "truckNumber": truckNumber,
       "cdlNumber": cdlNumber,
     };
+    Map<String, String> userBody = {
+      "phoneNumber": phone,
+      "taxid": taxId,
+      "address": address,
+    };
     Map<String, String> header = {"Authorization": "Bearer $accesstoken"};
 
-    List<MultipartBody> multipartBody = [
-      MultipartBody("profileImage", File(image!)),
-    ];
+    List<MultipartBody> multipartBody = [];
+    // Check if image is not null before adding to multipart
+    if (image != null && image!.isNotEmpty) {
+      multipartBody.add(MultipartBody("profileImage", File(image!)));
+      debugPrint("=======================================imagePath: $image");
+    } else {
+      debugPrint("No image selected for upload");
+      Get.snackbar("Profile Image Required",
+          "Please select an image to complete your profile.");
+      isLoading.value = false;
+      return; // Exit early if no image is provided but required
+    }
+
     try {
       var response = await ApiClient.postMultipartData(
-          ApiPaths.completeProfile, body,
+          ApiPaths.completeProfile, user ? userBody : driverBody,
           multipartBody: multipartBody, headers: header);
-      log("=======================================================body $body");
       log("=======================================================header $header");
       if (response.statusCode == 201) {
-        // var responseData = response.body is String
-        //     ? jsonDecode(response.body)["data"]
-        //     : response.body["data"];
-        if (user == true) {
+        if (user) {
           animetedNavigationPush(const UserRootPage(), context);
         } else {
           animetedNavigationPush(const DriverRootPage(), context);
         }
-
-        Get.snackbar("Complete Profile", "Complete Profile Successfull");
+        Get.snackbar("Complete Profile", "Complete Profile Successful");
       } else {
-        Get.snackbar("Complete Profile", response.body["message"]);
+        Get.snackbar("Complete Profile",
+            "Complete Profile Failed: ${response.body["message"]}");
       }
     } catch (e) {
-      Get.snackbar("Complete Profile", "Something went wrong");
+      Get.snackbar("Complete Profile", "Something went wrong: ${e.toString()}");
     } finally {
       isLoading.value = false;
     }
