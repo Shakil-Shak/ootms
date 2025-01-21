@@ -40,7 +40,9 @@ class _DriverHomePageState extends State<DriverHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    customMapController.getCurrentLocation();
+    Future.microtask(() {
+      customMapController.getCurrentLocation();
+    },);
   }
 
   @override
