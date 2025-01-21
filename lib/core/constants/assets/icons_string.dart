@@ -9,5 +9,6 @@ class AppIcons {
   static const call = "assets/icons/call.svg";
   static const truck = "assets/icons/track.svg";
   static const trailer = "assets/icons/trailer.svg";
+  static const filter = "assets/icons/filterTwo.svg";
   static const redTruck = "assets/icons/redTruck.png";
 }
