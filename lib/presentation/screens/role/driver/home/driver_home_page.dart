@@ -30,7 +30,6 @@ class DriverHomePage extends StatefulWidget {
 class _DriverHomePageState extends State<DriverHomePage> {
   CustomMapController customMapController = Get.find<CustomMapController>();
   OnduityController onduityController = Get.find<OnduityController>();
-  FindLoadController findLoadController = Get.find<FindLoadController>();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final EquipmentController equipmentController =
