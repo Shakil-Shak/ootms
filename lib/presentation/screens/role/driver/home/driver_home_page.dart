@@ -128,10 +128,16 @@ class _DriverHomePageState extends State<DriverHomePage> {
                                                 equipmentController
                                                     .getEquipmentData();
                                                 showOnDutyDialog(context);
+                                                if (onduityController
+                                                        .isSuccess.value ==
+                                                    true) {
+                                                  Get.back();
+                                                }
                                               } else if (onduityController
                                                       .isONDuity.value ==
                                                   true) {
-                                                onduityController.offDuity(context: context);
+                                                onduityController.offDuity(
+                                                    context: context);
                                               }
                                             },
                                             activeTrackColor: Colors.green[300],
@@ -464,7 +470,8 @@ class _DriverHomePageState extends State<DriverHomePage> {
                     onTap: () {
                       onduityController.onDuity(
                           lan: customMapController.currentLongitude.value,
-                          lat: customMapController.currentLatitude.value,context: context);
+                          lat: customMapController.currentLatitude.value,
+                          context: context);
                     },
                   );
                 }),

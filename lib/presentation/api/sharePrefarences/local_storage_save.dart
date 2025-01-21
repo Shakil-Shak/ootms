@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:ootms/presentation/api/controllers/common/google_auth_controller.dart';
 import 'package:ootms/presentation/api/sharePrefarences/login_tokan.dart';
 import 'package:ootms/presentation/screens/auth/sign_in_sign_up_chosser.dart';
 import 'package:ootms/presentation/screens/auth/signin/signin_view.dart';
@@ -10,6 +11,7 @@ import '../../navigation/animeted_navigation.dart';
 
 void saveUserAcessDetails(String token, String role) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
+
   preferences.setString(ootmsUserAccessToken, token);
   preferences.setString(ootmsUserRole, role);
 }
@@ -27,13 +29,14 @@ Future<List<String>?> getUserAcessDetails() async {
 
 void deleteUserAccessDetails({required BuildContext context}) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  preferences.remove(ootmsUserAccessToken); 
+  final GoogleAuth _googleAuth = GoogleAuth();
+  preferences.remove(ootmsUserAccessToken);
   preferences.remove(ootmsUserRole);
+  _googleAuth.signOut();
   slideNavigationPushAndRemoveUntil(const SelectRole(), context);
 }
 
 void clearAllData() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  preferences.clear(); 
+  preferences.clear();
 }
-

@@ -3,6 +3,7 @@ class ApiPaths {
   static const String socketUrl = 'http://10.0.70.87:3010';
 
   static const String signinUrl = '$baseUrl/api/v1/auth/local';
+  static const String socialSigninUrl = '$baseUrl/api/v1/auth/social_login';
   static const String signupUrl = '$baseUrl/api/v1/auth/sign-up';
   static const String verifyEmailUrl = '$baseUrl/api/v1/auth/verify-email';
   static const String completeProfile = '$baseUrl/api/v1/users/complete';
@@ -45,4 +46,5 @@ class ApiPaths {
   static const String assignDriver = '$baseUrl/api/v1/loads-request';
   static const String findByBOL = '$baseUrl/api/v1/loads/find_by_billOfLading?bolNumber=';
   static const String onDuity = '$baseUrl/api/v1/users/switch_on_duty';
+
 }

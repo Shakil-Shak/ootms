@@ -11,7 +11,6 @@ import 'package:ootms/helpers/prefs_helper.dart';
 import 'package:ootms/presentation/api/service/error_response.dart';
 import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 
-
 class ApiClient extends GetxService {
   static const String noInternetMessage = "Can't connect to the internet!";
   static const int timeoutInSeconds = 30;
@@ -42,9 +41,8 @@ class ApiClient extends GetxService {
   }
 
 //==========================================> Post Data <======================================
-  static Future<Response> postData(String uri,  body,
+  static Future<Response> postData(String uri, body,
       {Map<String, String>? headers}) async {
-
     List<String>? userDetails = await getUserAcessDetails();
     String token = userDetails![0];
 
@@ -67,36 +65,47 @@ class ApiClient extends GetxService {
 
   //===========================================================post multipart data
   static Future<Response> postMultipartData(
-      String uri, Map<String, String> body,
-      {required List<MultipartBody> multipartBody,
-      Map<String, String>? headers}) async {
+    String uri,
+    Map<String, String> body, {
+    required List<MultipartBody> multipartBody,
+    Map<String, String>? headers,
+    String method = "POST",
+  }) async {
     try {
-      String bearerToken = await PrefsHelper.getString(OtherHelper.bearerToken);
+      String? bearerToken =
+          await PrefsHelper.getString(OtherHelper.bearerToken);
 
       var mainHeaders = {
         'Authorization': 'Bearer $bearerToken',
       };
 
-      var request = http.MultipartRequest('POST', Uri.parse(uri));
+      debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');
+      debugPrint('====> API Body: $body with ${multipartBody.length} files');
+
+      var request = http.MultipartRequest(method, Uri.parse(uri));
       request.headers.addAll(headers ?? mainHeaders);
 
+      // Add files to request
       for (MultipartBody element in multipartBody) {
-        if (await element.file.exists()) {
-          request.files.add(
-            await http.MultipartFile.fromPath(
-              element.key,
-              element.file.path,
-            ),
-          );
+        if (element.file.existsSync()) {
+          var mimeType =
+              lookupMimeType(element.file.path) ?? 'application/octet-stream';
+          var mimeParts = mimeType.split('/');
+
+          request.files.add(await http.MultipartFile.fromPath(
+            element.key,
+            element.file.path,
+            contentType: MediaType(mimeParts[0], mimeParts[1]),
+          ));
         } else {
-          throw Exception("File not found: ${element.file.path}");
+          debugPrint('File does not exist: ${element.file.path}');
         }
       }
 
+      // Add fields to request
       request.fields.addAll(body);
 
       var streamedResponse = await request.send();
-
       http.Response response = await http.Response.fromStream(streamedResponse);
 
       return handleResponse(response, uri);
@@ -139,51 +148,52 @@ class ApiClient extends GetxService {
 
 //=====================================================================send multi part data
   static Future<Response> putMultipartData(String uri, Map<String, String> body,
-    {required List<MultipartBody> multipartBody,
-    Map<String, String>? headers,
-    String method = "POST"}) async {
-  try {
-    String? bearerToken = await PrefsHelper.getString(OtherHelper.bearerToken);
+      {required List<MultipartBody> multipartBody,
+      Map<String, String>? headers,
+      String method = "POST"}) async {
+    try {
+      String? bearerToken =
+          await PrefsHelper.getString(OtherHelper.bearerToken);
 
-    var mainHeaders = {
-      'Authorization': 'Bearer $bearerToken',
-    };
+      var mainHeaders = {
+        'Authorization': 'Bearer $bearerToken',
+      };
 
-    debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');
-    debugPrint('====> API Body: $body with ${multipartBody.length} files');
+      debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');
+      debugPrint('====> API Body: $body with ${multipartBody.length} files');
 
-    var request = http.MultipartRequest(method, Uri.parse(uri));
-    request.headers.addAll(headers ?? mainHeaders);
+      var request = http.MultipartRequest(method, Uri.parse(uri));
+      request.headers.addAll(headers ?? mainHeaders);
 
-    // Add files to request
-    for (MultipartBody element in multipartBody) {
-      if (element.file.existsSync()) {
-        var mimeType = lookupMimeType(element.file.path) ?? 'application/octet-stream';
-        var mimeParts = mimeType.split('/');
+      // Add files to request
+      for (MultipartBody element in multipartBody) {
+        if (element.file.existsSync()) {
+          var mimeType =
+              lookupMimeType(element.file.path) ?? 'application/octet-stream';
+          var mimeParts = mimeType.split('/');
 
-        request.files.add(await http.MultipartFile.fromPath(
-          element.key,
-          element.file.path,
-          contentType: MediaType(mimeParts[0], mimeParts[1]),
-        ));
-      } else {
-        debugPrint('File does not exist: ${element.file.path}');
+          request.files.add(await http.MultipartFile.fromPath(
+            element.key,
+            element.file.path,
+            contentType: MediaType(mimeParts[0], mimeParts[1]),
+          ));
+        } else {
+          debugPrint('File does not exist: ${element.file.path}');
+        }
       }
+
+      // Add fields to request
+      request.fields.addAll(body);
+
+      http.Response response =
+          await http.Response.fromStream(await request.send());
+
+      return handleResponse(response, uri);
+    } catch (e) {
+      debugPrint(e.toString());
+      return const Response(statusCode: 1, statusText: noInternetMessage);
     }
-
-    // Add fields to request
-    request.fields.addAll(body);
-
-    http.Response response =
-        await http.Response.fromStream(await request.send());
-
-    return handleResponse(response, uri);
-  } catch (e) {
-    debugPrint(e.toString());
-    return const Response(statusCode: 1, statusText: noInternetMessage);
   }
-}
-
 
   //==========================================> Delete Data <======================================
 
@@ -248,9 +258,8 @@ class ApiClient extends GetxService {
   }
 
   //==========================================> Put Data <======================================
-  static Future<Response> putData(String uri,  body,
+  static Future<Response> putData(String uri, body,
       {Map<String, String>? headers}) async {
-
     List<String>? userDetails = await getUserAcessDetails();
     String token = userDetails![0];
 
@@ -270,7 +279,6 @@ class ApiClient extends GetxService {
       return const Response(statusCode: 1, statusText: noInternetMessage);
     }
   }
-
 
 // static void showToast(String message) {
 //   Fluttertoast.showToast(

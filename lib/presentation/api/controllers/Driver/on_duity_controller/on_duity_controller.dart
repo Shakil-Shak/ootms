@@ -14,7 +14,7 @@ class OnduityController extends GetxController {
   static OnduityController get instance => Get.find<OnduityController>();
   Rx<TextEditingController> truckIdController = TextEditingController().obs;
   Rx<TextEditingController> trailerIdController = TextEditingController().obs;
-  RxBool isLoading = false.obs;
+  RxBool isLoading = false.obs;  RxBool isSuccess = false.obs;
   RxBool isOffDuityLoad = false.obs;
   RxBool isONDuity = false.obs;
 
@@ -47,6 +47,8 @@ class OnduityController extends GetxController {
       if (response.statusCode == 200) {
         isLoading.value = false;
         isONDuity.value = true;
+        
+        isSuccess.value = false;
         showCommonSnackbar(context, "The Driver is ON-Duity");
         CustomMapController.instance
             .getCurrentLocation(isOnDuty: isONDuity.value);
