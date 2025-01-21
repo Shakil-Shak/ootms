@@ -138,6 +138,7 @@ class OtpPage extends StatelessWidget {
 
                               final response =
                                   UserRegistrationModel.fromJson(responsedata);
+
                               if (response != null) {
                                 if (response.status == 'OK') {
                                   if (fromSignUp) {
