@@ -422,7 +422,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                   readOnly: true,
                   "Truck Id",
                   TextEditingController(),
-                  suffinxIcon: loadTypePopup(context),
+                  suffinxIcon: truckIdDropdown(context),
                   hintText: "Select Truck Id",
                 ),
                 const SizedBox(height: 10),
@@ -430,7 +430,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                   readOnly: true,
                   "Trailer Id",
                   TextEditingController(),
-                  suffinxIcon: loadTypePopup(context),
+                  suffinxIcon: trailerIdDropdown(context),
                   hintText: "Select Trailer Id",
                 ),
                 const SizedBox(height: 10),
@@ -445,8 +445,9 @@ class _DriverHomePageState extends State<DriverHomePage> {
       },
     );
   }
-
-Widget loadTypePopup(BuildContext parentContext) {
+//=====================================================================truck details popup
+Widget truckIdDropdown(BuildContext parentContext) {
+  String truckId = ""; // Variable to store the selected truck ID
   // List of items to display in the menu
   List<PopupMenuEntry<String>> truckIdList = [];
 
@@ -454,24 +455,30 @@ Widget loadTypePopup(BuildContext parentContext) {
     var truckData = equipmentController.equipmentData.truck[i];
     truckIdList.add(
       PopupMenuItem<String>(
-        value: truckData.truckNumber,
-        child: SizedBox(
-          width: 200, // Set the desired width here
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        value: truckData.id, // Assign truckId as the value
+        child: Container(
+          width: 300,
+          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+          margin: EdgeInsets.symmetric(vertical: 5),
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColor.black),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(truckData.truckNumber),
-              Text(truckData.cdlNumber),
+              Text(truckData.id),
             ],
           ),
         ),
       ),
     );
   }
-
   return GestureDetector(
     onTap: () {
-      RenderBox renderBox = context.findRenderObject() as RenderBox;
+      RenderBox renderBox = parentContext.findRenderObject() as RenderBox;
       Offset offset = renderBox.localToGlobal(Offset.zero);
       Size size = renderBox.size;
 
@@ -497,7 +504,8 @@ Widget loadTypePopup(BuildContext parentContext) {
         elevation: 8.0,
       ).then((value) {
         if (value != null) {
-          // Handle selected value here
+          truckId = value;
+          print("Selected Truck ID:==================================== $truckId"); // Debugging
         }
       });
     },
@@ -505,25 +513,72 @@ Widget loadTypePopup(BuildContext parentContext) {
   );
 }
 
-  buildMenuItem(String value, String valueTwo) {
-    return PopupMenuItem<String>(
-      value: value,
-      child: Column(
-        children: [
-          Text(
-            value,
-            style: const TextStyle(
-              color: AppColor.black,
-            ),
+//=====================================================================trailer details popup
+Widget trailerIdDropdown(BuildContext parentContext) {
+  String trailerId = "";
+  List<PopupMenuEntry<String>> trailerIdList = [];
+
+  for (var i = 0; i < equipmentController.trailerList.length; i++) {
+    var trailerData = equipmentController.equipmentData.trailer[i];
+    trailerIdList.add(
+      PopupMenuItem<String>(
+        value: trailerData.id, 
+        child: Container(
+          width: 300,
+          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+          margin: EdgeInsets.symmetric(vertical: 5),
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColor.black),
+            borderRadius: BorderRadius.circular(10),
           ),
-          Text(
-            valueTwo,
-            style: const TextStyle(
-              color: AppColor.black,
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("${trailerData.trailerSize.toString()}-Foot Trailer, ${trailerData.palletSpace.toString()}-Pallets"),
+              Text(trailerData.id),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
+  return GestureDetector(
+    onTap: () {
+      RenderBox renderBox = parentContext.findRenderObject() as RenderBox;
+      Offset offset = renderBox.localToGlobal(Offset.zero);
+      Size size = renderBox.size;
+
+      double availableHeight = MediaQuery.of(parentContext).size.height;
+
+      double iconPositionTop = offset.dy;
+      double iconPositionBottom = availableHeight - (offset.dy + size.height);
+
+      double topPosition = iconPositionBottom > 200
+          ? offset.dy + size.height
+          : offset.dy - 200;
+
+      double bottomPosition = iconPositionBottom > 200
+          ? -offset.dy - size.height
+          : availableHeight - offset.dy;
+
+      // Show a ListView in a Dialog
+      showMenu<String>(
+        context: parentContext,
+        position: RelativeRect.fromLTRB(
+            offset.dx + size.width, topPosition, 0, bottomPosition),
+        items: trailerIdList,
+        elevation: 8.0,
+      ).then((value) {
+        if (value != null) {
+          trailerId = value;
+        }
+      });
+    },
+    child: const Icon(Icons.keyboard_arrow_down),
+  );
+}
+
+
+
 }
