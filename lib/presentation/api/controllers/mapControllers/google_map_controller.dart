@@ -127,10 +127,8 @@ class CustomMapController extends GetxController {
       position: LatLng(driverLatLang.latitude, driverLatLang.longitude),
       rotation: calculateBearing(driverLatLang, destinationLatLang)
     );
-    origin = driverLatLang;
-    destination = destinationLatLang;
 
-    getRoute();
+    getRoute(origin: driverLatLang, destination: destinationLatLang);
     marker.add(newMarker);
     update();
   }
@@ -277,7 +275,7 @@ class CustomMapController extends GetxController {
   }
 
   getCurrentLocation() {
-    Timer.periodic(const Duration(seconds: 03), (timer) async {
+    Timer.periodic(const Duration(seconds: 01), (timer) async {
      getUserCurrentLocation().then((value) async {
       updateLocation(value.latitude, value.longitude);
       log("${value.floor}");
@@ -304,15 +302,15 @@ class CustomMapController extends GetxController {
   ///=================>>>> Polyline Methods <<<<<<==============================
 
   final RxSet<Polyline> polyLines = <Polyline>{}.obs;
-  LatLng origin = LatLng(23.776176, 90.425674); // San Francisco
-  LatLng destination = LatLng(23.3999373281255, 90.4387651926279); // Los Angeles
+  // LatLng origin = LatLng(23.776176, 90.425674); // San Francisco
+  // LatLng destination = LatLng(23.3999373281255, 90.4387651926279); // Los Angeles
   final String apiKey = "AIzaSyCZ6YIiEkZnGVCQUyFIKsu3RdOJ49GVeLU"; // Replace with your API key
   double firstStepEndLat = 0.0;
   double firstStepEndLng = 0.0;
 
 
 
-  Future<void> getRoute() async {
+  Future<void> getRoute({required LatLng origin, required LatLng destination}) async {
     final response = await http.get(Uri.parse(
         'https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${destination.latitude},${destination.longitude}&key=$apiKey'));
 

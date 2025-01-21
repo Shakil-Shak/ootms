@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -34,13 +35,15 @@ class SocketServices {
     socket.connect();
   }
 
+  /// Send Location Method
+
   static Future<void> sendLocation({required double latitude, required double longitude}) async {
     try {
       log('sendLocation is being called');
 
       Map<String, String> data = {
-        "lat": "23.002156",
-        "lang": "90.654156",
+        "lang": longitude.toString(),
+        "lat": latitude.toString(),
       };
 
       // Check if the socket is connected before emitting
@@ -63,5 +66,27 @@ class SocketServices {
       log('Stack Trace: $stackTrace');
     }
   }
+
+  /// Get Location Method
+
+  // static Future<void> getLocation({String }) async {
+  //   try {
+  //     log('Get Location is being called');
+  //
+  //
+  //     // Check if the socket is connected before emitting
+  //     if (socket.connected) {
+  //       log('Socket is connected. Getting client_location event.');
+  //
+  //       socket.on(, handler)
+  //     } else {
+  //       log('Socket is not connected. Unable to emit event.');
+  //     }
+  //   } catch (error, stackTrace) {
+  //     // Catch any unexpected errors and log them
+  //     log('Error in sendLocation: $error');
+  //     log('Stack Trace: $stackTrace');
+  //   }
+  // }
 
 }
