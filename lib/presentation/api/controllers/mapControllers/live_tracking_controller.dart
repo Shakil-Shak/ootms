@@ -1,4 +1,5 @@
 
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
@@ -8,6 +9,7 @@ import 'package:ootms/core/constants/assets/icons_string.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
 import 'package:ootms/presentation/api/models/user_model/bol_tracking_model.dart';
 import 'package:ootms/presentation/api/service/get_api_service.dart';
+import 'package:ootms/presentation/api/service/socket_service.dart';
 import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_home_page.dart';
@@ -33,13 +35,13 @@ class LiveTrackingController extends GetxController{
 
     try {
       final response = await ApiClient.getData(
-        // "${ApiPaths.nearestDriver}${bolTextController.text}",
-          "${ApiPaths.findByBOL}lading25896Mahin",
+          "${ApiPaths.findByBOL}${bolTextController.text}",
           headers: mainHeaders);
 
       var responseBody = response.body;
 
       if (response.statusCode == 200) {
+        
         CustomMapController.instance.marker.clear();
         final List trackingLoadInfo = responseBody['data'];
 
@@ -47,16 +49,20 @@ class LiveTrackingController extends GetxController{
 
         int count = 0;
         for (BOLTrackingModel loadItems in trackingItemsList) {
-          CustomMapController.instance.updateLocation(loadItems.driver.location.coordinates.last.toDouble(), loadItems.driver.location.coordinates.first.toDouble());
+          LatLng? driverLiveLocation = await SocketServices.getLocation(userId: loadItems.user);
+          LatLng driverLocation = LatLng(loadItems.driver.location.coordinates.last.toDouble(), loadItems.driver.location.coordinates.first.toDouble());
 
-          CustomMapController.instance.setDriverLocationTrackingMarker(
-            LatLng(loadItems.driver.location.coordinates.last.toDouble(),
-              loadItems.driver.location.coordinates.first.toDouble()),
-            LatLng(loadItems.location.coordinates.last.toDouble(), loadItems.location.coordinates.first.toDouble()),
-            'marker_${count++}',
-            AppIcons.redTruck,
-            loadItems,
-          );
+          Timer.periodic(const Duration(seconds: 01), (timer) async {
+            CustomMapController.instance.updateLocation(loadItems.driver.location.coordinates.last.toDouble(), loadItems.driver.location.coordinates.first.toDouble());
+
+            CustomMapController.instance.setDriverLocationTrackingMarker(
+              (driverLiveLocation != null)? driverLiveLocation : driverLocation,
+              LatLng(loadItems.location.coordinates.last.toDouble(), loadItems.location.coordinates.first.toDouble()),
+              'marker_${count++}',
+              AppIcons.redTruck,
+              loadItems,
+            );
+          });
 
           CustomMapController.instance.setMarker(LatLng(loadItems.location.coordinates.last, loadItems.location.coordinates.first), "Load Location", AppIcons.locationMarker);
 

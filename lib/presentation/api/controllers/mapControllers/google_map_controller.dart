@@ -263,7 +263,7 @@ class CustomMapController extends GetxController {
   Future<Position> getUserCurrentLocation() async {
     PermissionStatus status = await Permission.location.status;
     if (status.isGranted) {
-      log("Permission is granted");
+      log("<<<======Permission is granted=====>>>");
     } else {
       await Geolocator.requestPermission()
           .then((value) {})
@@ -288,12 +288,6 @@ class CustomMapController extends GetxController {
       userCurrentLocation.value = "${placemarks.first.street}, ${placemarks.first.name}, ${placemarks.first.locality}, ${placemarks.first.country}";
       await SocketServices.sendLocation(latitude: value.latitude, longitude: value.longitude);
       return userCurrentLocation.value;
-      // marker.add(Marker(
-      //     markerId: MarkerId("My location"),
-      //     position: LatLng(value.latitude, value.longitude),
-      //     infoWindow: const InfoWindow(title: 'My current location')));
-      // final GoogleMapController controller = await googleMapController.future;
-      // await controller.animateCamera(CameraUpdate.newCameraPosition(kRandom));
     });
     });
   }
