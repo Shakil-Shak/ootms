@@ -95,7 +95,7 @@ class UserAssignLoadPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText("Truck Number", isBold: true),
-                      commonText("DHK METRO HA 64-8549"),
+                      commonText(loadDetails.truck.truckNumber),
                     ],
                   ),
                 ),
@@ -104,7 +104,7 @@ class UserAssignLoadPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText("Trailer size", isBold: true),
-                      commonText("48-foot trailer."),
+                      commonText("${loadDetails.truck.trailerSize}-foot trailer."),
                     ],
                   ),
                 ),
@@ -119,7 +119,7 @@ class UserAssignLoadPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText("Pallet Spaces", isBold: true),
-                      commonText("24 pallets."),
+                      commonText("${loadDetails.truck.palletSpace} pallets."),
                     ],
                   ),
                 ),

@@ -37,8 +37,6 @@ class AssignLoadController extends GetxController{
 
         showCommonSnackbar(context, "New Load Request Created Successfully", isError: false);
         navController.valueIncrease(value: 0);
-        animetedNavigationPush(UserHomePage(), context);
-
       }else {
         showCommonSnackbar(context, "No Truck found for this driver please assign another driver", isError: true);
       }

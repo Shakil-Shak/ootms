@@ -44,7 +44,7 @@ class FindNearestDriverController extends GetxController{
       if (response.statusCode == 200) {
         CustomMapController.instance.marker.clear();
         final List driverInfoData = responseBody['data']["driverInfo"];
-        var loadLocationInfoData = responseBody['data']["loadLocation"];
+        var loadLocationInfoData = responseBody['data']["shipperLocation"];
 
         // nearestLoadList = List<NearestLoadModel>.from(data.map((toElement)=> NearestLoadModel.fromJson(toElement)));
 
