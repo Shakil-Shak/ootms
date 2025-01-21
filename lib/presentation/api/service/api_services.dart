@@ -64,7 +64,7 @@ class ApiService {
               headers: {
                 "Authorization": "Bearer $accesstoken",
                 'Content-Type': 'application/json',
-                "SignUpToken": "signUpToken $accesstoken",
+                "signUpToken": accesstoken,
               },
             ),
           )
