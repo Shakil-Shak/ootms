@@ -32,12 +32,12 @@ class FindLoadController extends GetxController {
 
     Map<String, dynamic> body = {
       // "driverName": "",
-      // "truckNumber": "",
+      "truckNumber": "TRK153555",
       "trailerSize": int.parse(trailercontroller.text),
       "palletSpace": int.parse(palletSpacesController.text),
-      "location": [
-        CustomMapController.instance.currentLongitude.value, // longitute
-        CustomMapController.instance.currentLatitude.value // lattitute
+      "shipperLocation": [
+        CustomMapController.instance.currentLongitude.value,
+        CustomMapController.instance.currentLatitude.value
       ]
     };
 
@@ -58,7 +58,7 @@ class FindLoadController extends GetxController {
         log("Response Type: ${responseBody.runtimeType}");
         log("Response Body: ${responseBody["data"].length}");
 
-        final List data = responseBody['data'];
+        final List data = responseBody['data']["result"];
 
         // nearestLoadList = List<NearestLoadModel>.from(data.map((toElement)=> NearestLoadModel.fromJson(toElement)));
         nearestLoadList = data
