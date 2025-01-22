@@ -9,7 +9,6 @@ import 'package:ootms/presentation/api/models/truck_info_model.dart';
 import 'package:ootms/presentation/api/service/get_api_service.dart';
 import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
-import 'package:ootms/presentation/components/common_snackbar.dart';
 
 class FindLoadController extends GetxController {
   // static FindLoadController get instance => Get.put(FindLoadController());
@@ -76,14 +75,14 @@ class FindLoadController extends GetxController {
                 (item) => TruckInfoModel.fromJson(item as Map<String, dynamic>))
             .toList();
 
-        int count = 0;
+        int count = 1;
         for (NearestLoadModel loadItems in nearestLoadList) {
           log("Set Marker${loadItems.shipperLocation.coordinates.first}, ${loadItems.shipperLocation.coordinates.last}");
 
           CustomMapController.instance.setLoadLocationMarker(
               loadItems.shipperLocation.coordinates.last.toDouble(),
               loadItems.shipperLocation.coordinates.first.toDouble(),
-              'marker_${count++}',
+              'Load_${count++}',
               "assets/icons/findLoadIcon.png",
               loadItems);
 

@@ -33,19 +33,18 @@ class DriverProfile extends StatefulWidget {
 class _DriverProfileState extends State<DriverProfile> {
   DriverProfileController profileCtl = Get.find<DriverProfileController>();
 
-  // void initState() {
-  //   super.initState();
+  void initState() {
+    super.initState();
 
-  //   Future.microtask(() {
-  //     final profileController =
-  //         Provider.of<ProfileController>(context, listen: false);
-  //     profileController.getProfileData();
-  //   });
-  // }
+    Future.microtask(() {
+      final profileController =
+          Provider.of<ProfileController>(context, listen: false);
+      profileController.getProfileData();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    profileCtl.getProfileData();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -182,7 +181,7 @@ class _DriverProfileState extends State<DriverProfile> {
         iconPath: AppIcons.equipment,
         text: "Equipment",
         onTap: () {
-          animetedNavigationPush(MyEquipmentPage(), context);
+          animetedNavigationPush(const MyEquipmentPage(), context);
         },
       ),
       ProfileMenuItem(

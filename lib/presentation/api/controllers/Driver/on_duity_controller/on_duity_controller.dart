@@ -15,7 +15,8 @@ class OnduityController extends GetxController {
   static OnduityController get instance => Get.find<OnduityController>();
   Rx<TextEditingController> truckIdController = TextEditingController().obs;
   Rx<TextEditingController> trailerIdController = TextEditingController().obs;
-  RxBool isLoading = false.obs;  RxBool isSuccess = false.obs;
+  RxBool isLoading = false.obs;
+  RxBool isSuccess = false.obs;
   RxBool isOffDuityLoad = false.obs;
   RxBool isONDuity = false.obs;
 
@@ -39,17 +40,27 @@ class OnduityController extends GetxController {
       "truckId": truckIdController.value.text,
       "trailerId": trailerIdController.value.text,
     };
-    print("=========================================body${jsonEncode(body)}");
+    debugPrint("=========================================body${jsonEncode(body)}");
     try {
       var response = await ApiClient.patchData(
           ApiPaths.onDuity, jsonEncode(body),
           headers: header);
 
       if (response.statusCode == 200) {
+        var data = response.body["data"];
+        debugPrint("==================================databody$data");
         PrefsHelper.setString("truckId", truckIdController.value.text);
+        PrefsHelper.setString(
+            "truckNumber", data["attributes"]["findTruck"]["truckNumber"]);
+        PrefsHelper.setString(
+            "drivername", data["attributes"]["result"]["fullName"]);
+        debugPrint(
+            "=========================================trucknumbersdfkjdfj ${data["attributes"]["findTruck"]["truckNumber"]}");
+        debugPrint(
+            "=========================================cdldfsdfsdf ${data["attributes"]["result"]["fullName"]}");
         isLoading.value = false;
         isONDuity.value = true;
-        
+
         isSuccess.value = false;
         showCommonSnackbar(context, "The Driver is ON-Duity");
         CustomMapController.instance
@@ -88,11 +99,10 @@ class OnduityController extends GetxController {
       if (response.statusCode == 200) {
         isONDuity.value = false;
 
-        CustomMapController.instance
-            .getCurrentLocation(isOnDuty: false);
+        CustomMapController.instance.getCurrentLocation(isOnDuty: false);
         showCommonSnackbar(context, "The Driver is Off-Duity");
 
-        print(
+        debugPrint(
             "=========================================bodytopu${response.statusCode.runtimeType}}");
       } else {
         showCommonSnackbar(context, "The Driver is Off-Duity Failed",

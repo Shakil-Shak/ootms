@@ -275,8 +275,9 @@ void showLocationDetails({required NearestLoadModel loadItems}) {
                             "Request Load",
                             borderRadious: 10,
                             textColor: Colors.white,
-                            onTap: () {
-                              controller.loadRequest(loadId: loadItems.id,context: context);
+                            onTap: ()async {
+                             await controller.loadRequest(loadId: loadItems.id,context: context);
+                              Get.back();
                             },
                           ),
                         ),
