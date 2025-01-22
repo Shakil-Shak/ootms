@@ -82,11 +82,11 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                       Tab(
                         child: FittedBox(
                           child: commonText(
-                            "Receiver\nInformation",
+                            "Shipper's\nInformation",
                             textAlign: TextAlign.center,
                             isBold: true,
                             size: 21,
-                            color: (_tabController!.index == 0)
+                            color: (_tabController!.index == 1)
                                 ? AppColor.black
                                 : AppColor.white,
                           ),
@@ -95,11 +95,11 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                       Tab(
                         child: FittedBox(
                           child: commonText(
-                            "Shipper's\nInformation",
+                            "Receiver\nInformation",
                             textAlign: TextAlign.center,
                             isBold: true,
                             size: 21,
-                            color: (_tabController!.index == 1)
+                            color: (_tabController!.index == 0)
                                 ? AppColor.black
                                 : AppColor.white,
                           ),
@@ -112,8 +112,8 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      receiverInformationTab(),
-                      shipperInformationTab()
+                      shipperInformationTab(),
+                      receiverInformationTab()
                     ],
                   ),
                 ),
@@ -374,26 +374,91 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                 maxLine: 3,
               ),
               const SizedBox(height: 16),
-              // Next Button
-              Consumer<LoadController>(
-                builder: (context, value, child) {
-                  return commonIconButton(
-                    "Next",
-                    isRight: true,
-                    const Icon(
-                      Icons.arrow_forward,
-                      color: AppColor.white,
-                    ),
-                    onTap: () {
-                      setState(() {
-                        _tabController!.index = 1;
-                        // value.createLoad();
-                        print("===================================topu");
-                      });
-                    },
-                  );
+
+              // Find Driver Button
+              commonButton(
+                "Create Load",
+                isLoading: value.isLoading,
+                onTap: () async {
+                  await value.createLoad(context: context);
+
+                  if (value.isSuccess == true) {
+                    showModalBottomSheet(
+                      context: context,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(16)),
+                      ),
+                      builder: (context) {
+                        return Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              commonText(
+                                'Do you have preferred Driver?',
+                                size: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  // "No" Button
+                                  TextButton(
+                                    onPressed: () async {
+                                      await nearestDriverController.findNearestDriver(createdLoadId: value.loadId);
+                                      animetedNavigationPush(
+                                          const UserMap2Page(), context);
+                                    },
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Colors.grey.shade300,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 12, horizontal: 24),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    child: commonText(
+                                      'No',
+                                      size: 16,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  // "Yes" Button
+                                  TextButton(
+                                    onPressed: () {
+                                      animetedNavigationPush(
+                                          AssignPreferredDriver(), context);
+                                    },
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Colors.blueGrey.shade800,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 12, horizontal: 24),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    child: commonText(
+                                      'Yes',
+                                      size: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }
+
+                  // animetedNavigationPush(const UserMap3Page(), context);
                 },
-              )
+              ),
             ],
           );
         },
@@ -628,90 +693,27 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
               ),
               const SizedBox(height: 16),
 
-              // Find Driver Button
-              commonButton(
-                "Create Load",
-                isLoading: value.isLoading,
-                onTap: () async {
-                  await value.createLoad(context: context);
-
-                  if (value.isSuccess == true) {
-                    showModalBottomSheet(
-                      context: context,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(16)),
-                      ),
-                      builder: (context) {
-                        return Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              commonText(
-                                'Do you have preferred Driver?',
-                                size: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  // "No" Button
-                                  TextButton(
-                                    onPressed: () async {
-                                      await nearestDriverController.findNearestDriver(createdLoadId: value.loadId);
-                                      animetedNavigationPush(
-                                          const UserMap2Page(), context);
-                                    },
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Colors.grey.shade300,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 12, horizontal: 24),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                    child: commonText(
-                                      'No',
-                                      size: 16,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  // "Yes" Button
-                                  TextButton(
-                                    onPressed: () {
-                                      animetedNavigationPush(
-                                          AssignPreferredDriver(), context);
-                                    },
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Colors.blueGrey.shade800,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 12, horizontal: 24),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                    child: commonText(
-                                      'Yes',
-                                      size: 16,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  }
-
-                  // animetedNavigationPush(const UserMap3Page(), context);
+              // Next Button
+              Consumer<LoadController>(
+                builder: (context, value, child) {
+                  return commonIconButton(
+                    "Next",
+                    isRight: true,
+                    const Icon(
+                      Icons.arrow_forward,
+                      color: AppColor.white,
+                    ),
+                    onTap: () {
+                      setState(() {
+                        _tabController!.index = 1;
+                        // value.createLoad();
+                        print("===================================topu");
+                      });
+                    },
+                  );
                 },
-              ),
+              )
+
             ],
           );
         },
