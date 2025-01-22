@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/helpers/other_helper.dart';
+import 'package:ootms/presentation/api/controllers/common/chat_controller.dart';
 import 'package:ootms/presentation/api/models/driver_model/currentship_model.dart';
 import 'package:ootms/presentation/api/models/user_model/shiping_model/current_shiping_model.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -15,6 +16,7 @@ import '../../user/chat/user_chat.dart';
 class DriverCurrentShipmentDetailsPage extends StatelessWidget {
 
   CurrentShippingModel shipmentDetails;
+  ChatController chatController = Get.find<ChatController>();
 
   DriverCurrentShipmentDetailsPage({
     super.key,
@@ -53,19 +55,24 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
               height: 20,
             ),
 
-            ///=========>>>> Chat with shipper Button <<<<===================
-            commonIconButton(onTap: () {
-              animetedNavigationPush(
-                  ChangeNotifierProvider(
-                      create: (context) => UserChatProvider(),
-                      child: UserChatPage(chatId: "", senderId: "",)),
-                  context);
-            },
-                "Chat with Shipper",
-                Image.asset(
-                  "assets/icons/user home page/massage.png",
-                  color: AppColor.white,
-                )),
+            ///<<<==========>>>> Chat with Shipper <<<=============>>>>
+            Obx(
+                  () => commonIconButton(
+                  isLoading: chatController.isLoading.value,
+                  onTap: () {
+                    chatController.getChatList(context, chatId: shipmentDetails.load.shipperToDriverChatId);
+                    animetedNavigationPush(
+                        ChangeNotifierProvider(
+                            create: (context) => UserChatProvider(),
+                            child: UserChatPage(chatId: shipmentDetails.load.shipperToDriverChatId , senderId: shipmentDetails.user.id,)),
+                        context);
+                  },
+                  "Chat with Shipper",
+                  Image.asset(
+                    "assets/icons/user home page/massage.png",
+                    color: AppColor.white,
+                  )),
+            ),
             const SizedBox(
               height: 20,
             ),
