@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ootms/helpers/prefs_helper.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
 import 'package:ootms/presentation/api/models/driver_model/nearest_load_model.dart';
@@ -13,7 +12,7 @@ import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_snackbar.dart';
 
 class FindLoadController extends GetxController {
-  static FindLoadController get instance => Get.put(FindLoadController());
+  // static FindLoadController get instance => Get.put(FindLoadController());
 
   NearestLoadModel nearestLoadModel = NearestLoadModel();
   List nearestLoadList = [];
@@ -37,7 +36,7 @@ class FindLoadController extends GetxController {
 
     Map<String, dynamic> body = {
       // "driverName": "",
-      "truckNumber": "TRK1535555p",
+      "truckNumber": numberController.text,
       "trailerSize": int.parse(trailercontroller.text),
       "palletSpace": int.parse(palletSpacesController.text),
       "shipperLocation": [
@@ -101,44 +100,5 @@ class FindLoadController extends GetxController {
     }
   }
 
-  //===============================================driver load request
-  bool isRequestLoad = false;
-  loadRequest({required String loadId, context}) async {
-    isRequestLoad = true;
-    update();
-    List<String>? userDetails = await getUserAcessDetails();
-    String token = userDetails![0];
-    String truckId = await PrefsHelper.getString("truckId");
-    debugPrint("truckId===$truckId");
-    List<Map<String, dynamic>> body = [
-      {"load": loadId, "truck": "678f762f01593b753eb13d8d"}
-    ];
-    Map<String, String> header = {
-      'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json'
-    };
 
-    try {
-      var response = await ApiClient.postData(
-          ApiPaths.loadRequestFromDriver, jsonEncode(body),
-          headers: header);
-      print(
-          "==============================================statuscode${response.statusCode}");
-      if (response.statusCode == 200) {
-        isRequestLoad = false;
-        update();
-        showCommonSnackbar(context, "Load Request Successfull");
-      } else {
-        showCommonSnackbar(context, "Load Request Failed");
-
-        isRequestLoad = false;
-        update();
-      }
-    } catch (e) {
-      showCommonSnackbar(context, "Error : $e");
-
-      isRequestLoad = false;
-      update();
-    }
-  }
 }

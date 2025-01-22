@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ootms/helpers/other_helper.dart';
-import 'package:ootms/presentation/api/controllers/Driver/driver_profile_controller/driver_profile_controller.dart';
+import 'package:ootms/presentation/api/controllers/Driver/driver_find_load_controller.dart';
 import 'package:ootms/presentation/api/controllers/Driver/find_load_controller.dart';
-import 'package:ootms/presentation/api/controllers/common/signin_controllers.dart';
 import 'package:ootms/presentation/api/models/driver_model/nearest_load_model.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_button.dart';
@@ -23,7 +22,7 @@ void showLocationDetails({required NearestLoadModel loadItems}) {
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
     builder: (context) {
-      return GetBuilder<FindLoadController>(builder: (controller) {
+      return GetBuilder<DriverFindLoadController>(builder: (controller) {
         // return Container(
         //   height: 200,
         //   width: Get.width,
@@ -272,11 +271,12 @@ void showLocationDetails({required NearestLoadModel loadItems}) {
                         const SizedBox(width: 16),
                         Expanded(
                           child: commonButton(
+                            isLoading: controller.isRequestLoad,
                             "Request Load",
                             borderRadious: 10,
                             textColor: Colors.white,
                             onTap: () {
-                              // Handle accept
+                              controller.loadRequest(loadId: loadItems.id,context: context);
                             },
                           ),
                         ),
