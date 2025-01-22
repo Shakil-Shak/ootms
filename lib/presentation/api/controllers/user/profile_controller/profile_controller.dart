@@ -170,7 +170,7 @@ class ProfileController extends ChangeNotifier {
               .map((items) => CurrentShippingModel.fromJson(items))
               .toList();
 
-          print("success");
+          print("==========>>>>success<<<===========");
           isCurrentShip = false;
           notifyListeners();
         } else {

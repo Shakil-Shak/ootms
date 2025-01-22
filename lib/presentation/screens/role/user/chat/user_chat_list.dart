@@ -67,7 +67,7 @@ class UserChatListPage extends StatelessWidget {
 
                         return InkWell(
                           onTap: () {
-                            animetedNavigationPush(const UserChatDetailsScreen(), context);
+                            animetedNavigationPush(UserChatDetailsScreen(shipmentDetails: data,), context);
                           },
                           child: Row(
                             children: [

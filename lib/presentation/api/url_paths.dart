@@ -47,5 +47,6 @@ class ApiPaths {
   static const String findByBOL = '$baseUrl/api/v1/loads/find_by_billOfLading?bolNumber=';
   static const String onDuity = '$baseUrl/api/v1/users/switch_on_duty';
   static const String loadRequestFromDriver = '$baseUrl/api/v1/loads-request';
+  static const String chatUrl = '$baseUrl/api/v1/messages/speceficChatIdMessages?chatId=';
 
 }
