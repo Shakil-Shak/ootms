@@ -54,8 +54,7 @@ class ApiPaths {
 
   static const String chatUrl = '$baseUrl/api/v1/messages/';
 
-  static const String chatUrl = '$baseUrl/api/v1/messages/speceficChatIdMessages?chatId=';
-    static const String deleteAccount =
+  static const String deleteAccount =
       '$baseUrl/api/v1/users/delete_user';
 
 
