@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/common/auth_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
@@ -12,7 +14,9 @@ import '../../../../api/controllers/user/static_controller/static_controller.dar
 
 // Main settings page
 class UserSettingsPage extends StatelessWidget {
-  const UserSettingsPage({super.key});
+   UserSettingsPage({super.key});
+
+  final RegisterController registerController = Get.put(RegisterController());
 
   @override
   Widget build(BuildContext context) {
@@ -132,11 +136,13 @@ class UserSettingsPage extends StatelessWidget {
                                 width: 5,
                               ),
                               Expanded(
-                                  child: commonButton("Delete", onTap: () {
-                                Navigator.pop(context);
-                              },
-                                      borderRadious: 10,
-                                      color: const Color(0xFFCE0000)))
+                                  child: Obx(() => commonButton(registerController.isLoading.value == true? "Loading..." :"Delete",
+                                          onTap: () {
+                                        registerController.deleteAccount(
+                                            context: context);
+                                      },
+                                          borderRadious: 10,
+                                          color: const Color(0xFFCE0000))))
                             ],
                           ),
                         ],
