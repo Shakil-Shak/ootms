@@ -62,6 +62,7 @@ class UserChatDetailsScreen extends StatelessWidget {
               ),
               reciverInfo(),
 
+              /// =========Chat with receiver=====
               Obx(() =>
                   commonIconButton(
                       isLoading: chatController.isLoading.value,

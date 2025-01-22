@@ -104,18 +104,25 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  commonIconButton(onTap: () {
-                    animetedNavigationPush(
-                        ChangeNotifierProvider(
-                            create: (context) => UserChatProvider(),
-                            child: UserChatPage(chatId: "", senderId: "",)),
-                        context);
-                  },
-                      "Chat with Receiver",
-                      Image.asset(
-                        "assets/icons/user home page/massage.png",
-                        color: AppColor.white,
-                      )),
+
+                  /// =========Chat with receiver=====
+                  Obx(() =>
+                      commonIconButton(
+                          isLoading: chatController.isLoading.value,
+                          onTap: () {
+                            chatController.getChatList(context, chatId: shipmentDetails.load.shipperToReceiverChatId);
+                            animetedNavigationPush(
+                                ChangeNotifierProvider(
+                                    create: (context) => UserChatProvider(),
+                                    child: UserChatPage(chatId: shipmentDetails.load.shipperToReceiverChatId , senderId: shipmentDetails.user.id,)),
+                                context);
+                          },
+                          "Chat with Receiver",
+                          Image.asset(
+                            "assets/icons/user home page/massage.png",
+                            color: AppColor.white,
+                          )),
+                  ),
 
                   const SizedBox(height: 30),
 
