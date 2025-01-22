@@ -515,47 +515,49 @@ class _UserHomePageState extends State<UserHomePage> {
             const Divider(),
 
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            commonText(
-                              'From',
-                              color: Colors.grey,
-                            ),
-                            commonText(trackingItems.shippingAddress,
+                Row(
+                  children: [
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          commonText(
+                            'From',
+                            color: Colors.grey,
+                          ),
+                          SizedBox(
+                            width: 120,
+                            child: commonText(trackingItems.shippingAddress,
                                 size: 12, isBold: true),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: Row(
-                    children: [
-                      FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            commonText(
-                              'To',
-                              color: Colors.grey,
-                            ),
-                            commonText(trackingItems.receivingAddress,
-                                size: 12, isBold: true),
-                          ],
-                        ),
+                Row(
+                  children: [
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          commonText(
+                            'To',
+                            color: Colors.grey,
+                          ),
+                          SizedBox(
+                            width: 120,
+                            child: commonText(trackingItems.receivingAddress,
+                                size: 12, isBold: true,),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),
