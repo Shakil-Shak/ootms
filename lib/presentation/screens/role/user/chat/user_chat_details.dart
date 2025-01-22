@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/helpers/other_helper.dart';
+import 'package:ootms/presentation/api/models/user_model/shiping_model/current_shiping_model.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
@@ -7,21 +9,10 @@ import 'package:ootms/presentation/screens/role/user/chat/user_chat.dart';
 import 'package:provider/provider.dart';
 
 class UserChatDetailsScreen extends StatelessWidget {
-  const UserChatDetailsScreen({super.key});
 
-  final String driverPhone = "123-456-789",
-      driverName = "NR Shakib",
-      driverRating = "4.5",
-      driverEmail = "example@gmail.com",
-      driverAddress = "Rupatoli, Barishal",
-      reciverName = "MD. Shihabul Islam",
-      reciverPhone = "123-456-789",
-      reciverEmail = "example@gmail.com",
-      reciverAddress = "Banasree, Dhaka",
-      deliveryInstructions =
-          "Lorem ipsum dolor sit amet consectetur. Blandit auctor sit scelerisque ultricies.",
-      description =
-          "Lorem ipsum dolor sit amet consectetur. Blandit auctor sit scelerisque ultrices.Tortor sed donec facilisis odio auctor platea ultrices pharetra. Quis auctor iaculis fames faucibus quis enim odio et. Diam at risus augue nisl aliquet scelerisque lorem nunc velit.";
+  CurrentShippingModel shipmentDetails;
+
+  UserChatDetailsScreen({super.key, required this.shipmentDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -89,11 +80,11 @@ class UserChatDetailsScreen extends StatelessWidget {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const SizedBox(height: 10),
-            _buildInfoRow("Driver Name", " $driverRating $driverName",
-                "Driver Phone", driverPhone),
+            _buildInfoRow("Driver Name", "${shipmentDetails.driver.ratings} ${shipmentDetails.driver.fullName}",
+                "Driver Phone", shipmentDetails.driver.phoneNumber),
             const SizedBox(height: 10),
             _buildInfoRow(
-                "Driver Email", driverEmail, "Driver Address", driverAddress),
+                "Driver Email", shipmentDetails.driver.email, "Driver Address", shipmentDetails.driver.address),
             const SizedBox(
               height: 10,
             )
@@ -134,10 +125,10 @@ class UserChatDetailsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildInfoRow(
-                  "Receiver Name", reciverName, "Receiver Phone", reciverPhone),
+                  "Receiver Name", shipmentDetails.load.receiverName, "Receiver Phone", shipmentDetails.load.receiverPhoneNumber),
               const SizedBox(height: 10),
-              _buildInfoRow("Receiver Email", reciverEmail, "Receiver Address",
-                  reciverAddress),
+              _buildInfoRow("Receiver Email", shipmentDetails.load.receiverEmail, "Receiver Address",
+                  shipmentDetails.load.receivingAddress),
               const SizedBox(height: 10),
             ],
           ),
@@ -202,15 +193,15 @@ class UserChatDetailsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     commonText("Load Type", size: 14, isBold: true),
-                    commonText("Dry Load", size: 14),
+                    commonText(shipmentDetails.load.loadType, size: 14),
                     const SizedBox(height: 10),
                     commonText("Pickup", size: 14, isBold: true),
-                    commonText("12-12-2024", size: 14),
-                    commonText("Address: Rupatoli, Barishal",
+                    commonText(OtherHelper.getDate(serverDate: shipmentDetails.load.pickupDate.toString()), size: 14),
+                    commonText("Address: ${shipmentDetails.load.shippingAddress}",
                         size: 14, fontWeight: FontWeight.w500),
                     const SizedBox(height: 10),
                     commonText("Weight", size: 14, isBold: true),
-                    commonText("120 kg", size: 14),
+                    commonText("${shipmentDetails.load.weight} lb", size: 14),
                   ],
                 ),
               ),
@@ -222,15 +213,22 @@ class UserChatDetailsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     commonText("Trailer size", size: 14, isBold: true),
-                    commonText("48-foot trailer—24 pallets", size: 14),
+                    commonText("${shipmentDetails.load.trailerSize} -foot trailer— ${shipmentDetails.load.palletSpace} pallets", size: 14),
                     const SizedBox(height: 10),
                     commonText("Delivery", size: 14, isBold: true),
-                    commonText("13-12-2024", size: 14),
-                    commonText("Address: Banasree, Dhaka",
+                    commonText(OtherHelper.getDate(serverDate: shipmentDetails.load.deliveryDate.toString()), size: 14),
+                    commonText("Address: ${shipmentDetails.load.receivingAddress}",
                         size: 14, fontWeight: FontWeight.w500),
                     const SizedBox(height: 10),
                     commonText("HazMat", size: 14, isBold: true),
-                    commonText("Flammable Gas 2, Corrosive, Danger.", size: 14),
+                    Wrap(
+                      children: List.generate(shipmentDetails.load.hazmat.length, (index) {
+                        return commonText(
+                          "${shipmentDetails.load.hazmat[index]}, ",
+                          size: 14,
+                        );
+                      },),
+                    )
                   ],
                 ),
               ),
@@ -242,7 +240,7 @@ class UserChatDetailsScreen extends StatelessWidget {
           // Delivery Instructions
           commonText("Description", isBold: true, size: 16),
           const SizedBox(height: 5),
-          commonText(description, maxLines: 10),
+          commonText(shipmentDetails.load.description, maxLines: 10),
           const SizedBox(
             height: 15,
           ),

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:ootms/helpers/prefs_helper.dart';
+import 'package:ootms/presentation/api/models/otp_model.dart';
 import 'package:ootms/presentation/api/service/api_services.dart';
 import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
@@ -73,7 +75,6 @@ class SignUpOtpController extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      // Collect and validate OTP
       String otp =
           controllers.map((controller) => controller.text.trim()).join();
       if (otp.length < 4) {
@@ -81,13 +82,11 @@ class SignUpOtpController extends ChangeNotifier {
         return null;
       }
 
-      // Debugging logs
       print("OTP: $otp");
       if (email != null) {
         print("Email: $email");
       }
 
-      // Construct the request body
       final Map<String, String> requestBody = {
         "otp": otp,
         // "email": email.toString(),
@@ -96,16 +95,22 @@ class SignUpOtpController extends ChangeNotifier {
       //   requestBody["email"] = email.trim();
       // }
       print("requestBody: $requestBody");
-      var userDetails = await getUserAcessDetails();
-      String accesstoken = userDetails![0] ?? "";
 
-      var tokenData = Options(headers: {
-        "Authorization": "Bearer $accesstoken",
-      });
+      print("token: $token");
+      final response =
+          await ApiService().otherPostRequest(url, requestBody, token: token);
 
-      print("token: $accesstoken");
-      final response = await ApiService()
-          .otherPostRequest(url, requestBody, token: tokenData);
+      if (response != null && response['status'] == "OK") {
+        final signInModel = OtpModels.fromJson(response);
+        // PrefsHelper.setString("userRole", signInModel.data.attributes.id);
+
+        saveUserAcessDetails(signInModel.data.forgetPasswordToken, "");
+
+        _isLoading = false;
+        notifyListeners();
+        return signInModel;
+      }
+
       print("======================================otpResponse${response}");
       print(
           "======================================otpResponse${response["statusCode"]}");

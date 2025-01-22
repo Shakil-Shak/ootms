@@ -12,7 +12,7 @@ import '../../../sharePrefarences/local_storage_save.dart';
 class DriverLoadRequest extends GetxController {
   static DriverLoadRequest get instance => Get.put(DriverLoadRequest());
 
-  bool isLoading = false;
+  RxBool isLoading = false.obs;
   bool isMoreLoading = false;
   DriverLoadModel driverLoadModel = DriverLoadModel();
   List<DriverLoadModel> loadRequestData = [];
@@ -20,29 +20,31 @@ class DriverLoadRequest extends GetxController {
   int page = 1;
   String loadId = "";
 
-  handleScrollController() {
-    scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        log("Load more data is called: $page");
-        _loadMoreData();
-      }
-    });
-  }
+  // handleScrollController() {
+  //   scrollController.addListener(() {
+  //     if (scrollController.position.pixels ==
+  //         scrollController.position.maxScrollExtent) {
+  //       log("Load more data is called: $page");
+  //       _loadMoreData();
+  //     }
+  //   });
+  // }
 
-  Future<void> _loadMoreData() async {
-    page++;
-    isMoreLoading = true;
-    update();
-    await getDriverLoadReg();
-    isMoreLoading = false;
-    update();
-  }
+  // Future<void> _loadMoreData() async {
+  //   page++;
+  //   isMoreLoading = true;
+  //   update();
+  //   await getDriverLoadReg();
+  //   isMoreLoading = false;
+  //   update();
+  // }
 
-  Future<void> getDriverLoadReg() async {
+  Future<void> getDriverLoadReg(
+      {required context,
+      bool requestType = false,
+      bool callFromHome = false}) async {
     if (page == 1) {
-      isLoading = true;
-      update();
+      isLoading.value = true;
     } else {
       isMoreLoading = true;
       update();
@@ -86,8 +88,7 @@ class DriverLoadRequest extends GetxController {
     } catch (e) {
       log("Exception: $e");
     } finally {
-      isLoading = false;
-      update();
+      isLoading.value = false;
       isMoreLoading = false;
       update();
     }
@@ -110,8 +111,9 @@ class DriverLoadRequest extends GetxController {
       var response = await ApiClient.patchData(ApiPaths.loadRequsetAction, body,
           headers: header);
       if (response.statusCode == 200) {
-        print("load accept================================================================");
-        getDriverLoadReg();
+        print(
+            "load accept================================================================");
+        // getDriverLoadReg(context: context,);
         showCommonSnackbar(context, "Load Request Accept Successfull",
             isError: false);
         loadRequestData[index].isLoading = false;
@@ -148,7 +150,7 @@ class DriverLoadRequest extends GetxController {
       var response = await ApiClient.patchData(ApiPaths.loadRequsetAction, body,
           headers: header);
       if (response.statusCode == 200) {
-        getDriverLoadReg();
+        // getDriverLoadReg();
         showCommonSnackbar(context, "Load Request Rejected", isError: false);
         loadRequestData[index].isLoading = false;
         update();

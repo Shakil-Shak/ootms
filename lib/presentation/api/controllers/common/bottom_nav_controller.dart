@@ -5,6 +5,7 @@ class BottomNavController extends GetxController {
   valueIncrease({int? value}) {
     currentIndex =value == null? 2:value;
     update();
+    print("========$value");
   }
 
   void updateIndex(int index) {

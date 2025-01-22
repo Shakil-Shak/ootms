@@ -33,19 +33,18 @@ class DriverProfile extends StatefulWidget {
 class _DriverProfileState extends State<DriverProfile> {
   DriverProfileController profileCtl = Get.find<DriverProfileController>();
 
-  // void initState() {
-  //   super.initState();
+  void initState() {
+    super.initState();
 
-  //   Future.microtask(() {
-  //     final profileController =
-  //         Provider.of<ProfileController>(context, listen: false);
-  //     profileController.getProfileData();
-  //   });
-  // }
+    Future.microtask(() {
+      final profileController =
+          Provider.of<ProfileController>(context, listen: false);
+      profileController.getProfileData();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    profileCtl.getProfileData();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -64,10 +63,10 @@ class _DriverProfileState extends State<DriverProfile> {
                   child: Column(
                     children: [
                       const SizedBox(height: 20),
-                      profileCtl.profileData.userDetails!.image.isNotEmpty
+                      profileCtl.profileData.userDetails.image.isNotEmpty
                           ? CommonImage(
                               imageSrc: ApiPaths.baseUrl +
-                                  profileCtl.profileData.userDetails!.image,
+                                  profileCtl.profileData.userDetails.image,
                               imageType: ImageType.network,
                               size: 100,
                               borderRadius: 100,
@@ -91,9 +90,9 @@ class _DriverProfileState extends State<DriverProfile> {
                               ),
                             ),
                       const SizedBox(height: 10),
-                      commonText(profileCtl.profileData.userDetails!.fullName,
+                      commonText(profileCtl.profileData.userDetails.fullName,
                           size: 18, isBold: true),
-                      commonText(profileCtl.profileData.userDetails!.email),
+                      commonText(profileCtl.profileData.userDetails.email),
                       const SizedBox(height: 10),
                       // Profile Menu Options
                       Container(
@@ -182,7 +181,7 @@ class _DriverProfileState extends State<DriverProfile> {
         iconPath: AppIcons.equipment,
         text: "Equipment",
         onTap: () {
-          animetedNavigationPush(MyEquipmentPage(), context);
+          animetedNavigationPush(const MyEquipmentPage(), context);
         },
       ),
       ProfileMenuItem(

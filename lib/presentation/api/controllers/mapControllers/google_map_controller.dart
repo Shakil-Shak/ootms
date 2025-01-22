@@ -12,8 +12,8 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:ootms/core/constants/assets/icons_string.dart';
 import 'package:ootms/presentation/api/models/driver_model/nearest_load_model.dart';
-import 'package:ootms/presentation/api/models/user_model/bol_tracking_model.dart';
 import 'package:ootms/presentation/api/models/user_model/nearest_driver_model.dart';
 import 'package:ootms/presentation/api/service/socket_service.dart';
 import 'package:ootms/presentation/screens/role/driver/find_load/find_load_method/find_load_modal_sheet.dart';
@@ -27,6 +27,10 @@ class CustomMapController extends GetxController {
 
   final Completer<GoogleMapController> googleMapController = Completer();
   CustomInfoWindowController infoWindowController = CustomInfoWindowController();
+  //========================filter value
+  RxDouble sliderValue = 0.0.obs;
+  RxDouble minValue = 0.0.obs;
+  RxDouble maxValue = 0.0.obs;
 
   final searchText = TextEditingController().obs;
   RxBool isSearched = false.obs;
@@ -114,10 +118,10 @@ class CustomMapController extends GetxController {
     double x = Math.cos(start.latitude) * Math.sin(end.latitude) -
         Math.sin(start.latitude) * Math.cos(end.latitude) * Math.cos(deltaLongitude);
     double initialBearing = Math.atan2(y, x);
-    return (initialBearing * 180 / Math.pi) % 360;
+    return (initialBearing * 160 / Math.pi) % 360;
   }
 
-  setDriverLocationTrackingMarker(LatLng driverLatLang, LatLng destinationLatLang, String placeId, String iconPath, BOLTrackingModel loadItems, {VoidCallback? onTap}) async {
+  setDriverLocationTrackingMarker(LatLng driverLatLang, LatLng destinationLatLang, String placeId, String iconPath, {VoidCallback? onTap}) async {
     final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath, iconHeight: 60);
     Marker newMarker = Marker(
       onTap: onTap,
@@ -128,7 +132,6 @@ class CustomMapController extends GetxController {
       rotation: calculateBearing(driverLatLang, destinationLatLang)
     );
 
-    getRoute(origin: driverLatLang, destination: destinationLatLang);
     marker.add(newMarker);
     update();
   }
@@ -155,7 +158,7 @@ class CustomMapController extends GetxController {
     Marker newMarker = Marker(
       onTap: () {
         log("place id $placeId");
-        showLocationDetails(loadItems: loadItems);
+        showLocationDetails(loadItems: loadItems,);
       },
       infoWindow: InfoWindow(title: placeId),
       icon: customMarker,
@@ -263,7 +266,7 @@ class CustomMapController extends GetxController {
   Future<Position> getUserCurrentLocation() async {
     PermissionStatus status = await Permission.location.status;
     if (status.isGranted) {
-      log("Permission is granted");
+      log("<<<======Permission is granted=====>>>");
     } else {
       await Geolocator.requestPermission()
           .then((value) {})
@@ -310,7 +313,7 @@ class CustomMapController extends GetxController {
     final response = await http.get(Uri.parse(
         'https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${destination.latitude},${destination.longitude}&key=$apiKey'));
 
-    log("${response.statusCode}");
+    log("Get route: ${response.statusCode}");
     log("Response ========>>>> ${response.body}");
 
     if (response.statusCode == 200) {
@@ -323,6 +326,13 @@ class CustomMapController extends GetxController {
         var firstStepEndLocation = data['routes'][0]['legs'][0]['steps'][0]['end_location'];
         firstStepEndLat = firstStepEndLocation['lat'];
         firstStepEndLng = firstStepEndLocation['lng'];
+
+       setDriverLocationTrackingMarker(
+          origin,
+          LatLng(firstStepEndLat, firstStepEndLng),
+          'Loaded Truck',
+          AppIcons.redTruck,
+        );
 
         polyLines.add(
           Polyline(

@@ -17,8 +17,11 @@ class CreateLoadMapController extends GetxController {
   var selectedLocation = LatLng(0.0, 0.0).obs;
 
   var selectedAddress = "".obs;
-  var selectedLatitude =  0.0;
-  var selectedLongitude =  0.0;
+  var shipperLatitude =  0.0;
+  var shipperLongitude =  0.0;
+
+  var receiverLatitude =  0.0;
+  var receiverLongitude =  0.0;
 
   List<Marker> marker = <Marker>[].obs;
 
@@ -60,8 +63,14 @@ class CreateLoadMapController extends GetxController {
       selectedAddress.value =
       "${placemarks.first.street}, ${placemarks.first.locality}";
     }
-    selectedLatitude = position.latitude;
-    selectedLongitude = position.longitude;
+
+    if(!CreateLoadMapScreen.isReceiver){
+      shipperLatitude = position.latitude;
+      shipperLongitude = position.longitude;
+    }else{
+      receiverLatitude = position.latitude;
+      receiverLongitude = position.longitude;
+    }
     selectedLocation.value = LatLng(position.latitude, position.longitude);
     addMarker(currentLocation.value);
   }
@@ -85,8 +94,13 @@ class CreateLoadMapController extends GetxController {
     googleMapController.animateCamera(
       CameraUpdate.newLatLng(LatLng(lat, lng)),
     );
-    selectedLatitude = lat;
-    selectedLongitude = lng;
+    if(!CreateLoadMapScreen.isReceiver){
+      shipperLatitude = lat;
+      shipperLongitude = lng;
+    }else{
+      receiverLatitude = lat;
+      receiverLongitude = lng;
+    }
     selectedLocation.value = LatLng(lat, lng);
     setMyLocationMarker(LatLng(lat, lng), "Selected Location");
   }
@@ -106,8 +120,11 @@ class CreateLoadMapController extends GetxController {
   Future<String> onMapTapped(LatLng tappedLocation) async {
     selectedLocation.value = tappedLocation;
     if(!CreateLoadMapScreen.isReceiver){
-      selectedLatitude = tappedLocation.latitude;
-      selectedLongitude = tappedLocation.longitude;
+      shipperLatitude = tappedLocation.latitude;
+      shipperLongitude = tappedLocation.longitude;
+    }else{
+      receiverLatitude = tappedLocation.latitude;
+      receiverLongitude = tappedLocation.longitude;
     }
 
     // Animate the camera to the tapped location

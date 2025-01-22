@@ -34,6 +34,7 @@ class SignupPageController extends ChangeNotifier {
     required String confirmPassword,
     required String user,
   }) async {
+    print("========================================================signup method call");
     if (password != confirmPassword) {
       throw Exception("Passwords do not match.");
     }

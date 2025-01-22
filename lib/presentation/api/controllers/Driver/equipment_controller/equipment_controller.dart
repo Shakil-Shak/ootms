@@ -34,23 +34,26 @@ class EquipmentController extends GetxController {
 //=================================================================================================get equipment
 
   getEquipmentData() async {
+    print("topu=====");
     isLoading = true;
     update();
 
     try {
       final response = await ApiClient.getData(ApiPaths.equipment);
-      print("Response Body: ${response.body}");
+      print("Response Body: ${response}");
 
       if (response.statusCode == 200) {
+        print("statuscode${response.statusCode}");
         var attributes = response.body['data']['attributes'];
-        print("data============ $attributes");
+        print("attributes============ ${attributes["truck"]}");
+        print("attributes============ ${attributes["truck"].runtimeType}");
         if (attributes != null) {
           equipmentData = EquipmentModel(
             truck: (attributes['truck'] as List<dynamic>)
-                .map((e) => Truck.fromJson(e as Map<String, dynamic>))
+                .map((e) => Truck.fromJson(e))
                 .toList(),
             trailer: (attributes['trailer'] as List<dynamic>)
-                .map((e) => Trailer.fromJson(e as Map<String, dynamic>))
+                .map((e) => Trailer.fromJson(e))
                 .toList(),
           );
           truckList = equipmentData.truck;
@@ -68,6 +71,58 @@ class EquipmentController extends GetxController {
       update();
     }
   }
+
+  // getEquipmentData() async {
+  //   isLoading = true;
+  //   update();
+
+  //   try {
+  //     final response = await ApiClient.getData(ApiPaths.equipment);
+  //     print("Response Body: ${response.body}");
+
+  //     if (response.statusCode == 200) {
+  //       var attributes = response.body['data']['attributes'];
+  //       print("data============ $attributes");
+
+  //       if (attributes != null) {
+  //         equipmentData = EquipmentModel(
+  //           truck: attributes['truck'] is List
+  //               ? (attributes['truck'] as List<dynamic>)
+  //                   .map((e) => Truck.fromJson(e as Map<String, dynamic>))
+  //                   .toList()
+  //               : attributes['truck'] != null
+  //                   ? [
+  //                       Truck.fromJson(
+  //                           attributes['truck'] as Map<String, dynamic>)
+  //                     ]
+  //                   : [],
+  //           trailer: attributes['trailer'] is List
+  //               ? (attributes['trailer'] as List<dynamic>)
+  //                   .map((e) => Trailer.fromJson(e as Map<String, dynamic>))
+  //                   .toList()
+  //               : attributes['trailer'] != null
+  //                   ? [
+  //                       Trailer.fromJson(
+  //                           attributes['trailer'] as Map<String, dynamic>)
+  //                     ]
+  //                   : [],
+  //         );
+
+  //         truckList = equipmentData.truck;
+  //         trailerList = equipmentData.trailer;
+  //       } else {
+  //         log("Error: 'attributes' is null in the response.");
+  //       }
+  //     } else {
+  //       log("Error: statusCode is ${response.statusCode}");
+  //     }
+  //   } catch (e) {
+  //     log("Exception caught: $e");
+  //   } finally {
+  //     isLoading = false;
+  //     update();
+  //   }
+  // }
 
   //====================================================================add truck in my equipment
   bool isAddLoading = false;

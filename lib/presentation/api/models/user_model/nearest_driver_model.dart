@@ -1,73 +1,113 @@
 
 class NearestDriverModel {
-  String id;
-  String userId;
-  String fullName;
-  String email;
-  String image;
-  String role;
-  bool isOnDuty;
-  bool isDeleted;
-  bool validDriver;
-  double ratings;
-  DateTime createdAt;
-  DateTime updatedAt;
-  double distance;
-  DriverLocation location;
-  String document;
-  bool isComplete;
-  bool isSocialLogin;
-  int remainingDispatch;
-  String address;
-  String phoneNumber;
+  final String id;
+  final String userId;
+  final String fullName;
+  final String email;
+  final String image;
+  final bool isOnDuty;
+  final bool isComplete;
+  final bool validDriver;
+  final bool isSocialLogin;
+  final bool isDeleted;
+  final int ratings;
+  final int remainingDispatch;
+  final String role;
+  final String createdAt;
+  final String updatedAt;
+  final String address;
+  final String cdlNumberImage;
+  final String phoneNumber;
+  final DriverLocation location;
+  final double distance;
+  final Truck truck;
 
   NearestDriverModel({
-    this.id = "",
-    this.userId = "",
-    this.fullName = "",
-    this.email = "",
-    this.image = "",
-    this.role = "",
+    this.id = '',
+    this.userId = '',
+    this.fullName = '',
+    this.email = '',
+    this.image = '',
     this.isOnDuty = false,
-    this.isDeleted = false,
-    this.validDriver = false,
-    this.ratings = 0.0,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    this.distance = 0.0,
-    DriverLocation? location,
-    this.document = "",
     this.isComplete = false,
+    this.validDriver = false,
     this.isSocialLogin = false,
+    this.isDeleted = false,
+    this.ratings = 0,
     this.remainingDispatch = 0,
-    this.address = "",
-    this.phoneNumber = "",
-  })  : createdAt = createdAt ?? DateTime.now(),
-        updatedAt = updatedAt ?? DateTime.now(),
-        location = location ?? DriverLocation();
+    this.role = '',
+    this.createdAt = '',
+    this.updatedAt = '',
+    this.address = '',
+    this.cdlNumberImage = '',
+    this.phoneNumber = '',
+    DriverLocation? location,
+    this.distance = 0.0,
+    Truck? truck,
+  })  : location = location ?? DriverLocation(),
+        truck = truck ?? Truck();
 
   factory NearestDriverModel.fromJson(Map<String, dynamic> json) {
     return NearestDriverModel(
-      id: json['_id'] ?? "",
-      userId: json['userId'] ?? "",
-      fullName: json['fullName'] ?? "",
-      email: json['email'] ?? "",
-      image: json['image'] ?? "",
-      role: json['role'] ?? "",
+      id: json['_id'] ?? '',
+      userId: json['userId'] ?? '',
+      fullName: json['fullName'] ?? '',
+      email: json['email'] ?? '',
+      image: json['image'] ?? '',
       isOnDuty: json['isOnDuty'] ?? false,
-      isDeleted: json['isDeleted'] ?? false,
-      validDriver: json['validDriver'] ?? false,
-      ratings: (json['ratings'] ?? 0).toDouble(),
-      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
-      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
-      distance: (json['distance'] ?? 0).toDouble(),
-      location: json['location'] != null ? DriverLocation.fromJson(json['location']) : null,
-      document: json['document'] ?? "",
       isComplete: json['isComplete'] ?? false,
+      validDriver: json['validDriver'] ?? false,
       isSocialLogin: json['isSocialLogin'] ?? false,
+      isDeleted: json['isDeleted'] ?? false,
+      ratings: json['ratings'] ?? 0,
       remainingDispatch: json['remainingDispatch'] ?? 0,
-      address: json['address'] ?? "",
-      phoneNumber: json['phoneNumber'] ?? "",
+      role: json['role'] ?? '',
+      createdAt: json['createdAt'] ?? '',
+      updatedAt: json['updatedAt'] ?? '',
+      address: json['address'] ?? '',
+      cdlNumberImage: json['cdlNumberImage'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? '',
+      location: DriverLocation.fromJson(json['location'] ?? {}),
+      distance: (json['distance'] as num?)?.toDouble() ?? 0.0,
+      truck: Truck.fromJson(json['truck'] ?? {}),
+    );
+  }
+}
+
+class Truck {
+  final String id;
+  final String driver;
+  final String cdlNumber;
+  final String truckNumber;
+  final int trailerSize;
+  final int palletSpace;
+  final int weight;
+  final String createdAt;
+  final String updatedAt;
+
+  Truck({
+    this.id = '',
+    this.driver = '',
+    this.cdlNumber = '',
+    this.truckNumber = '',
+    this.trailerSize = 0,
+    this.palletSpace = 0,
+    this.weight = 0,
+    this.createdAt = '',
+    this.updatedAt = '',
+  });
+
+  factory Truck.fromJson(Map<String, dynamic> json) {
+    return Truck(
+      id: json['_id'] ?? '',
+      driver: json['driver'] ?? '',
+      cdlNumber: json['cdlNumber'] ?? '',
+      truckNumber: json['truckNumber'] ?? '',
+      trailerSize: json['trailerSize'] ?? 0,
+      palletSpace: json['palletSpace'] ?? 0,
+      weight: json['weight'] ?? 0,
+      createdAt: json['createdAt'] ?? '',
+      updatedAt: json['updatedAt'] ?? '',
     );
   }
 }
@@ -103,12 +143,5 @@ class LoadLocationModel {
       type: json['type'] ?? "",
       coordinates: List<double>.from(json['coordinates'] ?? []),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'type': type,
-      'coordinates': coordinates,
-    };
   }
 }

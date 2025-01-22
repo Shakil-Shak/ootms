@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
@@ -69,24 +70,36 @@ class SocketServices {
 
   /// Get Location Method
 
-  // static Future<void> getLocation({String }) async {
-  //   try {
-  //     log('Get Location is being called');
-  //
-  //
-  //     // Check if the socket is connected before emitting
-  //     if (socket.connected) {
-  //       log('Socket is connected. Getting client_location event.');
-  //
-  //       socket.on(, handler)
-  //     } else {
-  //       log('Socket is not connected. Unable to emit event.');
-  //     }
-  //   } catch (error, stackTrace) {
-  //     // Catch any unexpected errors and log them
-  //     log('Error in sendLocation: $error');
-  //     log('Stack Trace: $stackTrace');
-  //   }
-  // }
+
+  static Future<LatLng?> getLocation({required String userId}) async {
+    try {
+      log('Get Location is being called');
+
+
+      // Check if the socket is connected before emitting
+      if (socket.connected) {
+        log('Socket is connected. Getting client_location event.');
+        log('User Id: $userId');
+
+    // ::$userId
+        socket.on("server_location", (data) {
+
+          log("======>>>${data["lat"]}<<<=======");
+          log("======>>>${data["lang"]}<<<=======");
+
+          return LatLng(double.parse(data["lat"]), double.parse(data["lang"]));
+
+        },);
+      } else {
+        log('Socket is not connected. Unable to emit event.');
+        return null;
+      }
+    } catch (error, stackTrace) {
+      // Catch any unexpected errors and log them
+      log('Error in sendLocation: $error');
+      log('Stack Trace: $stackTrace');
+      return null;
+    }
+  }
 
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:ootms/helpers/prefs_helper.dart';
 import 'package:ootms/presentation/api/controllers/driver/find_load_controller.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
@@ -21,9 +22,30 @@ class DriverFindLoadPage extends StatefulWidget {
 class _DriverFindLoadPageState extends State<DriverFindLoadPage>
     with SingleTickerProviderStateMixin {
   FindLoadController findLoadController = Get.find<FindLoadController>();
+  String driverTruck = "";
+  String driverCdl = "";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDriverTruck();
+  }
+
+  getDriverTruck() async {
+    var truckN = await PrefsHelper.getString("truckNumber");
+    var cdl = await PrefsHelper.getString("drivername");
+    setState(() {
+      driverTruck = truckN;
+      driverCdl = cdl;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    findLoadController.numberController.text = driverTruck;
+    findLoadController.nameController.text = driverCdl;
+    print(
+        "===========================================ctl${findLoadController.numberController.text},,,${findLoadController.nameController.text}");
     return Scaffold(
         appBar: AppBar(
           leading: null,
@@ -43,17 +65,20 @@ class _DriverFindLoadPageState extends State<DriverFindLoadPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             commonTextfieldWithTitle(
+              readOnly: true,
               "Driver Name",
               findLoadController.nameController,
               hintText: "Enter full name",
             ),
             const SizedBox(height: 16),
             commonTextfieldWithTitle(
+              readOnly: true,
               "Truck Number",
               findLoadController.numberController,
               hintText: "Enter truck number",
             ),
             const SizedBox(height: 16),
+
             commonTextfieldWithTitle(
               "Trailer Size",
               findLoadController.trailercontroller,
@@ -68,6 +93,7 @@ class _DriverFindLoadPageState extends State<DriverFindLoadPage>
             const SizedBox(height: 16),
 
             commonTextfieldWithTitle(
+              readOnly: true,
               "Current Location",
               findLoadController.locationController,
               hintText: "Enter your location",

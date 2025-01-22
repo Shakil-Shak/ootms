@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:ootms/helpers/prefs_helper.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
 import 'package:ootms/presentation/api/models/driver_model/nearest_load_model.dart';
+import 'package:ootms/presentation/api/models/truck_info_model.dart';
 import 'package:ootms/presentation/api/service/get_api_service.dart';
 import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
@@ -14,6 +15,8 @@ class FindLoadController extends GetxController {
 
   NearestLoadModel nearestLoadModel = NearestLoadModel();
   List nearestLoadList = [];
+  List truckInfoList = [];
+
   RxBool isLoading = false.obs;
 
   TextEditingController nameController = TextEditingController();
@@ -32,12 +35,12 @@ class FindLoadController extends GetxController {
 
     Map<String, dynamic> body = {
       // "driverName": "",
-      // "truckNumber": "",
+      "truckNumber": numberController.text,
       "trailerSize": int.parse(trailercontroller.text),
       "palletSpace": int.parse(palletSpacesController.text),
-      "location": [
-        CustomMapController.instance.currentLongitude.value, // longitute
-        CustomMapController.instance.currentLatitude.value // lattitute
+      "shipperLocation": [
+        CustomMapController.instance.currentLongitude.value,
+        CustomMapController.instance.currentLatitude.value
       ]
     };
 
@@ -58,7 +61,8 @@ class FindLoadController extends GetxController {
         log("Response Type: ${responseBody.runtimeType}");
         log("Response Body: ${responseBody["data"].length}");
 
-        final List data = responseBody['data'];
+        final List data = responseBody['data']["result"];
+        final List truckInfo = responseBody['data']['truckInfo'];
 
         // nearestLoadList = List<NearestLoadModel>.from(data.map((toElement)=> NearestLoadModel.fromJson(toElement)));
         nearestLoadList = data
@@ -66,14 +70,19 @@ class FindLoadController extends GetxController {
                 NearestLoadModel.fromJson(item as Map<String, dynamic>))
             .toList();
 
-        int count = 0;
+        truckInfoList = truckInfo
+            .map(
+                (item) => TruckInfoModel.fromJson(item as Map<String, dynamic>))
+            .toList();
+
+        int count = 1;
         for (NearestLoadModel loadItems in nearestLoadList) {
-          log("Set Marker${loadItems.location.coordinates.first}, ${loadItems.location.coordinates.last}");
+          log("Set Marker${loadItems.shipperLocation.coordinates.first}, ${loadItems.shipperLocation.coordinates.last}");
 
           CustomMapController.instance.setLoadLocationMarker(
-              loadItems.location.coordinates.last.toDouble(),
-              loadItems.location.coordinates.first.toDouble(),
-              'marker_${count++}',
+              loadItems.shipperLocation.coordinates.last.toDouble(),
+              loadItems.shipperLocation.coordinates.first.toDouble(),
+              'Load_${count++}',
               "assets/icons/findLoadIcon.png",
               loadItems);
 
@@ -89,4 +98,6 @@ class FindLoadController extends GetxController {
       isLoading.value = false;
     }
   }
+
+
 }
