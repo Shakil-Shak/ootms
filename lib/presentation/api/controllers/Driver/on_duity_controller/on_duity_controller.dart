@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ootms/helpers/prefs_helper.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
 import 'package:ootms/presentation/api/service/get_api_service.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
@@ -45,6 +46,7 @@ class OnduityController extends GetxController {
           headers: header);
 
       if (response.statusCode == 200) {
+        PrefsHelper.setString("truckId", truckIdController.value.text);
         isLoading.value = false;
         isONDuity.value = true;
         

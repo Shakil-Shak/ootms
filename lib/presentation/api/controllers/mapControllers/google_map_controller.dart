@@ -14,7 +14,6 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ootms/core/constants/assets/icons_string.dart';
 import 'package:ootms/presentation/api/models/driver_model/nearest_load_model.dart';
-import 'package:ootms/presentation/api/models/user_model/bol_tracking_model.dart';
 import 'package:ootms/presentation/api/models/user_model/nearest_driver_model.dart';
 import 'package:ootms/presentation/api/service/socket_service.dart';
 import 'package:ootms/presentation/screens/role/driver/find_load/find_load_method/find_load_modal_sheet.dart';
@@ -28,6 +27,10 @@ class CustomMapController extends GetxController {
 
   final Completer<GoogleMapController> googleMapController = Completer();
   CustomInfoWindowController infoWindowController = CustomInfoWindowController();
+  //========================filter value
+  RxDouble sliderValue = 0.0.obs;
+  RxDouble minValue = 0.0.obs;
+  RxDouble maxValue = 0.0.obs;
 
   final searchText = TextEditingController().obs;
   RxBool isSearched = false.obs;
@@ -155,7 +158,7 @@ class CustomMapController extends GetxController {
     Marker newMarker = Marker(
       onTap: () {
         log("place id $placeId");
-        showLocationDetails(loadItems: loadItems);
+        showLocationDetails(loadItems: loadItems,);
       },
       infoWindow: InfoWindow(title: placeId),
       icon: customMarker,
