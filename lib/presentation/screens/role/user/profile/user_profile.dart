@@ -38,7 +38,7 @@ class _UserProfileState extends State<UserProfile> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final profileController =
-      Provider.of<ProfileController>(context, listen: false);
+          Provider.of<ProfileController>(context, listen: false);
       profileController.getProfileData();
     });
   }
@@ -64,30 +64,30 @@ class _UserProfileState extends State<UserProfile> {
                     children: [
                       controller.profileData!.image.isNotEmpty
                           ? CommonImage(
-                        imageSrc: ApiPaths.baseUrl +
-                            controller.profileData!.image,
-                        imageType: ImageType.network,
-                        size: 100,
-                        borderRadius: 100,
-                      )
+                              imageSrc: ApiPaths.baseUrl +
+                                  controller.profileData!.image,
+                              imageType: ImageType.network,
+                              size: 100,
+                              borderRadius: 100,
+                            )
                           : Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            border: Border.all(
-                                width: 1, color: AppColor.primaryColor)),
-                        child: Container(
-                          width: 80,
-                          height: 80,
-                          margin: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                              color: AppColor.primaryColor,
-                              borderRadius: BorderRadius.circular(40),
-                              image: const DecorationImage(
-                                  image: AssetImage(
-                                      "assets/icons/profile_icon_2.png"),
-                                  fit: BoxFit.cover)),
-                        ),
-                      ),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  border: Border.all(
+                                      width: 1, color: AppColor.primaryColor)),
+                              child: Container(
+                                width: 80,
+                                height: 80,
+                                margin: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                    color: AppColor.primaryColor,
+                                    borderRadius: BorderRadius.circular(40),
+                                    image: const DecorationImage(
+                                        image: AssetImage(
+                                            "assets/icons/profile_icon_2.png"),
+                                        fit: BoxFit.cover)),
+                              ),
+                            ),
                       const SizedBox(height: 10),
                       commonText(controller.profileData!.fullName,
                           size: 18, isBold: true),
@@ -102,65 +102,65 @@ class _UserProfileState extends State<UserProfile> {
                           children: [
                             Consumer<ProfileController>(
                                 builder: (context, controller, _) {
-                                  return ProfileMenuItem(
-                                    iconPath: "assets/icons/edit-profile.png",
-                                    text: "Edit Profile",
-                                    onTap: () {
-                                      log("controller.profileData.image : ${controller.profileData!.image}");
-                                      // animetedNavigationPush(
-                                      //     UserEditProfile(
-                                      //       imagePath:
-                                      //           controller.profileData!.image,
-                                      //       title: controller.profileData!.fullName,
-                                      //       email: controller.profileData!.email,
-                                      //       contact:
-                                      //           controller.profileData!.phoneNumber,
-                                      //       address:
-                                      //           controller.profileData!.address,
-                                      //       country: "USA",
-                                      //     ),
-                                      //     context);
-                                      Get.to(() => UserEditProfile(
-                                        imagePath: controller.profileData!.image,
-                                        title: controller.profileData!.fullName,
-                                        email: controller.profileData!.email,
-                                        contact: controller.profileData!.phoneNumber,
-                                        address: controller.profileData!.address,
-                                        country: "USA",
-                                      ));
-                                    },
-                                  );
-                                }),
+                              return ProfileMenuItem(
+                                iconPath: "assets/icons/edit-profile.png",
+                                text: "Edit Profile",
+                                onTap: () {
+                                  log("controller.profileData.image : ${controller.profileData!.image}");
+                                  // animetedNavigationPush(
+                                  //     UserEditProfile(
+                                  //       imagePath:
+                                  //           controller.profileData!.image,
+                                  //       title: controller.profileData!.fullName,
+                                  //       email: controller.profileData!.email,
+                                  //       contact:
+                                  //           controller.profileData!.phoneNumber,
+                                  //       address:
+                                  //           controller.profileData!.address,
+                                  //       country: "USA",
+                                  //     ),
+                                  //     context);
+                                  Get.to(() => UserEditProfile(
+                                      imagePath: controller.profileData!.image,
+                                      title: controller.profileData!.fullName,
+                                      email: controller.profileData!.email,
+                                      contact: controller.profileData!.phoneNumber,
+                                      address: controller.profileData!.address,
+                                      country: "USA",
+                                     ));
+                                },
+                              );
+                            }),
                             Consumer<ProfileController>(
                                 builder: (context, controller, _) {
-                                  return ProfileMenuItem(
-                                    iconPath: "assets/icons/shipment.png",
-                                    text: "Current Shipments",
-                                    onTap: () {
-                                      controller.getCurrentShipData(
-                                          context: context);
-                                      animetedNavigationPush(
-                                          UserCurrentShipmentsPage(), context);
-                                    },
-                                  );
-                                }),
+                              return ProfileMenuItem(
+                                iconPath: "assets/icons/shipment.png",
+                                text: "Current Shipments",
+                                onTap: () {
+                                  controller.getCurrentShipData(
+                                      context: context);
+                                  animetedNavigationPush(
+                                      UserCurrentShipmentsPage(), context);
+                                },
+                              );
+                            }),
                             Consumer<ProfileController>(
                                 builder: (context, controller, _) {
-                                  return ProfileMenuItem(
-                                    iconPath: "assets/icons/arrow_up.png",
-                                    text: "Load Request",
-                                    onTap: () {
-                                      controller.getLoadRequestData(
-                                          context: context);
-                                      animetedNavigationPush(
-                                        UserLoadRequestPage(
-                                          isFromDrawer: false,
-                                        ),
-                                        context,
-                                      );
-                                    },
+                              return ProfileMenuItem(
+                                iconPath: "assets/icons/arrow_up.png",
+                                text: "Load Request",
+                                onTap: () {
+                                  controller.getLoadRequestData(
+                                      context: context);
+                                  animetedNavigationPush(
+                                    UserLoadRequestPage(
+                                      isFromDrawer: false,
+                                    ),
+                                    context,
                                   );
-                                }),
+                                },
+                              );
+                            }),
                             ProfileMenuItem(
                               iconPath: AppIcons.feedback,
                               text: "Feedback",
@@ -174,7 +174,7 @@ class _UserProfileState extends State<UserProfile> {
                               text: "Settings",
                               onTap: () {
                                 animetedNavigationPush(
-                                    const UserSettingsPage(), context);
+                                     UserSettingsPage(), context);
                               },
                             ),
                             ProfileMenuItem(
@@ -214,7 +214,7 @@ class _UserProfileState extends State<UserProfile> {
                     alignment: Alignment.center,
                     child: CircularProgressIndicator(
                       valueColor:
-                      AlwaysStoppedAnimation<Color>(AppColor.primaryColor),
+                          AlwaysStoppedAnimation<Color>(AppColor.primaryColor),
                     ),
                   ),
                 ),

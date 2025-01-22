@@ -103,7 +103,7 @@ Widget userCustomDrawer(BuildContext context) {
                 text: 'Settings',
                 onTap: () {
                   Navigator.pop(context);
-                  animetedNavigationPush(const UserSettingsPage(), context);
+                  animetedNavigationPush( UserSettingsPage(), context);
                 },
               ),
               const SizedBox(

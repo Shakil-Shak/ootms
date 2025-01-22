@@ -8,6 +8,7 @@ import 'package:ootms/presentation/api/sharePrefarences/login_tokan.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_snackbar.dart';
 import 'package:ootms/presentation/screens/auth/otp_view.dart';
+import 'package:ootms/presentation/screens/auth/sign_in_sign_up_chosser.dart';
 import 'package:ootms/presentation/screens/auth/signin/forget_password/forget_password_view.dart';
 import 'package:ootms/presentation/screens/auth/signin/forget_password/reset_password_view.dart';
 import 'package:ootms/presentation/screens/auth/signin/signin_view.dart';
@@ -253,6 +254,38 @@ class RegisterController extends GetxController {
         isLoading(false);
       } else {
         throw 'Sign Up in Failed!';
+      }
+    } catch (e) {
+      debugPrint("Catch Error:::::: $e");
+    } finally {
+      isLoading(false);
+    }
+  }
+
+
+  //Delete Account
+
+  Future deleteAccount(
+      {required BuildContext context,
+     }) async {
+    try {
+      isLoading(true);
+
+      dynamic responseBody = await BaseClient.handleResponse(
+        await BaseClient.deleteRequest(
+            api: ApiPaths.deleteAccount,
+             
+            ),
+      );
+
+      if (responseBody != null) {
+        Get.offAll(
+          () => SignInSignUpChosserPage(user: true)
+        );
+
+        isLoading(false);
+      } else {
+        throw 'delete in Failed!';
       }
     } catch (e) {
       debugPrint("Catch Error:::::: $e");
