@@ -162,7 +162,7 @@ class _DriverRootPageState extends State<DriverRootPage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: buildIcon(const Icon(Icons.add, color: AppColor.primaryColor, size: 30)),
+            icon: buildIcon(const Icon(Icons.add, color: AppColor.primaryColor, size: 24)),
             label: 'Accept Load',
           ),
           BottomNavigationBarItem(
