@@ -63,7 +63,7 @@ Widget driverCustomDrawer(BuildContext context) {
                   text: 'Current Shipment',
                   onTap: () async {
                     await value.getCurrentShipData(context: context);
-                    animetedNavigationPush(UserChatListPage(), context);
+                    animetedNavigationPush(DriverCurrentShipmentsPage(), context);
                   },
                 ),
                 DrawerMenuItem(

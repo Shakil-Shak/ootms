@@ -44,13 +44,13 @@ class User {
   String id;
   String fullName;
   String image;
-  int ratings;
+  double ratings;
 
   User({
     this.id = '',
     this.fullName = '',
     this.image = '',
-    this.ratings = 0,
+    this.ratings = 0.0,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -58,7 +58,7 @@ class User {
       id: json['_id'] ?? '',
       fullName: json['fullName'] ?? '',
       image: json['image'] ?? '',
-      ratings: json['ratings'] ?? 0,
+      ratings: (json['ratings'] ?? 0).toDouble(),
     );
   }
 }
@@ -71,7 +71,7 @@ class Driver {
   String address;
   String phoneNumber;
   LocationModel location;
-  int ratings;
+  double ratings;
 
   Driver({
     this.id = '',
@@ -81,7 +81,7 @@ class Driver {
     this.address = '',
     this.phoneNumber = '',
     required this.location,
-    this.ratings = 0,
+    this.ratings = 0.0,
   });
 
   factory Driver.fromJson(Map<String, dynamic> json) {
@@ -93,7 +93,7 @@ class Driver {
       address: json['address'] ?? '',
       phoneNumber: json['phoneNumber'] ?? '',
       location: LocationModel.fromJson(json['location'] ?? {}),
-      ratings: json['ratings'] ?? 0,
+      ratings: (json['ratings'] ?? 0).toDouble(),
     );
   }
 }
@@ -109,13 +109,13 @@ class Load {
   String shippingState;
   String shippingZip;
   int palletSpace;
-  int weight;
+  double weight;
   String loadType;
   int trailerSize;
   String productType;
-  List<dynamic> hazmat;
+  List<String> hazmat;
   String description;
-  int shipmentPayment;
+  double shipmentPayment;
   String receiverName;
   String receiverPhoneNumber;
   String receiverEmail;
@@ -130,6 +130,11 @@ class Load {
   String deliveryInstruction;
   LocationModel receiverLocation;
   LocationModel shipperLocation;
+  String driver;
+  String shipperToDriverChatId;
+  String shipperToReceiverChatId;
+  DateTime createdAt;
+  DateTime updatedAt;
 
   Load({
     this.id = '',
@@ -142,13 +147,13 @@ class Load {
     this.shippingState = '',
     this.shippingZip = '',
     this.palletSpace = 0,
-    this.weight = 0,
+    this.weight = 0.0,
     this.loadType = '',
     this.trailerSize = 0,
     this.productType = '',
     this.hazmat = const [],
     this.description = '',
-    this.shipmentPayment = 0,
+    this.shipmentPayment = 0.0,
     this.receiverName = '',
     this.receiverPhoneNumber = '',
     this.receiverEmail = '',
@@ -163,8 +168,15 @@ class Load {
     this.deliveryInstruction = '',
     required this.receiverLocation,
     required this.shipperLocation,
+    this.driver = '',
+    this.shipperToDriverChatId = '',
+    this.shipperToReceiverChatId = '',
+    DateTime? createdAt,
+    DateTime? updatedAt,
   })  : pickupDate = pickupDate ?? DateTime.now(),
-        deliveryDate = deliveryDate ?? DateTime.now();
+        deliveryDate = deliveryDate ?? DateTime.now(),
+        createdAt = createdAt ?? DateTime.now(),
+        updatedAt = updatedAt ?? DateTime.now();
 
   factory Load.fromJson(Map<String, dynamic> json) {
     return Load(
@@ -178,13 +190,13 @@ class Load {
       shippingState: json['shippingState'] ?? '',
       shippingZip: json['shippingZip'] ?? '',
       palletSpace: json['palletSpace'] ?? 0,
-      weight: json['weight'] ?? 0,
+      weight: (json['weight'] ?? 0).toDouble(),
       loadType: json['loadType'] ?? '',
       trailerSize: json['trailerSize'] ?? 0,
       productType: json['productType'] ?? '',
-      hazmat: json['Hazmat'] ?? [],
+      hazmat: List<String>.from(json['Hazmat'] ?? []),
       description: json['description'] ?? '',
-      shipmentPayment: json['shipmentPayment'] ?? 0,
+      shipmentPayment: (json['shipmentPayment'] ?? 0).toDouble(),
       receiverName: json['receiverName'] ?? '',
       receiverPhoneNumber: json['receiverPhoneNumber'] ?? '',
       receiverEmail: json['receiverEmail'] ?? '',
@@ -199,6 +211,11 @@ class Load {
       deliveryInstruction: json['deliveryInstruction'] ?? '',
       receiverLocation: LocationModel.fromJson(json['receiverLocation'] ?? {}),
       shipperLocation: LocationModel.fromJson(json['shipperLocation'] ?? {}),
+      driver: json['driver'] ?? '',
+      shipperToDriverChatId: json['shipperToDriverChatId'] ?? '',
+      shipperToReceiverChatId: json['shipperToReceiverChatId'] ?? '',
+      createdAt: DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
+      updatedAt: DateTime.tryParse(json['updatedAt'] ?? '') ?? DateTime.now(),
     );
   }
 }
@@ -228,13 +245,13 @@ class LocationModel {
   List<num> coordinates;
 
   LocationModel({
-    this.type = 'Point',
+    this.type = '',
     this.coordinates = const [0.0, 0.0],
   });
 
   factory LocationModel.fromJson(Map<String, dynamic> json) {
     return LocationModel(
-      type: json['type'] ?? 'Point',
+      type: json['type'] ?? '',
       coordinates: List<num>.from(json['coordinates'] ?? [0.0, 0.0]),
     );
   }

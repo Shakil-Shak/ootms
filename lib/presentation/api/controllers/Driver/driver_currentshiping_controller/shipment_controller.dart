@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ootms/presentation/api/models/user_model/shiping_model/current_shiping_model.dart';
 import 'package:ootms/presentation/api/models/user_model/shiping_model/pending_shipping_model.dart';
 import 'package:ootms/presentation/api/service/get_api_service.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
@@ -66,11 +67,11 @@ class DriverShipmentController extends GetxController {
           if (page == 1) {
             currentShipmentData.clear();
             currentShipmentData = responseData
-                .map((item) => DriverCurrentshipModel.fromJson(item))
+                .map((item) => CurrentShippingModel.fromJson(item))
                 .toList();
           } else {
             currentShipmentData.addAll(responseData
-                .map((item) => DriverCurrentshipModel.fromJson(item))
+                .map((item) => CurrentShippingModel.fromJson(item))
                 .toList());
             update();
           }

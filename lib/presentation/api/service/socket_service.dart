@@ -92,7 +92,6 @@ class SocketServices {
         },);
       } else {
         log('Socket is not connected. Unable to emit event.');
-        return null;
       }
     } catch (error, stackTrace) {
       // Catch any unexpected errors and log them
@@ -100,6 +99,83 @@ class SocketServices {
       log('Stack Trace: $stackTrace');
       return null;
     }
+    return null;
   }
 
+  /// chat connection method
+
+  static makeChatConnection({required String chatId}){
+    socket.emitWithAck("send-new-message", {chatId}, ack: (response) {
+      if (response != null) {
+        log('chat connected: $response');
+      } else {
+        log('chat connection error.');
+      }
+    });
+  }
+
+  /// Send message Method
+
+  static Future<bool> sendMessage({required String chatId, required String senderId, required String messageText}) async {
+    try {
+      log('send message is being called');
+
+      Map<String, String> data = {
+        "chat": chatId, // here value will be chat id
+        "text": messageText,         // here value will be your send message
+        "sender": senderId // here value will be user id
+      };
+
+      // Check if the socket is connected before emitting
+      if (socket.connected) {
+        log('Socket is connected. Emitting client_location event.');
+
+        socket.emitWithAck("send-new-message", data, ack: (response) {
+          if (response != null) {
+            log('Acknowledgment received for send message: $response');
+            return true;
+          } else {
+            log('No acknowledgment received or timeout occurred.');
+          }
+        });
+      } else {
+        log('Socket is not connected. Unable to emit event.');
+      }
+    } catch (error, stackTrace) {
+      // Catch any unexpected errors and log them
+      log('Error in send message: $error');
+      log('Stack Trace: $stackTrace');
+      return false;
+    }
+    return false;
+  }
+
+  /// Get message Method
+
+  static Future<void> getMessage({required String chatId}) async {
+    try {
+
+      // Check if the socket is connected before emitting
+      if (socket.connected) {
+        log('Socket is connected. Getting client_message event.');
+        log('User Id: $chatId');
+
+        // ::$userId
+        socket.on("new-message-received::$chatId", (data) {
+
+          log("======>>>$data<<<=======");
+
+
+          // return LatLng(double.parse(data["lat"]), double.parse(data["lang"]));
+
+        },);
+      } else {
+        log('Socket is not connected. Unable to emit event.');
+      }
+    } catch (error, stackTrace) {
+      // Catch any unexpected errors and log them
+      log('Error in get message: $error');
+      log('Stack Trace: $stackTrace');
+    }
+  }
 }

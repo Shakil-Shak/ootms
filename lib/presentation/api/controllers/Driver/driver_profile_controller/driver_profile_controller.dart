@@ -67,7 +67,8 @@ class DriverProfileController extends GetxController {
     try {
       var response = await apiService.otherPostRequest(
           ApiPaths.appFeedback, jsonEncode(body));
-      if (response["statusCode"] == "201") {
+          debugPrint("statuscode===========${response["statusCode"].runtimeType}");
+      if (response["statusCode"] == 201) {
         showCommonSnackbar(context, "Feedback Added", isError: false);
         isSuccess = true;
         update();
