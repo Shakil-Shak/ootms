@@ -25,7 +25,7 @@ class ProfileController extends ChangeNotifier {
   bool isLoading = false;
   bool isSupportLoad = false;
 
-  ProfileModel? profileData;
+  ProfileModel profileData = ProfileModel();
   bool isSupportFieldClear = false;
 
   ///=============>>> Find current location<<<==================
@@ -171,7 +171,7 @@ class ProfileController extends ChangeNotifier {
               .map((items) => CurrentShippingModel.fromJson(items))
               .toList();
 
-          print("success");
+          print("==========>>>>success<<<===========");
           isCurrentShip = false;
           notifyListeners();
         } else {

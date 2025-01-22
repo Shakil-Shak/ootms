@@ -7,6 +7,7 @@ import 'package:ootms/core/dependency.dart';
 import 'package:ootms/presentation/api/controllers/user/load_controller/load_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/static_controller/static_controller.dart';
+import 'package:ootms/presentation/api/service/background_service.dart';
 import 'package:ootms/presentation/api/service/socket_service.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_home_page.dart';
 import 'package:provider/provider.dart';

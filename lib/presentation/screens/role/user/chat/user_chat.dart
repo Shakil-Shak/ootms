@@ -108,69 +108,69 @@ class UserChatPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
             child: Row(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      backgroundColor: Colors.white,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(20)),
-                      ),
-                      builder: (context) {
-                        return DraggableScrollableSheet(
-                          expand: false,
-                          builder: (context, scrollController) {
-                            return Container(
-                              width: MediaQuery.of(context)
-                                  .size
-                                  .width, // Full width
-
-                              padding: const EdgeInsets.all(16.0),
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(20)),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      InkWell(
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Icon(Icons.cancel))
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  commonButton("Request for Take The Load")
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    );
-                  },
-                  child: Card(
-                    elevation: 3,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: AppColor.white,
-                      ),
-                      child: const Icon(Icons.add, color: AppColor.black),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
+                // GestureDetector(
+                //   onTap: () {
+                //     showModalBottomSheet(
+                //       context: context,
+                //       backgroundColor: Colors.white,
+                //       shape: const RoundedRectangleBorder(
+                //         borderRadius:
+                //             BorderRadius.vertical(top: Radius.circular(20)),
+                //       ),
+                //       builder: (context) {
+                //         return DraggableScrollableSheet(
+                //           expand: false,
+                //           builder: (context, scrollController) {
+                //             return Container(
+                //               width: MediaQuery.of(context)
+                //                   .size
+                //                   .width, // Full width
+                //
+                //               padding: const EdgeInsets.all(16.0),
+                //               decoration: const BoxDecoration(
+                //                 color: Colors.white,
+                //                 borderRadius: BorderRadius.vertical(
+                //                     top: Radius.circular(20)),
+                //               ),
+                //               child: Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.start,
+                //                 mainAxisSize: MainAxisSize.min,
+                //                 children: [
+                //                   Row(
+                //                     mainAxisAlignment: MainAxisAlignment.end,
+                //                     children: [
+                //                       InkWell(
+                //                           onTap: () {
+                //                             Navigator.pop(context);
+                //                           },
+                //                           child: const Icon(Icons.cancel))
+                //                     ],
+                //                   ),
+                //                   const SizedBox(
+                //                     height: 5,
+                //                   ),
+                //                   commonButton("Request for Take The Load")
+                //                 ],
+                //               ),
+                //             );
+                //           },
+                //         );
+                //       },
+                //     );
+                //   },
+                //   child: Card(
+                //     elevation: 3,
+                //     child: Container(
+                //       padding: const EdgeInsets.all(8),
+                //       decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(8),
+                //         color: AppColor.white,
+                //       ),
+                //       child: const Icon(Icons.add, color: AppColor.black),
+                //     ),
+                //   ),
+                // ),
+                // const SizedBox(width: 10),
                 Expanded(
                   child: Card(
                     elevation: 3,

@@ -1,92 +1,115 @@
+
+import 'dart:convert';
+
 class ProfileModel {
-  final String document;
-  final String id;
-  final String userId;
-  final String fullName;
-  final String email;
-  final String image;
-  final bool isOnDuty;
-  final int ratings;
-  final int dispatchCompleted;
-  final String role;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final String address;
-  final bool isComplete;
-  final String phoneNumber;
-  final bool validDriver;
-  final bool isDeleted;
-  final int remainingDispatch;
+  String id;
+  String userId;
+  String fullName;
+  String email;
+  String image;
+  String password;
+  String phoneNumber;
+  String address;
+  String phoneCode;
+  String googleId;
+  String facebookId;
+  DateTime birthday;
+  bool isOnDuty;
+  bool isComplete;
+  bool validDriver;
+  String cdlNumberImage;
+  bool isSocialLogin;
+  String taxid;
+  bool isDeleted;
+  int ratings;
+  int remainingDispatch;
+  String role;
+  DateTime createdAt;
+  DateTime updatedAt;
+  int version;
+  DriverLocation location;
 
   ProfileModel({
-    this.document = "",
-    this.id = "",
-    this.userId = "",
-    this.fullName = "",
-    this.email = "",
-    this.image = "",
+    this.id = '',
+    this.userId = '',
+    this.fullName = '',
+    this.email = '',
+    this.image = '/uploads/users/user.jpg',
+    this.password = '',
+    this.phoneNumber = '',
+    this.address = '',
+    this.phoneCode = '',
+    this.googleId = '',
+    this.facebookId = '',
+    DateTime? birthday,
     this.isOnDuty = false,
+    this.isComplete = false,
+    this.validDriver = false,
+    this.cdlNumberImage = '',
+    this.isSocialLogin = false,
+    this.taxid = '',
+    this.isDeleted = false,
     this.ratings = 0,
-    this.dispatchCompleted = 0,
-    this.role = "",
+    this.remainingDispatch = 0,
+    this.role = 'user',
     DateTime? createdAt,
     DateTime? updatedAt,
-    this.address = "",
-    this.isComplete = false,
-    this.phoneNumber = "",
-    this.validDriver = false,
-    this.isDeleted = false,
-    this.remainingDispatch = 0,
-  })  : createdAt = createdAt ?? DateTime.now(),
-        updatedAt = updatedAt ?? DateTime.now();
+    this.version = 0,
+    DriverLocation? location,
+  })  : birthday = birthday ?? DateTime(1970, 1, 1),
+        createdAt = createdAt ?? DateTime(1970, 1, 1),
+        updatedAt = updatedAt ?? DateTime(1970, 1, 1),
+        location = location ?? DriverLocation();
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
-      document: json['document'] ?? "",
-      id: json['_id'] ?? "",
-      userId: json['userId'] ?? "",
-      fullName: json['fullName'] ?? "",
-      email: json['email'] ?? "",
-      image: json['image'] ?? "",
+      id: json['_id'] ?? '',
+      userId: json['userId'] ?? '',
+      fullName: json['fullName'] ?? '',
+      email: json['email'] ?? '',
+      image: json['image'] ?? '/uploads/users/user.jpg',
+      password: json['password'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? '',
+      address: json['address'] ?? '',
+      phoneCode: json['phoneCode'] ?? '',
+      googleId: json['googleId'] ?? '',
+      facebookId: json['facebookId'] ?? '',
+      birthday: json['birthday'] != null ? DateTime.parse(json['birthday']) : DateTime(1970, 1, 1),
       isOnDuty: json['isOnDuty'] ?? false,
-      ratings: json['ratings'] ?? 0,
-      dispatchCompleted: json['dispatchCompleted'] ?? 0,
-      role: json['role'] ?? "",
-      createdAt: json['createdAt'] != null
-          ? DateTime.parse(json['createdAt'])
-          : DateTime.now(),
-      updatedAt: json['updatedAt'] != null
-          ? DateTime.parse(json['updatedAt'])
-          : DateTime.now(),
-      address: json['address'] ?? "",
       isComplete: json['isComplete'] ?? false,
-      phoneNumber: json['phoneNumber'] ?? "",
       validDriver: json['validDriver'] ?? false,
+      cdlNumberImage: json['cdlNumberImage'] ?? '',
+      isSocialLogin: json['isSocialLogin'] ?? false,
+      taxid: json['taxid'] ?? '',
       isDeleted: json['isDeleted'] ?? false,
+      ratings: json['ratings'] ?? 0,
       remainingDispatch: json['remainingDispatch'] ?? 0,
+      role: json['role'] ?? 'user',
+      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : DateTime(1970, 1, 1),
+      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : DateTime(1970, 1, 1),
+      version: json['__v'] ?? 0,
+      location: DriverLocation.fromJson(json['location'] ?? {}),
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'document': document,
-      '_id': id,
-      'userId': userId,
-      'fullName': fullName,
-      'email': email,
-      'image': image,
-      'isOnDuty': isOnDuty,
-      'ratings': ratings,
-      'dispatchCompleted': dispatchCompleted,
-      'role': role,
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
-      'address': address,
-      'isComplete': isComplete,
-      'phoneNumber': phoneNumber,
-      'validDriver': validDriver,
-      'isDeleted': isDeleted,
-      'remainingDispatch': remainingDispatch,
-    };
+}
+
+class DriverLocation {
+  String type;
+  List<double> coordinates;
+
+  DriverLocation({
+    this.type = 'Point',
+    this.coordinates = const [0.0, 0.0],
+  });
+
+  factory DriverLocation.fromJson(Map<String, dynamic> json) {
+    return DriverLocation(
+      type: json['type'] ?? 'Point',
+      coordinates: (json['coordinates'] as List<dynamic>?)
+          ?.map((e) => (e as num).toDouble())
+          .toList() ??
+          [0.0, 0.0],
+    );
   }
 }

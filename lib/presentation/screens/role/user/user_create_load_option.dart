@@ -18,7 +18,6 @@ class UserCreateLoadOption extends StatelessWidget {
           children: [
             InkWell(
                 onTap: () {
-                  Navigator.pop(context);
                   animetedNavigationPush(const UserCreateLoadPage(), context);
                 },
                 child: Padding(
@@ -29,7 +28,7 @@ class UserCreateLoadOption extends StatelessWidget {
             const Divider(),
             InkWell(
                 onTap: () {
-                  animetedNavigationPush(const Create_load_XL(), context);
+                  animetedNavigationPush(Create_load_XL(), context);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

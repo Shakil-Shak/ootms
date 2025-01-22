@@ -61,7 +61,7 @@ class BackGroundService{
   }
 
 // Main Background Service Handler
-  void onStart(ServiceInstance service) async {
+  static void onStart(ServiceInstance service) async {
     if (service is AndroidServiceInstance) {
       service.setForegroundNotificationInfo(
         title: "Location Service",
@@ -72,7 +72,7 @@ class BackGroundService{
     // Request location permissions
     // await Geolocator.requestPermission();
 
-    Timer.periodic(const Duration(seconds: 10), (timer) async {
+    Timer.periodic(const Duration(seconds: 01), (timer) async {
       // if (!service.isRunning) timer.cancel();
 
       final position = await Geolocator.getCurrentPosition(

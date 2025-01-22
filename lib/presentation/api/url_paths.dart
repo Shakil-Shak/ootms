@@ -28,7 +28,7 @@ class ApiPaths {
   static const String driverLoadRequest = '$baseUrl/api/v1/loads-request?myRequests=false&limit=10000000';
   static const String shippingHistory = '$baseUrl/api/v1/shipment/history';
   static const String chagePassword = '$baseUrl/api/v1/auth/change-password';
-  static const String equipment = '$baseUrl/api/v1/equipment/?type=truck';
+  static const String equipment = '$baseUrl/api/v1/equipment/';
   static const String addEquipment = '$baseUrl/api/v1/equipment/';
   static String userLoadRequest({bool? requestType}) =>
       '$baseUrl/api/v1/loads-request?myRequests=$requestType';
@@ -46,4 +46,7 @@ class ApiPaths {
   static const String assignDriver = '$baseUrl/api/v1/loads-request';
   static const String findByBOL = '$baseUrl/api/v1/loads/find_by_billOfLading?bolNumber=';
   static const String onDuity = '$baseUrl/api/v1/users/switch_on_duty';
+  static const String loadRequestFromDriver = '$baseUrl/api/v1/loads-request';
+  static const String chatUrl = '$baseUrl/api/v1/messages/speceficChatIdMessages?chatId=';
+
 }

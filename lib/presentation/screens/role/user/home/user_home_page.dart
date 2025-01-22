@@ -25,10 +25,12 @@ import 'package:ootms/presentation/screens/role/user/create_load/user_create_loa
 import 'package:ootms/presentation/screens/role/user/home/user_drawer.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_set_location.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
+import 'package:ootms/presentation/screens/role/user/profile/user_profile.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../api/controllers/common/bottom_nav_controller.dart';
 import '../../../../api/controllers/user/shipping_controller/shipping_history_controller.dart';
+import '../../../../api/models/user_model/bol_tracking_model.dart';
 import '../shipping/user_shipping_history.dart';
 
 class UserHomePage extends StatefulWidget {
@@ -71,7 +73,7 @@ class _UserHomePageState extends State<UserHomePage> {
                 const Divider(),
                 InkWell(
                     onTap: () {
-                      animetedNavigationPush(const Create_load_XL(), context);
+                      animetedNavigationPush(Create_load_XL(), context);
                     },
                     child: commonText("Create Load from Excel Sheet",
                         isBold: true)),
@@ -280,7 +282,9 @@ class _UserHomePageState extends State<UserHomePage> {
                                     onTap: () async {
                                       if(liveTrackingController.bolTextController.text != ""){
                                         await liveTrackingController.findTrackingLoad();
-                                        trackBottomSheet();
+                                        if(liveTrackingController.trackingItemsList.isNotEmpty){
+                                          trackBottomSheet();
+                                        }
                                       }else{
                                        showCommonSnackbar(context, "Please enter BOL number", isError: true);
                                       }
@@ -409,7 +413,7 @@ class _UserHomePageState extends State<UserHomePage> {
         return Container(
           width: MediaQuery.of(context).size.width,
           // Full width
-          height: 700,
+          height: 450,
           // 90% of screen height
           padding: const EdgeInsets.all(16.0),
           decoration: const BoxDecoration(
@@ -422,7 +426,7 @@ class _UserHomePageState extends State<UserHomePage> {
               children: [
                 commonText("Shipping Details", size: 16, isBold: true),
                 const SizedBox(height: 10),
-                loadDetailsCard(),
+                loadDetailsCard(trackingItems: LiveTrackingController.instance.trackingItemsList[0]),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -445,35 +449,35 @@ class _UserHomePageState extends State<UserHomePage> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                Card(
-                  elevation: 5,
-                  color: AppColor.white,
-                  clipBehavior: Clip.antiAlias, // Ensure the map is not clipped unnecessarily
-                  child: SizedBox(
-                    height: 240,
-                    child: Obx(
-                          () => Stack(
-                        children: [
-                          GoogleMap(
-                            initialCameraPosition: CustomMapController.instance.initialCameraPosition,
-                            compassEnabled: true,
-                            myLocationEnabled: true,
-                            myLocationButtonEnabled: true,
-                            zoomControlsEnabled: true,
-                            scrollGesturesEnabled: true,
-                            zoomGesturesEnabled: true,
-                            rotateGesturesEnabled: true,
-                            markers: Set<Marker>.from(CustomMapController.instance.marker),
-                            onMapCreated: (GoogleMapController controller) {
-                              CustomMapController.instance.googleMapController.complete(controller);
-                            },
-                            polylines: Set<Polyline>.from(CustomMapController.instance.polyLines),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                // Card(
+                //   elevation: 5,
+                //   color: AppColor.white,
+                //   clipBehavior: Clip.antiAlias, // Ensure the map is not clipped unnecessarily
+                //   child: SizedBox(
+                //     height: 240,
+                //     child: Obx(
+                //           () => Stack(
+                //         children: [
+                //           GoogleMap(
+                //             initialCameraPosition: CustomMapController.instance.initialCameraPosition,
+                //             compassEnabled: true,
+                //             myLocationEnabled: true,
+                //             myLocationButtonEnabled: true,
+                //             zoomControlsEnabled: true,
+                //             scrollGesturesEnabled: true,
+                //             zoomGesturesEnabled: true,
+                //             rotateGesturesEnabled: true,
+                //             markers: Set<Marker>.from(CustomMapController.instance.marker),
+                //             onMapCreated: (GoogleMapController controller) {
+                //               CustomMapController.instance.googleMapController.complete(controller);
+                //             },
+                //             polylines: Set<Polyline>.from(CustomMapController.instance.polyLines),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -483,7 +487,7 @@ class _UserHomePageState extends State<UserHomePage> {
   }
 
 
-  Widget loadDetailsCard() {
+  Widget loadDetailsCard({required BOLTrackingModel trackingItems}) {
     return Card(
       color: AppColor.white,
       shape: RoundedRectangleBorder(
@@ -499,10 +503,10 @@ class _UserHomePageState extends State<UserHomePage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                commonText("", size: 16, isBold: true),
+                commonText(trackingItems.shipperName, size: 16, isBold: true),
                 const SizedBox(height: 4),
                 commonText(
-                  '7421477-475645',
+                  trackingItems.shipperPhoneNumber,
                   size: 14,
                   color: Colors.grey,
                 ),
@@ -525,7 +529,7 @@ class _UserHomePageState extends State<UserHomePage> {
                               'From',
                               color: Colors.grey,
                             ),
-                            commonText('Rupatoli, Barishal',
+                            commonText(trackingItems.shippingAddress,
                                 size: 12, isBold: true),
                           ],
                         ),
@@ -545,7 +549,7 @@ class _UserHomePageState extends State<UserHomePage> {
                               'To',
                               color: Colors.grey,
                             ),
-                            commonText('Banasree, Dhaka',
+                            commonText(trackingItems.receivingAddress,
                                 size: 12, isBold: true),
                           ],
                         ),
@@ -575,18 +579,18 @@ class _UserHomePageState extends State<UserHomePage> {
 
             shipmentStep(
               title: 'Dispatched',
-              location: 'London',
-              dateTime: '2024-07-15 | 02:30 PM',
+              location: '',
+              dateTime: '',
             ),
             shipmentStep(
-              title: 'In transit at sorting center',
-              location: 'Dhaka',
-              dateTime: '2024-07-16 | 08:00 AM',
+              title: 'In transit',
+              location: '',
+              dateTime: '',
             ),
             shipmentStep(
               title: 'Picked up',
-              location: 'Barishal',
-              dateTime: '2024-07-14 | 10:00 AM',
+              location: '',
+              dateTime: '',
             ),
           ],
         ),
@@ -609,25 +613,25 @@ class _UserHomePageState extends State<UserHomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 commonText(title, size: 14, isBold: true),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    commonText(
-                      location,
-                      color: Colors.black87,
-                    ),
-                    const SizedBox(width: 5),
-                    commonText(
-                      '|',
-                      color: Colors.black87,
-                    ),
-                    const SizedBox(width: 5),
-                    commonText(
-                      dateTime,
-                      color: Colors.black87,
-                    ),
-                  ],
-                ),
+                // const SizedBox(height: 4),
+                // Row(
+                //   children: [
+                //     commonText(
+                //       location,
+                //       color: Colors.black87,
+                //     ),
+                //     const SizedBox(width: 5),
+                //     commonText(
+                //       '',
+                //       color: Colors.black87,
+                //     ),
+                //     const SizedBox(width: 5),
+                //     commonText(
+                //       dateTime,
+                //       color: Colors.black87,
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ),

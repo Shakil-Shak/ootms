@@ -176,7 +176,7 @@ class OtherHelper {
     );
 
     if(picked != null){
-      String isoFormat = picked.toUtc().toIso8601String();
+      String isoFormat = picked.toIso8601String();
 
       log("ISO Format: $isoFormat");
       return isoFormat;

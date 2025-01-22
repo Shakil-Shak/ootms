@@ -55,49 +55,38 @@ class _UserProfileState extends State<UserProfile> {
       ),
       body: Consumer<ProfileController>(
         builder: (context, controller, child) {
-          return Stack(
-            children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    children: [
-                      controller.profileData!.image.isNotEmpty
-                          ? CommonImage(
-                              imageSrc: ApiPaths.baseUrl +
-                                  controller.profileData!.image,
-                              imageType: ImageType.network,
-                              size: 100,
-                              borderRadius: 100,
-                            )
-                          : Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                  border: Border.all(
-                                      width: 1, color: AppColor.primaryColor)),
-                              child: Container(
-                                width: 80,
-                                height: 80,
-                                margin: const EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                    color: AppColor.primaryColor,
-                                    borderRadius: BorderRadius.circular(40),
-                                    image: const DecorationImage(
-                                        image: AssetImage(
-                                            "assets/icons/profile_icon_2.png"),
-                                        fit: BoxFit.cover)),
-                              ),
-                            ),
-                      const SizedBox(height: 10),
-                      commonText(controller.profileData!.fullName,
-                          size: 18, isBold: true),
-                      commonText(controller.profileData!.email),
-                      const SizedBox(height: 10),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          border: Border.all(width: 1),
+          return controller.isLoading? const Center(child: CircularProgressIndicator()) : Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                children: [
+                  controller.profileData.image.isEmpty?
+                      CommonImage(
+                          imageSrc: ApiPaths.baseUrl +
+                              controller.profileData.image,
+                          imageType: ImageType.network,
+                          size: 100,
+                          borderRadius: 100,
+                        )
+                      : Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(
+                                  width: 1, color: AppColor.primaryColor)),
+                          child: Container(
+                            width: 80,
+                            height: 80,
+                            margin: const EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                                color: AppColor.primaryColor,
+                                borderRadius: BorderRadius.circular(40),
+                                image: const DecorationImage(
+                                    image: AssetImage(
+                                        "assets/icons/profile_icon_2.png"),
+                                    fit: BoxFit.cover)),
+                          ),
                         ),
+
                         child: Column(
                           children: [
                             Consumer<ProfileController>(
@@ -159,66 +148,56 @@ class _UserProfileState extends State<UserProfile> {
                                     context,
                                   );
                                 },
+
                               );
-                            }),
-                            ProfileMenuItem(
-                              iconPath: AppIcons.feedback,
-                              text: "Feedback",
-                              onTap: () {
-                                animetedNavigationPush(
-                                    UserFeedbackScreen(), context);
-                              },
-                            ),
-                            ProfileMenuItem(
-                              iconPath: "assets/icons/settings.png",
-                              text: "Settings",
-                              onTap: () {
-                                animetedNavigationPush(
-                                    const UserSettingsPage(), context);
-                              },
-                            ),
-                            ProfileMenuItem(
-                              iconPath: "assets/icons/shild.png",
-                              text: "Support",
-                              onTap: () {
-                                animetedNavigationPush(
-                                    UserSupportPage(), context);
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          border: Border.all(width: 1),
-                        ),
-                        child: ProfileMenuItem(
-                          iconPath: "assets/icons/logout.png",
-                          text: "Logout",
+                            },
+                          );
+                        }),
+                        ProfileMenuItem(
+                          iconPath: AppIcons.feedback,
+                          text: "Feedback",
                           onTap: () {
-                            _showDeleteAccountDialog(context);
+                            animetedNavigationPush(
+                                UserFeedbackScreen(), context);
                           },
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
-                ),
-              ),
-              // Loading overlay
-              if (controller.isLoading)
-                const Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(AppColor.primaryColor),
+                        ProfileMenuItem(
+                          iconPath: "assets/icons/settings.png",
+                          text: "Settings",
+                          onTap: () {
+                            animetedNavigationPush(
+                                const UserSettingsPage(), context);
+                          },
+                        ),
+                        ProfileMenuItem(
+                          iconPath: "assets/icons/shild.png",
+                          text: "Support",
+                          onTap: () {
+                            animetedNavigationPush(
+                                UserSupportPage(), context);
+                          },
+                        ),
+                      ],
                     ),
                   ),
-                ),
-            ],
+                  const Spacer(),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      border: Border.all(width: 1),
+                    ),
+                    child: ProfileMenuItem(
+                      iconPath: "assets/icons/logout.png",
+                      text: "Logout",
+                      onTap: () {
+                        _showDeleteAccountDialog(context);
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
           );
         },
       ),

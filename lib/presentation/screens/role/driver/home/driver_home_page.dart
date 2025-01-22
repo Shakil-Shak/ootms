@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/Driver/equipment_controller/equipment_controller.dart';
+import 'package:ootms/presentation/api/controllers/Driver/find_load_controller.dart';
 import 'package:ootms/presentation/api/controllers/Driver/on_duity_controller/on_duity_controller.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -52,7 +54,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: driverCustomDrawer(context),
+      drawer: driverCustomDrawer(context,),
       backgroundColor: AppColor.white,
       body: SingleChildScrollView(
         child: GetBuilder<EquipmentController>(builder: (controller) {
@@ -128,10 +130,16 @@ class _DriverHomePageState extends State<DriverHomePage> {
                                                 equipmentController
                                                     .getEquipmentData();
                                                 showOnDutyDialog(context);
+                                                if (onduityController
+                                                        .isSuccess.value ==
+                                                    true) {
+                                                  Get.back();
+                                                }
                                               } else if (onduityController
                                                       .isONDuity.value ==
                                                   true) {
-                                                onduityController.offDuity(context: context);
+                                                onduityController.offDuity(
+                                                    context: context);
                                               }
                                             },
                                             activeTrackColor: Colors.green[300],
@@ -461,10 +469,12 @@ class _DriverHomePageState extends State<DriverHomePage> {
                   return commonButton(
                     isLoading: onduityController.isLoading.value,
                     "Start",
-                    onTap: () {
-                      onduityController.onDuity(
+                    onTap: () async{
+                      await onduityController.onDuity(
                           lan: customMapController.currentLongitude.value,
-                          lat: customMapController.currentLatitude.value,context: context);
+                          lat: customMapController.currentLatitude.value,
+                          context: context);
+                      Get.back();
                     },
                   );
                 }),

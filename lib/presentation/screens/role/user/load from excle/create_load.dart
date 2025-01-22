@@ -5,6 +5,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -15,6 +16,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Create_load_XL extends StatefulWidget {
   const Create_load_XL({super.key});
@@ -276,3 +278,84 @@ class LoadData {
     );
   }
 }
+
+
+
+// class FileController extends GetxController {
+//   Future<void> downloadExcelFromAssets(String fileName) async {
+//     try {
+//       // Request storage permissions
+//       if (await _requestStoragePermission()) {
+//         // Get a writable directory
+//         final directory = await getExternalStorageDirectory();
+//         if (directory == null) {
+//           throw Exception("External storage directory not found");
+//         }
+//
+//         final filePath = "${directory.path}/$fileName";
+//         final file = File(filePath);
+//
+//         // Check if file already exists
+//         if (await file.exists()) {
+//           Get.snackbar("File Exists", "File already saved at $filePath");
+//           return;
+//         }
+//
+//         // Load the file from assets
+//         ByteData data = await rootBundle.load('assets/excel/$fileName');
+//
+//         // Write the file to the writable directory
+//         await file.writeAsBytes(data.buffer.asUint8List());
+//
+//         // Notify user of success
+//         Get.snackbar("Success", "File downloaded to: $filePath");
+//       } else {
+//         Get.snackbar("Permission Required", "Storage permission is needed to save the file.");
+//       }
+//     } catch (e) {
+//       Get.snackbar("Error", "Failed to download file: $e");
+//     }
+//   }
+//
+//   Future<bool> _requestStoragePermission() async {
+//     // Request storage permissions based on Android version
+//     if (Platform.isAndroid) {
+//       final status = await Permission.manageExternalStorage.request();
+//       return status.isGranted;
+//     } else if (Platform.isIOS) {
+//       // For iOS, permissions aren't needed for app-specific directories
+//       return true;
+//     }
+//     return false;
+//   }
+// }
+//
+//
+//
+//
+//
+//
+// class Create_load_XL extends StatelessWidget {
+//
+//   Create_load_XL({super.key});
+//
+//   final FileController fileController = Get.put(FileController());
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text("Download Excel from Assets"),
+//       ),
+//       body: Center(
+//         child: ElevatedButton(
+//           onPressed: () {
+//             fileController.downloadExcelFromAssets('createLoadTemplate.xlsx');
+//           },
+//           child: Text("Download Excel"),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
