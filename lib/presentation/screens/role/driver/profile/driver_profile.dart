@@ -17,6 +17,7 @@ import 'package:ootms/presentation/screens/role/driver/settings/driver_settings.
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_current_shipments.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request.dart';
 import 'package:provider/provider.dart';
+import '../../../../api/controllers/Driver/load_request_controller/load_request_controller.dart';
 import '../../../../api/controllers/user/profile_controller/profile_controller.dart';
 import '../../../../api/url_paths.dart';
 import '../../../../components/common_image.dart';
@@ -33,6 +34,8 @@ class DriverProfile extends StatefulWidget {
 class _DriverProfileState extends State<DriverProfile> {
   DriverProfileController profileCtl = Get.find<DriverProfileController>();
 
+  DriverLoadRequest driverLoadCtl = Get.find<DriverLoadRequest>();
+
   void initState() {
     super.initState();
 
@@ -48,13 +51,14 @@ class _DriverProfileState extends State<DriverProfile> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: commonText("Profile", size: 21, isBold: true),
+        title: commonText("Profile", size: 21, isBold: false),
         centerTitle: true,
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
       ),
       body: Consumer<ProfileController>(
         builder: (context, controller, child) {
+          print("controller=====${controller.profileData.email}");
           return Stack(
             children: [
               SingleChildScrollView(
@@ -63,10 +67,10 @@ class _DriverProfileState extends State<DriverProfile> {
                   child: Column(
                     children: [
                       const SizedBox(height: 20),
-                      profileCtl.profileData.userDetails.image.isNotEmpty
+                      controller.profileData.image.isNotEmpty
                           ? CommonImage(
                               imageSrc: ApiPaths.baseUrl +
-                                  profileCtl.profileData.userDetails.image,
+                                  controller.profileData.image,
                               imageType: ImageType.network,
                               size: 100,
                               borderRadius: 100,
@@ -90,9 +94,9 @@ class _DriverProfileState extends State<DriverProfile> {
                               ),
                             ),
                       const SizedBox(height: 10),
-                      commonText(profileCtl.profileData.userDetails.fullName,
+                      commonText(controller.profileData.fullName,
                           size: 18, isBold: true),
-                      commonText(profileCtl.profileData.userDetails.email),
+                      commonText(controller.profileData.email),
                       const SizedBox(height: 10),
                       // Profile Menu Options
                       Container(
@@ -147,16 +151,17 @@ class _DriverProfileState extends State<DriverProfile> {
         iconPath: "assets/icons/edit-profile.png",
         text: "Edit Profile",
         onTap: () {
-         Get.to(
+          Get.to(
             () => DriverEditProfile(
-              imagePath: profileCtl.profileData.userDetails.image,
-              title: profileCtl.profileData.userDetails.fullName,
-              email: profileCtl.profileData.userDetails.email,
-              contact: profileCtl.profileData.userDetails.phoneNumber,
-              address: profileCtl.profileData.userDetails.address,
-              country: "USA",
-              cdlNumber:  profileCtl.profileData.truckDetails.isEmpty? "": profileCtl.profileData.truckDetails[0].cdlNumber,
-            ),
+                imagePath: controller.profileData.image,
+                title: controller.profileData.fullName,
+                email: controller.profileData.email,
+                contact: controller.profileData.phoneNumber,
+                address: controller.profileData.address,
+                country: "USA",
+                cdlNumber:
+                    "CDL15345" //profileCtl.profileData.truckDetails.isEmpty? "": profileCtl.profileData.truckDetails[0].cdlNumber,
+                ),
           );
         },
       ),
@@ -172,6 +177,7 @@ class _DriverProfileState extends State<DriverProfile> {
         iconPath: "assets/icons/arrow_up.png",
         text: "Load Request",
         onTap: () {
+          driverLoadCtl.getDriverLoadReg(context: context, requestType: false);
           //   controller.getLoadRequestData(context: context).then((value) =>
           //       animetedNavigationPush( DriverLoadRequestPage(), context));
           animetedNavigationPush(DriverLoadRequestPage(), context);

@@ -82,7 +82,9 @@ class _DriverCurrentShipmentsPageState
                                   onTap: () {
                                     animetedNavigationPush(
                                         DriverCurrentShipmentDetailsPage(
+
                                           shipmentDetails: data,
+
                                         ),
                                         context);
                                   },
