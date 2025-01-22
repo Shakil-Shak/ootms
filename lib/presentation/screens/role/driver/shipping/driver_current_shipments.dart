@@ -114,6 +114,7 @@ class _DriverCurrentShipmentsPageState
                                           weight: data.load!.weight!.toString(),
                                           hazmat: data.load!.hazmat,
                                           pallets: data.load!.palletSpace!.toString(),
+                                          userId: data.user!.id.toString(),
                                         ),
                                         context);
                                   },

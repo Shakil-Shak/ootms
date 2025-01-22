@@ -17,6 +17,7 @@ import 'package:ootms/presentation/screens/role/driver/settings/driver_settings.
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_current_shipments.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request.dart';
 import 'package:provider/provider.dart';
+import '../../../../api/controllers/Driver/load_request_controller/load_request_controller.dart';
 import '../../../../api/controllers/user/profile_controller/profile_controller.dart';
 import '../../../../api/url_paths.dart';
 import '../../../../components/common_image.dart';
@@ -32,6 +33,8 @@ class DriverProfile extends StatefulWidget {
 
 class _DriverProfileState extends State<DriverProfile> {
   DriverProfileController profileCtl = Get.find<DriverProfileController>();
+  
+  DriverLoadRequest driverLoadCtl = Get.find<DriverLoadRequest>();
 
   void initState() {
     super.initState();
@@ -172,6 +175,7 @@ class _DriverProfileState extends State<DriverProfile> {
         iconPath: "assets/icons/arrow_up.png",
         text: "Load Request",
         onTap: () {
+          driverLoadCtl.getDriverLoadReg(context: context,requestType: false);
           //   controller.getLoadRequestData(context: context).then((value) =>
           //       animetedNavigationPush( DriverLoadRequestPage(), context));
           animetedNavigationPush(DriverLoadRequestPage(), context);
