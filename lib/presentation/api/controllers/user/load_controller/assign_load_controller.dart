@@ -10,6 +10,7 @@ import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_snackbar.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_home_page.dart';
+import 'package:ootms/presentation/screens/role/user/user_bottom_navigation.dart';
 
 class AssignLoadController extends GetxController{
 
@@ -36,7 +37,7 @@ class AssignLoadController extends GetxController{
       if (response.statusCode == 201) {
 
         showCommonSnackbar(context, "New Load Request Created Successfully", isError: false);
-        navController.valueIncrease(value: 0);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  const UserRootPage()));
       }else {
         showCommonSnackbar(context, "No Truck found for this driver please assign another driver", isError: true);
       }

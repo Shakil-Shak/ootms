@@ -96,7 +96,6 @@ class LoadController extends ChangeNotifier {
 
   pickPickupDate() async {
     String pickDate = await OtherHelper.datePicker(pickupController);
-    pickedUpDate = pickDate;
     // Parse the ISO string into a DateTime object
     DateTime dateTime = DateTime.parse(pickDate);
 
@@ -110,8 +109,6 @@ class LoadController extends ChangeNotifier {
 
   pickdelivaryDate() async {
     String pickDate = await OtherHelper.datePicker(deliveryController);
-    deliveryDate = pickDate;
-
     DateTime dateTime = DateTime.parse(pickDate);
 
     // Format it as `dd-MM-yyyy`

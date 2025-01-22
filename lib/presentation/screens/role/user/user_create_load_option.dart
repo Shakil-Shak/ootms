@@ -18,7 +18,6 @@ class UserCreateLoadOption extends StatelessWidget {
           children: [
             InkWell(
                 onTap: () {
-                  Navigator.pop(context);
                   animetedNavigationPush(const UserCreateLoadPage(), context);
                 },
                 child: Padding(
