@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ootms/presentation/api/service/api_services.dart';
+import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_snackbar.dart';
 
@@ -95,9 +96,16 @@ class SignUpOtpController extends ChangeNotifier {
       //   requestBody["email"] = email.trim();
       // }
       print("requestBody: $requestBody");
-      print("token: $token");
-      final response =
-          await ApiService().otherPostRequest(url, requestBody, token: token);
+      var userDetails = await getUserAcessDetails();
+      String accesstoken = userDetails![0] ?? "";
+
+      var tokenData = Options(headers: {
+        "Authorization": "Bearer $accesstoken",
+      });
+
+      print("token: $accesstoken");
+      final response = await ApiService()
+          .otherPostRequest(url, requestBody, token: tokenData);
       print("======================================otpResponse${response}");
       print(
           "======================================otpResponse${response["statusCode"]}");

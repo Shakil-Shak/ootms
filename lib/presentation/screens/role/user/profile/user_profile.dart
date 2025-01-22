@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/main.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
@@ -10,6 +11,7 @@ import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_image.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/driver/profile/driver_edit_profile.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
 import 'package:ootms/presentation/screens/role/user/profile/user_edit_profile.dart';
 import 'package:ootms/presentation/screens/role/user/profile/user_feedback_screen.dart';
@@ -105,19 +107,27 @@ class _UserProfileState extends State<UserProfile> {
                                 text: "Edit Profile",
                                 onTap: () {
                                   log("controller.profileData.image : ${controller.profileData!.image}");
-                                  animetedNavigationPush(
-                                      UserEditProfile(
-                                        imagePath:
-                                            controller.profileData!.image,
-                                        title: controller.profileData!.fullName,
-                                        email: controller.profileData!.email,
-                                        contact:
-                                            controller.profileData!.phoneNumber,
-                                        address:
-                                            controller.profileData!.address,
-                                        country: "USA",
-                                      ),
-                                      context);
+                                  // animetedNavigationPush(
+                                  //     UserEditProfile(
+                                  //       imagePath:
+                                  //           controller.profileData!.image,
+                                  //       title: controller.profileData!.fullName,
+                                  //       email: controller.profileData!.email,
+                                  //       contact:
+                                  //           controller.profileData!.phoneNumber,
+                                  //       address:
+                                  //           controller.profileData!.address,
+                                  //       country: "USA",
+                                  //     ),
+                                  //     context);
+                                  Get.to(() => UserEditProfile(
+                                      imagePath: controller.profileData!.image,
+                                      title: controller.profileData!.fullName,
+                                      email: controller.profileData!.email,
+                                      contact: controller.profileData!.phoneNumber,
+                                      address: controller.profileData!.address,
+                                      country: "USA",
+                                     ));
                                 },
                               );
                             }),

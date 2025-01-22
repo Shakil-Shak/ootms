@@ -2,7 +2,9 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/common/auth_controller.dart';
 import 'package:ootms/presentation/api/controllers/common/signup_otp_controller.dart';
 import 'package:ootms/presentation/api/models/otp_model.dart';
 import 'package:ootms/presentation/api/models/user_registration.dart';
@@ -17,15 +19,16 @@ import 'package:ootms/presentation/screens/auth/signup/compleate_profile.dart';
 import 'package:provider/provider.dart';
 
 class OtpPage extends StatelessWidget {
-  final bool user, fromSignUp;
-  final String? token, email;
-  const OtpPage({
+  final bool fromSignUp;
+  final String? user, email;
+  OtpPage({
     super.key,
-    this.token,
     this.email,
     required this.user,
     this.fromSignUp = false,
   });
+
+  final RegisterController registerController = Get.put(RegisterController());
 
   @override
   Widget build(BuildContext context) {
@@ -66,16 +69,14 @@ class OtpPage extends StatelessWidget {
                 Column(
                   children: [
                     const SizedBox(height: 20),
-                    Consumer<SignUpOtpController>(
-                      builder: (context, controller, _) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: List.generate(4, (index) {
-                            return buildOTPTextField(
-                                controller.controllers[index], index, context);
-                          }),
-                        );
-                      },
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: List.generate(4, (index) {
+                        return buildOTPTextField(
+                            registerController.otpControllers[index],
+                            index,
+                            context);
+                      }),
                     ),
                     const SizedBox(height: 20),
                     Row(
@@ -91,7 +92,7 @@ class OtpPage extends StatelessWidget {
                           builder: (context, controller, child) {
                             return InkWell(
                               onTap: () {
-                                controller.resendOtp(context);
+                                registerController.otpResendController(context);
                               },
                               child: controller.isResend == true
                                   ? const SizedBox(
@@ -114,82 +115,29 @@ class OtpPage extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                Consumer<SignUpOtpController>(
-                    builder: (context, controller, _) {
-                  return commonButton(
-                    controller.isLoading ? "Verifying..." : "Verify",
-                    onTap: controller.isLoading
+                Obx(
+                  () => commonButton(
+                    registerController.isLoading.value == true
+                        ? "Verifying..."
+                        : "Verify",
+                    onTap: registerController.isLoading.value
                         ? null // Disable button when loading
                         : () async {
-                            if (token != null) {
-                              final responsedata = await controller.verifyOtp(
-                                  email: email,
-                                  context,
-                                  fromSignUp
-                                      ? ApiPaths.verifyEmailUrl
-                                      : ApiPaths.verifyOtpUrl,
-                                  token: Options(headers: {
-                                    "SignUpToken": "signUpToken $token",
-                                  }));
-
-                              if (responsedata == null) {
-                                return;
-                              }
-
-                              final response =
-                                  UserRegistrationModel.fromJson(responsedata);
-
-                              if (response != null) {
-                                if (response.status == 'OK') {
-                                  if (fromSignUp) {
-                                    animetedNavigationPush(
-                                      CompleateProfilePage(user: user),
-                                      context,
-                                    );
-                                  }
-                                } else {
-                                  showCommonSnackbar(
-                                      context,
-                                      response.message ??
-                                          'Failed to verify OTP.');
-                                }
-                              } else {
-                                showCommonSnackbar(
-                                  context,
-                                  "Invalid OTP. Please try again.",
-                                  isError: true,
-                                );
-                              }
-                            } else {
-                              final responsedata = await controller.verifyOtp(
-                                  context,
-                                  fromSignUp
-                                      ? ApiPaths.verifyEmailUrl
-                                      : ApiPaths.verifyOtpUrl,
-                                  email: email);
-                              if (responsedata == null) {
-                                return;
-                              }
-                              final response = OtpModels.fromJson(responsedata);
-                              if (response != null) {
-                                animetedNavigationPush(
-                                    ResetPasswordPage(
-                                      user: user,
-                                      email: email!,
-                                      token: response.data.forgetPasswordToken,
-                                    ),
-                                    context);
-                              } else {
-                                showCommonSnackbar(
-                                  context,
-                                  "Invalid OTP. Please try again.",
-                                  isError: true,
-                                );
-                              }
-                            }
+                          if(fromSignUp){
+registerController.otpVerifyController(
+                                  isUser: user == "user" ? true : false,
+                                  api: ApiPaths.verifyEmailUrl,
+                                  context: context);
+                          }else{
+                            registerController.forgotOtpVerify(
+                                  isUser: user == "user" ? true : false,
+                                 email: email.toString(),
+                                  context: context);
+                          }
+                            
                           },
-                  );
-                }),
+                  ),
+                ),
                 const SizedBox(height: 40),
               ],
             ),

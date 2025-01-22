@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:ootms/helpers/local_store.dart';
 import 'package:ootms/presentation/api/controllers/common/google_auth_controller.dart';
 import 'package:ootms/presentation/api/sharePrefarences/login_tokan.dart';
 import 'package:ootms/presentation/screens/auth/sign_in_sign_up_chosser.dart';
@@ -14,12 +15,15 @@ void saveUserAcessDetails(String token, String role) async {
 
   preferences.setString(ootmsUserAccessToken, token);
   preferences.setString(ootmsUserRole, role);
+  LocalStorage.saveData(key: ootmsUserAccessToken, data: token);
+  LocalStorage.saveData(key: ootmsUserRole, data: role);
 }
 
 Future<List<String>?> getUserAcessDetails() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   String? token = preferences.getString(ootmsUserAccessToken);
   String? role = preferences.getString(ootmsUserRole);
+
   if (token != null && role != null) {
     return [token, role];
   }

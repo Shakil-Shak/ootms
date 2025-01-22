@@ -218,29 +218,43 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
                                 const SizedBox(
                                   height: 16,
                                 ),
-                                DottedBorder(
-                                  borderType: BorderType.RRect,
-                                  dashPattern: const [7, 7],
-                                  radius: const Radius.circular(10),
-                                  color: AppColor.black,
-                                  strokeWidth: 1,
-                                  child: SizedBox(
+                                GestureDetector(
+                                  onTap: (){
+                                     editController.getCdlImage();
+                                    setState(() {});
+                                  },
+                                  child: DottedBorder(
+                                    borderType: BorderType.RRect,
+                                    dashPattern: const [7, 7],
+                                    radius: const Radius.circular(10),
+                                    color: AppColor.black,
+                                    strokeWidth: 1,
+                                    child: editController.cdlImage != null?
+                                     Image.file(
+                                      File(editController.cdlImage!),
                                     width: double.infinity,
-                                    height: 150,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Icon(
-                                          Icons.cloud_upload_outlined,
-                                          color: Colors.grey,
-                                          size: 40,
-                                        ),
-                                        commonText(
-                                            "Choose image or capture image",
-                                            size: 14,
-                                            fontWeight: FontWeight.w500)
-                                      ],
+                                            height: 150,
+                                      fit: BoxFit.fill,
+                                    )
+                                    
+                                     : SizedBox(
+                                      width: double.infinity,
+                                      height: 150,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const Icon(
+                                            Icons.cloud_upload_outlined,
+                                            color: Colors.grey,
+                                            size: 40,
+                                          ),
+                                          commonText(
+                                              "Choose image or capture image",
+                                              size: 14,
+                                              fontWeight: FontWeight.w500)
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -257,7 +271,7 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
                     )),
                     const SizedBox(height: 50),
                     //======================================================continue button
-                    InkWell(
+                    Obx(() => InkWell(
                       onTap: () {
                         editController.completeProfile(
                             phone: phoneController.text,
@@ -270,8 +284,8 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
                             user: widget.user,
                             context: context);
                       },
-                      child: commonButton("Continue"),
-                    ),
+                      child: commonButton(editController.isLoading.value == true? "Loading..." :"Continue"),
+                    ),),
                     const SizedBox(height: 10),
                   ],
                 ),

@@ -129,6 +129,7 @@ class ProfileController extends ChangeNotifier {
         final responseData = response['data']["attributes"]["userDetails"];
         if (responseData != null && responseData is Map<String, dynamic>) {
           profileData = ProfileModel.fromJson(responseData);
+                notifyListeners();
           isLoading = false;
           notifyListeners();
         }

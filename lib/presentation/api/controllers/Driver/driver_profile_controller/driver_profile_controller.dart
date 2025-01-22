@@ -34,6 +34,7 @@ class DriverProfileController extends GetxController {
             isLoading = false;
             log("================================================success$profileData");
           }
+          
         } else {
           isLoading = false;
 
