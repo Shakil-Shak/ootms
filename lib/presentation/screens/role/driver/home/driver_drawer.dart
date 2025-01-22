@@ -72,7 +72,7 @@ Widget driverCustomDrawer(BuildContext context) {
                   onTap: () {
                     value.getLoadRequestData(context: context).then((value) =>
                         animetedNavigationPush(
-                            DriverLoadRequestPage(), context));
+                            DriverLoadRequestPage(isFromDrawer: true,), context,));
                   },
                 ),
                 DrawerMenuItem(
