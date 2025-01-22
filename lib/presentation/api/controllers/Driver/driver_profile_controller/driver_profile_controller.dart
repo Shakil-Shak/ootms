@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ootms/helpers/prefs_helper.dart';
 import 'package:ootms/presentation/api/models/driver_model/driver_profile_model.dart';
+import 'package:ootms/presentation/api/service/get_api_service.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 
 import '../../../../components/common_snackbar.dart';
 import '../../../service/api_services.dart';
+import '../../../sharePrefarences/local_storage_save.dart';
 
 class DriverProfileController extends GetxController {
   List<String>? userDetails;
@@ -34,7 +36,6 @@ class DriverProfileController extends GetxController {
             isLoading = false;
             log("================================================success$profileData");
           }
-          
         } else {
           isLoading = false;
 
@@ -82,6 +83,48 @@ class DriverProfileController extends GetxController {
     } finally {
       isLoading = false;
       update();
+    }
+  }
+
+  //==========================================================================user feed back from driver
+  RxBool isDriverFeedback = false.obs;
+
+  userFeedbackFromDriver(
+      {required double ratting,
+      required String messege,
+      context,
+      required String userId}) async {
+    List<String>? userDetails = await getUserAcessDetails();
+    String token = userDetails![0];
+    isDriverFeedback.value = true;
+
+    // String userId = await PrefsHelper.getString("userId");
+    print("==yyyyyyyyyyyyyyyyyy============user$messege===$ratting==$userId");
+    Map<String, dynamic> body = {"comment": messege, "rating": "$ratting"};
+    Map<String, dynamic> header = {
+      "Authorization": "Bearer $token",
+    };
+    print("===========================body$body");
+
+    try {
+      var response = await apiService.otherPostRequest(
+          ApiPaths.driverFeedbacktoUser(userId: userId), body);
+      print(
+          "========================================statuscode${response}");
+      if (response["status"] == "OK") {
+        print("22222222222222222");
+        showCommonSnackbar(context, "Feedback Added Successfull",
+            isError: false);
+
+        isDriverFeedback.value = false;
+      } else {
+        isDriverFeedback.value = false;
+        showCommonSnackbar(context, "Feedback Added Failed", isError: true);
+      }
+    } catch (e) {
+      showCommonSnackbar(context, "Something went wrong", isError: true);
+    } finally {
+      isDriverFeedback.value = false;
     }
   }
 }

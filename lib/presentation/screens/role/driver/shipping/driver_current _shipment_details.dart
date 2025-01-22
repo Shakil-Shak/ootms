@@ -28,6 +28,7 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
   String weight;
   List<String>? hazmat;
   String pallets;
+  String userId;
 
   DriverCurrentShipmentDetailsPage({
     super.key,
@@ -49,6 +50,7 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
     required this.weight,
     required this.hazmat,
     required this.pallets,
+    required this.userId,
   });
 
   @override
@@ -157,7 +159,7 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
               "Go To The Map",
               borderRadious: 10,
               onTap: () {
-                animetedNavigationPush(const DriverMap2Page(), context);
+                animetedNavigationPush(DriverMap2Page(shiperId: userId,), context);
               },
             ),
             const SizedBox(height: 16),

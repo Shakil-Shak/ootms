@@ -69,7 +69,7 @@ class _DriverMapPageState extends State<DriverMapPage> {
                         InkWell(
                           onTap: () {
                             Navigator.pop(context);
-                            animetedNavigationPush(DriverMap2Page(), context);
+                            animetedNavigationPush(DriverMap2Page(shiperId: "678f6254ddb34f18c840b072",), context);
                           },
                           child: Container(
                             padding: const EdgeInsets.all(8.0),

@@ -259,7 +259,7 @@ class _DriverAllNotificationsPageState extends State<DriverAllNotificationsPage>
               onTap: () {
                 controller.changeNotificationStatus(notificationId: notificationItem.id, index: index);
                 if (notificationItem.type == "map") {
-                  animetedNavigationPush(const DriverMap2Page(), context);
+                  animetedNavigationPush(const DriverMap2Page(shiperId: "678f6254ddb34f18c840b072",), context);
                 } else {
                   DriverLoadRequestDetailsPage.loadId = notificationItem.linkId;
                   animetedNavigationPush(LoadNodificationDetails(), context);

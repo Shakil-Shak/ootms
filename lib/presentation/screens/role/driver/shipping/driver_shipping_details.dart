@@ -1,37 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/helpers/other_helper.dart';
+import 'package:ootms/presentation/api/models/driver_model/driver_shiphistory_model.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 
+import '../../../../api/models/user_model/shiping_model/shipping_history_model.dart';
+
 class DriverShippingDetailsPage extends StatelessWidget {
-  final String shippingId;
-  final String date;
-  final String from;
-  final String to;
-  final String shipperAddress;
-
-  final String shipperEmail;
-  final String shipperPhone;
-  final String reciverAddress;
-  final String reciverEmail;
-  final String reciverPhone;
-  final String reciverName;
-  final String shipperName;
-
-  const DriverShippingDetailsPage({
-    super.key,
-    required this.shippingId,
-    required this.date,
-    required this.from,
-    required this.to,
-    required this.shipperAddress,
-    required this.shipperEmail,
-    required this.shipperPhone,
-    required this.reciverAddress,
-    required this.reciverEmail,
-    required this.reciverPhone,
-    required this.reciverName,
-    required this.shipperName,
-  });
+  DriverShipHistoryModel data;
+  DriverShippingDetailsPage({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -53,17 +30,17 @@ class DriverShippingDetailsPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  commonText("Shipping ID\n$shippingId",
+                  commonText("Shipping ID\n${data.shippingId}",
                       size: 16, isBold: true),
-                  IconButton(
-                    icon: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [const Icon(Icons.copy), commonText("Copy")],
-                    ),
-                    onPressed: () {
-                      // Copy to clipboard
-                    },
-                  ),
+                  // IconButton(
+                  //   icon: Row(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     children: [const Icon(Icons.copy), commonText("Copy")],
+                  //   ),
+                  //   onPressed: () {
+                  //     // Copy to clipboard
+                  //   },
+                  // ),
                 ],
               ),
             ),
@@ -77,7 +54,8 @@ class DriverShippingDetailsPage extends StatelessWidget {
                   commonText("Trip Info", size: 16, isBold: true),
                   const SizedBox(height: 16),
                   commonText(
-                    date,
+                    OtherHelper.getDate(
+                        serverDate: data.load.deliveryDate.toString()),
                     size: 14,
                   ),
                   const SizedBox(
@@ -88,7 +66,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                     children: [
                       Image.asset("assets/icons/arrow_up.png"),
                       const SizedBox(width: 4),
-                      Expanded(child: commonText(from)),
+                      Expanded(child: commonText(data.load.shippingAddress)),
                     ],
                   ),
                   const SizedBox(
@@ -99,7 +77,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                     children: [
                       Image.asset("assets/icons/arrow_up.png"),
                       const SizedBox(width: 4),
-                      Expanded(child: commonText(to)),
+                      Expanded(child: commonText(data.load.receivingAddress)),
                     ],
                   ),
                 ],
@@ -124,7 +102,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             commonText("Receiver Name", isBold: true),
-                            commonText(reciverName),
+                            commonText(data.load.receiverName),
                           ],
                         ),
                       ),
@@ -133,7 +111,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             commonText("Receiver Phone", isBold: true),
-                            commonText(reciverPhone),
+                            commonText(data.load.receiverPhoneNumber),
                           ],
                         ),
                       ),
@@ -148,7 +126,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             commonText("Receiver Email", isBold: true),
-                            commonText(reciverEmail),
+                            commonText(data.load.receiverEmail),
                           ],
                         ),
                       ),
@@ -157,7 +135,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             commonText("Receiver Address", isBold: true),
-                            commonText(reciverAddress),
+                            commonText(data.load.receivingAddress),
                           ],
                         ),
                       ),
@@ -186,7 +164,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             commonText("Shipper Name", isBold: true),
-                            commonText(shipperName),
+                            commonText(data.load.shipperName),
                           ],
                         ),
                       ),
@@ -195,7 +173,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             commonText("Shipper Phone", isBold: true),
-                            commonText(shipperPhone),
+                            commonText(data.load.shipperPhoneNumber),
                           ],
                         ),
                       ),
@@ -210,7 +188,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             commonText("Shipper Email", isBold: true),
-                            commonText(shipperEmail),
+                            commonText(data.load.shipperEmail),
                           ],
                         ),
                       ),
@@ -219,7 +197,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             commonText("Shipper Address", isBold: true),
-                            commonText(shipperAddress),
+                            commonText(data.load.shippingAddress),
                           ],
                         ),
                       ),
@@ -277,7 +255,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                       isBold: true,
                     ),
                     commonText(
-                      "Dry Load",
+                      data.load.loadType,
                       size: 14,
                     ),
                     const SizedBox(height: 10),
@@ -287,7 +265,8 @@ class DriverShippingDetailsPage extends StatelessWidget {
                       isBold: true,
                     ),
                     commonText(
-                      "12-12-2024",
+                      OtherHelper.getDate(
+                          serverDate: data.load.pickupDate.toString()),
                       size: 14,
                     ),
                     commonText("Address: Rupatoli, Barishal",
@@ -299,7 +278,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                       isBold: true,
                     ),
                     commonText(
-                      "120 kg",
+                      data.load.weight.toString(),
                       size: 14,
                     ),
                   ],
@@ -315,7 +294,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                       isBold: true,
                     ),
                     commonText(
-                      "48-foot trailer—24 pallets",
+                      "${data.load.trailerSize}-foot trailer—${data.load.palletSpace} pallets",
                       size: 14,
                     ),
                     const SizedBox(height: 10),
@@ -325,10 +304,11 @@ class DriverShippingDetailsPage extends StatelessWidget {
                       isBold: true,
                     ),
                     commonText(
-                      "13-12-2024",
+                      OtherHelper.getDate(
+                          serverDate: data.load.deliveryDate.toString()),
                       size: 14,
                     ),
-                    commonText("Address: Banasree, Dhaka",
+                    commonText(data.load.receivingAddress,
                         size: 14, fontWeight: FontWeight.w500),
                     const SizedBox(height: 10),
                     commonText(
@@ -336,10 +316,15 @@ class DriverShippingDetailsPage extends StatelessWidget {
                       size: 14,
                       isBold: true,
                     ),
-                    commonText(
-                      "Flammable Gas 2,\nCorrosive, Danger.",
-                      size: 14,
-                    ),
+                    ListView.builder(
+                      itemCount: data.load.hazmat.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return commonText("${data.load.hazmat[index]},",
+                            size: 14);
+                      },
+                    )
                   ],
                 ),
               ),

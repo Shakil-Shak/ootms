@@ -41,6 +41,7 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
     required this.loadReqId,
     required this.index,
     required this.data,
+    required this.tabIndex,
   });
 
   static String loadId = "";
@@ -69,6 +70,7 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
   String loadReqId;
   int index;
   DriverLoadModel data;
+  int tabIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -299,6 +301,7 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 // Cancel and Assign Load Buttons
+                tabIndex == 0?
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -332,7 +335,7 @@ class DriverLoadRequestDetailsPage extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
+                ):SizedBox(),
               ],
             ),
           );

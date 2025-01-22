@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/helpers/other_helper.dart';
+import 'package:ootms/presentation/api/controllers/Driver/driver_profile_controller/driver_profile_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_textfield.dart';
 
 class DriverMap2Page extends StatefulWidget {
-  const DriverMap2Page({super.key});
+  final String shiperId;
+  const DriverMap2Page({super.key, required this.shiperId});
 
   @override
   State<DriverMap2Page> createState() => _DriverMap2PageState();
@@ -19,7 +24,11 @@ class _DriverMap2PageState extends State<DriverMap2Page> {
   final LatLng _markerPosition = const LatLng(23.627556, 90.5212385);
 
   int rating = 4;
+  double ratingValue = 0.0;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController commentController = TextEditingController();
+  DriverProfileController feedbackController =
+      Get.find<DriverProfileController>();
   void _showBottomSheetRatting(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -32,8 +41,6 @@ class _DriverMap2PageState extends State<DriverMap2Page> {
         return DraggableScrollableSheet(
           expand: false,
           initialChildSize: 0.6,
-          minChildSize: 0.6,
-          maxChildSize: 0.9,
           builder: (context, scrollController) {
             return Container(
               width: MediaQuery.of(context).size.width,
@@ -42,8 +49,10 @@ class _DriverMap2PageState extends State<DriverMap2Page> {
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
               child: SingleChildScrollView(
+                controller: scrollController,
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                  // mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const SizedBox(height: 20),
                     commonText(
@@ -52,21 +61,42 @@ class _DriverMap2PageState extends State<DriverMap2Page> {
                       isBold: true,
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(5, (index) {
-                        return IconButton(
-                          icon: Icon(
-                            index < rating ? Icons.star : Icons.star_border,
-                            color:
-                                index < rating ? Colors.yellow : AppColor.black,
-                            size: 30,
-                          ),
-                          onPressed: () {},
-                        );
-                      }),
+                    const SizedBox(
+                      height: 5,
                     ),
+                    //===============================================ratting
+                    RatingBar.builder(
+                      initialRating: ratingValue,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      itemBuilder: (context, _) => const Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      onRatingUpdate: (rating) {
+                        setState(() {
+                          ratingValue = rating;
+                        });
+                        print("rattaing $ratingValue");
+                      },
+                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: List.generate(5, (index) {
+                    //     return IconButton(
+                    //       icon: Icon(
+                    //         index < rating ? Icons.star : Icons.star_border,
+                    //         color:
+                    //             index < rating ? Colors.yellow : AppColor.black,
+                    //         size: 30,
+                    //       ),
+                    //       onPressed: () {},
+                    //     );
+                    //   }),
+                    // ),
                     const SizedBox(height: 10),
                     const Divider(
                       thickness: 8,
@@ -79,20 +109,41 @@ class _DriverMap2PageState extends State<DriverMap2Page> {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Card(
                         elevation: 3,
-                        child: commonTextfield(
-                          commentController,
-                          borderColor: Colors.transparent,
-                          hintText: "Enter your valuable comment",
-                        ),
+                        child: Form(
+                            key: formKey,
+                            child: commonTextfieldWithTitle(
+                                "", commentController,
+                                hintText: "Enter your valuable comment",
+                                onValidate: (value) =>
+                                    OtherHelper.validator(value))
+
+                            //  commonTextfield(
+                            //   commentController,
+                            //   borderColor: Colors.transparent,
+
+                            //   hintText: "Enter your valuable comment",
+                            // ),
+                            ),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    commonButton(
-                      "Submit",
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
+                    Obx(() {
+                      return commonButton(
+                        isLoading: feedbackController.isDriverFeedback.value,
+                        "Submit",
+                        onTap: () async {
+                          if (formKey.currentState!.validate()) {
+                            await feedbackController.userFeedbackFromDriver(
+                                ratting: ratingValue,
+                                messege: commentController.text,
+                                userId: widget.shiperId,
+                                context: context);
+                            Get.back();
+                            Get.back();
+                          }
+                        },
+                      );
+                    }),
                     const SizedBox(height: 10),
                   ],
                 ),

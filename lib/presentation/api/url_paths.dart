@@ -20,12 +20,13 @@ class ApiPaths {
   static const String preferredDriver = '$baseUrl/api/v1/loads-request';
   static const String userSupport = '$baseUrl/api/v1/support/';
   static const String shipingHistory = '$baseUrl/api/v1/shipment/history';
+  static String driverShipingHistory({page}) => '$baseUrl/api/v1/shipment/history?page=$page';
   static String staticContent({contentType}) =>
       '$baseUrl/api/v1/static-contents?type=$contentType';
   static const String currentShiping = '$baseUrl/api/v1/shipment/current';
   static const String drivercurrentShiping =
       '$baseUrl/api/v1/shipment/current?page=';
-  static const String driverLoadRequest = '$baseUrl/api/v1/loads-request?myRequests=false&limit=10000000';
+  static  String driverLoadRequest({type}) => '$baseUrl/api/v1/loads-request?myRequests=$type&limit=10000000';
   static const String shippingHistory = '$baseUrl/api/v1/shipment/history';
   static const String chagePassword = '$baseUrl/api/v1/auth/change-password';
   static const String equipment = '$baseUrl/api/v1/equipment/';
@@ -41,6 +42,7 @@ class ApiPaths {
   static String serviceFeedback(String userId) =>
       '$baseUrl/api/v1/feedbacks/$userId';
   static String appFeedback = '$baseUrl/api/v1/feedbacks/';
+  static String driverFeedbacktoUser({userId}) => '$baseUrl/api/v1/feedbacks/$userId';
   static String nearestDriver = '$baseUrl/api/v1/loads/get_nearest_driver?lastLoadId=';
   static String getPreferedDriver(String?search) => '$baseUrl/api/v1/preferred-driver?searchQuery=$search&limit=100000';
   static const String assignDriver = '$baseUrl/api/v1/loads-request';
