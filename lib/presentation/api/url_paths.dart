@@ -53,8 +53,6 @@ class ApiPaths {
   static const String loadRequestFromDriver = '$baseUrl/api/v1/loads-request';
 
   static const String chatUrl = '$baseUrl/api/v1/messages/';
-
-  static const String chatUrl = '$baseUrl/api/v1/messages/speceficChatIdMessages?chatId=';
     static const String deleteAccount =
       '$baseUrl/api/v1/users/delete_user';
 
