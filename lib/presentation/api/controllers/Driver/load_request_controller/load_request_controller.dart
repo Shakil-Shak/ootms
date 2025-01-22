@@ -52,7 +52,7 @@ class DriverLoadRequest extends GetxController {
 
     try {
       final response =
-          await ApiClient.getData("${ApiPaths.driverLoadRequest}$page");
+          await ApiClient.getData("${ApiPaths.driverLoadRequest(type: requestType)}$page");
       log("Full Response: ${response.statusCode}");
       log("Response Body: ${response.body}");
 

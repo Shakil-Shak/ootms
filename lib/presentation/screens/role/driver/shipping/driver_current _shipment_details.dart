@@ -15,12 +15,14 @@ import '../../user/chat/user_chat.dart';
 
 class DriverCurrentShipmentDetailsPage extends StatelessWidget {
 
+
   CurrentShippingModel shipmentDetails;
   ChatController chatController = Get.find<ChatController>();
 
   DriverCurrentShipmentDetailsPage({
     super.key,
     required this.shipmentDetails,
+
   });
 
   @override
@@ -136,7 +138,7 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
               "Go To The Map",
               borderRadious: 10,
               onTap: () {
-                animetedNavigationPush(const DriverMap2Page(), context);
+                animetedNavigationPush(DriverMap2Page(shiperId: userId,), context);
               },
             ),
             const SizedBox(height: 16),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:ootms/presentation/api/models/driver_model/driver_profile_model.dart';
 import 'package:ootms/presentation/api/models/driver_model/equipment_model.dart';
 import 'package:ootms/presentation/api/models/user_model/shiping_model/shipping_history_model.dart';
 import 'package:ootms/presentation/api/service/api_services.dart';
@@ -129,7 +130,8 @@ class ProfileController extends ChangeNotifier {
         final responseData = response['data']["attributes"]["userDetails"];
         if (responseData != null && responseData is Map<String, dynamic>) {
           profileData = ProfileModel.fromJson(responseData);
-                notifyListeners();
+          notifyListeners();
+          log("profiledata======${profileData.email}");
           isLoading = false;
           notifyListeners();
         }
@@ -145,6 +147,41 @@ class ProfileController extends ChangeNotifier {
       log("Error: Response is not a Map<String, dynamic>");
     }
   }
+
+  //=====================================================================driver profile data
+  // List<DriverProfileModel> driverProfileData = [];
+
+  //   Future<void> driverGetProfile() async {
+  //   log("================================================successfull");
+  //   isLoading = true;
+  //   notifyListeners();
+
+  //   final response = await _apiService.getRequest(ApiPaths.profileUrl);
+
+  //   log("Response: $response");
+
+  //   if (response is Map<String, dynamic>) {
+  //     if (response['statusCode'] == 200) {
+  //       final responseData = response['data']["attributes"]["userDetails"];
+  //       if (responseData != null && responseData is Map<String, dynamic>) {
+  //         driverProfileData = DriverProfileModel.fromJson(Map<String, dynamic> responseData);
+  //         notifyListeners();
+  //         log("profiledata======${profileData.email}");
+  //         isLoading = false;
+  //         notifyListeners();
+  //       }
+  //     } else {
+  //       isLoading = false;
+  //       notifyListeners();
+  //       log("================================================fail");
+  //       log("Error: Unexpected status code ${response['statusCode']}");
+  //     }
+  //   } else {
+  //     isLoading = false;
+  //     notifyListeners();
+  //     log("Error: Response is not a Map<String, dynamic>");
+  //   }
+  // }
 
 //====================================================current shiping method
 
