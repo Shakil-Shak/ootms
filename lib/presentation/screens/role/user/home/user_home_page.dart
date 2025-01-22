@@ -73,7 +73,7 @@ class _UserHomePageState extends State<UserHomePage> {
                 const Divider(),
                 InkWell(
                     onTap: () {
-                      animetedNavigationPush(const Create_load_XL(), context);
+                      animetedNavigationPush(Create_load_XL(), context);
                     },
                     child: commonText("Create Load from Excel Sheet",
                         isBold: true)),
