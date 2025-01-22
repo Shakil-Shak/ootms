@@ -131,7 +131,7 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
               "Go To The Map",
               borderRadious: 10,
               onTap: () {
-                animetedNavigationPush(DriverMap2Page(shiperId: userId,), context);
+                animetedNavigationPush(DriverMap2Page(shiperId: shipmentDetails.user.id,), context);
               },
             ),
             const SizedBox(height: 16),
