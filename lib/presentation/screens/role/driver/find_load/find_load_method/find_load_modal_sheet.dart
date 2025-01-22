@@ -5,11 +5,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ootms/helpers/other_helper.dart';
 import 'package:ootms/presentation/api/controllers/Driver/driver_find_load_controller.dart';
-import 'package:ootms/presentation/api/controllers/Driver/find_load_controller.dart';
 import 'package:ootms/presentation/api/models/driver_model/nearest_load_model.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/driver/find_load/map_load_details.dart';
+import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request_details.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../../core/constants/assets/icons_string.dart';
@@ -271,16 +273,51 @@ void showLocationDetails({required NearestLoadModel loadItems}) {
                         const SizedBox(width: 16),
                         Expanded(
                           child: commonButton(
-                            isLoading: controller.isRequestLoad,
-                            "Request Load",
+                            "Full Details",
                             borderRadious: 10,
                             textColor: Colors.white,
-                            onTap: ()async {
-                             await controller.loadRequest(loadId: loadItems.id,context: context);
-                              Get.back();
+                            onTap: () async {
+                              animetedNavigationPush(
+                                  MapLoadDetails(
+                                    shipperPhone: loadItems.shipperPhoneNumber,
+                                    shipperName: loadItems.shipperName,
+                                    shipperRating: "2.5",
+                                    shipperEmail: loadItems.shipperEmail,
+                                    shipperAddress: loadItems.shippingAddress,
+                                    reciverName: loadItems.receiverName,
+                                    reciverPhone: loadItems.receiverPhoneNumber,
+                                    reciverEmail: loadItems.receiverEmail,
+                                    reciverAddress: loadItems.receiverCity,
+                                    description: loadItems.description,
+                                    deliveryInstructions:
+                                        loadItems.deliveryInstruction,
+                                    loadType: loadItems.loadType,
+                                    trailerSize:
+                                        loadItems.trailerSize.toString(),
+                                    weight: loadItems.weight.toString(),
+                                    hazmat: loadItems.hazmat,
+                                    pickupDate: loadItems.pickupDate.toString(),
+                                    deliveryDate:
+                                        loadItems.deliveryDate.toString(),
+                                    rating: "4.0",
+                                    loadReqId: loadItems.id,
+                                  ),
+                                  context);
                             },
                           ),
                         ),
+                        // Expanded(
+                        //   child: commonButton(
+                        //     isLoading: controller.isRequestLoad,
+                        //     "Request Load",
+                        //     borderRadious: 10,
+                        //     textColor: Colors.white,
+                        //     onTap: ()async {
+                        //      await controller.loadRequest(loadId: loadItems.id,context: context);
+                        //       Get.back();
+                        //     },
+                        //   ),
+                        // ),
                       ],
                     ),
                   ],
