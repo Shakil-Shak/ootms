@@ -11,7 +11,7 @@ import 'package:ootms/presentation/api/sharePrefarences/local_storage_save.dart'
 import 'package:ootms/presentation/api/url_paths.dart';
 
 class FindLoadController extends GetxController {
-  // static FindLoadController get instance => Get.put(FindLoadController());
+  static FindLoadController get instance => Get.put(FindLoadController());
 
   NearestLoadModel nearestLoadModel = NearestLoadModel();
   List nearestLoadList = [];

@@ -185,17 +185,17 @@ class User {
 
 class NearestLoadLocation {
   final String type;
-  final List<double> coordinates;
+  final List<num> coordinates;
 
   NearestLoadLocation({
     this.type = "Point",
-    List<double>? coordinates,
+    List<num>? coordinates,
   }) : coordinates = coordinates ?? [0.0, 0.0];
 
   factory NearestLoadLocation.fromJson(Map<String, dynamic> json) {
     return NearestLoadLocation(
       type: json['type'] ?? "Point",
-      coordinates: List<double>.from(json['coordinates'] ?? [0.0, 0.0]),
+      coordinates: List<num>.from(json['coordinates'] ?? [0.0, 0.0]),
     );
   }
 

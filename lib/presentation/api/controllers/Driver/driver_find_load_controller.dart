@@ -10,10 +10,13 @@ import '../../../../helpers/prefs_helper.dart';
 import '../../../components/common_snackbar.dart';
 
 class DriverFindLoadController extends GetxController {
+  static DriverFindLoadController get instance =>
+      Get.put(DriverFindLoadController());
   //===============================================driver load request
-  bool isRequestLoad = false;
+  RxBool isRequestLoad = false.obs;
+
   loadRequest({required String loadId, context}) async {
-    isRequestLoad = true;
+    isRequestLoad.value = true;
     update();
     List<String>? userDetails = await getUserAcessDetails();
     String token = userDetails![0];
@@ -31,23 +34,27 @@ class DriverFindLoadController extends GetxController {
       var response = await ApiClient.postData(
           ApiPaths.loadRequestFromDriver, jsonEncode(body),
           headers: header);
-      print(
-          "==============================================statuscode${response.statusCode}");
-      if (response.statusCode == 200) {
-        isRequestLoad = false;
+      if (response.statusCode == 201) {
+        print(
+            "==============================================statuscode${response.statusCode}");
+        isRequestLoad.value = false;
         update();
-        showCommonSnackbar(context, "Load Request Successfull");
+        showCommonSnackbar(
+          context,
+          "Load Request Successfull",
+        );
         Get.back();
       } else {
-        showCommonSnackbar(context, response.body["message"],isError: true);
+        showCommonSnackbar(context, response.body["message"], isError: true);
+        Get.back();
 
-        isRequestLoad = false;
+        isRequestLoad.value = false;
         update();
       }
     } catch (e) {
       showCommonSnackbar(context, "Error : $e");
 
-      isRequestLoad = false;
+      isRequestLoad.value = false;
       update();
     }
   }
