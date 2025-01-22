@@ -383,15 +383,15 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                     ),
                   ],
                 ),
-                if (controller.isLoading)
-                  Positioned.fill(
-                    child: Container(
-                      color: Colors.black.withOpacity(0.5),
-                      child: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
-                  ),
+                // if (controller.isLoading)
+                //   Positioned.fill(
+                //     child: Container(
+                //       color: Colors.black.withOpacity(0.5),
+                //       child: const Center(
+                //         child: CircularProgressIndicator(),
+                //       ),
+                //     ),
+                //   ),
               ],
             );
           },

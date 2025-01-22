@@ -208,16 +208,16 @@ class _UserProfileState extends State<UserProfile> {
                 ),
               ),
               // Loading overlay
-              if (controller.isLoading)
-                const Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(AppColor.primaryColor),
-                    ),
-                  ),
-                ),
+              // if (controller.isLoading)
+              //   const Positioned.fill(
+              //     child: Align(
+              //       alignment: Alignment.center,
+              //       child: CircularProgressIndicator(
+              //         valueColor:
+              //             AlwaysStoppedAnimation<Color>(AppColor.primaryColor),
+              //       ),
+              //     ),
+              //   ),
             ],
           );
         },
