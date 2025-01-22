@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/Driver/equipment_controller/equipment_controller.dart';
 import 'package:ootms/presentation/api/controllers/Driver/find_load_controller.dart';
@@ -468,11 +469,12 @@ class _DriverHomePageState extends State<DriverHomePage> {
                   return commonButton(
                     isLoading: onduityController.isLoading.value,
                     "Start",
-                    onTap: () {
-                      onduityController.onDuity(
+                    onTap: () async{
+                      await onduityController.onDuity(
                           lan: customMapController.currentLongitude.value,
                           lat: customMapController.currentLatitude.value,
                           context: context);
+                      Get.back();
                     },
                   );
                 }),

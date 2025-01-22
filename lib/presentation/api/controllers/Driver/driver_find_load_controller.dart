@@ -37,6 +37,7 @@ class DriverFindLoadController extends GetxController {
         isRequestLoad = false;
         update();
         showCommonSnackbar(context, "Load Request Successfull");
+        Get.back();
       } else {
         showCommonSnackbar(context, "Load Request Failed");
 

@@ -15,7 +15,8 @@ class OnduityController extends GetxController {
   static OnduityController get instance => Get.find<OnduityController>();
   Rx<TextEditingController> truckIdController = TextEditingController().obs;
   Rx<TextEditingController> trailerIdController = TextEditingController().obs;
-  RxBool isLoading = false.obs;  RxBool isSuccess = false.obs;
+  RxBool isLoading = false.obs;
+  RxBool isSuccess = false.obs;
   RxBool isOffDuityLoad = false.obs;
   RxBool isONDuity = false.obs;
 
@@ -46,10 +47,20 @@ class OnduityController extends GetxController {
           headers: header);
 
       if (response.statusCode == 200) {
+        var data = response.body["data"];
+        print("==================================databody$data");
         PrefsHelper.setString("truckId", truckIdController.value.text);
+        PrefsHelper.setString(
+            "truckNumber", data["attributes"]["findTruck"]["truckNumber"]);
+        PrefsHelper.setString(
+            "cdlNumber", data["attributes"]["findTruck"]["cdlNumber"]);
+        print(
+            "=========================================trucknumbersdfkjdfj ${data["attributes"]["findTruck"]["truckNumber"]}");
+        print(
+            "=========================================cdldfsdfsdf ${data["attributes"]["findTruck"]["cdlNumber"]}");
         isLoading.value = false;
         isONDuity.value = true;
-        
+
         isSuccess.value = false;
         showCommonSnackbar(context, "The Driver is ON-Duity");
         CustomMapController.instance
@@ -88,8 +99,7 @@ class OnduityController extends GetxController {
       if (response.statusCode == 200) {
         isONDuity.value = false;
 
-        CustomMapController.instance
-            .getCurrentLocation(isOnDuty: false);
+        CustomMapController.instance.getCurrentLocation(isOnDuty: false);
         showCommonSnackbar(context, "The Driver is Off-Duity");
 
         print(
