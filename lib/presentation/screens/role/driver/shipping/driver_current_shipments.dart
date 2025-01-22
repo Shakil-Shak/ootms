@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/helpers/other_helper.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
+import 'package:ootms/presentation/api/models/user_model/shiping_model/current_shiping_model.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 
 import 'package:ootms/presentation/components/common_text.dart';
@@ -74,46 +75,14 @@ class _DriverCurrentShipmentsPageState
                               padding: const EdgeInsets.all(16.0),
                               itemCount: currentShip.currentShipmentData.length,
                               itemBuilder: (context, index) {
-                                DriverCurrentshipModel data =
+                                CurrentShippingModel data =
                                     currentShip.currentShipmentData[index];
 
                                 return InkWell(
                                   onTap: () {
                                     animetedNavigationPush(
                                         DriverCurrentShipmentDetailsPage(
-                                          shipperPhone:
-                                              data.load!.shipperPhoneNumber!,
-                                          shipperName: data.load!.shipperName!,
-                                          shipperRating:
-                                              data.load!.shipperPhoneNumber!,
-                                          shipperEmail:
-                                              data.load!.shipperEmail!,
-                                          shipperAddress:
-                                              data.load!.shippingAddress!,
-                                          reciverName: data.load!.receiverName!,
-                                          reciverPhone:
-                                              data.load!.receiverPhoneNumber!,
-                                          reciverEmail:
-                                              data.load!.receiverEmail!,
-                                          reciverAddress:
-                                              data.load!.receivingAddress!,
-                                          description:
-                                              data.load!.deliveryInstruction!,
-                                          deliveryInstructions:
-                                              data.load!.deliveryInstruction!,
-                                          loadType: data.load!.loadType!,
-                                          trailerSize: data.load!.trailerSize!
-                                              .toString(),
-                                          pickupDate: OtherHelper.getDate(
-                                              serverDate: data.load!.pickupDate!
-                                                  .toString()),
-                                          deliveryDate: OtherHelper.getDate(
-                                              serverDate: data
-                                                  .load!.deliveryDate!
-                                                  .toString()),
-                                          weight: data.load!.weight!.toString(),
-                                          hazmat: data.load!.hazmat,
-                                          pallets: data.load!.palletSpace!.toString(),
+                                          shipmentDetails: data,
                                         ),
                                         context);
                                   },
@@ -122,7 +91,7 @@ class _DriverCurrentShipmentsPageState
                                       CircleAvatar(
                                         backgroundImage: NetworkImage(
                                             ApiPaths.baseUrl +
-                                                data.driver!.image!),
+                                                data.driver.image),
                                         radius: 24,
                                       ),
                                       const SizedBox(width: 16),
@@ -131,13 +100,13 @@ class _DriverCurrentShipmentsPageState
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            commonText(data.load!.shipperName!,
+                                            commonText(data.load.shipperName,
                                                 size: 16, isBold: true),
                                             const SizedBox(
                                               height: 4,
                                             ),
                                             commonText(
-                                                "${data.truck!.trailerSize}-foot trailer—${data.load!.palletSpace} pallets.",
+                                                "${data.truck.trailerSize}-foot trailer—${data.load.palletSpace} pallets.",
                                                 size: 14),
                                             const SizedBox(
                                               height: 4,
@@ -157,8 +126,8 @@ class _DriverCurrentShipmentsPageState
                                                           width: 100,
                                                           child: commonText(
                                                             maxLines: 1,
-                                                            data.load!
-                                                                .shippingAddress!,
+                                                            data.load
+                                                                .shippingAddress,
                                                           )),
                                                     ],
                                                   ),
@@ -177,8 +146,8 @@ class _DriverCurrentShipmentsPageState
                                                           width: 100,
                                                           child: commonText(
                                                             maxLines: 1,
-                                                            data.load!
-                                                                .receivingAddress!,
+                                                            data.load
+                                                                .receivingAddress,
                                                           )),
                                                     ],
                                                   ),

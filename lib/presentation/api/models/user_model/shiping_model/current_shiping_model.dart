@@ -130,6 +130,11 @@ class Load {
   String deliveryInstruction;
   LocationModel receiverLocation;
   LocationModel shipperLocation;
+  String driver;
+  String shipperToDriverChatId;
+  String shipperToReceiverChatId;
+  DateTime createdAt;
+  DateTime updatedAt;
 
   Load({
     this.id = '',
@@ -163,8 +168,15 @@ class Load {
     this.deliveryInstruction = '',
     required this.receiverLocation,
     required this.shipperLocation,
+    this.driver = '',
+    this.shipperToDriverChatId = '',
+    this.shipperToReceiverChatId = '',
+    DateTime? createdAt,
+    DateTime? updatedAt,
   })  : pickupDate = pickupDate ?? DateTime.now(),
-        deliveryDate = deliveryDate ?? DateTime.now();
+        deliveryDate = deliveryDate ?? DateTime.now(),
+        createdAt = createdAt ?? DateTime.now(),
+        updatedAt = updatedAt ?? DateTime.now();
 
   factory Load.fromJson(Map<String, dynamic> json) {
     return Load(
@@ -199,6 +211,11 @@ class Load {
       deliveryInstruction: json['deliveryInstruction'] ?? '',
       receiverLocation: LocationModel.fromJson(json['receiverLocation'] ?? {}),
       shipperLocation: LocationModel.fromJson(json['shipperLocation'] ?? {}),
+      driver: json['driver'] ?? '',
+      shipperToDriverChatId: json['shipperToDriverChatId'] ?? '',
+      shipperToReceiverChatId: json['shipperToReceiverChatId'] ?? '',
+      createdAt: DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
+      updatedAt: DateTime.tryParse(json['updatedAt'] ?? '') ?? DateTime.now(),
     );
   }
 }

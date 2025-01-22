@@ -161,9 +161,11 @@
 // }
 
 
+import 'package:ootms/presentation/api/models/driver_model/load_request_model.dart';
+
 class ShippingHistoryModel {
   String id;
-  String user;
+  User user;
   DriverModel driver;
   String sender;
   String status;
@@ -174,7 +176,7 @@ class ShippingHistoryModel {
 
   ShippingHistoryModel({
     this.id = "",
-    this.user = "",
+    User? user,
     required this.driver,
     this.sender = "",
     this.status = "Pending",
@@ -182,12 +184,12 @@ class ShippingHistoryModel {
     required this.createdAt,
     required this.updatedAt,
     required this.load,
-  });
+  }): user = user ?? User();
 
   factory ShippingHistoryModel.fromJson(Map<String, dynamic> json) {
     return ShippingHistoryModel(
       id: json['_id'] ?? "",
-      user: json['user'] ?? "",
+      user: User.fromJson(json['user'] ?? {}),
       driver: DriverModel.fromJson(json['driver'] ?? {}),
       sender: json['sender'] ?? "",
       status: json['status'] ?? "Pending",
@@ -289,7 +291,7 @@ class LoadModel {
       pickupDate: DateTime.parse(json['pickupDate'] ?? DateTime.now().toIso8601String()),
       deliveryDate: DateTime.parse(json['deliveryDate'] ?? DateTime.now().toIso8601String()),
       deliveryInstruction: json['deliveryInstruction'] ?? "",
-      bolNo: json['bolNo'],
+      bolNo: json['bolNo'] ?? "",
     );
   }
 }

@@ -314,7 +314,7 @@ class CustomMapController extends GetxController {
         'https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${destination.latitude},${destination.longitude}&key=$apiKey'));
 
     log("Get route: ${response.statusCode}");
-    log("Response ========>>>> ${response.body}");
+    // log("Response ========>>>> ${response.body}");
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
