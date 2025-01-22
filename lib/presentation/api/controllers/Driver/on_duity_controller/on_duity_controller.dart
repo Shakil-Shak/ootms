@@ -40,7 +40,7 @@ class OnduityController extends GetxController {
       "truckId": truckIdController.value.text,
       "trailerId": trailerIdController.value.text,
     };
-    print("=========================================body${jsonEncode(body)}");
+    debugPrint("=========================================body${jsonEncode(body)}");
     try {
       var response = await ApiClient.patchData(
           ApiPaths.onDuity, jsonEncode(body),
@@ -48,16 +48,16 @@ class OnduityController extends GetxController {
 
       if (response.statusCode == 200) {
         var data = response.body["data"];
-        print("==================================databody$data");
+        debugPrint("==================================databody$data");
         PrefsHelper.setString("truckId", truckIdController.value.text);
         PrefsHelper.setString(
             "truckNumber", data["attributes"]["findTruck"]["truckNumber"]);
         PrefsHelper.setString(
-            "cdlNumber", data["attributes"]["findTruck"]["cdlNumber"]);
-        print(
+            "drivername", data["attributes"]["result"]["fullName"]);
+        debugPrint(
             "=========================================trucknumbersdfkjdfj ${data["attributes"]["findTruck"]["truckNumber"]}");
-        print(
-            "=========================================cdldfsdfsdf ${data["attributes"]["findTruck"]["cdlNumber"]}");
+        debugPrint(
+            "=========================================cdldfsdfsdf ${data["attributes"]["result"]["fullName"]}");
         isLoading.value = false;
         isONDuity.value = true;
 
@@ -102,7 +102,7 @@ class OnduityController extends GetxController {
         CustomMapController.instance.getCurrentLocation(isOnDuty: false);
         showCommonSnackbar(context, "The Driver is Off-Duity");
 
-        print(
+        debugPrint(
             "=========================================bodytopu${response.statusCode.runtimeType}}");
       } else {
         showCommonSnackbar(context, "The Driver is Off-Duity Failed",

@@ -28,7 +28,7 @@ class ApiPaths {
   static const String driverLoadRequest = '$baseUrl/api/v1/loads-request?myRequests=false&limit=10000000';
   static const String shippingHistory = '$baseUrl/api/v1/shipment/history';
   static const String chagePassword = '$baseUrl/api/v1/auth/change-password';
-  static const String equipment = '$baseUrl/api/v1/equipment/?type=truck';
+  static const String equipment = '$baseUrl/api/v1/equipment/';
   static const String addEquipment = '$baseUrl/api/v1/equipment/';
   static String userLoadRequest({bool? requestType}) =>
       '$baseUrl/api/v1/loads-request?myRequests=$requestType';
