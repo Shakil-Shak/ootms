@@ -64,10 +64,10 @@ class _DriverProfileState extends State<DriverProfile> {
                   child: Column(
                     children: [
                       const SizedBox(height: 20),
-                      profileCtl.profileData.userDetails!.image.isNotEmpty
+                      profileCtl.profileData.userDetails.image.isNotEmpty
                           ? CommonImage(
                               imageSrc: ApiPaths.baseUrl +
-                                  profileCtl.profileData.userDetails!.image,
+                                  profileCtl.profileData.userDetails.image,
                               imageType: ImageType.network,
                               size: 100,
                               borderRadius: 100,
@@ -91,9 +91,9 @@ class _DriverProfileState extends State<DriverProfile> {
                               ),
                             ),
                       const SizedBox(height: 10),
-                      commonText(profileCtl.profileData.userDetails!.fullName,
+                      commonText(profileCtl.profileData.userDetails.fullName,
                           size: 18, isBold: true),
-                      commonText(profileCtl.profileData.userDetails!.email),
+                      commonText(profileCtl.profileData.userDetails.email),
                       const SizedBox(height: 10),
                       // Profile Menu Options
                       Container(

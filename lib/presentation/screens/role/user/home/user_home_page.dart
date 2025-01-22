@@ -25,6 +25,7 @@ import 'package:ootms/presentation/screens/role/user/create_load/user_create_loa
 import 'package:ootms/presentation/screens/role/user/home/user_drawer.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_set_location.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
+import 'package:ootms/presentation/screens/role/user/profile/user_profile.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../api/controllers/common/bottom_nav_controller.dart';
@@ -72,7 +73,7 @@ class _UserHomePageState extends State<UserHomePage> {
                 const Divider(),
                 InkWell(
                     onTap: () {
-                      animetedNavigationPush(const Create_load_XL(), context);
+                      animetedNavigationPush(Create_load_XL(), context);
                     },
                     child: commonText("Create Load from Excel Sheet",
                         isBold: true)),
