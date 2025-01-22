@@ -47,8 +47,10 @@ class _LoadDataScreenState extends State<LoadDataScreen> {
                           animetedNavigationPush(
                               (const LoadDetailsScreen()), context);
                         },
-                        title: commonText(widget.loadDataList[index].load,
-                            size: 18, isBold: true),
+                        title: commonText(
+                            widget.loadDataList[index].billOfLading,
+                            size: 18,
+                            isBold: true),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -69,8 +71,8 @@ class _LoadDataScreenState extends State<LoadDataScreen> {
                                     )),
                                 const SizedBox(width: 8),
                                 Expanded(
-                                    child: commonText(
-                                        widget.loadDataList[index].receiver)),
+                                    child: commonText(widget
+                                        .loadDataList[index].receivingAddress)),
                               ],
                             ),
                             const SizedBox(height: 4),
@@ -91,8 +93,8 @@ class _LoadDataScreenState extends State<LoadDataScreen> {
                                     )),
                                 const SizedBox(width: 8),
                                 Expanded(
-                                    child: commonText(
-                                        widget.loadDataList[index].shipper)),
+                                    child: commonText(widget
+                                        .loadDataList[index].shippingAddress)),
                               ],
                             ),
                           ],

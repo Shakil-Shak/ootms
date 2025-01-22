@@ -2,7 +2,9 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/common/auth_controller.dart';
 import 'package:ootms/presentation/api/service/api_services.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_button.dart';
@@ -26,6 +28,8 @@ class ResetPasswordPage extends StatelessWidget {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  final RegisterController registerController = Get.put(RegisterController());
 
   @override
   Widget build(BuildContext context) {
@@ -97,50 +101,59 @@ class ResetPasswordPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    commonButton("Reset Password", onTap: () async {
-                      // Validate password
-                      final passwordError = ValidationUtils.validatePassword(
-                          passwordController.text);
-                      if (passwordError != null) {
-                        showCommonSnackbar(context, passwordError,
-                            isError: true);
-                        return;
-                      }
-                      final confirmPasswordError =
-                          ValidationUtils.validateConfirmPassword(
-                        passwordController.text,
-                        confirmPasswordController.text,
-                      );
-
-                      if (confirmPasswordError != null) {
-                        showCommonSnackbar(context, confirmPasswordError,
-                            isError: true);
-                        return;
-                      }
-
-                      try {
-                        final response = await ApiService().postRequest(
-                            ApiPaths.resetPasswordUrl,
-                            {
-                              "email": email,
-                              "password": passwordController.text
-                            },
-                            token: Options(headers: {
-                              "Forget-password": "Forget-password ${token}"
-                            }));
-                        print(response);
-                        if (response != null && response['status'] == 'OK') {
-                          slideNavigationPushAndRemoveUntil(
-                              SignInPage(
-                                user: user,
-                              ),
-                              context);
-                        } else {
-                          throw Exception(response?['message'] ??
-                              'Failed to Reset Password.');
+                   Obx(() =>  commonButton(registerController.isLoading.value == true? "Loading..." :"Reset Password", onTap: () async {
+                        // Validate password
+                        final passwordError = ValidationUtils.validatePassword(
+                            passwordController.text);
+                        if (passwordError != null) {
+                          showCommonSnackbar(context, passwordError,
+                              isError: true);
+                          return;
                         }
-                      } catch (e) {}
-                    }),
+                        final confirmPasswordError =
+                            ValidationUtils.validateConfirmPassword(
+                          passwordController.text,
+                          confirmPasswordController.text,
+                        );
+
+                        if (confirmPasswordError != null) {
+                          showCommonSnackbar(context, confirmPasswordError,
+                              isError: true);
+                          return;
+                        }
+
+                        try {
+                          print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                          // final response = await ApiService().postRequest(
+                          //     ApiPaths.resetPasswordUrl,
+                          //     {
+                          //       "email": email,
+                          //       "password": passwordController.text
+                          //     },
+                          //     token: Options(headers: {
+                          //       "Forget-password": "Forget-password ${token}"
+                          //     }));
+                          // print(response);
+                          // if (response != null && response['status'] == 'OK') {
+                          //   slideNavigationPushAndRemoveUntil(
+                          //       SignInPage(
+                          //         user: user,
+                          //       ),
+                          //       context);
+                          // } else {
+                          //   throw Exception(response?['message'] ??
+                          //       'Failed to Reset Password.');
+                          // }
+                          registerController.forgetPasswordSetController(
+                              context: context,
+                              email: email,
+                              password: passwordController.text,
+                              user: user);
+                        } catch (e) {
+                          print(e);
+                        }
+                      }),
+                    )
                   ],
                 ),
               ),

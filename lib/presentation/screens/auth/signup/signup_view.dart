@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/helpers/other_helper.dart';
+import 'package:ootms/presentation/api/controllers/common/auth_controller.dart';
 import 'package:ootms/presentation/api/controllers/common/signup_controllers.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_loading.dart';
@@ -30,6 +32,8 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool agreeWithPolicy = false;
+
+  final RegisterController registerController = Get.put(RegisterController());
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +101,8 @@ class _SignupPageState extends State<SignupPage> {
                                   changePasswordVisibility:
                                       controller.togglePasswordVisibility,
                                   keyboardType: TextInputType.visiblePassword,
-                                  onValidate: (value) =>
-                                      OtherHelper.passwordValidator(value),
+                                  // onValidate: (value) =>
+                                  //     OtherHelper.passwordValidator(value),
                                 );
                               },
                             ),
@@ -160,48 +164,25 @@ class _SignupPageState extends State<SignupPage> {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      Consumer<SignupPageController>(
-                        builder: (context, controller, _) {
-                          return commonButton("Sign Up", onTap: () async {
+                      Obx(() =>  commonButton(registerController.isLoading.value == true? "Loading..." : "Sign Up", onTap: () async {
                             if (formKey.currentState!.validate()) {
                               if (agreeWithPolicy == true) {
                                 try {
-                                  final signupResponse =
-                                      await controller.signup(
-                                          fullName: fullNameController.text,
-                                          email: emailController.text,
-                                          password: passwordController.text,
-                                          confirmPassword:
-                                              confirmPasswordController.text,
-                                          user:
-                                              widget.user ? "user" : "driver");
-
-                                  if (signupResponse != null) {
-                                    showCommonSnackbar(context,
-                                        "Signup successful! OTP sent to your email.");
-                                    animetedNavigationPush(
-                                      OtpPage(
-                                        user: widget.user,
-                                        email: emailController.text,
-                                        fromSignUp: true,
-                                        token: signupResponse.data.signUpToken,
-                                      ),
-                                      context,
-                                    );
-                                  } else {
-                                    showCommonSnackbar(context,
-                                        "Signup failed. Please try again.",
-                                        isError: true);
-                                  }
+                              
+                                  registerController.registerController(
+                                      fullName: fullNameController.text,
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                      role: widget.user ? "user" : "driver"
+                                    
+                                      );
                                 } catch (e) {
                                   showCommonSnackbar(context, e.toString(),
                                       isError: true);
                                 }
                               }
                             }
-                          });
-                        },
-                      ),
+                          }),),
                       const SizedBox(height: 30),
                       Row(children: [
                         Expanded(
@@ -229,20 +210,20 @@ class _SignupPageState extends State<SignupPage> {
                             isBold: false,
                             textColor: AppColor.black),
                       ),
-                      const SizedBox(height: 20),
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border:
-                                Border.all(width: 1, color: AppColor.black)),
-                        child: commonIconButton(
-                            "Sign Up With Facebook",
-                            isBold: false,
-                            Image.asset("assets/icons/logos_facebook.png"),
-                            color: Colors.transparent,
-                            textColor: AppColor.black),
-                      ),
+                      // const SizedBox(height: 20),
+                      // Container(
+                      //   margin: const EdgeInsets.symmetric(horizontal: 20),
+                      //   decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(10),
+                      //       border:
+                      //           Border.all(width: 1, color: AppColor.black)),
+                      //   child: commonIconButton(
+                      //       "Sign Up With Facebook",
+                      //       isBold: false,
+                      //       Image.asset("assets/icons/logos_facebook.png"),
+                      //       color: Colors.transparent,
+                      //       textColor: AppColor.black),
+                      // ),
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

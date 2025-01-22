@@ -3,7 +3,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/helpers/local_store.dart';
 import 'package:ootms/presentation/api/service/api_services.dart';
+import 'package:ootms/presentation/api/sharePrefarences/login_tokan.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_snackbar.dart';
@@ -71,10 +73,12 @@ class ForgetPasswordPage extends StatelessWidget {
                     showCommonSnackbar(context, response['message'],
                         isError: false);
 
+              
+
                     animetedNavigationPush(
                       OtpPage(
                         email: emailController.text,
-                        user: user,
+                        user: user == true? "user": "driver",
                         fromSignUp: false,
                       ),
                       context,

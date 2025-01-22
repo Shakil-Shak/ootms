@@ -140,8 +140,7 @@ class _UserEditProfileState extends State<DriverEditProfile> {
                             // enable: false,
                             "CDL Number",
                             cdlNumberCtl,
-                            onValidate: (value) =>
-                                OtherHelper.emailValidator(value),
+                          
                             hintText: "Enter your CDL number",
                             keyboardType: TextInputType.emailAddress,
                           ),
@@ -220,6 +219,7 @@ class _UserEditProfileState extends State<DriverEditProfile> {
                                     name: fullNameController.text,
                                     email: emailController.text,
                                     phone: phoneController.text,
+                                    context: context,
                                     address: addressController.text);
                               }
 

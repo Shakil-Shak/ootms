@@ -204,6 +204,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                     name: fullNameController.text,
                                     email: emailController.text,
                                     phone: phoneController.text,
+                                    context: context,
                                     address: addressController.text);
                               }
 

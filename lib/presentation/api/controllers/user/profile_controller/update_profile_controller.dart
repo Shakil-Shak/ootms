@@ -4,7 +4,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ootms/helpers/local_store.dart';
 import 'package:ootms/presentation/api/service/get_api_service.dart';
+import 'package:ootms/presentation/api/sharePrefarences/login_tokan.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 
 import '../../../../../helpers/other_helper.dart';
@@ -17,10 +19,17 @@ class UpdateProfileController extends GetxController {
   RxBool isLoading = false.obs;
   List<String>? userDetails;
   String? image;
+    String? cdlImage;
   RxBool isUpdated = false.obs;
 
   getProfileImage() async {
     image = await OtherHelper.openGallery();
+    update();
+    debugPrint("==============================image${File(image ?? "")}");
+  }
+
+   getCdlImage() async {
+    cdlImage = await OtherHelper.openGallery();
     update();
     debugPrint("==============================image${File(image ?? "")}");
   }
@@ -31,6 +40,7 @@ class UpdateProfileController extends GetxController {
     required String email,
     required String phone,
     required String address,
+    required BuildContext context,
   }) async {
     isLoading.value = true;
 
@@ -46,9 +56,12 @@ class UpdateProfileController extends GetxController {
     };
     Map<String, String> header = {"Authorization": "Bearer $accesstoken"};
 
-    List<MultipartBody> multipartBody = [
-      MultipartBody("profileImage", File(image!)),
-    ];
+  
+      List<MultipartBody> multipartBody = [
+        MultipartBody("profileImage", File(image.toString())),
+      ];
+  
+  
     debugPrint("=======================================imagePath: $image");
     var response = await ApiClient.putMultipartData(
         method: "PUT",
@@ -66,6 +79,7 @@ class UpdateProfileController extends GetxController {
           : response.body["data"];
 
       Get.snackbar("Update Profile", "Update Profile Successfull");
+      Navigator.pop(context);
       isLoading.value = false;
       isUpdated.value = true;
     } else {
@@ -90,8 +104,8 @@ class UpdateProfileController extends GetxController {
   }) async {
     isLoading.value = true;
 
-    userDetails = await getUserAcessDetails();
-    String accesstoken = userDetails![0] ?? "";
+ var accesstoken = LocalStorage.getData(key: ootmsUserAccessToken);
+ print("token:::::::::::::::::::::: $accesstoken");
 
     // Data fields
     Map<String, String> driverBody = {
@@ -123,12 +137,24 @@ class UpdateProfileController extends GetxController {
       return; // Exit early if no image is provided but required
     }
 
+     if (cdlImage != null && cdlImage!.isNotEmpty) {
+      multipartBody.add(MultipartBody("cdlNumberVerificationImage", File(cdlImage!)));
+      debugPrint("=======================================imagePath: $cdlImage");
+    } else {
+      debugPrint("No CDL is selected");
+      Get.snackbar("CDL Required",
+          "Please select CDL to complete your profile.");
+      isLoading.value = false;
+      return; // Exit early if no image is provided but required
+    }
+
     try {
       var response = await ApiClient.postMultipartData(
           ApiPaths.completeProfile, user ? userBody : driverBody,
           multipartBody: multipartBody, headers: header);
       log("=======================================================header $header");
       if (response.statusCode == 201) {
+           saveUserAcessDetails(accesstoken, user == true? "user":"driver");
         if (user) {
           animetedNavigationPush(const UserRootPage(), context);
         } else {

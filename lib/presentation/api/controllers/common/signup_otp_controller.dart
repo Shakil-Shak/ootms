@@ -95,6 +95,7 @@ class SignUpOtpController extends ChangeNotifier {
       //   requestBody["email"] = email.trim();
       // }
       print("requestBody: $requestBody");
+
       print("token: $token");
       final response =
           await ApiService().otherPostRequest(url, requestBody, token: token);
@@ -109,6 +110,7 @@ class SignUpOtpController extends ChangeNotifier {
         notifyListeners();
         return signInModel;
       }
+
       print("======================================otpResponse${response}");
       print(
           "======================================otpResponse${response["statusCode"]}");

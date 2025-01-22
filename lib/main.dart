@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ootms/app.dart';
 import 'package:ootms/core/dependency.dart';
 import 'package:ootms/presentation/api/controllers/user/load_controller/load_controller.dart';
@@ -14,6 +15,8 @@ import 'presentation/api/controllers/user/shipping_controller/shipping_history_c
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await GetStorage.init();
   DependencyInjection di = DependencyInjection();
   di.dependencies();
   UserHomePage.permission = await Geolocator.checkPermission();

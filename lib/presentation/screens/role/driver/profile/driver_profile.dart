@@ -147,17 +147,17 @@ class _DriverProfileState extends State<DriverProfile> {
         iconPath: "assets/icons/edit-profile.png",
         text: "Edit Profile",
         onTap: () {
-          animetedNavigationPush(
-              DriverEditProfile(
-                imagePath: profileCtl.profileData.userDetails.image,
-                title: profileCtl.profileData.userDetails.fullName,
-                email: profileCtl.profileData.userDetails.email,
-                contact: profileCtl.profileData.userDetails.phoneNumber,
-                address: profileCtl.profileData.userDetails.address,
-                country: "USA",
-                cdlNumber: profileCtl.profileData.truckDetails![2].toString(),
-              ),
-              context);
+         Get.to(
+            () => DriverEditProfile(
+              imagePath: profileCtl.profileData.userDetails.image,
+              title: profileCtl.profileData.userDetails.fullName,
+              email: profileCtl.profileData.userDetails.email,
+              contact: profileCtl.profileData.userDetails.phoneNumber,
+              address: profileCtl.profileData.userDetails.address,
+              country: "USA",
+              cdlNumber:  profileCtl.profileData.truckDetails.isEmpty? "": profileCtl.profileData.truckDetails[0].cdlNumber,
+            ),
+          );
         },
       ),
       ProfileMenuItem(
