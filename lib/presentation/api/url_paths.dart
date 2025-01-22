@@ -20,6 +20,7 @@ class ApiPaths {
   static const String preferredDriver = '$baseUrl/api/v1/loads-request';
   static const String userSupport = '$baseUrl/api/v1/support/';
   static const String shipingHistory = '$baseUrl/api/v1/shipment/history';
+  static String driverShipingHistory({page}) => '$baseUrl/api/v1/shipment/history?page=$page';
   static String staticContent({contentType}) =>
       '$baseUrl/api/v1/static-contents?type=$contentType';
   static const String currentShiping = '$baseUrl/api/v1/shipment/current';
