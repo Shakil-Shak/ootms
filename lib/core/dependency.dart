@@ -3,6 +3,7 @@ import 'package:ootms/presentation/api/controllers/Driver/driver_currentshiping_
 import 'package:ootms/presentation/api/controllers/Driver/driver_find_load_controller.dart';
 import 'package:ootms/presentation/api/controllers/Driver/equipment_controller/equipment_controller.dart';
 import 'package:ootms/presentation/api/controllers/Driver/on_duity_controller/on_duity_controller.dart';
+import 'package:ootms/presentation/api/controllers/common/chat_controller.dart';
 import 'package:ootms/presentation/api/controllers/driver/find_load_controller.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/create_load_map_controller.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
@@ -42,6 +43,8 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => EquipmentController(), fenix: true);
     Get.lazyPut(() => OnduityController(), fenix: true);
     Get.lazyPut(() => DriverFindLoadController(), fenix: true);
+    Get.lazyPut(() => ChatController(), fenix: true);
     Get.lazyPut(() => DriverShipingHistory(), fenix: true);
+
   }
 }

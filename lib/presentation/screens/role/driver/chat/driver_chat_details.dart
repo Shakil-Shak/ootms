@@ -6,8 +6,8 @@ import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat.dart';
 import 'package:provider/provider.dart';
 
-class UserChatDetailsScreen extends StatelessWidget {
-  const UserChatDetailsScreen({super.key});
+class DriverChatDetailsScreen extends StatelessWidget {
+  const DriverChatDetailsScreen({super.key});
 
   final String driverPhone = "123-456-789",
       driverName = "NR Shakib",
@@ -37,7 +37,7 @@ class UserChatDetailsScreen extends StatelessWidget {
                 animetedNavigationPush(
                     ChangeNotifierProvider(
                         create: (context) => UserChatProvider(),
-                        child: const UserChatPage()),
+                        child: UserChatPage(chatId: "", senderId: "",)),
                     context);
               },
                   "Chat with Shipper",
@@ -53,7 +53,7 @@ class UserChatDetailsScreen extends StatelessWidget {
                 animetedNavigationPush(
                     ChangeNotifierProvider(
                         create: (context) => UserChatProvider(),
-                        child: const UserChatPage()),
+                        child: UserChatPage(chatId: "", senderId: "",)),
                     context);
               },
                   "Chat with Receiver",
