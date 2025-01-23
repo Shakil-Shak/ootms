@@ -171,8 +171,7 @@ class SignInPage extends StatelessWidget {
                               showCommonSnackbar(context, "Login successful!");
 
                               if (signinModel.data.attributes.role == "user") {
-                                animetedNavigationPush(
-                                    const UserRootPage(), context);
+                         
                               } else {
                                 animetedNavigationPush(
                                     const DriverRootPage(), context);

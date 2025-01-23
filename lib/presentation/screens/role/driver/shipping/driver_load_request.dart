@@ -199,7 +199,7 @@ class _DriverLoadRequestPageState extends State<DriverLoadRequestPage>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      commonText(data.load.loadType,
+                                      commonText(data.load.shipperName,
                                           size: 16, isBold: true),
                                       const SizedBox(
                                         height: 4,
