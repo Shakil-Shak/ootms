@@ -1,14 +1,22 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:ootms/core/constants/assets/icons_string.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/helpers/other_helper.dart';
 import 'package:ootms/presentation/api/controllers/common/chat_controller.dart';
+import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
 import 'package:ootms/presentation/api/models/driver_model/currentship_model.dart';
 import 'package:ootms/presentation/api/models/user_model/shiping_model/current_shiping_model.dart';
+import 'package:ootms/presentation/api/service/socket_service.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_map2.dart';
+import 'package:ootms/presentation/screens/role/user/home/user_map_with_polyline.dart';
 import 'package:provider/provider.dart';
 
 import '../../user/chat/user_chat.dart';
@@ -145,7 +153,8 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
               "Go To The Map",
               borderRadious: 10,
               onTap: () {
-                animetedNavigationPush(DriverMap2Page(shiperId: shipmentDetails.user.id,), context);
+                callForLiveLocation();
+                // animetedNavigationPush(DriverMap2Page(shiperId: shipmentDetails.user.id,), context);
               },
             ),
             const SizedBox(height: 16),
@@ -159,6 +168,41 @@ class DriverCurrentShipmentDetailsPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  callForLiveLocation() async {
+    LatLng? driverLiveLocation = await SocketServices.getLocation(userId: shipmentDetails.driver.id);
+    LatLng driverLocation = LatLng(
+        shipmentDetails.driver.location.coordinates.last.toDouble(),
+        shipmentDetails.driver.location.coordinates.first.toDouble());
+
+    Timer.periodic(const Duration(seconds: 03), (timer) async {
+      CustomMapController.instance.marker.clear();
+
+      CustomMapController.instance.setMarker(
+          LatLng(shipmentDetails.load.shipperLocation.coordinates.last.toDouble(),
+              shipmentDetails.load.shipperLocation.coordinates.first.toDouble()),
+          "Load Location",
+          AppIcons.locationMarker);
+
+      if(driverLiveLocation != null){
+        CustomMapController.instance.updateLocation(driverLiveLocation.latitude.toDouble(), driverLiveLocation.longitude.toDouble());
+      }else{
+        CustomMapController.instance.updateLocation(driverLocation.latitude.toDouble(), driverLocation.longitude.toDouble());
+      }
+
+      await CustomMapController.instance.getRoute(
+          origin: (driverLiveLocation != null)
+              ? driverLiveLocation
+              : driverLocation,
+          destination: LatLng(
+              shipmentDetails.load.shipperLocation.coordinates.last.toDouble(),
+              shipmentDetails.load.shipperLocation.coordinates.first.toDouble()));
+      log("Marker Length: ${CustomMapController.instance.marker.length}, ${CustomMapController.instance.marker}");
+    });
+
+    log("CustomMapController.instance.marker ${CustomMapController.instance.marker.length}");
+    animetedNavigationPush(const UserMapWithPolyline(), Get.context!);
   }
 
   Widget _buildInfoRow(
