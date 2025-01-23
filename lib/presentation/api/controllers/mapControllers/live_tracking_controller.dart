@@ -48,6 +48,7 @@ class LiveTrackingController extends GetxController {
             .toList();
 
         for (BOLTrackingModel loadItems in trackingItemsList) {
+          log("===============");
           LatLng? driverLiveLocation = await SocketServices.getLocation(userId: loadItems.user);
           LatLng driverLocation = LatLng(
               loadItems.driver.location.coordinates.last.toDouble(),

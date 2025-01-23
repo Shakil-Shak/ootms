@@ -143,6 +143,8 @@ class LoadController extends ChangeNotifier {
 
 //============================================================create load method
   Future<void> createLoad({context}) async {
+    isSuccess = false;
+    notifyListeners();
     isLoading = true;
     notifyListeners();
 
@@ -207,9 +209,12 @@ class LoadController extends ChangeNotifier {
         showCommonSnackbar(context, "Create Load Successful", isError: false);
         isSuccess = true;
         notifyListeners();
+      }else{
+      showCommonSnackbar(context, response["message"], isError: true);
+
       }
     } catch (e, s) {
-      showCommonSnackbar(context, "Create Load Failed", isError: true);
+      showCommonSnackbar(context, "Create Load Failed:$e", isError: true);
       log("failed =-==================$e");
       log("failed =-==================$s");
     } finally {
@@ -233,6 +238,7 @@ class LoadController extends ChangeNotifier {
     print("=====================================data $data");
 
     try {
+      
           final response = await apiService.otherPostRequest(
         ApiPaths.preferredDriver, jsonEncode(data));
         print("===================================================statuscode${response["statusCode"]}");
