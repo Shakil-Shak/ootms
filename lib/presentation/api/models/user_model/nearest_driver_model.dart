@@ -114,11 +114,11 @@ class Truck {
 
 class DriverLocation {
   String type;
-  List<double> coordinates;
+  List<num> coordinates;
 
   DriverLocation({
     this.type = "Point",
-    List<double>? coordinates,
+    List<num>? coordinates,
   }) : coordinates = coordinates ?? [];
 
   factory DriverLocation.fromJson(Map<String, dynamic> json) {
@@ -131,17 +131,17 @@ class DriverLocation {
 
 class LoadLocationModel {
   String type;
-  List<double> coordinates;
+  List<num> coordinates;
 
   LoadLocationModel({
     this.type = "",
-    List<double>? coordinates,
+    List<num>? coordinates,
   }) : coordinates = coordinates ?? [];
 
   factory LoadLocationModel.fromJson(Map<String, dynamic> json) {
     return LoadLocationModel(
       type: json['type'] ?? "",
-      coordinates: List<double>.from(json['coordinates'] ?? []),
+      coordinates: List<num>.from(json['coordinates'] ?? []),
     );
   }
 }

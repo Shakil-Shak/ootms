@@ -86,7 +86,7 @@ class _UserChatPageState extends State<UserChatPage> {
                           ? CrossAxisAlignment.end
                           : CrossAxisAlignment.start,
                       children: [
-                        Container(
+                        message['text'] != null ? Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 12),
                           margin: const EdgeInsets.symmetric(vertical: 4),
@@ -105,11 +105,11 @@ class _UserChatPageState extends State<UserChatPage> {
                                 topRight: Radius.circular(16)),
                           ),
                           child: commonText(
-                            message['text'],
+                            message['text'] ,
                             size: 14,
                             color: isSentByMe ? Colors.white : Colors.black,
                           ),
-                        ),
+                        ) : SizedBox.shrink(),
                         if (isSentByMe && message.containsKey('status'))
                           commonText(
                             message['status'],

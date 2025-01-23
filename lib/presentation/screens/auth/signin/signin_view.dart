@@ -22,9 +22,9 @@ import 'package:provider/provider.dart';
 
 class SignInPage extends StatelessWidget {
   final TextEditingController emailController =
-      TextEditingController(text: "fofacax185@maonyn.com");
+      TextEditingController(text: "");
   final TextEditingController passwordController =
-      TextEditingController(text: "Passw0rd!!");
+      TextEditingController(text: "");
   final bool user;
 
   SignInPage({super.key, required this.user});
