@@ -11,7 +11,6 @@ import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_image.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
-import 'package:ootms/presentation/screens/role/driver/profile/driver_edit_profile.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_support.dart';
 import 'package:ootms/presentation/screens/role/user/profile/user_edit_profile.dart';
 import 'package:ootms/presentation/screens/role/user/profile/user_feedback_screen.dart';
@@ -62,7 +61,7 @@ class _UserProfileState extends State<UserProfile> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
                     children: [
-                      controller.profileData!.image.isNotEmpty
+                      controller.profileData.image.isNotEmpty
                           ? CommonImage(
                               imageSrc: ApiPaths.baseUrl +
                                   controller.profileData!.image,
@@ -89,9 +88,9 @@ class _UserProfileState extends State<UserProfile> {
                               ),
                             ),
                       const SizedBox(height: 10),
-                      commonText(controller.profileData!.fullName,
+                      commonText(controller.profileData.fullName,
                           size: 18, isBold: true),
-                      commonText(controller.profileData!.email),
+                      commonText(controller.profileData.email),
                       const SizedBox(height: 10),
                       Container(
                         decoration: BoxDecoration(
@@ -106,7 +105,7 @@ class _UserProfileState extends State<UserProfile> {
                                 iconPath: "assets/icons/edit-profile.png",
                                 text: "Edit Profile",
                                 onTap: () {
-                                  log("controller.profileData.image : ${controller.profileData!.image}");
+                                  log("controller.profileData.image : ${controller.profileData.image}");
                                   // animetedNavigationPush(
                                   //     UserEditProfile(
                                   //       imagePath:

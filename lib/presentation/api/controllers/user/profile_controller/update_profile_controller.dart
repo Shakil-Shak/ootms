@@ -19,7 +19,7 @@ class UpdateProfileController extends GetxController {
   RxBool isLoading = false.obs;
   List<String>? userDetails;
   String? image;
-    String? cdlImage;
+  String? cdlImage;
   RxBool isUpdated = false.obs;
 
   getProfileImage() async {
@@ -28,7 +28,7 @@ class UpdateProfileController extends GetxController {
     debugPrint("==============================image${File(image ?? "")}");
   }
 
-   getCdlImage() async {
+  getCdlImage() async {
     cdlImage = await OtherHelper.openGallery();
     update();
     debugPrint("==============================image${File(image ?? "")}");
@@ -56,12 +56,10 @@ class UpdateProfileController extends GetxController {
     };
     Map<String, String> header = {"Authorization": "Bearer $accesstoken"};
 
-  
-      List<MultipartBody> multipartBody = [
-        MultipartBody("profileImage", File(image.toString())),
-      ];
-  
-  
+    List<MultipartBody> multipartBody = [
+      MultipartBody("profileImage", File(image.toString())),
+    ];
+
     debugPrint("=======================================imagePath: $image");
     var response = await ApiClient.putMultipartData(
         method: "PUT",
@@ -104,8 +102,8 @@ class UpdateProfileController extends GetxController {
   }) async {
     isLoading.value = true;
 
- var accesstoken = LocalStorage.getData(key: ootmsUserAccessToken);
- print("token:::::::::::::::::::::: $accesstoken");
+    var accesstoken = LocalStorage.getData(key: ootmsUserAccessToken);
+    print("token:::::::::::::::::::::: $accesstoken");
 
     // Data fields
     Map<String, String> driverBody = {
@@ -137,15 +135,19 @@ class UpdateProfileController extends GetxController {
       return; // Exit early if no image is provided but required
     }
 
-     if (cdlImage != null && cdlImage!.isNotEmpty) {
-      multipartBody.add(MultipartBody("cdlNumberVerificationImage", File(cdlImage!)));
-      debugPrint("=======================================imagePath: $cdlImage");
-    } else {
-      debugPrint("No CDL is selected");
-      Get.snackbar("CDL Required",
-          "Please select CDL to complete your profile.");
-      isLoading.value = false;
-      return; // Exit early if no image is provided but required
+    if (user != true) {
+      if (cdlImage != null && cdlImage!.isNotEmpty) {
+        multipartBody
+            .add(MultipartBody("cdlNumberVerificationImage", File(cdlImage!)));
+        debugPrint(
+            "=======================================imagePath: $cdlImage");
+      } else {
+        debugPrint("No CDL is selected");
+        Get.snackbar(
+            "CDL Required", "Please select CDL to complete your profile.");
+        isLoading.value = false;
+        return; // Exit early if no image is provided but required
+      }
     }
 
     try {
@@ -154,7 +156,7 @@ class UpdateProfileController extends GetxController {
           multipartBody: multipartBody, headers: header);
       log("=======================================================header $header");
       if (response.statusCode == 201) {
-           saveUserAcessDetails(accesstoken, user == true? "user":"driver");
+        saveUserAcessDetails(accesstoken, user == true ? "user" : "driver");
         if (user) {
           animetedNavigationPush(const UserRootPage(), context);
         } else {

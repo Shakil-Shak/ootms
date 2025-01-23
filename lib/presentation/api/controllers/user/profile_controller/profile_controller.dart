@@ -128,12 +128,14 @@ class ProfileController extends ChangeNotifier {
     if (response is Map<String, dynamic>) {
       if (response['statusCode'] == 200) {
         final responseData = response['data']["attributes"]["userDetails"];
+        log("====================================================responseData$responseData");
         if (responseData != null && responseData is Map<String, dynamic>) {
           profileData = ProfileModel.fromJson(responseData);
           notifyListeners();
           log("profiledata======${profileData.email}");
           isLoading = false;
           notifyListeners();
+          print("==============================name ${profileData.fullName}");
         }
       } else {
         isLoading = false;
