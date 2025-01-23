@@ -8,20 +8,36 @@ import 'package:provider/provider.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 
-class UserChatPage extends StatelessWidget {
+class UserChatPage extends StatefulWidget {
 
   String chatId;
   String senderId;
 
   UserChatPage({super.key, required this.chatId, required this.senderId});
 
+  @override
+  State<UserChatPage> createState() => _UserChatPageState();
+}
 
+class _UserChatPageState extends State<UserChatPage> {
   ChatController chatController = Get.find<ChatController>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // Scroll to the bottom of the list after the page is loaded
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (chatController.scrollController.hasClients) {
+        chatController.scrollController.jumpTo(chatController.scrollController.position.maxScrollExtent);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final chatProvider = Provider.of<UserChatProvider>(context);
-    log("SenderId $senderId");
+    log("SenderId ${widget.senderId}");
 
     return Obx(() {
       return Scaffold(
@@ -53,12 +69,15 @@ class UserChatPage extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.builder(
+                controller: chatController.scrollController,
                 padding: const EdgeInsets.all(16),
                 itemCount: chatController.messages.length,
                 itemBuilder: (context, index) {
                   final message = chatController.messages[index];
                   log("message $message");
-                  final isSentByMe = chatController.messages[index]['senderId'] == senderId? true : false;
+                  final isSentByMe = chatController.messages[index]['senderId'] == widget.senderId? true : false;
+                  log("chatController.messages[index]['senderId']: ${chatController.messages[index]['senderId']}");
+                  log("isSentByMe: $isSentByMe");
                   return Align(
                     alignment:
                     isSentByMe ? Alignment.centerRight : Alignment.centerLeft,
@@ -121,69 +140,6 @@ class UserChatPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
               child: Row(
                 children: [
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     showModalBottomSheet(
-                  //       context: context,
-                  //       backgroundColor: Colors.white,
-                  //       shape: const RoundedRectangleBorder(
-                  //         borderRadius:
-                  //             BorderRadius.vertical(top: Radius.circular(20)),
-                  //       ),
-                  //       builder: (context) {
-                  //         return DraggableScrollableSheet(
-                  //           expand: false,
-                  //           builder: (context, scrollController) {
-                  //             return Container(
-                  //               width: MediaQuery.of(context)
-                  //                   .size
-                  //                   .width, // Full width
-                  //
-                  //               padding: const EdgeInsets.all(16.0),
-                  //               decoration: const BoxDecoration(
-                  //                 color: Colors.white,
-                  //                 borderRadius: BorderRadius.vertical(
-                  //                     top: Radius.circular(20)),
-                  //               ),
-                  //               child: Column(
-                  //                 crossAxisAlignment: CrossAxisAlignment.start,
-                  //                 mainAxisSize: MainAxisSize.min,
-                  //                 children: [
-                  //                   Row(
-                  //                     mainAxisAlignment: MainAxisAlignment.end,
-                  //                     children: [
-                  //                       InkWell(
-                  //                           onTap: () {
-                  //                             Navigator.pop(context);
-                  //                           },
-                  //                           child: const Icon(Icons.cancel))
-                  //                     ],
-                  //                   ),
-                  //                   const SizedBox(
-                  //                     height: 5,
-                  //                   ),
-                  //                   commonButton("Request for Take The Load")
-                  //                 ],
-                  //               ),
-                  //             );
-                  //           },
-                  //         );
-                  //       },
-                  //     );
-                  //   },
-                  //   child: Card(
-                  //     elevation: 3,
-                  //     child: Container(
-                  //       padding: const EdgeInsets.all(8),
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(8),
-                  //         color: AppColor.white,
-                  //       ),
-                  //       child: const Icon(Icons.add, color: AppColor.black),
-                  //     ),
-                  //   ),
-                  // ),
-                  // const SizedBox(width: 10),
                   Expanded(
                     child: Card(
                       elevation: 3,
@@ -216,7 +172,7 @@ class UserChatPage extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.send),
                     onPressed: () {
-                      chatController.sendMessage(chatId: chatId, senderId: senderId, messageText: chatController.chatTextController.text);
+                      chatController.sendMessage(chatId: widget.chatId, senderId: widget.senderId, messageText: chatController.chatTextController.text);
                       // chatProvider
                       //     .sendMessage(chatProvider.messageController.text);
                     },

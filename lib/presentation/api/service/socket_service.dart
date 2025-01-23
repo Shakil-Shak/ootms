@@ -82,7 +82,7 @@ class SocketServices {
         log('User Id: $userId');
 
     // ::$userId
-        socket.on("server_location", (data) {
+        socket.on("server_location::$userId", (data) {
 
           log("======>>>${data["lat"]}<<<=======");
           log("======>>>${data["lang"]}<<<=======");

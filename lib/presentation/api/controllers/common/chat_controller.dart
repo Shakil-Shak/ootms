@@ -20,6 +20,7 @@ class ChatController extends GetxController{
 
 
   TextEditingController chatTextController = TextEditingController();
+  ScrollController scrollController = ScrollController();
 
   RxBool isTyping = false.obs;
 
@@ -64,13 +65,9 @@ class ChatController extends GetxController{
           };
         }).toList();
 
-
-        // List responseData = response.body['data']["attributes"]["notificationList"];
-        // log("responseData: $responseData");
-        // chatList.addAll(responseData.map((items) => ChatModel.fromJson(items)).toList());
-        // update();
         SocketServices.makeChatConnection(chatId: chatId);
         getMessage(chatId: chatId);
+        scrollToBottom();
 
       } else {
         log("Error: statusCode is not 200 or response is null");
@@ -104,11 +101,12 @@ class ChatController extends GetxController{
             messages.add({
               'text': response['text'] ?? '',
               'status': response['seen'] == true ? 'Seen' : 'Unseen',
-              'senderId' : response['seen'] ?? ""
+              'senderId' : response['senderId'] ?? ""
             });
 
             log('Acknowledgment received for send message: ${response}');
             chatTextController.clear();
+            scrollToBottom();
 
             return true;
           } else {
@@ -143,8 +141,9 @@ class ChatController extends GetxController{
             messages.add({
               'text': data['text'] ?? '',
               'status': data['seen'] == true ? 'Seen' : 'Unseen',
-              'senderId' : data['seen'] ?? ""
+              'senderId' : data['senderId'] ?? ""
             });
+            scrollToBottom();
           }
 
           log("======>>>$data<<<=======");
@@ -160,6 +159,16 @@ class ChatController extends GetxController{
       // Catch any unexpected errors and log them
       log('Error in get message: $error');
       log('Stack Trace: $stackTrace');
+    }
+  }
+
+  void scrollToBottom() {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
     }
   }
 }
