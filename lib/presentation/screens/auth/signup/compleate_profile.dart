@@ -155,7 +155,6 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
                             fontWeight: FontWeight.w500,
                             cdlNumberController,
                             hintText: "Enter your CDL number",
-                            onValidate: (value) => OtherHelper.validator(value),
                           ),
                         ),
                         Visibility(
@@ -274,6 +273,7 @@ class _CompleateProfilePageState extends State<CompleateProfilePage> {
                     Obx(() => InkWell(
                       onTap: () {
                         editController.completeProfile(
+                          
                             phone: phoneController.text,
                             taxId: texIdController.text,
                             address: addressController.text,

@@ -19,38 +19,38 @@ class DriverProfileController extends GetxController {
   final ApiService apiService = ApiService();
   bool isLoading = false;
   bool isSuccess = false;
-  DriverProfileModel profileData = DriverProfileModel();
+  // DriverProfileModel profileData = DriverProfileModel();
 //====================================================================driver get profile
-  Future<void> getProfileData() async {
-    isLoading = true;
+  // Future<void> getProfileData() async {
+  //   isLoading = true;
 
-    final response = await apiService.getRequest(ApiPaths.profileUrl);
-    try {
-      if (response is Map<String, dynamic>) {
-        if (response['statusCode'] == 200) {
-          final responseData = response['data']["attributes"];
-          print(
-              "========================================================data $responseData");
-          if (responseData != null && responseData is Map<String, dynamic>) {
-            profileData = DriverProfileModel.fromJson(responseData);
-            isLoading = false;
-            log("================================================success$profileData");
-          }
-        } else {
-          isLoading = false;
+  //   final response = await apiService.getRequest(ApiPaths.profileUrl);
+  //   try {
+  //     if (response is Map<String, dynamic>) {
+  //       if (response['statusCode'] == 200) {
+  //         final responseData = response['data']["attributes"];
+  //         print(
+  //             "========================================================data $responseData");
+  //         if (responseData != null && responseData is Map<String, dynamic>) {
+  //           profileData = DriverProfileModel.fromJson(responseData);
+  //           isLoading = false;
+  //           log("================================================success$profileData");
+  //         }
+  //       } else {
+  //         isLoading = false;
 
-          log("================================================fail");
-          log("Error: Unexpected status code ${response['statusCode']}");
-        }
-      } else {
-        log("Error: Response is not a Map<String, dynamic>");
-      }
-    } catch (e) {
-      debugPrint("===================================================error $e");
-    } finally {
-      isLoading = false;
-    }
-  }
+  //         log("================================================fail");
+  //         log("Error: Unexpected status code ${response['statusCode']}");
+  //       }
+  //     } else {
+  //       log("Error: Response is not a Map<String, dynamic>");
+  //     }
+  //   } catch (e) {
+  //     debugPrint("===================================================error $e");
+  //   } finally {
+  //     isLoading = false;
+  //   }
+  // }
 
   //==========================================================================driver feedback
   bool isFeedbackComplete = false;

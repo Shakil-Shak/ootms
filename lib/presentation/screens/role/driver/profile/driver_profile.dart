@@ -128,16 +128,16 @@ class _DriverProfileState extends State<DriverProfile> {
                 ),
               ),
               // Loading indicator
-              if (controller.isLoading)
-                const Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(AppColor.primaryColor),
-                    ),
-                  ),
-                ),
+              // if (controller.isLoading)
+              //   const Positioned.fill(
+              //     child: Align(
+              //       alignment: Alignment.center,
+              //       child: CircularProgressIndicator(
+              //         valueColor:
+              //             AlwaysStoppedAnimation<Color>(AppColor.primaryColor),
+              //       ),
+              //     ),
+              //   ),
             ],
           );
         },
