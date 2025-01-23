@@ -50,18 +50,22 @@ class LiveTrackingController extends GetxController {
         for (BOLTrackingModel loadItems in trackingItemsList) {
           log("===============");
           LatLng? driverLiveLocation = await SocketServices.getLocation(userId: loadItems.user);
+
+          log("=====>>>> $driverLiveLocation");
           LatLng driverLocation = LatLng(
               loadItems.driver.location.coordinates.last.toDouble(),
               loadItems.driver.location.coordinates.first.toDouble());
 
-          Timer.periodic(const Duration(seconds: 03), (timer) async {
-            CustomMapController.instance.marker.clear();
+          CustomMapController.instance.setMarker(
+              LatLng(loadItems.receiverLocation.coordinates.last.toDouble(),
+                  loadItems.receiverLocation.coordinates.first.toDouble()),
+              "Load Location",
+              AppIcons.locationMarker);
 
-            CustomMapController.instance.setMarker(
-                LatLng(loadItems.location.coordinates.last,
-                    loadItems.location.coordinates.first),
-                "Load Location",
-                AppIcons.locationMarker);
+          Timer.periodic(const Duration(seconds: 03), (timer) async {
+            if(CustomMapController.instance.marker.length > 1){
+              CustomMapController.instance.marker.removeAt(1);
+            }
 
             if(driverLiveLocation != null){
               CustomMapController.instance.updateLocation(driverLiveLocation.latitude.toDouble(), driverLiveLocation.longitude.toDouble());
@@ -74,8 +78,8 @@ class LiveTrackingController extends GetxController {
                     ? driverLiveLocation
                     : driverLocation,
                 destination: LatLng(
-                    loadItems.location.coordinates.last.toDouble(),
-                    loadItems.location.coordinates.first.toDouble()));
+                    loadItems.receiverLocation.coordinates.last.toDouble(),
+                    loadItems.receiverLocation.coordinates.first.toDouble()));
             log("Marker Length: ${CustomMapController.instance.marker.length}, ${CustomMapController.instance.marker}");
           });
 

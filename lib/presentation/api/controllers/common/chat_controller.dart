@@ -56,8 +56,10 @@ class ChatController extends GetxController{
       if (response.statusCode == int.parse("200")) {
         chatList.addAll(responseBody.map((items) => ChatModel.fromJson(items)).toList());
 
+
         messages.value = chatList.map((chat) {
           log("=======>>>: ${chat.text}");
+          log("=======>>>: ${chat.sender}");
           return {
             'text': chat.text ?? '',
             'status': chat.seen == true ? 'Seen' : 'Unseen',
@@ -97,14 +99,17 @@ class ChatController extends GetxController{
         SocketServices.socket.emitWithAck("send-new-message", data, ack: (response) {
           if (response != null) {
 
-            chatList.add(ChatModel.fromJson(response));
-            messages.add({
-              'text': response['text'] ?? '',
-              'status': response['seen'] == true ? 'Seen' : 'Unseen',
-              'senderId' : response['senderId'] ?? ""
-            });
+            log("response <<<====>>> $response");
 
-            log('Acknowledgment received for send message: ${response}');
+            if(response['text'] != ''){
+              chatList.add(ChatModel.fromJson(response));
+              messages.add({
+                'text': response['text'],
+                'status': response['seen'] == true ? 'Seen' : 'Unseen',
+                'senderId' : response['sender']
+              });
+            }
+
             chatTextController.clear();
             scrollToBottom();
 
@@ -135,13 +140,13 @@ class ChatController extends GetxController{
 
         // ::$userId
         SocketServices.socket.on("new-message-received::$chatId", (data) {
-          if(data != null){
+          if(data['text'] != null){
 
             chatList.add(ChatModel.fromJson(data));
             messages.add({
-              'text': data['text'] ?? '',
+              'text': data['text'],
               'status': data['seen'] == true ? 'Seen' : 'Unseen',
-              'senderId' : data['senderId'] ?? ""
+              'senderId' : data['sender']
             });
             scrollToBottom();
           }

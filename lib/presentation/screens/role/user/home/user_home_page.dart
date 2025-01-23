@@ -380,7 +380,7 @@ class _UserHomePageState extends State<UserHomePage> {
                         ],
                       ),
                     ) : trakingDesign(
-                    number: controller.shippingHistoryData.first.load.bolNo, address: controller.shippingHistoryData.first.load.receivingAddress);
+                    number: controller.shippingHistoryData.first.load.billOfLading, address: controller.shippingHistoryData.first.load.receivingAddress);
               }),
               const SizedBox(height: 20),
               if (controller.isLoading)
@@ -516,44 +516,31 @@ class _UserHomePageState extends State<UserHomePage> {
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: Row(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            commonText(
-                              'From',
-                              color: Colors.grey,
-                            ),
-                            commonText(trackingItems.shippingAddress,
-                                size: 12, isBold: true),
-                          ],
-                        ),
+                      commonText(
+                        'From',
+                        color: Colors.grey,
                       ),
+                      commonText(trackingItems.shippingAddress,
+                          size: 12, isBold: true),
                     ],
                   ),
                 ),
                 Expanded(
-                  child: Row(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            commonText(
-                              'To',
-                              color: Colors.grey,
-                            ),
-                            commonText(trackingItems.receivingAddress,
-                                size: 12, isBold: true),
-                          ],
-                        ),
+                      commonText(
+                        'To',
+                        color: Colors.grey,
                       ),
+                      commonText(trackingItems.receivingAddress,
+                          size: 12, isBold: true),
                     ],
                   ),
                 ),

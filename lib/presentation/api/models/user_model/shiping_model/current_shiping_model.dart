@@ -131,6 +131,7 @@ class Load {
   LocationModel receiverLocation;
   LocationModel shipperLocation;
   String driver;
+  String driverToReceiverChatId;
   String shipperToDriverChatId;
   String shipperToReceiverChatId;
   DateTime createdAt;
@@ -169,6 +170,7 @@ class Load {
     required this.receiverLocation,
     required this.shipperLocation,
     this.driver = '',
+    this.driverToReceiverChatId = '',
     this.shipperToDriverChatId = '',
     this.shipperToReceiverChatId = '',
     DateTime? createdAt,
@@ -212,6 +214,7 @@ class Load {
       receiverLocation: LocationModel.fromJson(json['receiverLocation'] ?? {}),
       shipperLocation: LocationModel.fromJson(json['shipperLocation'] ?? {}),
       driver: json['driver'] ?? '',
+      driverToReceiverChatId: json['driverToReceiverChatId'] ?? '',
       shipperToDriverChatId: json['shipperToDriverChatId'] ?? '',
       shipperToReceiverChatId: json['shipperToReceiverChatId'] ?? '',
       createdAt: DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
