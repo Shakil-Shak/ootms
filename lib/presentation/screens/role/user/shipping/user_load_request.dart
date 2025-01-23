@@ -166,6 +166,7 @@ class _UserLoadRequestPageState extends State<UserLoadRequestPage>
                                   onTap: () {
                                     animetedNavigationPush(
                                         UserLoadRequestDetailsPage(
+                                          isMyLoad: _tabController!.index == 1,
                                             driverName: request.driver.fullName,
                                             driverPhone:
                                                 request.driver.phoneNumber,

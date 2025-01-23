@@ -117,17 +117,17 @@ class _DriverHomePageState extends State<DriverHomePage> {
                                             onduityController
                                                     .isOffDuityLoad.value ==
                                                 true
-                                        ? CircularProgressIndicator(
+                                        ? const CircularProgressIndicator(
                                             color: Colors.blue,
                                           )
                                         : Switch(
                                             value: onduityController
                                                 .isONDuity.value,
-                                            onChanged: (value) {
+                                            onChanged: (value) async {
                                               if (onduityController
                                                       .isONDuity.value ==
                                                   false) {
-                                                equipmentController
+                                                await equipmentController
                                                     .getEquipmentData();
                                                 showOnDutyDialog(context);
                                                 if (onduityController
