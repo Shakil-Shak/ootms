@@ -278,6 +278,13 @@ class CustomMapController extends GetxController {
   }
 
   getCurrentLocation({bool isOnDuty = false}) async {
+    callSocket() async {
+      if(isOnDuty == true){
+        debugPrint("===isonduity ==$isOnDuty");
+        await SocketServices.sendLocation(latitude: currentLatitude.value, longitude: currentLongitude.value);
+        log("======================socket on: emitting location");
+      }
+    }
     
     Timer.periodic(const Duration(seconds: 03), (timer) async {
      getUserCurrentLocation().then((value) async {
@@ -289,12 +296,8 @@ class CustomMapController extends GetxController {
       userCurrentLocation.value = "${placemarks.first.street}, ${placemarks.first.name}, ${placemarks.first.locality}, ${placemarks.first.country}";
       return userCurrentLocation.value;
     });
+     await callSocket();
     });
-       if(isOnDuty == true){
-         debugPrint("===isonduity ==$isOnDuty");
-        await SocketServices.sendLocation(latitude: currentLatitude.value, longitude: currentLongitude.value);
-        print("======================socket on");
-      }
   }
 
 
