@@ -264,206 +264,226 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
       padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(child: Consumer<LoadController>(
         builder: (context, value, child) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              commonText("Receiver’s Information",
-                  color: AppColor.black, size: 16, isBold: true),
-              const Divider(),
-              commonTextfieldWithTitle(
-                "Receiver Name",
-                value.receiverNameController,
-                hintText: "Enter full name",
-              ),
-              const SizedBox(height: 16),
-              commonTextfieldWithTitle(
-                "Receiver Phone",
-                value.receiverPhoneController,
-                hintText: "Enter phone number",
-              ),
-              const SizedBox(height: 16),
-              commonTextfieldWithTitle(
-                "Receiver Email",
-                value.receiverEmailController,
-                hintText: "Enter email address",
-              ),
-              const SizedBox(height: 16),
-              commonTextfieldWithTitleSideButton(
-                context,
-                "Receiver Address",
-                value.receiverAddressController,
-                hintText: "Enter address",
-                isReceiver: true,
-                enable: false,
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: commonTextfieldWithTitle(
-                      "City",
-                      value.receiverCityController,
-                      hintText: "Enter city",
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: commonTextfieldWithTitle(
-                      "State",
-                      value.receiverStateController,
-                      hintText: "Enter state",
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: commonTextfieldWithTitle(
-                      "Zip",
-                      value.receiverZipController,
-                      hintText: "Enter zip",
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: commonTextfieldWithTitle(
-                      "Pallet Spaces",
-                      value.palletSpacesController,
-                      hintText: "00",
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: commonTextfieldWithTitle(
-                      "Weight",
-                      value.weightController,
-                      hintText: "00 lbs",
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: commonTextfieldWithTitle(
-                      "PO#",
-                      value.poController,
-                      hintText: "00",
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: commonTextfieldWithTitle(
-                      "Bill of Lading",
-                      value.billOfLadingController,
-                      hintText: "00 lbs",
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              commonTextfieldWithTitle(
-                "Delivery Instructions",
-                value.deliveryInstructionsController,
-                hintText: "Enter delivery instructions",
-                maxLine: 3,
-              ),
-              const SizedBox(height: 16),
-
-              // Find Driver Button
-              commonButton(
-                "Create Load",
-                isLoading: value.isLoading,
-                onTap: () async {
-                  await value.createLoad(context: context);
-
-                  if (value.isSuccess == true) {
-                    showModalBottomSheet(
-                      context: context,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(16)),
+          return Form(
+            key: receiverFormKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                commonText("Receiver’s Information",
+                    color: AppColor.black, size: 16, isBold: true),
+                const Divider(),
+                commonTextfieldWithTitle(
+                  "Receiver Name",
+                  value.receiverNameController,
+                  hintText: "Enter full name",
+                  onValidate: OtherHelper.validator
+                ),
+                const SizedBox(height: 16),
+                commonTextfieldWithTitle(
+                  "Receiver Phone",
+                  value.receiverPhoneController,
+                  hintText: "Enter phone number",
+                    onValidate: OtherHelper.validator,
+                  keyboardType: TextInputType.phone
+                ),
+                const SizedBox(height: 16),
+                commonTextfieldWithTitle(
+                  "Receiver Email",
+                  value.receiverEmailController,
+                  hintText: "Enter email address",
+                    onValidate: OtherHelper.emailValidator,
+                  keyboardType: TextInputType.emailAddress
+                ),
+                const SizedBox(height: 16),
+                commonTextfieldWithTitleSideButton(
+                  context,
+                  "Receiver Address",
+                  value.receiverAddressController,
+                  cityController: value.receiverCityController,
+                  stateController: value.receiverStateController,
+                  zipController: value.receiverZipController,
+                  hintText: "Enter address",
+                  isReceiver: true,
+                  enable: false,
+                  keyboardType: TextInputType.none,
+                  onValidate: OtherHelper.validator,
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: commonTextfieldWithTitle(
+                        "City",
+                        value.receiverCityController,
+                        hintText: "Enter city",
+                        onValidate: OtherHelper.validator,
                       ),
-                      builder: (context) {
-                        return Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              commonText(
-                                'Do you have preferred Driver?',
-                                size: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: commonTextfieldWithTitle(
+                        "State",
+                        value.receiverStateController,
+                        hintText: "Enter state",
+                        onValidate: OtherHelper.validator,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: commonTextfieldWithTitle(
+                        "Zip",
+                        value.receiverZipController,
+                        hintText: "Enter zip",
+                        onValidate: OtherHelper.validator,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: commonTextfieldWithTitle(
+                        "Pallet Spaces",
+                        value.palletSpacesController,
+                        hintText: "00",
+                        keyboardType: TextInputType.number,
+                        onValidate: OtherHelper.validator,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: commonTextfieldWithTitle(
+                        "Weight",
+                        value.weightController,
+                        hintText: "00 lbs",
+                        keyboardType: TextInputType.number,
+                        onValidate: OtherHelper.validator,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: commonTextfieldWithTitle(
+                        "PO#",
+                        value.poNumberController,
+                        hintText: "00",
+                        keyboardType: TextInputType.number,
+                        onValidate: OtherHelper.validator,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: commonTextfieldWithTitle(
+                        "Bill of Lading",
+                        value.billOfLadingController,
+                        hintText: "Unique Number",
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                commonTextfieldWithTitle(
+                  "Delivery Instructions",
+                  value.deliveryInstructionsController,
+                  hintText: "Enter delivery instructions",
+                  maxLine: 3,
+                ),
+                const SizedBox(height: 16),
+
+                // Find Driver Button
+                commonButton(
+                  "Create Load",
+                  isLoading: value.isLoading,
+                  onTap: () async {
+                    if(receiverFormKey.currentState!.validate()){
+                      await value.createLoad(context: context);
+
+                      if (value.isSuccess == true) {
+                        showModalBottomSheet(
+                          context: context,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(16)),
+                          ),
+                          builder: (context) {
+                            return Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  // "No" Button
-                                  TextButton(
-                                    onPressed: () async {
-                                      await nearestDriverController
-                                          .findNearestDriver(
+                                  commonText(
+                                    'Do you have preferred Driver?',
+                                    size: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      // "No" Button
+                                      TextButton(
+                                        onPressed: () async {
+                                          await nearestDriverController
+                                              .findNearestDriver(
                                               createdLoadId: value.loadId);
-                                      animetedNavigationPush(
-                                          const UserMap2Page(), context);
-                                    },
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Colors.grey.shade300,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 12, horizontal: 24),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
+                                          animetedNavigationPush(
+                                              const UserMap2Page(), context);
+                                        },
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Colors.grey.shade300,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 12, horizontal: 24),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                        child: commonText(
+                                          'No',
+                                          size: 16,
+                                          color: Colors.black,
+                                        ),
                                       ),
-                                    ),
-                                    child: commonText(
-                                      'No',
-                                      size: 16,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  // "Yes" Button
-                                  TextButton(
-                                    onPressed: () {
-                                      animetedNavigationPush(
-                                          AssignPreferredDriver(), context);
-                                    },
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Colors.blueGrey.shade800,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 12, horizontal: 24),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
+                                      const SizedBox(width: 16),
+                                      // "Yes" Button
+                                      TextButton(
+                                        onPressed: () {
+                                          animetedNavigationPush(
+                                              AssignPreferredDriver(), context);
+                                        },
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Colors.blueGrey.shade800,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 12, horizontal: 24),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                        child: commonText(
+                                          'Yes',
+                                          size: 16,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ),
-                                    child: commonText(
-                                      'Yes',
-                                      size: 16,
-                                      color: Colors.white,
-                                    ),
+                                    ],
                                   ),
+                                  const SizedBox(height: 10),
                                 ],
                               ),
-                              const SizedBox(height: 10),
-                            ],
-                          ),
+                            );
+                          },
                         );
-                      },
-                    );
-                  }
-
-                  // animetedNavigationPush(const UserMap3Page(), context);
-                },
-              ),
-            ],
+                      }
+                    }
+                    // animetedNavigationPush(const UserMap3Page(), context);
+                  },
+                ),
+              ],
+            ),
           );
         },
       )),
@@ -504,6 +524,9 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                 commonTextfieldWithTitleSideButton(
                     context, "Shipper Address",
                     value.shipperAddressController,
+                    cityController: value.shipperCityController,
+                    stateController: value.shipperStateController,
+                    zipController: value.shipperZipController,
                     hintText: "Enter address",
                     isReceiver: false,
                     enable: false,

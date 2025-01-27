@@ -145,6 +145,9 @@ Widget commonTextfieldWithTitleSideButton(
   BuildContext context,
   String title,
   TextEditingController controller, {
+    TextEditingController? cityController,
+    TextEditingController? stateController,
+    TextEditingController? zipController,
   FocusNode? focusNode,
   String hintText = "",
   bool isBold = false,
@@ -199,14 +202,17 @@ Widget commonTextfieldWithTitleSideButton(
                       onTap: () async {
                         CreateLoadMapScreen.isReceiver = isReceiver;
                         CreateLoadMapController.instance.marker.clear();
-                        String data = await Navigator.push(
+                        Map data = await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
                                 CreateLoadMapScreen(), // Show the LocationScreen
                           ),
                         );
-                        controller.text = data;
+                        controller.text = data['address'];
+                        cityController?.text = data['city'];
+                        stateController?.text = data['state'];
+                        zipController?.text = data['zip'];
                       },
                       child: commonText("Select from map")),
                 ],

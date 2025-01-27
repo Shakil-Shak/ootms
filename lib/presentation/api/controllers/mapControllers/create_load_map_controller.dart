@@ -171,7 +171,7 @@ class CreateLoadMapController extends GetxController {
       if (placemarks.isNotEmpty) {
         city = placemarks.first.locality ?? "";
         state = placemarks.first.country ?? "";
-        city = placemarks.first.postalCode ?? "";
+        zip = placemarks.first.postalCode ?? "";
         return "${placemarks.first.street}, ${placemarks.first.subLocality}";
       } else {
         return "Unknown address";

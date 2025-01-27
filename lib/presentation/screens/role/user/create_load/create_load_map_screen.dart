@@ -101,7 +101,13 @@ class _CreateLoadMapScreenState extends State<CreateLoadMapScreen> {
                 children: [
                   InkWell(
                       onTap: () {
-                        String data = createLoadMapController.selectedAddress.value;
+                        // String data = createLoadMapController.selectedAddress.value;
+                        Map<String, String> data = {
+                          "address" : createLoadMapController.selectedAddress.value,
+                          "city" : createLoadMapController.city,
+                          "state" : createLoadMapController.state,
+                          "zip" : createLoadMapController.zip
+                        };
                         debugPrint("Data:======>>> $data");
                         Navigator.pop(context, data);
                       },

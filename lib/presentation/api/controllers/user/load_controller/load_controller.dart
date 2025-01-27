@@ -39,7 +39,7 @@ class LoadController extends ChangeNotifier {
       TextEditingController(text: kDebugMode ? "20" : "");
   final TextEditingController weightController =
       TextEditingController(text: kDebugMode ? "50" : "");
-  final TextEditingController poController =
+  final TextEditingController poNumberController =
       TextEditingController(text: kDebugMode ? "12345" : "");
   final TextEditingController billOfLadingController =
       TextEditingController(text: kDebugMode ? "50" : "");
@@ -191,9 +191,10 @@ class LoadController extends ChangeNotifier {
         "receiverCity": receiverCityController.text,
         "receiverState": receiverStateController.text, 
         "receiverZip": receiverZipController.text,
-        "receiverpostalCode": poController.text,
+        "receiverpostalCode": poNumberController.text,
         "pickupDate": "${pickupController.text}, ${pickupTimeController.text}",
         "deliveryDate": "${deliveryController.text}, ${deliveryTimeController.text}",
+        "poNumber": poNumberController.text,
         "billOfLading": billOfLadingController.text,
         "deliveryInstruction": deliveryInstructionsController.text,
         "receiverLocation": {
@@ -231,7 +232,11 @@ class LoadController extends ChangeNotifier {
 
       }
     } catch (e, s) {
-      showCommonSnackbar(context, "Create Load Failed:$e", isError: true);
+      final RegExp regExp = RegExp(r'message:\s([^,]+)');
+      final match = regExp.firstMatch(e.toString());
+      final message = match?.group(1);
+      showCommonSnackbar(context, "Create Load Failed: $message", isError: true);
+
       log("failed =-==================$e");
       log("failed =-==================$s");
     } finally {
