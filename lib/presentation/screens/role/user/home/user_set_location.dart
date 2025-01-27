@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/create_load_map_controller.dart';
+import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/screens/role/user/create_load/create_load_map_screen.dart';
@@ -58,6 +59,8 @@ class UserSetLocationPage extends StatelessWidget {
                         );
                         value.currentLocation = "${data['address']}, ${data['city']}, ${data['state']}, ${data['zip']}";
                         value.setMapLocation(address: "${data['address']}, ${data['city']}, ${data['state']}, ${data['zip']}");
+                        CustomMapController.instance.userCurrentLocation.value = "${data['address']}, ${data['city']}, ${data['state']}, ${data['zip']}";
+                        CustomMapController.instance.stopLocationUpdates();
                       },
                     ),
                   ),

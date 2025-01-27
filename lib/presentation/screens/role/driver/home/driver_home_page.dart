@@ -16,6 +16,7 @@ import 'package:ootms/presentation/screens/role/driver/notification/driver_all_n
 import 'package:ootms/presentation/screens/role/driver/profile/driver_profile.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_shipping_history.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
+import 'package:ootms/presentation/screens/role/user/home/user_set_location.dart';
 
 import '../../../../components/common_button.dart';
 import '../../../../components/common_textfield.dart';
@@ -184,7 +185,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                               child: InkWell(
                                 onTap: () {
                                   animetedNavigationPush(
-                                      const DriverSetLocationPage(), context);
+                                      const UserSetLocationPage(), context);
                                 },
                                 child: Row(
                                   children: [
@@ -200,6 +201,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                                           ),
                                           Expanded(
                                             child: commonText(
+                                                customMapController.userCurrentLocation.value.isEmpty?  "Current Address Loading..." :
                                                 customMapController
                                                     .userCurrentLocation.value,
                                                 size: 16,

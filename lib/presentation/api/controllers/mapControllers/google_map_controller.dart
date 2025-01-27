@@ -277,6 +277,9 @@ class CustomMapController extends GetxController {
     return await Geolocator.getCurrentPosition();
   }
 
+  ///===========>>> Current Location with timer<<<===========
+
+  Timer? _timer;
   getCurrentLocation({bool isOnDuty = false}) async {
     callSocket() async {
       if(isOnDuty == true){
@@ -286,7 +289,7 @@ class CustomMapController extends GetxController {
       }
     }
     
-    Timer.periodic(const Duration(seconds: 03), (timer) async {
+    _timer = Timer.periodic(const Duration(seconds: 03), (timer) async {
      getUserCurrentLocation().then((value) async {
       updateLocation(value.latitude, value.longitude);
       log("My Current Location:^^^^${value.latitude}, ${value.longitude}");
@@ -298,6 +301,13 @@ class CustomMapController extends GetxController {
     });
      await callSocket();
     });
+  }
+
+  void stopLocationUpdates() {
+    if (_timer != null) {
+      _timer!.cancel();
+      _timer = null; // Cleanup the timer reference
+    }
   }
 
 
