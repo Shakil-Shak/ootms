@@ -185,18 +185,16 @@ class OtherHelper {
     return "";
   }
 
-  // static Future<String> openTimePicker(TextEditingController controller) async {
-  //   final TimeOfDay? picked = await showTimePicker(
-  //       context: Get.context!,
-  //       initialTime: TimeOfDay.now(),
-  //       initialEntryMode: TimePickerEntryMode.input);
+static Future<String> openTimePicker() async {
+    final TimeOfDay? picked = await showTimePicker(
+        context: Get.context!,
+        initialTime: TimeOfDay.now(),
+        initialEntryMode: TimePickerEntryMode.input);
 
-  //   if (picked != null) {
-  //     final period = picked.period == DayPeriod.am ? "AM" : "PM";
-  //     controller.text =
-  //         "${picked.hourOfPeriod == 0 ? 12 : picked.hourOfPeriod} : ${picked.minute < 10 ? "0${picked.minute}" : picked.minute} $period";
-  //     return "${picked.hourOfPeriod == 0 ? 12 : picked.hourOfPeriod}:${picked.minute < 10 ? "0${picked.minute}" : picked.minute} $period";
-  //   }
-  //   return '';
-  // }
+    if (picked != null) {
+      final period = picked.period == DayPeriod.am ? "am" : "pm";
+      return "${picked.hourOfPeriod == 0 ? 12 : picked.hourOfPeriod}:${picked.minute < 10 ? "0${picked.minute}" : picked.minute} $period";
+    }
+    return '';
+  }
 }

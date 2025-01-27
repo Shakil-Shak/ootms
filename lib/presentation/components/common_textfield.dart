@@ -72,7 +72,7 @@ Widget commonTextfieldWithTitle(String title, TextEditingController controller,
     String? assetIconPath,
     Color borderColor = Colors.grey,
     int maxLine = 1,
-    String? Function(String?)? onValidate,
+    final FormFieldValidator? onValidate,
     Function(String?)? onFieldSubmit}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,30 +142,31 @@ Widget commonTextfieldWithTitle(String title, TextEditingController controller,
 }
 
 Widget commonTextfieldWithTitleSideButton(
-    BuildContext context,
-    String title, TextEditingController controller,
-    {FocusNode? focusNode,
-    String hintText = "",
-    bool isBold = false,
-    bool issuffixIconVisible = false,
-    Widget? suffinxIcon,
-    bool isPasswordVisible = false,
-    enable,
-    fontWeight,
-    prifixIconWidget,
-    titleColor = AppColor.black,
-    textSize = 14.0,
-    borderWidth = 2.0,
-    changePasswordVisibility,
-    String prefix = "",
-    TextInputType keyboardType = TextInputType.text,
-    String? assetIconPath,
-    Color borderColor = Colors.grey,
-    int maxLine = 1,
-    String? Function(String?)? onValidate,
-    Function(String?)? onFieldSubmit,
-    bool isReceiver = false,
-    }) {
+  BuildContext context,
+  String title,
+  TextEditingController controller, {
+  FocusNode? focusNode,
+  String hintText = "",
+  bool isBold = false,
+  bool issuffixIconVisible = false,
+  Widget? suffinxIcon,
+  bool isPasswordVisible = false,
+  enable,
+  fontWeight,
+  prifixIconWidget,
+  titleColor = AppColor.black,
+  textSize = 14.0,
+  borderWidth = 2.0,
+  changePasswordVisibility,
+  String prefix = "",
+  TextInputType keyboardType = TextInputType.text,
+  String? assetIconPath,
+  Color borderColor = Colors.grey,
+  int maxLine = 1,
+  String? Function(String?)? onValidate,
+  Function(String?)? onFieldSubmit,
+  bool isReceiver = false,
+}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -195,19 +196,19 @@ Widget commonTextfieldWithTitleSideButton(
                     width: 5,
                   ),
                   InkWell(
-                    onTap: () async {
-                      CreateLoadMapScreen.isReceiver = isReceiver;
-                      CreateLoadMapController.instance.marker.clear();
-                      String data = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CreateLoadMapScreen(), // Show the LocationScreen
-                        ),
-                      );
-                      controller.text = data;
-                    },
-                      child: commonText("Select from map")
-                  ),
+                      onTap: () async {
+                        CreateLoadMapScreen.isReceiver = isReceiver;
+                        CreateLoadMapController.instance.marker.clear();
+                        String data = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CreateLoadMapScreen(), // Show the LocationScreen
+                          ),
+                        );
+                        controller.text = data;
+                      },
+                      child: commonText("Select from map")),
                 ],
               ),
             ),
@@ -223,7 +224,7 @@ Widget commonTextfieldWithTitleSideButton(
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
           child: TextFormField(
-             controller: controller,
+            controller: controller,
             enabled: enable,
             focusNode: focusNode,
             validator: onValidate,

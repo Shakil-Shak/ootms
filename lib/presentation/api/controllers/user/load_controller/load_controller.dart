@@ -72,6 +72,11 @@ class LoadController extends ChangeNotifier {
       TextEditingController(text: kDebugMode ? "Full Load" : "");
   final TextEditingController paymentCtl =
       TextEditingController(text: kDebugMode ? "100" : "");
+  final TextEditingController pickupTimeController =
+  TextEditingController(text: kDebugMode ? "11:00 AM" : "");
+  final TextEditingController deliveryTimeController =
+  TextEditingController(text: kDebugMode ? "02:00 PM" : "");
+
   bool isHazMat = false;
   List<String> hazmatList = [];
   bool isLoading = false;
@@ -96,7 +101,6 @@ class LoadController extends ChangeNotifier {
 
   pickPickupDate() async {
     String pickDate = await OtherHelper.datePicker(pickupController);
-    pickedUpDate = pickDate;
     // Parse the ISO string into a DateTime object
     DateTime dateTime = DateTime.parse(pickDate);
 
@@ -108,9 +112,15 @@ class LoadController extends ChangeNotifier {
     notifyListeners();
   }
 
-  pickdelivaryDate() async {
+  pickPickupTime() async {
+    var pickupTime = await OtherHelper.openTimePicker();
+    pickupTimeController.value = TextEditingValue(text: pickupTime);
+    notifyListeners();
+    log("Pickup Time: $pickupTime");
+  }
+
+  pickDeliveryDate() async {
     String pickDate = await OtherHelper.datePicker(deliveryController);
-    deliveryDate = pickDate;
 
     DateTime dateTime = DateTime.parse(pickDate);
 
@@ -120,6 +130,13 @@ class LoadController extends ChangeNotifier {
     String formattedDate = "$day-$month-${dateTime.year}";
     deliveryController.value= TextEditingValue(text: formattedDate);
     notifyListeners();
+  }
+
+  pickDeliveryTime() async {
+    var deliveryTime = await OtherHelper.openTimePicker();
+    deliveryTimeController.value = TextEditingValue(text: deliveryTime);
+    notifyListeners();
+    log("Pickup Time: $deliveryTime");
   }
 
   void updateHazMatItem(String key, bool value) {
@@ -175,8 +192,8 @@ class LoadController extends ChangeNotifier {
         "receiverState": receiverStateController.text, 
         "receiverZip": receiverZipController.text,
         "receiverpostalCode": poController.text,
-        "pickupDate": pickedUpDate,
-        "deliveryDate": deliveryDate,
+        "pickupDate": "${pickupController.text}, ${pickupTimeController.text}",
+        "deliveryDate": "${deliveryController.text}, ${deliveryTimeController.text}",
         "billOfLading": billOfLadingController.text,
         "deliveryInstruction": deliveryInstructionsController.text,
         "receiverLocation": {
