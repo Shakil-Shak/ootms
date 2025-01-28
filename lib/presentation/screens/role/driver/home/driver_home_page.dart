@@ -326,6 +326,8 @@ class _DriverHomePageState extends State<DriverHomePage> {
                             ],
                           ))
                         : ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
                             itemCount: value.shipingHistory.length > 2
                                 ? 2
                                 : value.shipingHistory.length,
@@ -424,39 +426,48 @@ class _DriverHomePageState extends State<DriverHomePage> {
                       .primaryColorLight, // Light background color for details section
                   borderRadius: BorderRadius.circular(16)),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      commonText(
-                        'BOL Number',
-                        isBold: true,
-                        size: 14,
-                        color: Colors.black,
-                      ),
-                      commonText(
-                        number,
-                        size: 14,
-                        color: Colors.black,
-                      ),
-                    ],
+                  SizedBox(
+                    width: 100,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        commonText(
+                          'Pickup from',
+                          isBold: true,
+                          size: 14,
+                          color: Colors.black,
+                        ),
+                        commonText(
+                          number,
+                          size: 14,
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      commonText(
-                        'Address',
-                        isBold: true,
-                        size: 14,
-                        color: Colors.black,
-                      ),
-                      commonText(
-                        address,
-                        size: 14,
-                        color: Colors.black,
-                      ),
-                    ],
+                  SizedBox(
+                    width: 100,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        commonText(
+                          'Address',
+                          isBold: true,
+                          size: 14,
+                          color: Colors.black,
+                        ),
+                        commonText(
+                          address,
+                          size: 14,
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

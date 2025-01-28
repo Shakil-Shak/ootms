@@ -1,11 +1,11 @@
 class ApiPaths {
-  static const String baseUrl = 'http://10.0.70.87:8030';
-  // static const String baseUrl = 'http://10.0.70.112:8020';
-  // static const String socketUrl = 'http://10.0.70.87:3010';
-  static const String socketUrl = 'http://10.0.70.112:3010';
+  // static const String baseUrl = 'http://10.0.70.87:8030';
+  // // static const String baseUrl = 'http://10.0.70.112:8020';
+  // // static const String socketUrl = 'http://10.0.70.87:3010';
+  // static const String socketUrl = 'http://10.0.70.112:3010';
 
-  // static const String baseUrl = 'http://159.223.184.53:8020';
-  // static const String socketUrl = 'http://159.223.184.53:3011';
+  static const String baseUrl = 'http://159.223.184.53:8020';
+  static const String socketUrl = 'http://159.223.184.53:3011';
 
   static const String signinUrl = '$baseUrl/api/v1/auth/local';
   static const String socialSigninUrl = '$baseUrl/api/v1/auth/social_login';
@@ -57,5 +57,7 @@ class ApiPaths {
 
   static const String chatUrl = '$baseUrl/api/v1/messages/';
   static const String deleteAccount = '$baseUrl/api/v1/users/delete_user';
+  static const String technicalIssue = '$baseUrl/api/v1/loads-request/technical_issue';
+  static const String shipmentStartDelever = '$baseUrl/api/v1/loads-request/action';
 
 }

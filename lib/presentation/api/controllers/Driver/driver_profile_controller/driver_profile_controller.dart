@@ -57,7 +57,7 @@ class DriverProfileController extends GetxController {
 
   driverAppFeedback(
       {required num ratting, required String messege, context}) async {
-    print("topu");
+
     isLoading = true;
     update();
     String userId = await PrefsHelper.getString("userId");
