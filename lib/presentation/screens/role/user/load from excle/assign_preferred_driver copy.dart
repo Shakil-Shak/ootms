@@ -114,7 +114,7 @@ class _AddPreferredDriverPage2State extends State<AddPreferredDriverPage2> {
                               itemBuilder: (context, index) {
                                 log("=================>> ${controller.preferredDriverList[index]}");
                                 SearchPreferredDriverModel data = controller.preferredDriverList[index];
-                                log
+
                                 return prefiredDriverCard(
                                   imagePath: data.image,
                                   drivername: data.fullName,
