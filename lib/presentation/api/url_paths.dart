@@ -57,6 +57,8 @@ class ApiPaths {
 
   static const String chatUrl = '$baseUrl/api/v1/messages/';
   static const String deleteAccount = '$baseUrl/api/v1/users/delete_user';
+  static const String technicalIssue = '$baseUrl/api/v1/loads-request/technical_issue';
+  static const String shipmentStartDelever = '$baseUrl/api/v1/loads-request/action';
   static const String addPreferredDriver = '$baseUrl/api/v1/preferred-driver';
   static const String getMyPreferredDriver = '$baseUrl/api/v1/preferred-driver/my_preferred_driver';
 

@@ -120,11 +120,13 @@ class ApiClient extends GetxService {
 
   static Future<Response> patchData(String uri, dynamic body,
       {Map<String, String>? headers}) async {
+    List<String>? userDetails = await getUserAcessDetails();
+    String token = userDetails![0];
     bearerToken = await PrefsHelper.getString(OtherHelper.bearerToken);
 
     var mainHeaders = {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Bearer $bearerToken'
+      'Authorization': 'Bearer $token'
     };
     try {
       debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');
