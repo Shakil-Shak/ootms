@@ -23,7 +23,7 @@ class DriverFindLoadController extends GetxController {
     String truckId = await PrefsHelper.getString("truckId");
     debugPrint("truckId===$truckId");
     List<Map<String, dynamic>> body = [
-      {"load": loadId, "truck": "678f762f01593b753eb13d8d"}
+      {"load": loadId, "truck": truckId}
     ];
     Map<String, String> header = {
       'Authorization': 'Bearer $token',

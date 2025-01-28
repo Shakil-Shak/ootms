@@ -49,7 +49,7 @@ class OnduityController extends GetxController {
       if (response.statusCode == 200) {
         var data = response.body["data"];
         debugPrint("==================================databody$data");
-        PrefsHelper.setString("truckId", truckIdController.value.text);
+        PrefsHelper.setString("truckId", data["attributes"]["findTruck"]["_id"]);
         PrefsHelper.setString(
             "truckNumber", data["attributes"]["findTruck"]["truckNumber"]);
         PrefsHelper.setString(
