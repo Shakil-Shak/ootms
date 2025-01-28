@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/Driver/equipment_controller/equipment_controller.dart';
-import 'package:ootms/presentation/api/controllers/Driver/find_load_controller.dart';
 import 'package:ootms/presentation/api/controllers/Driver/on_duity_controller/on_duity_controller.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/find_load/driver_find_load.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_drawer.dart';
-import 'package:ootms/presentation/screens/role/driver/home/driver_set_location.dart';
 import 'package:ootms/presentation/screens/role/driver/notification/driver_all_notifications.dart';
 import 'package:ootms/presentation/screens/role/driver/profile/driver_profile.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_shipping_history.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat_list.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_set_location.dart';
 
+import '../../../../api/controllers/Driver/driver_currentshiping_controller/driver_shiping_history.dart';
+import '../../../../api/models/driver_model/driver_shiphistory_model.dart';
 import '../../../../components/common_button.dart';
 import '../../../../components/common_textfield.dart';
 import '../../user/home/user_support.dart';
@@ -36,17 +35,19 @@ class _DriverHomePageState extends State<DriverHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final EquipmentController equipmentController =
       Get.find<EquipmentController>();
+  final DriverShipingHistory shipingController =
+      Get.find<DriverShipingHistory>();
 
   // bool switchValue = false;
   String duty = "On-Duty";
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.microtask(
       () {
         customMapController.getCurrentLocation(isOnDuty: false);
+        shipingController.getDriverShipingHistory();
       },
     );
   }
@@ -55,7 +56,9 @@ class _DriverHomePageState extends State<DriverHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: driverCustomDrawer(context,),
+      drawer: driverCustomDrawer(
+        context,
+      ),
       backgroundColor: AppColor.white,
       body: SingleChildScrollView(
         child: GetBuilder<EquipmentController>(builder: (controller) {
@@ -201,9 +204,14 @@ class _DriverHomePageState extends State<DriverHomePage> {
                                           ),
                                           Expanded(
                                             child: commonText(
-                                                customMapController.userCurrentLocation.value.isEmpty?  "Current Address Loading..." :
                                                 customMapController
-                                                    .userCurrentLocation.value,
+                                                        .userCurrentLocation
+                                                        .value
+                                                        .isEmpty
+                                                    ? "Current Address Loading..."
+                                                    : customMapController
+                                                        .userCurrentLocation
+                                                        .value,
                                                 size: 16,
                                                 color: AppColor.white),
                                           )
@@ -281,9 +289,55 @@ class _DriverHomePageState extends State<DriverHomePage> {
                 padding: const EdgeInsets.only(left: 20),
                 child: commonText("Shipping History", isBold: true, size: 16),
               ),
-              // Recently Tracking Section
-              trakingDesign(number: "123-456-789", address: "Banasree, Dhaka"),
-              trakingDesign(number: "123-456-789", address: "Banasree, Dhaka"),
+              // ==============================================================================Recently Tracking Section
+              GetBuilder<DriverShipingHistory>(builder: (value) {
+                return value.isLoading == true
+                    ? const Column(
+                        children: [
+                          SizedBox(
+                            height: 60,
+                          ),
+                          Center(
+                            child: CircularProgressIndicator(
+                              color: AppColor.primaryColor,
+                            ),
+                          ),
+                        ],
+                      )
+                    : value.shipingHistory.isEmpty
+                        ? Center(
+                            child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                height: 40,
+                              ),
+                              Image.asset(
+                                "assets/images/empty.png",
+                                height: 80,
+                                width: 80,
+                              ),
+                              commonText("Shiping History Empty",
+                                  color: AppColor.black, size: 12),
+                              const SizedBox(
+                                height: 20,
+                              )
+                            ],
+                          ))
+                        : ListView.builder(
+                            itemCount: value.shipingHistory.length > 2
+                                ? 2
+                                : value.shipingHistory.length,
+                            itemBuilder: (context, index) {
+                              DriverShipHistoryModel data =
+                                  value.shipingHistory[index];
+                              return trakingDesign(
+                                  number: data.load.shippingAddress,
+                                  address: data.load.receivingAddress);
+                            });
+              }),
+
               const SizedBox(height: 20),
             ],
           );
@@ -471,7 +525,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                   return commonButton(
                     isLoading: onduityController.isLoading.value,
                     "Start",
-                    onTap: () async{
+                    onTap: () async {
                       await onduityController.onDuity(
                           lan: customMapController.currentLongitude.value,
                           lat: customMapController.currentLatitude.value,
@@ -503,8 +557,8 @@ class _DriverHomePageState extends State<DriverHomePage> {
           value: truckData.id, // Assign truckId as the value
           child: Container(
             width: 300,
-            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-            margin: EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+            margin: const EdgeInsets.symmetric(vertical: 5),
             decoration: BoxDecoration(
               border: Border.all(color: AppColor.black),
               borderRadius: BorderRadius.circular(10),
@@ -571,8 +625,8 @@ class _DriverHomePageState extends State<DriverHomePage> {
           value: trailerData.id,
           child: Container(
             width: 300,
-            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-            margin: EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+            margin: const EdgeInsets.symmetric(vertical: 5),
             decoration: BoxDecoration(
               border: Border.all(color: AppColor.black),
               borderRadius: BorderRadius.circular(10),

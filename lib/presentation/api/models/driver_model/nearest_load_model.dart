@@ -23,10 +23,11 @@ class NearestLoadModel {
   final String receiverCity;
   final String receiverState;
   final String receiverZip;
-  final DateTime pickupDate;
-  final DateTime deliveryDate;
+  final String pickupDate;
+  final String deliveryDate;
   final String billOfLading;
   final String deliveryInstruction;
+  final num poNumber;
   final NearestLoadLocation receiverLocation;
   final NearestLoadLocation shipperLocation;
   final double distance;
@@ -56,17 +57,16 @@ class NearestLoadModel {
     this.receiverCity = "",
     this.receiverState = "",
     this.receiverZip = "",
-    DateTime? pickupDate,
-    DateTime? deliveryDate,
+    this.pickupDate = "",
+    this.deliveryDate = "",
     this.billOfLading = "",
     this.deliveryInstruction = "",
+    this.poNumber = 0,
     NearestLoadLocation? receiverLocation,
     NearestLoadLocation? shipperLocation,
     this.distance = 0.0,
   })  : user = user ?? User(),
         hazmat = hazmat ?? [],
-        pickupDate = pickupDate ?? DateTime.now(),
-        deliveryDate = deliveryDate ?? DateTime.now(),
         receiverLocation = receiverLocation ?? NearestLoadLocation(),
         shipperLocation = shipperLocation ?? NearestLoadLocation();
 
@@ -96,14 +96,11 @@ class NearestLoadModel {
       receiverCity: json['receiverCity'] ?? "",
       receiverState: json['receiverState'] ?? "",
       receiverZip: json['receiverZip'] ?? "",
-      pickupDate: json['pickupDate'] != null
-          ? DateTime.parse(json['pickupDate'])
-          : DateTime.now(),
-      deliveryDate: json['deliveryDate'] != null
-          ? DateTime.parse(json['deliveryDate'])
-          : DateTime.now(),
+      pickupDate: json['pickupDate']??"",
+      deliveryDate: json['deliveryDate']??"",
       billOfLading: json['billOfLading'] ?? "",
       deliveryInstruction: json['deliveryInstruction'] ?? "",
+      poNumber: json['poNumber'] ?? 0,
       receiverLocation: json['receiverLocation'] != null
           ? NearestLoadLocation.fromJson(json['receiverLocation'])
           : NearestLoadLocation(),
@@ -114,41 +111,6 @@ class NearestLoadModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      '_id': id,
-      'user': user.toJson(),
-      'shipperName': shipperName,
-      'shipperPhoneNumber': shipperPhoneNumber,
-      'shipperEmail': shipperEmail,
-      'shippingAddress': shippingAddress,
-      'shippingCity': shippingCity,
-      'shippingState': shippingState,
-      'shippingZip': shippingZip,
-      'palletSpace': palletSpace,
-      'weight': weight,
-      'loadType': loadType,
-      'trailerSize': trailerSize,
-      'productType': productType,
-      'Hazmat': hazmat,
-      'description': description,
-      'shipmentPayment': shipmentPayment,
-      'receiverName': receiverName,
-      'receiverPhoneNumber': receiverPhoneNumber,
-      'receiverEmail': receiverEmail,
-      'receivingAddress': receivingAddress,
-      'receiverCity': receiverCity,
-      'receiverState': receiverState,
-      'receiverZip': receiverZip,
-      'pickupDate': pickupDate.toIso8601String(),
-      'deliveryDate': deliveryDate.toIso8601String(),
-      'billOfLading': billOfLading,
-      'deliveryInstruction': deliveryInstruction,
-      'receiverLocation': receiverLocation.toJson(),
-      'shipperLocation': shipperLocation.toJson(),
-      'distance': distance,
-    };
-  }
 }
 
 class User {

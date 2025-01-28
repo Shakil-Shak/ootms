@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ootms/helpers/prefs_helper.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
 import 'package:ootms/presentation/api/models/driver_model/nearest_load_model.dart';
 import 'package:ootms/presentation/api/models/truck_info_model.dart';
