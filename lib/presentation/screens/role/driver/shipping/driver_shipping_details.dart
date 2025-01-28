@@ -269,7 +269,7 @@ class DriverShippingDetailsPage extends StatelessWidget {
                           serverDate: data.load.pickupDate.toString()),
                       size: 14,
                     ),
-                    commonText("Address: Rupatoli, Barishal",
+                    commonText("Address: ${data.load.shippingAddress}",
                         size: 14, fontWeight: FontWeight.w500),
                     const SizedBox(height: 10),
                     commonText(

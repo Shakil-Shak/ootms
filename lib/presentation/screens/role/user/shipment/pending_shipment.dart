@@ -47,8 +47,13 @@ class _PendingShipmentScreenState extends State<PendingShipmentScreen> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
+              controller.isLoading?
+                  SizedBox(
+                    height: 250,
+                      width: Get.width,
+                      child: const Center(child: CircularProgressIndicator())):
               Expanded(
-                child: ListView.builder(
+                child: controller.pendingShipmentList.isEmpty? SizedBox(height: 250, width: Get.width, child: commonText("No pending shipment found"),) : ListView.builder(
                   controller: controller.scrollController,
                   itemCount: controller.pendingShipmentList.length + 1,
                   itemBuilder: (context, index) {
