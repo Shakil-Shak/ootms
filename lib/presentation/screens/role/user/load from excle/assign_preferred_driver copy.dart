@@ -75,7 +75,7 @@ class _AddPreferredDriverPage2State extends State<AddPreferredDriverPage2> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          controller.getPreferedDriver();
+                          controller.getPreferredDriver();
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: AppColor.primaryColor),
@@ -114,7 +114,7 @@ class _AddPreferredDriverPage2State extends State<AddPreferredDriverPage2> {
                               itemBuilder: (context, index) {
                                 log("=================>> ${controller.preferredDriverList[index]}");
                                 SearchPreferredDriverModel data = controller.preferredDriverList[index];
-
+                                log("=======????>>>>${data.fullName}");
                                 return prefiredDriverCard(
                                   imagePath: data.image,
                                   drivername: data.fullName,
@@ -155,8 +155,7 @@ class _AddPreferredDriverPage2State extends State<AddPreferredDriverPage2> {
           Row(
             children: [
               CommonImage(
-                // imageSrc: "${ApiPaths.baseUrl}$imagePath",
-                imageSrc: "http://159.223.184.53:8020/uploads/users/scaled_1000008094-1738038497656.jpg",
+                imageSrc: "${ApiPaths.baseUrl}$imagePath",
                 imageType: ImageType.network,
                 size: 50,
                 borderRadius: 100,

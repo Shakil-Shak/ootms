@@ -14,7 +14,7 @@ class PreferedDriverController extends GetxController {
 
   List<SearchPreferredDriverModel> preferredDriverList = [];
 
-  getPreferedDriver() async {
+  getPreferredDriver() async {
     isLoading = true;
     update();
     try {

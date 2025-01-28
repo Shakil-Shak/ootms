@@ -49,7 +49,7 @@ class ApiPaths {
   static String appFeedback = '$baseUrl/api/v1/feedbacks/';
   static String driverFeedbacktoUser({userId}) => '$baseUrl/api/v1/feedbacks/$userId';
   static String nearestDriver = '$baseUrl/api/v1/loads/get_nearest_driver?lastLoadId=';
-  static String getPreferedDriver(String?search) => '$baseUrl/api/v1/preferred-driver?searchQuery=$search&limit=100000';
+  static String getPreferedDriver(String?search) => '$baseUrl/api/v1/preferred-driver?searchQuery=$search&limit=1000';
   static const String assignDriver = '$baseUrl/api/v1/loads-request';
   static const String findByBOL = '$baseUrl/api/v1/loads/find_by_billOfLading?bolNumber=';
   static const String onDuity = '$baseUrl/api/v1/users/switch_on_duty';

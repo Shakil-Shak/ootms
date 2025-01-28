@@ -30,7 +30,7 @@ class _AssignPreferredDriverState extends State<AssignPreferredDriver> {
     super.initState();
     Future.microtask(
       () {
-        driverCtl.getPreferedDriver();
+        driverCtl.getPreferredDriver();
       },
     );
   }
