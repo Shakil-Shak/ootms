@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/assets/images_string.dart';
+import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/static_controller/static_controller.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
@@ -53,14 +54,18 @@ Widget userCustomDrawer(BuildContext context) {
                 ],
               ),
 
-              DrawerMenuItem(
-                iconPath: 'assets/icons/shipment.png',
-                text: 'Current Shipment',
-                onTap: () {
-                  Navigator.pop(context);
-                  animetedNavigationPush(UserCurrentShipmentsPage(), context);
-                },
-              ),
+              Consumer<ProfileController>(builder: (context, value, child) {
+                return  DrawerMenuItem(
+                  iconPath: 'assets/icons/shipment.png',
+                  text: 'Current Shipment',
+                  onTap: () {
+                    value.getCurrentShipData(
+                        context: context);
+                    Navigator.pop(context);
+                    animetedNavigationPush(UserCurrentShipmentsPage(), context);
+                  },
+                );
+              },),
               DrawerMenuItem(
                 iconPath: 'assets/icons/loading.png',
                 text: 'Pending Shipments',
@@ -69,18 +74,21 @@ Widget userCustomDrawer(BuildContext context) {
                   animetedNavigationPush(PendingShipmentScreen(), context);
                 },
               ),
-              DrawerMenuItem(
-                iconPath: 'assets/icons/arrow_up.png',
-                text: 'My Load Request',
-                onTap: () async {
-                  Navigator.pop(context);
-                  animetedNavigationPush(
-                      UserLoadRequestPage(
-                        isFromDrawer: true,
-                      ),
-                      context);
-                },
-              ),
+              Consumer<ProfileController>(builder: (context, value, child) {
+                return DrawerMenuItem(
+                  iconPath: 'assets/icons/arrow_up.png',
+                  text: 'My Load Request',
+                  onTap: () async {
+                    await value.getLoadRequestData(context: context);
+                    Navigator.pop(context);
+                    animetedNavigationPush(
+                        UserLoadRequestPage(
+                          isFromDrawer: true,
+                        ),
+                        context);
+                  },
+                );
+              },),
               DrawerMenuItem(
                 iconPath: 'assets/icons/subscription.png',
                 text: 'Subscriptions',

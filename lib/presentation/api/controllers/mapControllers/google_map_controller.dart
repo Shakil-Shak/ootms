@@ -28,6 +28,8 @@ class CustomMapController extends GetxController {
   final Completer<GoogleMapController> googleMapController = Completer();
   CustomInfoWindowController infoWindowController = CustomInfoWindowController();
   //========================filter value
+
+  Timer? timer;
   RxDouble sliderValue = 0.0.obs;
   RxDouble minValue = 0.0.obs;
   RxDouble maxValue = 0.0.obs;
@@ -141,10 +143,11 @@ class CustomMapController extends GetxController {
     final BitmapDescriptor customMarker = await _loadTruckIcon(Get.context!, iconPath, iconHeight: 60);
     Marker newMarker = Marker(
       onTap: onTap,
-      infoWindow: InfoWindow(title: placeId),
+      infoWindow: const InfoWindow(title: "Truck for load"),
       icon: customMarker,
       markerId: MarkerId(placeId), // Use a unique MarkerId for each marker
       position: LatLng(latitude, longitude),
+      // rotation: calculateBearing(start, end);
     );
 
     marker.add(newMarker);
@@ -279,7 +282,6 @@ class CustomMapController extends GetxController {
 
   ///===========>>> Current Location with timer<<<===========
 
-  Timer? _timer;
   getCurrentLocation({bool isOnDuty = false}) async {
     callSocket() async {
       if(isOnDuty == true){
@@ -289,7 +291,7 @@ class CustomMapController extends GetxController {
       }
     }
     
-    _timer = Timer.periodic(const Duration(seconds: 03), (timer) async {
+    timer = Timer.periodic(const Duration(seconds: 03), (timer) async {
      getUserCurrentLocation().then((value) async {
       updateLocation(value.latitude, value.longitude);
       log("My Current Location:^^^^${value.latitude}, ${value.longitude}");
@@ -304,9 +306,9 @@ class CustomMapController extends GetxController {
   }
 
   void stopLocationUpdates() {
-    if (_timer != null) {
-      _timer!.cancel();
-      _timer = null; // Cleanup the timer reference
+    if (timer != null) {
+      timer!.cancel();
+      timer = null; // Cleanup the timer reference
     }
   }
 

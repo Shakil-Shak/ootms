@@ -1,50 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ootms/presentation/api/controllers/user/nearest_driver_controller/find_nearest_driver_controller.dart';
+import 'package:ootms/presentation/api/models/user_model/shiping_model/pending_shipping_model.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/navigation/animeted_navigation.dart';
+import 'package:ootms/presentation/screens/role/user/home/user_map2.dart';
+import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_preferred_driver.dart';
 
 class LoadDetailsScreen extends StatelessWidget {
-  const LoadDetailsScreen({super.key});
+  LoadDetailsScreen({super.key});
 
-  final String shipperPhone = "123-456-789",
-      shipperName = "NR Shakib",
-      shipperRating = "4.5",
-      shipperEmail = "example@gmail.com",
-      shipperAddress = "Rupatoli, Barishal",
-      reciverName = "MD. Shihabul Islam",
-      reciverPhone = "123-456-789",
-      reciverEmail = "example@gmail.com",
-      reciverAddress = "Banasree, Dhaka",
-      deliveryInstructions =
-          "Lorem ipsum dolor sit amet consectetur. Blandit auctor sit scelerisque ultricies.",
-      description =
-          "Lorem ipsum dolor sit amet consectetur. Blandit auctor sit scelerisque ultricies.";
-
-  // Widget editButton() {
-  //   return TextButton.icon(
-  //     onPressed: () {},
-  //     icon: const Icon(Icons.edit, size: 16, color: Colors.black),
-  //     label: commonText(
-  //       'Edit Details',
-  //       size: 12,
-  //     ),
-  //     style: TextButton.styleFrom(
-  //       backgroundColor: AppColor.primaryColorLight.withOpacity(0.5),
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-  //       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-  //     ),
-  //   );
-  // }
+  static PendingShipmentModel? shippingItems;
+  FindNearestDriverController nearestDriverController = Get.find<FindNearestDriverController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back, color: Colors.black),
-        //   onPressed: () {
-        //     // Go back
-        //   },
-        // ),
         title: commonText(
           'Load Details',
           size: 21,
@@ -59,6 +32,7 @@ class LoadDetailsScreen extends StatelessWidget {
           child: Column(
             children: [
               ExpansionTile(
+                enabled: true,
                 title: commonText(
                   "Shipper's Information",
                   size: 16,
@@ -93,6 +67,86 @@ class LoadDetailsScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0), child: reciverInfo()),
                 ],
               ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    commonText(
+                      'Do you have preferred Driver?',
+                      size: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // "No" Button
+                        TextButton(
+                          onPressed: () async {
+                            await nearestDriverController
+                                .findNearestDriver(
+                                createdLoadId: "value.loadId");
+                            animetedNavigationPush(
+                                const UserMap2Page(), context);
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.grey.shade300,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 24),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: commonText(
+                            'No',
+                            size: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(width: 36),
+                        // "Yes" Button
+                        TextButton(
+                          onPressed: () {
+                            animetedNavigationPush(
+                                AssignPreferredDriver(), context);
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.blueGrey.shade800,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 24),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: commonText(
+                            'Yes',
+                            size: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     commonText(
+                    //       "Don't want to assign Driver now? ",
+                    //       size: 14,
+                    //     ),
+                    //     GestureDetector(
+                    //         onTap: () {
+                    //           navController.currentIndex = 0;
+                    //           slideNavigationPushAndRemoveUntil(const UserRootPage(), context);
+                    //         },
+                    //         child: commonText("Tap here", decoration: TextDecoration.underline, size: 14, fontWeight: FontWeight.bold, color: AppColor.primaryColor))
+                    //   ],
+                    // ),
+                    const SizedBox(height: 10),
+                  ],
+                ),
+              )
             ],
           ),
         ),
@@ -108,11 +162,11 @@ class LoadDetailsScreen extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         
         const SizedBox(height: 10),
-        _buildInfoRow("Shipper Name", " $shipperRating $shipperName",
-            "Shipper Phone", shipperPhone),
+        _buildInfoRow("Shipper Name", " ${shippingItems?.shipperName}",
+            "Shipper Phone", "${shippingItems?.shipperPhoneNumber}"),
         const SizedBox(height: 10),
         _buildInfoRow(
-            "Shipper Email", shipperEmail, "Shipper Address", shipperAddress),
+            "Shipper Email", "${shippingItems?.shipperEmail}", "Shipper Address", "${shippingItems?.shippingAddress}"),
         const SizedBox(
           height: 10,
         )
@@ -140,10 +194,10 @@ class LoadDetailsScreen extends StatelessWidget {
           
           const SizedBox(height: 10),
           _buildInfoRow(
-              "Receiver Name", reciverName, "Receiver Phone", reciverPhone),
+              "Receiver Name", "${shippingItems?.receiverName}", "Receiver Phone", "${shippingItems?.receiverPhoneNumber}"),
           const SizedBox(height: 10),
-          _buildInfoRow("Receiver Email", reciverEmail, "Receiver Address",
-              reciverAddress),
+          _buildInfoRow("Receiver Email", "${shippingItems?.receiverEmail}", "Receiver Address",
+              "${shippingItems?.receivingAddress}"),
           const SizedBox(height: 10),
         ],
       ),
@@ -246,7 +300,7 @@ class LoadDetailsScreen extends StatelessWidget {
           // Delivery Instructions
           commonText("Delivery Instructions", isBold: true, size: 16),
           const SizedBox(height: 5),
-          commonText(description),
+          commonText("${shippingItems?.description}"),
         ],
       ),
     );

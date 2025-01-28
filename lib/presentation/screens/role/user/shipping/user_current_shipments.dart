@@ -10,7 +10,6 @@ import 'package:ootms/presentation/components/common_image.dart';
 
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
-import 'package:ootms/presentation/screens/role/driver/chat/driver_chat_details.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat_details.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_map2.dart';
 import 'package:provider/provider.dart';

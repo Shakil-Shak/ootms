@@ -45,7 +45,7 @@ class _LoadDataScreenState extends State<LoadDataScreen> {
                       child: ListTile(
                         onTap: () {
                           animetedNavigationPush(
-                              (const LoadDetailsScreen()), context);
+                              (LoadDetailsScreen()), context);
                         },
                         title: commonText(
                             widget.loadDataList[index].billOfLading,

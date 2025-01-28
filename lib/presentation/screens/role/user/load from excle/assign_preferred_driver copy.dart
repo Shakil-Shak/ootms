@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:ootms/presentation/api/models/user_model/prefered_driver_model.d
 import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_image.dart';
 import 'package:ootms/presentation/components/common_text.dart';
+import 'package:ootms/presentation/components/debouncer.dart';
 
 class AddPreferredDriverPage2 extends StatefulWidget {
   const AddPreferredDriverPage2({super.key});
@@ -21,12 +23,19 @@ class AddPreferredDriverPage2 extends StatefulWidget {
 class _AddPreferredDriverPage2State extends State<AddPreferredDriverPage2> {
 
   final PreferedDriverController driverCtl = Get.find<PreferedDriverController>();
+
+  final Debouncer _debouncer = Debouncer(milliseconds: 500);
+
+  void _search(String query) {
+    driverCtl.getPreferredDriver();
+    debugPrint("Searching for: $query");
+  }
+
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
-      
-    // driverCtl.getPreferedDriver();
+    driverCtl.getMyPreferredDriver();
     },);
   }
 
@@ -67,61 +76,110 @@ class _AddPreferredDriverPage2State extends State<AddPreferredDriverPage2> {
                       Expanded(
                         child: TextField(
                           controller: controller.searchController,
+                          keyboardType: TextInputType.phone,
+                          onChanged: (value) {
+                            _debouncer.run(() {
+                              _search(value);
+                            });
+                          },
                           decoration: const InputDecoration(
                             hintText: "Enter your driver’s phone",
                             border: InputBorder.none,
                           ),
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          controller.getPreferredDriver();
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColor.primaryColor),
-                        child: commonText("Search", color: AppColor.white),
-                      ),
+                      const Icon(Icons.search, color: AppColor.primaryColor,),
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     controller.getPreferredDriver();
+                      //   },
+                      //   style: ElevatedButton.styleFrom(
+                      //       backgroundColor: AppColor.primaryColor),
+                      //   child: commonText("Search", color: AppColor.white),
+                      // ),
                       const SizedBox(
-                        width: 10,
+                        width: 20,
                       )
                     ],
                   ),
                 ),
-                Expanded(
+                controller.searchController.text.isEmpty? const SizedBox.shrink() : Expanded(
                   child: driverCtl.isLoading == true
                       ? const Center(
                           child: CircularProgressIndicator(
                             color: AppColor.primaryColor,
                           ),
                         )
-                      : driverCtl.preferredDriverList.isEmpty
+                      : driverCtl.searchPreferredDriverList.isEmpty
                           ? Center(
                               child: Column(
                                 children: [
-                                  SizedBox(height: 40),
+                                  const SizedBox(height: 40),
                                   CommonImage(
                                     imageSrc: "assets/images/empty.png",
                                     imageType: ImageType.png,
                                     height: 60,
                                     width: 60,
                                   ),
-                                  commonText("No preferred Driver found")
+                                  commonText("No Driver found")
                                 ],
                               ),
                             )
                           : ListView.builder(
-                              itemCount: controller.preferredDriverList.length,
+                              itemCount: controller.searchPreferredDriverList.length,
                               itemBuilder: (context, index) {
-                                log("=================>> ${controller.preferredDriverList[index]}");
-                                SearchPreferredDriverModel data = controller.preferredDriverList[index];
+                                SearchPreferredDriverModel data = controller.searchPreferredDriverList[index];
                                 log("=======????>>>>${data.fullName}");
-                                return prefiredDriverCard(
+                                return preferredDriverCard(
+                                  onTap: () {
+                                    controller.addPreferredDriver(context,driverId: data.id);
+                                  },
                                   imagePath: data.image,
                                   drivername: data.fullName,
                                   driverId: data.userId,
                                   rating: data.ratings.toString(),
                                 );
                               }),
+                ) ,
+
+                SizedBox(height: 20,),
+                commonText("My Preferred Driver", size: 16, isBold: true),
+                SizedBox(height: 20,),
+                Expanded(
+                  child: driverCtl.isMyDriverLoading == true
+                      ? const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColor.primaryColor,
+                    ),
+                  )
+                      : driverCtl.myPreferredDriverList.isEmpty
+                      ? Center(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 40),
+                        CommonImage(
+                          imageSrc: "assets/images/empty.png",
+                          imageType: ImageType.png,
+                          height: 60,
+                          width: 60,
+                        ),
+                        commonText("No preferred Driver found")
+                      ],
+                    ),
+                  )
+                      :ListView.builder(
+                      itemCount: controller.myPreferredDriverList.length,
+                      itemBuilder: (context, index) {
+                        PreferredDriverModel data = controller.myPreferredDriverList[index];
+                        log("=======????>>>>${data.driverInfo.fullName}");
+                        return preferredDriverCard(
+                          onTap: () {},
+                          imagePath: data.driverInfo.image,
+                          drivername: data.driverInfo.fullName,
+                          driverId: data.driverInfo.userId,
+                          rating: data.driverInfo.ratings.toString(),
+                        );
+                      }),
                 )
               ],
             ),
@@ -129,77 +187,80 @@ class _AddPreferredDriverPage2State extends State<AddPreferredDriverPage2> {
         }));
   }
 
-  prefiredDriverCard({
+  preferredDriverCard({
     required String imagePath,
     required String drivername,
     required String rating,
     required String driverId,
+    required VoidCallback? onTap,
   }) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      width: Get.width,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: const Color.fromARGB(255, 14, 13, 13).withOpacity(0.1),
-            blurRadius: 5,
-            offset: Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              CommonImage(
-                imageSrc: "${ApiPaths.baseUrl}$imagePath",
-                imageType: ImageType.network,
-                size: 50,
-                borderRadius: 100,
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  commonText(drivername,
-                      size: 20,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.black),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.star,
-                        color: Colors.yellow,
-                        size: 12,
-                      ),
-                      const SizedBox(
-                        width: 3,
-                      ),
-                      commonText(rating,
-                          size: 14,
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.black),
-                    ],
-                  ),
-                  commonText("Driver ID: $driverId",
-                      size: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.black),
-                ],
-              )
-            ],
-          )
-        ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        width: Get.width,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: const Color.fromARGB(255, 14, 13, 13).withOpacity(0.1),
+              blurRadius: 5,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                CommonImage(
+                  imageSrc: "${ApiPaths.baseUrl}$imagePath",
+                  imageType: ImageType.network,
+                  size: 50,
+                  borderRadius: 100,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    commonText(drivername,
+                        size: 20,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.black),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.star,
+                          color: Colors.yellow,
+                          size: 12,
+                        ),
+                        const SizedBox(
+                          width: 3,
+                        ),
+                        commonText(rating,
+                            size: 14,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.black),
+                      ],
+                    ),
+                    commonText("Driver ID: $driverId",
+                        size: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.black),
+                  ],
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
 }
-
 
 
                 // const SizedBox(height: 20),

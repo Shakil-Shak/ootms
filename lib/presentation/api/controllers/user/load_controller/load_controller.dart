@@ -219,7 +219,7 @@ class LoadController extends ChangeNotifier {
       final response = await apiService.otherPostRequest(
           ApiPaths.createLoad, jsonEncode(data));
 
-      log("status code before =-==================${response}");
+      log("status code before =-==================$response");
       if (response["statusCode"] == "201") {
         log("status code after =-==================${response["statusCode"]}");
         final id = response["data"]["attributes"][0]["_id"];

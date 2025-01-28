@@ -64,7 +64,7 @@ class _UserProfileState extends State<UserProfile> {
                       controller.profileData.image.isNotEmpty
                           ? CommonImage(
                               imageSrc: ApiPaths.baseUrl +
-                                  controller.profileData!.image,
+                                  controller.profileData.image,
                               imageType: ImageType.network,
                               size: 100,
                               borderRadius: 100,
@@ -120,11 +120,11 @@ class _UserProfileState extends State<UserProfile> {
                                   //     ),
                                   //     context);
                                   Get.to(() => UserEditProfile(
-                                      imagePath: controller.profileData!.image,
-                                      title: controller.profileData!.fullName,
-                                      email: controller.profileData!.email,
-                                      contact: controller.profileData!.phoneNumber,
-                                      address: controller.profileData!.address,
+                                      imagePath: controller.profileData.image,
+                                      title: controller.profileData.fullName,
+                                      email: controller.profileData.email,
+                                      contact: controller.profileData.phoneNumber,
+                                      address: controller.profileData.address,
                                       country: "USA",
                                      ));
                                 },

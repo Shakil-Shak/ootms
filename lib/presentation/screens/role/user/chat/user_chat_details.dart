@@ -9,12 +9,14 @@ import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/helpers/other_helper.dart';
 import 'package:ootms/presentation/api/controllers/common/chat_controller.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
+import 'package:ootms/presentation/api/controllers/user/nearest_driver_controller/find_nearest_driver_controller.dart';
 import 'package:ootms/presentation/api/models/user_model/shiping_model/current_shiping_model.dart';
 import 'package:ootms/presentation/api/service/socket_service.dart';
 import 'package:ootms/presentation/components/common_button.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/chat/user_chat.dart';
+import 'package:ootms/presentation/screens/role/user/home/user_map2.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_map_with_polyline.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +26,7 @@ class UserChatDetailsScreen extends StatelessWidget {
   UserChatDetailsScreen({super.key, required this.shipmentDetails});
 
   ChatController chatController = Get.find<ChatController>();
+  FindNearestDriverController nearestDriverController = Get.find<FindNearestDriverController>();
 
   @override
   Widget build(BuildContext context) {
@@ -302,7 +305,8 @@ class UserChatDetailsScreen extends StatelessWidget {
               Expanded(
                 child: commonButton(
                   onTap: () async {
-                     callForLiveLocation();
+                     await callForLiveLocation();
+                     animetedNavigationPush(const UserMapWithPolyline(), Get.context!);
                   },
                     "Track On Map",
                     borderRadious: 10,
@@ -311,10 +315,18 @@ class UserChatDetailsScreen extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: commonButton(
+                child: Obx(() => commonButton(
+                  isLoading: nearestDriverController.isLoading.value,
+                  onTap: () async {
+                    await nearestDriverController
+                        .findNearestDriver(
+                        createdLoadId: shipmentDetails.load.id);
+                    animetedNavigationPush(
+                        const UserMap2Page(), Get.context!);
+                  },
                   borderRadious: 10,
                   "Re-Assign",
-                ),
+                ),),
               ),
             ],
           ),
@@ -329,7 +341,7 @@ class UserChatDetailsScreen extends StatelessWidget {
         shipmentDetails.driver.location.coordinates.last.toDouble(),
         shipmentDetails.driver.location.coordinates.first.toDouble());
 
-    Timer.periodic(const Duration(seconds: 03), (timer) async {
+    CustomMapController.instance.timer = Timer.periodic(const Duration(seconds: 03), (timer) async {
       CustomMapController.instance.marker.clear();
 
       CustomMapController.instance.setMarker(
@@ -355,6 +367,5 @@ class UserChatDetailsScreen extends StatelessWidget {
     });
 
     log("CustomMapController.instance.marker ${CustomMapController.instance.marker.length}");
-    animetedNavigationPush(const UserMapWithPolyline(), Get.context!);
   }
 }

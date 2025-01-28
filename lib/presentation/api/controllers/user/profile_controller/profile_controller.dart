@@ -317,7 +317,7 @@ class ProfileController extends ChangeNotifier {
         loadRequestData = responseData
             .map((items) => LoadRequestModel.fromJson(items))
             .toList();
-        log("===========================================================loadRequestData: $loadRequestData");
+        log("=================loadRequestData: $loadRequestData");
       } else {
         log("Error: statusCode is not 200 or response is null");
       }

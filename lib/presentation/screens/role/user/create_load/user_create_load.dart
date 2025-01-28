@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/helpers/other_helper.dart';
+import 'package:ootms/presentation/api/controllers/common/bottom_nav_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/nearest_driver_controller/find_nearest_driver_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/load_controller/load_controller.dart';
 import 'package:ootms/presentation/components/common_button.dart';
@@ -13,6 +14,7 @@ import 'package:ootms/presentation/components/common_textfield.dart';
 import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/user/home/user_map2.dart';
 import 'package:ootms/presentation/screens/role/user/load%20from%20excle/assign_preferred_driver.dart';
+import 'package:ootms/presentation/screens/role/user/user_bottom_navigation.dart';
 import 'package:provider/provider.dart';
 
 class UserCreateLoadPage extends StatefulWidget {
@@ -27,8 +29,9 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
   TabController? _tabController;
   String selectedValue = "";
 
-  FindNearestDriverController nearestDriverController =
-      Get.find<FindNearestDriverController>();
+  FindNearestDriverController nearestDriverController = Get.find<FindNearestDriverController>();
+  BottomNavController navController = Get.find<BottomNavController>();
+
   final GlobalKey<FormState> shipperFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> receiverFormKey = GlobalKey<FormState>();
 
@@ -260,6 +263,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
   }
 
   Widget receiverInformationTab() {
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(child: Consumer<LoadController>(
@@ -448,7 +452,7 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                                           color: Colors.black,
                                         ),
                                       ),
-                                      const SizedBox(width: 16),
+                                      const SizedBox(width: 36),
                                       // "Yes" Button
                                       TextButton(
                                         onPressed: () {
@@ -469,6 +473,22 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                                           color: Colors.white,
                                         ),
                                       ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      commonText(
+                                        "Don't want to assign Driver now? ",
+                                        size: 14,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          navController.currentIndex = 0;
+                                          slideNavigationPushAndRemoveUntil(const UserRootPage(), context);
+                                        },
+                                          child: commonText("Tap here", decoration: TextDecoration.underline, size: 14, fontWeight: FontWeight.bold, color: AppColor.primaryColor))
                                     ],
                                   ),
                                   const SizedBox(height: 10),
@@ -755,7 +775,8 @@ class _UserCreateLoadPageState extends State<UserCreateLoadPage>
                   "Shipment Payment",
                   value.paymentCtl,
                   hintText: "Write your message",
-                  onValidate: OtherHelper.validator
+                  onValidate: OtherHelper.validator,
+                  keyboardType: TextInputType.number
                 ),
                 const SizedBox(height: 16),
 

@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
 
 class UserMap2Page extends StatefulWidget {

@@ -49,6 +49,7 @@ class _UserMapWithPolylineState extends State<UserMapWithPolyline> {
             child: InkWell(
               onTap: () {
                 Navigator.pop(context);
+                customMapController.stopLocationUpdates();
               },
               child: Container(
                 padding: const EdgeInsets.all(8.0),

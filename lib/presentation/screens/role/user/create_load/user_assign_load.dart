@@ -127,8 +127,8 @@ class UserAssignLoadPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      commonText("Availability", isBold: true),
-                      commonText("Fully Available."),
+                      commonText("Available Trailer Space", isBold: true),
+                      commonText("${loadDetails.truck.palletSpace} pallets."),
                     ],
                   ),
                 ),

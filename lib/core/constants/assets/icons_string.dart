@@ -11,4 +11,5 @@ class AppIcons {
   static const trailer = "assets/icons/trailer.svg";
   static const filter = "assets/icons/filterTwo.svg";
   static const redTruck = "assets/icons/redTruck.png";
+  static const yellowTruck = "assets/icons/yellowTruck.png";
 }

@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ootms/presentation/api/controllers/user/load_controller/load_controller.dart';
@@ -76,7 +78,7 @@ class _AssignPreferredDriverState extends State<AssignPreferredDriver> {
                                 color: AppColor.primaryColor,
                               ),
                             )
-                          : driverCtl.preferredDriverList.isEmpty
+                          : driverCtl.searchPreferredDriverList.isEmpty
                               ? Center(
                                   child: Column(
                                     children: [
@@ -92,26 +94,22 @@ class _AssignPreferredDriverState extends State<AssignPreferredDriver> {
                                   ),
                                 )
                               : ListView.builder(
-                                  itemCount: driverCtl.preferredDriverList.length,
+                                  itemCount: driverCtl.searchPreferredDriverList.length,
                                   itemBuilder: (context, index) {
-                                    print(
-                                        "mydriver=============================================${driverCtl.preferredDriverList}");
+                                    log("mydriver============${driverCtl.searchPreferredDriverList}");
                                     // PreferredDriverModel data = driverCtl.preferredDriverList[index];
                                     PreferredDriverModel data = [] as PreferredDriverModel;
                                     return InkWell(
                                       onTap: () {
                                         setState(() {
-                                          value.driverIdcontroller.text =
-                                              data.driverInfo!.id.toString();
+                                          value.driverIdcontroller.text = data.driverInfo.id.toString();
                                         });
                                       },
                                       child: prefiredDriverCard(
-                                        imagePath: data.driverInfo!.image!,
-                                        drivername:
-                                            data.driverInfo!.fullName ?? "",
-                                        driverId: data.driverInfo!.userId ?? "",
-                                        rating:
-                                            data.driverInfo!.ratings.toString(),
+                                        imagePath: data.driverInfo.image,
+                                        drivername: data.driverInfo.fullName ?? "",
+                                        driverId: data.driverInfo.userId ?? "",
+                                        rating: data.driverInfo.ratings.toString(),
                                       ),
                                     );
                                   }),
@@ -150,7 +148,7 @@ class _AssignPreferredDriverState extends State<AssignPreferredDriver> {
           Row(
             children: [
               CommonImage(
-                imageSrc: "${ApiPaths.baseUrl}${imagePath}",
+                imageSrc: "${ApiPaths.baseUrl}$imagePath",
                 imageType: ImageType.network,
                 size: 50,
                 borderRadius: 100,

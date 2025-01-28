@@ -171,7 +171,7 @@ class OtherHelper {
           child: child!),
       context: Get.context!,
       initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );
 

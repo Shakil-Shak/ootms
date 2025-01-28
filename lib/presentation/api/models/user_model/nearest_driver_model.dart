@@ -10,8 +10,8 @@ class NearestDriverModel {
   final bool validDriver;
   final bool isSocialLogin;
   final bool isDeleted;
-  final int ratings;
-  final int remainingDispatch;
+  final num ratings;
+  final num remainingDispatch;
   final String role;
   final String createdAt;
   final String updatedAt;
@@ -79,9 +79,10 @@ class Truck {
   final String driver;
   final String cdlNumber;
   final String truckNumber;
-  final int trailerSize;
-  final int palletSpace;
-  final int weight;
+  final num trailerSize;
+  final num palletSpace;
+  final num weight;
+  final num availablePalletSpace;
   final String createdAt;
   final String updatedAt;
 
@@ -93,6 +94,7 @@ class Truck {
     this.trailerSize = 0,
     this.palletSpace = 0,
     this.weight = 0,
+    this.availablePalletSpace = 0,
     this.createdAt = '',
     this.updatedAt = '',
   });
@@ -106,6 +108,7 @@ class Truck {
       trailerSize: json['trailerSize'] ?? 0,
       palletSpace: json['palletSpace'] ?? 0,
       weight: json['weight'] ?? 0,
+      availablePalletSpace: json['availablePalletSpace'] ?? 0,
       createdAt: json['createdAt'] ?? '',
       updatedAt: json['updatedAt'] ?? '',
     );

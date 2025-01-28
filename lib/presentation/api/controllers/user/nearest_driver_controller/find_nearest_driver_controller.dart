@@ -68,11 +68,11 @@ class FindNearestDriverController extends GetxController{
         for (NearestDriverModel loadItems in nearestDriverList) {
           log("Set Marker${loadItems.location.coordinates.first}, ${loadItems.location.coordinates.last}");
 
-          CustomMapController.instance.setDriverLocationMarker(
+          await CustomMapController.instance.setDriverLocationMarker(
               loadItems.location.coordinates.last.toDouble(),
               loadItems.location.coordinates.first.toDouble(),
               'marker_${count++}',
-              AppIcons.greenTruck,
+            loadItems.truck.palletSpace == loadItems.truck.availablePalletSpace? AppIcons.greenTruck : loadItems.truck.availablePalletSpace == 0? AppIcons.redTruck : AppIcons.yellowTruck,
               loadItems,
             onTap: () {
               UserAssignLoadPage.loadDetails = loadItems;
