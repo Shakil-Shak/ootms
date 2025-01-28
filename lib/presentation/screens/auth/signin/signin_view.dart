@@ -22,9 +22,9 @@ import 'package:provider/provider.dart';
 
 class SignInPage extends StatelessWidget {
   final TextEditingController emailController =
-      TextEditingController(text: "");
+      TextEditingController(text: "user@gmail.com");
   final TextEditingController passwordController =
-      TextEditingController(text: "");
+      TextEditingController(text: "hello123");
   final bool user;
 
   SignInPage({super.key, required this.user});
@@ -171,7 +171,8 @@ class SignInPage extends StatelessWidget {
                               showCommonSnackbar(context, "Login successful!");
 
                               if (signinModel.data.attributes.role == "user") {
-                         
+                                animetedNavigationPush(
+                                    const UserRootPage(), context);
                               } else {
                                 animetedNavigationPush(
                                     const DriverRootPage(), context);

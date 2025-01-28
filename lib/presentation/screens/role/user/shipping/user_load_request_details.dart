@@ -4,6 +4,7 @@ import 'dart:developer';
 
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/components/common_text.dart';
 import 'package:ootms/presentation/components/common_button.dart';
@@ -18,6 +19,7 @@ class UserLoadRequestDetailsPage extends StatelessWidget {
   String trailerSize;
   String palletSpaces;
   String availability;
+  bool isMyLoad;
 
 
   UserLoadRequestDetailsPage({
@@ -30,6 +32,7 @@ class UserLoadRequestDetailsPage extends StatelessWidget {
     required this.trailerSize,
     required this.palletSpaces,
     required this.availability,
+    required this.isMyLoad
   });
   @override
   Widget build(BuildContext context) {
@@ -150,61 +153,32 @@ class UserLoadRequestDetailsPage extends StatelessWidget {
             const SizedBox(height: 20),
 
             // Message Input with Call Button
-            Row(
-              children: [
-                // Message input field
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: Colors.grey, width: 1),
-                    ),
-                    child: const Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12.0),
-                          child: Icon(
-                            Icons.message,
-                            color: AppColor.black,
-                          ),
-                        ),
-                        Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: "Send a message",
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+            InkWell(
+              onTap: () {
+                _launchDialer(driverPhone);
+              },
+              child: Container(
+                width: Get.width,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    color: AppColor.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: const [BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 3,
+                      spreadRadius: 2
+                    )],
+                    border: Border.all(width: 1, color: Colors.black38)),
+                child: const Icon(
+                  Icons.phone,
+                  color: Colors.black,
                 ),
-                const SizedBox(width: 10),
-                // Phone icon button
-                InkWell(
-                  onTap: () {
-                    _launchDialer(driverPhone);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        color: AppColor.white,
-                        shape: BoxShape.circle,
-                        border: Border.all(width: 1)),
-                    child: const Icon(
-                      Icons.phone,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
             const SizedBox(height: 20),
 
             // Cancel and Assign Load Buttons
-            Row(
+            !isMyLoad? Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
@@ -222,7 +196,7 @@ class UserLoadRequestDetailsPage extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
+            ) : const SizedBox.shrink(),
           ],
         ),
       ),

@@ -57,6 +57,7 @@ class EquipmentField extends StatelessWidget {
                             height: 20,
                           ),
                           commonTextfieldWithTitle(
+                            keyboardType: TextInputType.number,
                             "Trailer Size",
                             controller.trailerSizeController,
                             onValidate: (value) => OtherHelper.validator(value),
@@ -66,6 +67,7 @@ class EquipmentField extends StatelessWidget {
                             height: 10,
                           ),
                           commonTextfieldWithTitle(
+                            keyboardType: TextInputType.number,
                             "Pallete Space",
                             controller.palletController,
                             onValidate: (value) => OtherHelper.validator(value),
@@ -75,6 +77,7 @@ class EquipmentField extends StatelessWidget {
                             height: 10,
                           ),
                           commonTextfieldWithTitle(
+                            keyboardType: TextInputType.number,
                             "Weight",
                             controller.weightController,
                             onValidate: (value) => OtherHelper.validator(value),

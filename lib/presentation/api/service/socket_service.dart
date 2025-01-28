@@ -24,16 +24,16 @@ class SocketServices {
               .enableAutoConnect()
               .setExtraHeaders({'authorization': token}) // optional
               .build());
-    }
 
-    socket.onConnect((data) {
-      log("=============================> Connection $data");
-    });
-    socket.onConnectError((data) {
+      socket.onConnect((data) {
+        log("=============================> Connection $data");
+      });
+      socket.onConnectError((data) {
         log("============================>Connection Error $data");
-    });
+      });
 
-    socket.connect();
+      socket.connect();
+    }
   }
 
   /// Send Location Method
@@ -105,7 +105,7 @@ class SocketServices {
   /// chat connection method
 
   static makeChatConnection({required String chatId}){
-    socket.emitWithAck("send-new-message", {chatId}, ack: (response) {
+    socket.emitWithAck("join", {chatId}, ack: (response) {
       if (response != null) {
         log('chat connected: $response');
       } else {

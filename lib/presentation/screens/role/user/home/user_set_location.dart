@@ -1,8 +1,12 @@
+
 import 'package:flutter/material.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
+import 'package:ootms/presentation/api/controllers/mapControllers/create_load_map_controller.dart';
+import 'package:ootms/presentation/api/controllers/mapControllers/google_map_controller.dart';
+import 'package:ootms/presentation/api/controllers/user/profile_controller/profile_controller.dart';
 import 'package:ootms/presentation/components/common_text.dart';
-import 'package:ootms/presentation/navigation/animeted_navigation.dart';
-import 'package:ootms/presentation/screens/role/user/home/user_map.dart';
+import 'package:ootms/presentation/screens/role/user/create_load/create_load_map_screen.dart';
+import 'package:provider/provider.dart';
 
 class UserSetLocationPage extends StatelessWidget {
   const UserSetLocationPage({super.key});
@@ -20,86 +24,73 @@ class UserSetLocationPage extends StatelessWidget {
           color: Colors.black,
         ),
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          // Search Bar Section
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
-            decoration: const BoxDecoration(color: AppColor.white, boxShadow: [
-              BoxShadow(blurRadius: 3, color: Colors.black38),
-            ]),
-            child: const Row(
-              children: [
-                Icon(
-                  Icons.bookmark_border,
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Search address',
-                      border: InputBorder.none,
-                      hintStyle: TextStyle(color: Colors.grey),
+      body: Consumer<ProfileController>(builder: (context, value, child) {
+        return Column(
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            // Location Options
+            Expanded(
+              child: ListView(
+                children: [
+                  // Set on Map Option
+                  Container(
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration:
+                    const BoxDecoration(color: AppColor.white, boxShadow: [
+                      BoxShadow(blurRadius: 3, color: Colors.black38),
+                    ]),
+                    child: ListTile(
+                      leading: Image.asset("assets/icons/user home page/pin.png"),
+                      title: commonText('Set On Map', size: 16, isBold: true),
+                      onTap: () async {
+                        CreateLoadMapController.instance.marker.clear();
+                        Map data = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CreateLoadMapScreen(), // Show the LocationScreen
+                          ),
+                        );
+                        value.currentLocation = "${data['address']}, ${data['city']}, ${data['state']}, ${data['zip']}";
+                        value.setMapLocation(address: "${data['address']}, ${data['city']}, ${data['state']}, ${data['zip']}");
+                        CustomMapController.instance.userCurrentLocation.value = "${data['address']}, ${data['city']}, ${data['state']}, ${data['zip']}";
+                        CustomMapController.instance.stopLocationUpdates();
+                      },
                     ),
                   ),
-                ),
-                Icon(
-                  Icons.search,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          // Location Options
-          Expanded(
-            child: ListView(
-              children: [
-                // Set on Map Option
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration:
-                      const BoxDecoration(color: AppColor.white, boxShadow: [
-                    BoxShadow(blurRadius: 3, color: Colors.black38),
-                  ]),
-                  child: ListTile(
-                    leading: Image.asset("assets/icons/user home page/pin.png"),
-                    title: commonText('Set On Map', size: 16, isBold: true),
-                    onTap: () {
-                      animetedNavigationPush(const UserMapPage(), context);
-                    },
+                  const SizedBox(
+                    height: 16,
                   ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                // My Current Location Option
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration:
-                      const BoxDecoration(color: AppColor.white, boxShadow: [
-                    BoxShadow(blurRadius: 3, color: Colors.black38),
-                  ]),
-                  child: ListTile(
-                    leading: Image.asset("assets/icons/user home page/pin.png"),
-                    title: commonText('My Current Location',
-                        size: 16, isBold: true),
-                    onTap: () {
-                      animetedNavigationPush(const UserMapPage(), context);
-                    },
+                  // My Current Location Option
+                  Container(
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration:
+                    const BoxDecoration(color: AppColor.white, boxShadow: [
+                      BoxShadow(blurRadius: 3, color: Colors.black38),
+                    ]),
+                    child: ListTile(
+                      leading: Image.asset("assets/icons/user home page/pin.png"),
+                      title: commonText('My Current Location',
+                          size: 16, isBold: true),
+                      onTap: () {
+                        Provider.of<ProfileController>(context, listen: false)
+                            .getCurrentLocation();
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      },),
     );
   }
 }

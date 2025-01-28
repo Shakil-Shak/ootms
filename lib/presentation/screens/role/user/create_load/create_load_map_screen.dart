@@ -6,14 +6,30 @@ import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:ootms/presentation/api/controllers/mapControllers/create_load_map_controller.dart';
 import 'package:ootms/presentation/api/controllers/user/load_controller/load_controller.dart';
 
-class CreateLoadMapScreen extends StatelessWidget {
-
-  CreateLoadMapController createLoadMapController =
-      Get.find<CreateLoadMapController>();
-  final LoadController loadController = LoadController();
+class CreateLoadMapScreen extends StatefulWidget {
 
   static bool isReceiver = false;
+
+  @override
+  State<CreateLoadMapScreen> createState() => _CreateLoadMapScreenState();
+}
+
+class _CreateLoadMapScreenState extends State<CreateLoadMapScreen> {
+  CreateLoadMapController createLoadMapController =
+      Get.find<CreateLoadMapController>();
+
+  final LoadController loadController = LoadController();
+
   final String googleApiKey = "AIzaSyCZ6YIiEkZnGVCQUyFIKsu3RdOJ49GVeLU";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.microtask(() {
+      createLoadMapController.getCurrentLocation();
+    },);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +101,13 @@ class CreateLoadMapScreen extends StatelessWidget {
                 children: [
                   InkWell(
                       onTap: () {
-                        String data = createLoadMapController.selectedAddress.value;
+                        // String data = createLoadMapController.selectedAddress.value;
+                        Map<String, String> data = {
+                          "address" : createLoadMapController.selectedAddress.value,
+                          "city" : createLoadMapController.city,
+                          "state" : createLoadMapController.state,
+                          "zip" : createLoadMapController.zip
+                        };
                         debugPrint("Data:======>>> $data");
                         Navigator.pop(context, data);
                       },

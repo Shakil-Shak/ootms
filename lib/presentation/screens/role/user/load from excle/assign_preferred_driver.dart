@@ -30,7 +30,7 @@ class _AssignPreferredDriverState extends State<AssignPreferredDriver> {
     super.initState();
     Future.microtask(
       () {
-        driverCtl.getPreferedDriver();
+        driverCtl.getPreferredDriver();
       },
     );
   }
@@ -76,7 +76,7 @@ class _AssignPreferredDriverState extends State<AssignPreferredDriver> {
                                 color: AppColor.primaryColor,
                               ),
                             )
-                          : driverCtl.driverList.isEmpty
+                          : driverCtl.preferredDriverList.isEmpty
                               ? Center(
                                   child: Column(
                                     children: [
@@ -92,12 +92,12 @@ class _AssignPreferredDriverState extends State<AssignPreferredDriver> {
                                   ),
                                 )
                               : ListView.builder(
-                                  itemCount: driverCtl.driverList.length,
+                                  itemCount: driverCtl.preferredDriverList.length,
                                   itemBuilder: (context, index) {
                                     print(
-                                        "mydriver=============================================${driverCtl.driverList}");
-                                    PreferredDriverModel data =
-                                        driverCtl.driverList[index];
+                                        "mydriver=============================================${driverCtl.preferredDriverList}");
+                                    // PreferredDriverModel data = driverCtl.preferredDriverList[index];
+                                    PreferredDriverModel data = [] as PreferredDriverModel;
                                     return InkWell(
                                       onTap: () {
                                         setState(() {

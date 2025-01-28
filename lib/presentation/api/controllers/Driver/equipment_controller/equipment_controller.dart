@@ -196,6 +196,7 @@ class EquipmentController extends GetxController {
       }
     } catch (e) {
       isAddLoading = false;
+      showCommonSnackbar(context, "$e", isError: true);
       update();
     }
   }

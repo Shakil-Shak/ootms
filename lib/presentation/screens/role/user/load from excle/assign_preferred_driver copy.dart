@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ootms/core/constants/color/app_color.dart';
 import 'package:ootms/presentation/api/controllers/user/prefered_driver_controller/prefered_driver_controller.dart';
 import 'package:ootms/presentation/api/models/user_model/prefered_driver_model.dart/prefered_driver_model.dart';
+import 'package:ootms/presentation/api/models/user_model/prefered_driver_model.dart/search_prefered_driver_model.dart';
 import 'package:ootms/presentation/api/url_paths.dart';
 import 'package:ootms/presentation/components/common_image.dart';
 import 'package:ootms/presentation/components/common_text.dart';
@@ -16,29 +19,14 @@ class AddPreferredDriverPage2 extends StatefulWidget {
 }
 
 class _AddPreferredDriverPage2State extends State<AddPreferredDriverPage2> {
-  final TextEditingController _phoneController = TextEditingController();
-  bool _driverFound = false; // Toggle to simulate driver found or not
-  // final String _driverName = "NR Shakib";
-  // final String _driverRating = "4.65";
-  // final String _driverId = "564653";
 
-  // void _searchDriver() {
-  //   setState(() {
-  //     if (_phoneController.text == "1234567890") {
-  //       _driverFound = true; // Simulate a driver found
-  //     } else {
-  //       _driverFound = false; // Simulate no driver found
-  //     }
-  //   });
-  // }]
-  final PreferedDriverController driverCtl =
-      Get.find<PreferedDriverController>();
+  final PreferedDriverController driverCtl = Get.find<PreferedDriverController>();
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
       
-    driverCtl.getPreferedDriver();
+    // driverCtl.getPreferedDriver();
     },);
   }
 
@@ -78,7 +66,7 @@ class _AddPreferredDriverPage2State extends State<AddPreferredDriverPage2> {
                       const SizedBox(width: 10),
                       Expanded(
                         child: TextField(
-                          controller: _phoneController,
+                          controller: controller.searchController,
                           decoration: const InputDecoration(
                             hintText: "Enter your driver’s phone",
                             border: InputBorder.none,
@@ -86,7 +74,9 @@ class _AddPreferredDriverPage2State extends State<AddPreferredDriverPage2> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          controller.getPreferredDriver();
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: AppColor.primaryColor),
                         child: commonText("Search", color: AppColor.white),
@@ -104,7 +94,7 @@ class _AddPreferredDriverPage2State extends State<AddPreferredDriverPage2> {
                             color: AppColor.primaryColor,
                           ),
                         )
-                      : driverCtl.driverList.isEmpty
+                      : driverCtl.preferredDriverList.isEmpty
                           ? Center(
                               child: Column(
                                 children: [
@@ -115,22 +105,21 @@ class _AddPreferredDriverPage2State extends State<AddPreferredDriverPage2> {
                                     height: 60,
                                     width: 60,
                                   ),
-                                  commonText("No prefered Driver found")
+                                  commonText("No preferred Driver found")
                                 ],
                               ),
                             )
                           : ListView.builder(
-                              itemCount: controller.driverList.length,
+                              itemCount: controller.preferredDriverList.length,
                               itemBuilder: (context, index) {
-                                print(
-                                    "mydriver=============================================${controller.driverList}");
-                                PreferredDriverModel data =
-                                    controller.driverList[index];
+                                log("=================>> ${controller.preferredDriverList[index]}");
+                                SearchPreferredDriverModel data = controller.preferredDriverList[index];
+                                log("=======????>>>>${data.fullName}");
                                 return prefiredDriverCard(
-                                  imagePath: data.driverInfo!.image!,
-                                  drivername: data.driverInfo!.fullName ?? "",
-                                  driverId: data.driverInfo!.userId ?? "",
-                                  rating: data.driverInfo!.ratings.toString(),
+                                  imagePath: data.image,
+                                  drivername: data.fullName,
+                                  driverId: data.userId,
+                                  rating: data.ratings.toString(),
                                 );
                               }),
                 )
@@ -166,7 +155,7 @@ class _AddPreferredDriverPage2State extends State<AddPreferredDriverPage2> {
           Row(
             children: [
               CommonImage(
-                imageSrc: "${ApiPaths.baseUrl}${imagePath}",
+                imageSrc: "${ApiPaths.baseUrl}$imagePath",
                 imageType: ImageType.network,
                 size: 50,
                 borderRadius: 100,

@@ -1,12 +1,13 @@
 
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:ootms/core/constants/assets/icons_string.dart';
-import 'package:ootms/presentation/api/controllers/user/load_controller/load_controller.dart';
 import 'package:ootms/presentation/screens/role/user/create_load/create_load_map_screen.dart';
 
 class CreateLoadMapController extends GetxController {
@@ -22,6 +23,9 @@ class CreateLoadMapController extends GetxController {
 
   var receiverLatitude =  0.0;
   var receiverLongitude =  0.0;
+  String city = "";
+  String state = "";
+  String zip = "";
 
   List<Marker> marker = <Marker>[].obs;
 
@@ -34,6 +38,8 @@ class CreateLoadMapController extends GetxController {
   }
 
   Future<void> getCurrentLocation() async {
+
+    log("Current location is called.");
 
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
@@ -57,12 +63,7 @@ class CreateLoadMapController extends GetxController {
         desiredAccuracy: LocationAccuracy.high);
     currentLocation.value = LatLng(position.latitude, position.longitude);
 
-    List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude, position.longitude);
-    if (placemarks.isNotEmpty) {
-      selectedAddress.value =
-      "${placemarks.first.street}, ${placemarks.first.locality}";
-    }
+    selectedAddress.value = await getAddress(latitude: position.latitude, longitude: position.longitude);
 
     if(!CreateLoadMapScreen.isReceiver){
       shipperLatitude = position.latitude;
@@ -133,18 +134,7 @@ class CreateLoadMapController extends GetxController {
     );
 
     setMyLocationMarker(LatLng(selectedLocation.value.latitude, selectedLocation.value.longitude), "Selected location");
-    try {
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-          tappedLocation.latitude, tappedLocation.longitude);
-      if (placemarks.isNotEmpty) {
-        selectedAddress.value = "${placemarks.first.street}, ${placemarks.first.locality}";
-        return selectedAddress.value;
-      } else {
-        selectedAddress.value = "Unknown address";
-      }
-    } catch (e) {
-      selectedAddress.value = "Error fetching address.";
-    }
+    selectedAddress.value = await getAddress(latitude: tappedLocation.latitude, longitude: tappedLocation.longitude);
 
     return selectedAddress.value;
   }
@@ -170,6 +160,25 @@ class CreateLoadMapController extends GetxController {
         AppIcons.locationMarker,
         height: 50, width: 40
     );
+  }
+
+  Future<String>getAddress({required double latitude, required double longitude}) async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          latitude, longitude);
+
+      log("=====>>>> $placemarks <<<<===========");
+      if (placemarks.isNotEmpty) {
+        city = placemarks.first.locality ?? "";
+        state = placemarks.first.country ?? "";
+        zip = placemarks.first.postalCode ?? "";
+        return "${placemarks.first.street}, ${placemarks.first.subLocality}";
+      } else {
+        return "Unknown address";
+      }
+    } catch (e) {
+      return "Error fetching address.";
+    }
   }
 
 }

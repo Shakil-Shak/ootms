@@ -1,11 +1,11 @@
 class ApiPaths {
-  static const String baseUrl = 'http://10.0.70.87:8020';
-  // // static const String baseUrl = 'http://10.0.70.112:8020';
-  static const String socketUrl = 'http://10.0.70.87:3010';
-  // // static const String socketUrl = 'http://10.0.70.112:3010';
+  // static const String baseUrl = 'http://10.0.70.87:8030';
+  // static const String baseUrl = 'http://10.0.70.112:8020';
+  // static const String socketUrl = 'http://10.0.70.87:3010';
+  // static const String socketUrl = 'http://10.0.70.112:3010';
 
-  // static const String baseUrl = 'http://159.223.184.53:8020';
-  // static const String socketUrl = 'http://159.223.184.53:3011';
+  static const String baseUrl = 'http://159.223.184.53:8020';
+  static const String socketUrl = 'http://159.223.184.53:3011';
 
   static const String signinUrl = '$baseUrl/api/v1/auth/local';
   static const String socialSigninUrl = '$baseUrl/api/v1/auth/social_login';
@@ -49,15 +49,13 @@ class ApiPaths {
   static String appFeedback = '$baseUrl/api/v1/feedbacks/';
   static String driverFeedbacktoUser({userId}) => '$baseUrl/api/v1/feedbacks/$userId';
   static String nearestDriver = '$baseUrl/api/v1/loads/get_nearest_driver?lastLoadId=';
-  static String getPreferedDriver(String?search) => '$baseUrl/api/v1/preferred-driver?searchQuery=$search&limit=100000';
+  static String getPreferedDriver(String?search) => '$baseUrl/api/v1/preferred-driver?searchQuery=$search&limit=1000';
   static const String assignDriver = '$baseUrl/api/v1/loads-request';
   static const String findByBOL = '$baseUrl/api/v1/loads/find_by_billOfLading?bolNumber=';
   static const String onDuity = '$baseUrl/api/v1/users/switch_on_duty';
   static const String loadRequestFromDriver = '$baseUrl/api/v1/loads-request';
 
   static const String chatUrl = '$baseUrl/api/v1/messages/';
-    static const String deleteAccount =
-      '$baseUrl/api/v1/users/delete_user';
-
+  static const String deleteAccount = '$baseUrl/api/v1/users/delete_user';
 
 }

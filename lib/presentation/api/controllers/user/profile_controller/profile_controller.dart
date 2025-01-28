@@ -32,6 +32,7 @@ class ProfileController extends ChangeNotifier {
   ///=============>>> Find current location<<<==================
   String currentLocation = "";
   LatLng currentLatLng = const LatLng(0.0, 0.0);
+  Timer? _timer; // Timer reference
 
   Future<String> getCurrentLocation() async {
     bool serviceEnabled;
@@ -54,7 +55,7 @@ class ProfileController extends ChangeNotifier {
       return "Location permissions are permanently denied. Enable them in settings.";
     }
 
-    Timer.periodic(const Duration(seconds: 10), (timer) async {
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
       // Get current location
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
@@ -65,11 +66,11 @@ class ProfileController extends ChangeNotifier {
     currentLatLng = LatLng(position.latitude, position.longitude);
 
     List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
-    log("${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}");
+    log("${placemarks.first.street},${placemarks.first.locality},${placemarks.first.administrativeArea},${placemarks.first.country}");
   
 
       currentLocation =
-          "${placemarks.first.street},${placemarks.first.administrativeArea},${placemarks.first.locality},${placemarks.first.country}";
+          "${placemarks.first.street},${placemarks.first.locality},${placemarks.first.administrativeArea},${placemarks.first.country}";
       notifyListeners();
 
       // Optionally, communicate with the app via the service
@@ -80,6 +81,20 @@ class ProfileController extends ChangeNotifier {
     });
 
     return currentLocation;
+  }
+
+  void stopLocationUpdates() {
+    if (_timer != null) {
+      _timer!.cancel();
+      _timer = null; // Cleanup the timer reference
+    }
+  }
+
+  setMapLocation({String? address}) async {
+    stopLocationUpdates();
+    currentLocation = address ?? await getCurrentLocation();
+    log("=====>>> home screen location: $currentLocation");
+    notifyListeners();
   }
 
   Future<void> postSupport(

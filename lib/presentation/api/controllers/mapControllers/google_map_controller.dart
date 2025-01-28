@@ -277,9 +277,19 @@ class CustomMapController extends GetxController {
     return await Geolocator.getCurrentPosition();
   }
 
+  ///===========>>> Current Location with timer<<<===========
+
+  Timer? _timer;
   getCurrentLocation({bool isOnDuty = false}) async {
+    callSocket() async {
+      if(isOnDuty == true){
+        debugPrint("===isonduity ==$isOnDuty");
+        await SocketServices.sendLocation(latitude: currentLatitude.value, longitude: currentLongitude.value);
+        log("======================socket on: emitting location");
+      }
+    }
     
-    Timer.periodic(const Duration(seconds: 03), (timer) async {
+    _timer = Timer.periodic(const Duration(seconds: 03), (timer) async {
      getUserCurrentLocation().then((value) async {
       updateLocation(value.latitude, value.longitude);
       log("My Current Location:^^^^${value.latitude}, ${value.longitude}");
@@ -289,12 +299,15 @@ class CustomMapController extends GetxController {
       userCurrentLocation.value = "${placemarks.first.street}, ${placemarks.first.name}, ${placemarks.first.locality}, ${placemarks.first.country}";
       return userCurrentLocation.value;
     });
+     await callSocket();
     });
-       if(isOnDuty == true){
-         debugPrint("===isonduity ==$isOnDuty");
-        await SocketServices.sendLocation(latitude: currentLatitude.value, longitude: currentLongitude.value);
-        print("======================socket on");
-      }
+  }
+
+  void stopLocationUpdates() {
+    if (_timer != null) {
+      _timer!.cancel();
+      _timer = null; // Cleanup the timer reference
+    }
   }
 
 
