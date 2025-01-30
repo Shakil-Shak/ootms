@@ -14,7 +14,6 @@ import 'package:ootms/presentation/navigation/animeted_navigation.dart';
 import 'package:ootms/presentation/screens/role/driver/home/driver_map2.dart';
 import 'package:ootms/presentation/screens/role/driver/notification/load_notification_details.dart';
 import 'package:ootms/presentation/screens/role/driver/shipping/driver_load_request_details.dart';
-import 'package:ootms/presentation/screens/role/user/notification/notification_details.dart';
 
 class DriverAllNotificationsPage extends StatefulWidget {
 
