@@ -35,7 +35,7 @@ class _UserMapWithPolylineState extends State<UserMapWithPolyline> {
               customMapController.googleMapController.complete(controller);
             },
             onCameraMove: (CameraPosition position){
-              print("Camera position is moving: ${position.target.latitude}, ${position.target.longitude}################");
+              log("Camera position is moving: ${position.target.latitude}, ${position.target.longitude}################");
               customMapController.updateLocation(
                   position.target.latitude, position.target.longitude
               );
